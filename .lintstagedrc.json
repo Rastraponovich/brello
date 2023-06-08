@@ -1,4 +1,4 @@
 {
-  "**/*.{js,ts,tsx}": ["eslint --fix", "prettier --write", "yarn lint:js"],
-  "**/*.{css}": ["stylelint --fix", "prettier --write", "yarn lint:css"]
+  "**/*.{js,ts,tsx}": ["prettier --write", "yarn lint:js"],
+  "**/*.css": ["prettier --write", "yarn lint:css"]
 }
