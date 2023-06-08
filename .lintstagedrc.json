@@ -1,0 +1,4 @@
+{
+  "**/*.{js,ts,tsx}": ["prettier --write", "yarn lint:js"],
+  "**/*.css": ["prettier --write", "yarn lint:css"]
+}
