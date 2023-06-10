@@ -1,11 +1,15 @@
 import "app/styles/index.css";
 
 import { StackList } from "entities/stack";
+import { Header } from "src/widgets/header";
 
 export const App = () => {
   return (
-    <div className="flex flex-col items-center">
-      <StackList />
-    </div>
+    <>
+      <Header />
+      <main className="flex flex-col items-center">
+        <StackList />
+      </main>
+    </>
   );
 };
