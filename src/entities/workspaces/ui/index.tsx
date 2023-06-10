@@ -19,6 +19,7 @@ const WORKSPACES: TWorkspace[] = [
 ];
 
 export const WorkSpaceList = () => {
+  // eslint-disable-next-line
   const [workspaces, setWorkspaces] = useState(WORKSPACES);
   return (
     <div className="flex flex-col space-y-2">
@@ -33,7 +34,9 @@ export const WorkSpaceList = () => {
   );
 };
 
-interface IWorkspaceProps extends TWorkspace {}
+interface IWorkspaceProps extends TWorkspace {
+  foo?: "bar";
+}
 
 const Workspace = memo<IWorkspaceProps>(({ title }) => {
   return (
