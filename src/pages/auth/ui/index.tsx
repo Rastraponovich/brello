@@ -56,3 +56,59 @@ export const AuthPage = () => {
     </main>
   );
 };
+
+export const AuthOnboarding = () => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+  };
+  return (
+    <main className="flex h-screen w-full flex-col">
+      <section className="mx-auto my-0 flex h-screen flex-col bg-cells-pattern bg-center bg-no-repeat  px-4 pt-[300px]	md:max-w-[512px]">
+        <h2 className="text-4xl font-semibold text-gray-900">
+          Please, introduce yourself
+        </h2>
+        <p className="mt-4 text-lg font-normal text-gray-600 md:mt-5">
+          You can do this later on Profile page.{" "}
+          <a href="/" className="font-medium text-blue-700">
+            Skip
+          </a>
+        </p>
+        <form
+          onSubmit={handleSubmit}
+          className="mt-11 grid grid-cols-1 gap-6 md:grid-cols-2"
+        >
+          <label
+            htmlFor=""
+            className="flex flex-col space-y-1.5 text-sm text-gray-700"
+          >
+            <span className="first-letter:uppercase">first name</span>
+            <input
+              type="text"
+              placeholder="first name"
+              className="gap-2 rounded-lg border border-gray-300 px-3.5 py-2.5 text-base font-normal shadow-sm placeholder:text-gray-300 placeholder:first-letter:uppercase"
+            />
+          </label>
+
+          <label
+            htmlFor=""
+            className="flex flex-col space-y-1.5 text-sm text-gray-700"
+          >
+            <span className="first-letter:uppercase">last name</span>
+            <input
+              type="text"
+              placeholder="last name"
+              className="mt-8 gap-2 rounded-lg border border-gray-300 px-3.5 py-2.5 text-base font-normal shadow-sm placeholder:text-gray-300 placeholder:first-letter:uppercase"
+            />
+          </label>
+
+          <button
+            type="submit"
+            className="col-span-2 rounded-lg bg-blue-600 py-3 text-center text-base font-semibold text-white first-letter:uppercase"
+          >
+            continue
+          </button>
+        </form>
+      </section>
+    </main>
+  );
+};
