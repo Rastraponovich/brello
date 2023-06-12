@@ -2,7 +2,11 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "cells-pattern": "url('/images/cell-pattern-bg.svg')",
+      },
+    },
   },
   plugins: [],
 };
