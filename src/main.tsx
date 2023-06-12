@@ -3,13 +3,11 @@ import React from "react";
 
 // import { App } from "app/ui";
 import "app/styles/index.css";
-// import { OnboardingPage } from "./pages/workspace/onboarding";
-import { UserPage } from "./pages/user/settings";
+import { NotFoundPage } from "./pages/404";
 
 const root = document.getElementById("root") as HTMLElement;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    {/* <App /> */}
-    <UserPage />
+    <NotFoundPage />
   </React.StrictMode>
 );
