@@ -6,6 +6,9 @@ export default {
       backgroundImage: {
         "cells-pattern": "url('/images/cell-pattern-bg.svg')",
       },
+      fontFamily: {
+        inter: ["Inter var, sans-serif"],
+      },
     },
   },
   plugins: [],
