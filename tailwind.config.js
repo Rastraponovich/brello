@@ -7,6 +7,7 @@ export default {
         "cells-pattern": "url('/images/cell-pattern-bg.svg')",
         "auth-pattern": "url('/images/geometric-shapes.svg')",
         "auth-pattern-small": "url('/images/geometric-shapes-small.svg')",
+        "geometric-square": "url('/images/geometric-square.svg')",
       },
       fontFamily: {
         inter: ["Inter var, sans-serif"],

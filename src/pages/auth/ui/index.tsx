@@ -21,11 +21,7 @@ export const AuthPage = () => {
           <h3 className="mt-2 text-base font-normal text-gray-600">
             Start your 30-day free trial.
           </h3>
-          <form
-            onSubmit={onSubmit}
-            className=" mt-8 flex flex-col space-y-6"
-            noValidate
-          >
+          <form onSubmit={onSubmit} className=" mt-8 flex flex-col" noValidate>
             <Input
               caption="Email"
               placeholder="Enter your email"
@@ -36,18 +32,16 @@ export const AuthPage = () => {
             />
             {!isValid && (
               // TODO: change margin top
-              <span className="mt-2 text-sm text-red-500 ">
+              <span className="mt-1.5 text-sm text-red-500 ">
                 Please enter a valid email address
               </span>
             )}
 
-            <div className="col-start-1 flex flex-col space-y-4 text-base font-semibold md:col-start-2">
+            <div className="col-start-1 mt-6 flex flex-col space-y-4 text-base font-semibold md:col-start-2">
               <Button
                 type="submit"
                 textAlign="center"
-                size="xs"
-                leftIcon="xxx"
-                rightIcon="zzz"
+                size="sm"
                 // disabled={!isValid}
                 className="bg-blue-600 text-white first-letter:uppercase disabled:pointer-events-none disabled:opacity-30"
               >
@@ -78,7 +72,7 @@ export const AuthOnboarding = () => {
   return (
     <main className="flex h-screen w-full flex-col items-center justify-center bg-cells-pattern bg-[center_-160px] bg-no-repeat pt-16 sm:bg-[center_-240px] sm:pt-0">
       <section className="mx-auto my-0  flex w-full grow flex-col px-4 sm:max-w-[512px] sm:justify-center">
-        <FeaturedIcon />
+        <FeaturedIcon icon="user" />
         <h2 className="text-4xl font-semibold text-gray-900">
           Please, introduce yourself
         </h2>
