@@ -7,7 +7,7 @@ export const Input = memo<IInputProps>(
   ({ caption, captionPosition, className, ...props }) => {
     return (
       <InputWrapper caption={caption} captionPosition={captionPosition}>
-        <BaseInput {...props} className={clsx(className, "px-2")} />
+        <BaseInput {...props} className={clsx(className)} />
       </InputWrapper>
     );
   }
@@ -20,7 +20,10 @@ const BaseInput = memo<IBaseInput>(({ className, ...props }) => {
       data-qa="Input__value"
       className={clsx(
         className,
-        "rounded-md border border-blue-300 bg-transparent py-1 text-gray-500 focus:border-blue-500 focus:text-black"
+        "px-3 py-2 sm:px-3.5 sm:py-2.5",
+        "text-base font-normal focus:text-gray-900",
+        "border border-gray-300 focus-visible:border-blue-300 focus-visible:shadow-md focus-visible:ring-4 focus-visible:ring-blue-100",
+        "gap-2 rounded-lg  bg-white text-gray-500 shadow-sm placeholder:text-gray-500 "
       )}
     />
   );
@@ -52,7 +55,11 @@ const InputWrapper = memo<IInputWrapper>(
         data-qa="Input__container"
       >
         {caption && (
-          <span className="self-start" data-qa="Input__caption" title={caption}>
+          <span
+            className="mb-1.5 self-start text-sm text-gray-700"
+            data-qa="Input__caption"
+            title={caption}
+          >
             {caption}
           </span>
         )}

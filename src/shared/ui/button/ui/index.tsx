@@ -21,7 +21,7 @@ export const Button = memo<IButtonBaseProps>(
       <button
         {...props}
         className={clsx(
-          "flex items-center gap-3 rounded-lg border text-base font-semibold shadow-sm",
+          "flex items-center rounded-lg border text-base font-semibold shadow-sm",
           className,
           textAlign === EButtonTextAlign.Left && "justify-start",
           textAlign === EButtonTextAlign.Center && "justify-center",
