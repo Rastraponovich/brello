@@ -1,28 +1,25 @@
 import clsx from "clsx";
-import { InputHTMLAttributes, ReactNode, memo } from "react";
+import { memo } from "react";
+import { CAPTION_POSITION_DICT, ECaptionPosition } from "../lib/helpers";
+import { IInputProps, IBaseInput, IInputWrapper } from "../lib/models";
 
-interface IBaseInput extends InputHTMLAttributes<HTMLInputElement> {
-  foo?: "bar";
-}
+export const Input = memo<IInputProps>(
+  ({ caption, captionPosition, className, ...props }) => {
+    return (
+      <InputWrapper caption={caption} captionPosition={captionPosition}>
+        <BaseInput {...props} className={clsx(className, "px-2")} />
+      </InputWrapper>
+    );
+  }
+);
 
-interface IInputProps extends IBaseInput {
-  caption?: string;
-}
-export const Input = memo<IInputProps>(({ caption, ...props }) => {
-  return (
-    <InputWrapper caption={caption}>
-      <BaseInput {...props} className={clsx(props.className, "px-2")} />
-    </InputWrapper>
-  );
-});
-
-const BaseInput = memo<IBaseInput>((props) => {
+const BaseInput = memo<IBaseInput>(({ className, ...props }) => {
   return (
     <input
       {...props}
       data-qa="Input__value"
       className={clsx(
-        props.className,
+        className,
         "rounded-md border border-blue-300 bg-transparent py-1 text-gray-500 focus:border-blue-500 focus:text-black"
       )}
     />
@@ -38,23 +35,29 @@ export const InputSearch = memo<IInputProps>(({ caption, ...props }) => {
   );
 });
 
-interface IInputWrapper {
-  children: ReactNode;
-  caption?: string;
-  className?: string;
-}
-const InputWrapper = memo<IInputWrapper>(({ children, caption, className }) => {
-  return (
-    <label
-      className={clsx(className, "flex flex-col")}
-      data-qa="Input__container"
-    >
-      {caption && (
-        <span className="self-start" data-qa="Input__caption" title={caption}>
-          {caption}
-        </span>
-      )}
-      {children}
-    </label>
-  );
-});
+const InputWrapper = memo<IInputWrapper>(
+  ({
+    children,
+    caption,
+    className,
+    captionPosition = ECaptionPosition.Top,
+  }) => {
+    return (
+      <label
+        className={clsx(
+          className,
+          "flex",
+          CAPTION_POSITION_DICT[captionPosition]
+        )}
+        data-qa="Input__container"
+      >
+        {caption && (
+          <span className="self-start" data-qa="Input__caption" title={caption}>
+            {caption}
+          </span>
+        )}
+        {children}
+      </label>
+    );
+  }
+);

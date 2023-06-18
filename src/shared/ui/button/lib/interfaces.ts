@@ -1,15 +1,17 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-interface IButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IButtonBaseProps
+  extends ButtonHTMLAttributes<HTMLButtonElement>,
+    IButtonIcon {
   children?: ReactNode;
+  textAlign?: TButtonTextAlign;
+  size?: TButtonSize;
 }
 
-interface IIConButtonProps {
-  icon?: string;
-  iconPosition?: "left" | "right";
+interface IButtonIcon {
+  leftIcon?: string;
+  rightIcon?: string;
 }
 
-export interface IButtonProps extends IButtonBaseProps, IIConButtonProps {
-  caption: string;
-  pending?: boolean;
-}
+export type TButtonTextAlign = "center" | "left" | "right";
+export type TButtonSize = "xs" | "sm" | "md" | "lg" | "xl";

@@ -3,7 +3,8 @@ import { selectors } from "..";
 import { useUnit } from "effector-react";
 import { actions } from "../model";
 import { Logo } from "src/shared/ui/icons/logo";
-import { SocialButton } from "src/shared/ui/button";
+import { SocialAuthButton } from "src/features/sochial-auth-button/ui";
+import { Button } from "src/shared/ui/button";
 
 export const AuthPage = () => {
   const [value, setValue, isValid] = selectors.useEmailField();
@@ -15,9 +16,9 @@ export const AuthPage = () => {
         <Logo className="mb-6 mt-8 w-full px-4 sm:my-8 sm:px-8" />
         <div className="mx-auto my-0 flex w-full max-w-[360px] grow flex-col justify-center  px-4 sm:px-0">
           <h2 className="text-2xl font-semibold text-gray-900">Sign in</h2>
-          <span className="mt-2 text-base font-normal text-gray-600">
+          <h3 className="mt-2 text-base font-normal text-gray-600">
             Start your 30-day free trial.
-          </span>
+          </h3>
           <form
             onSubmit={onSubmit}
             className=" mt-8 flex flex-col space-y-6"
@@ -42,15 +43,19 @@ export const AuthPage = () => {
               )}
             </label>
             <div className="col-start-1 flex flex-col space-y-4 text-base font-semibold md:col-start-2">
-              <button
+              <Button
                 type="submit"
-                disabled={!isValid}
-                className="gap-2 rounded-lg bg-blue-600 py-2.5 text-white shadow-sm first-letter:uppercase disabled:pointer-events-none disabled:opacity-30"
+                textAlign="center"
+                size="xs"
+                leftIcon="xxx"
+                rightIcon="zzz"
+                // disabled={!isValid}
+                className="bg-blue-600 text-white first-letter:uppercase disabled:pointer-events-none disabled:opacity-30"
               >
-                get started
-              </button>
+                <span className="first-letter:uppercase ">get started</span>
+              </Button>
 
-              <SocialButton authService="google" textAlign="center" />
+              <SocialAuthButton authService="google" textAlign="center" />
             </div>
           </form>
         </div>
