@@ -26,24 +26,21 @@ export const AuthPage = () => {
             className=" mt-8 flex flex-col space-y-6"
             noValidate
           >
-            <label className="flex flex-col">
-              <span className="text-sm text-gray-700 first-letter:uppercase">
-                email
+            <Input
+              caption="Email"
+              placeholder="Enter your email"
+              value={value as string}
+              onChange={setValue}
+              type="email"
+              required
+            />
+            {!isValid && (
+              // TODO: change margin top
+              <span className="mt-2 text-sm text-red-500 ">
+                Please enter a valid email address
               </span>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={value as string}
-                onChange={setValue}
-                required
-                className="mt-1.5 gap-2 rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-base font-normal shadow-sm placeholder:text-gray-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500  "
-              />
-              {!isValid && (
-                <span className="mt-2  text-sm text-red-500 ">
-                  Please enter a valid email address
-                </span>
-              )}
-            </label>
+            )}
+
             <div className="col-start-1 flex flex-col space-y-4 text-base font-semibold md:col-start-2">
               <Button
                 type="submit"
