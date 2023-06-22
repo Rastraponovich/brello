@@ -6,7 +6,7 @@ export const Logo = memo<ILogoProps>(({ short, className }) => {
   return (
     <a href="/" className={clsx("flex items-center", className)}>
       <LogoIcon name="icon-logo" className="h-8 w-8" />
-      {!short && <LogoTitle className="ml-2.5 hidden sm:flex" />}
+      {!short && <LogoTitle className="ml-2.5  sm:flex" />}
     </a>
   );
 });
@@ -59,7 +59,7 @@ const LogoIcon = (props: ILogoIconProps) => {
           width="42"
           height="26"
           filterUnits="userSpaceOnUse"
-          colorInterpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.5" />
@@ -83,8 +83,8 @@ const LogoIcon = (props: ILogoIconProps) => {
           y2="32"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="white" />
-          <stop offset="1" stop-color="#D0D5DD" />
+          <stop stopColor="white" />
+          <stop offset="1" stopColor="#D0D5DD" />
         </linearGradient>
       </defs>
     </svg>

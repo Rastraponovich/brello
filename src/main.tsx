@@ -2,11 +2,11 @@ import ReactDOM from "react-dom/client";
 import React from "react";
 
 import "app/styles/index.css";
-import { OnboardingPage } from "./pages/workspace/onboarding";
+import { BoardsPage } from "./pages/workspace/boards";
 
 const root = document.getElementById("root") as HTMLElement;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <OnboardingPage />
+    <BoardsPage />
   </React.StrictMode>
 );

@@ -6,12 +6,15 @@ export interface IButtonBaseProps
   children?: ReactNode;
   textAlign?: TButtonTextAlign;
   size?: TButtonSize;
+  variant?: TVariant;
 }
 
 interface IButtonIcon {
-  leftIcon?: string;
-  rightIcon?: string;
+  leftIcon?: string | ReactNode;
+  rightIcon?: string | ReactNode;
 }
 
 export type TButtonTextAlign = "center" | "left" | "right";
 export type TButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+
+export type TVariant = "default" | "primary";

@@ -19,3 +19,13 @@ export const BUTTON_SIZES_DICT: Record<EButtonSize, string> = {
   [EButtonSize.LG]: "py-3 px-5 gap-2",
   [EButtonSize.XL]: "py-4 px-7 gap-3",
 };
+
+export enum EButtonVariant {
+  DEFAULT = "default",
+  PRIMARY = "primary",
+}
+
+export const BUTTON_VARIANTS: Record<EButtonVariant, string> = {
+  [EButtonVariant.DEFAULT]: "",
+  [EButtonVariant.PRIMARY]: "bg-blue-600 text-white",
+};
