@@ -1,7 +1,9 @@
 import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 
-export interface IBaseInput extends InputHTMLAttributes<HTMLInputElement> {
-  foo?: "bar";
+/** TODO: fix */
+export interface IBaseInput
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
+  size?: TInputSize;
 }
 export interface IInputCaptionPosition {
   captionPosition?: TCaptionPosition;
@@ -26,6 +28,11 @@ export interface IInputWrapper extends IInputCaptionPosition {
   className?: string;
 }
 export type TCaptionPosition = "left" | "top" | "right" | "bottom";
+export type TInputSize = "sm" | "md";
+
+export interface IInputSize {
+  size: TInputSize;
+}
 
 export interface IBaseInputWeb {
   leftValue?: InputHTMLAttributes<HTMLInputElement>["value"];

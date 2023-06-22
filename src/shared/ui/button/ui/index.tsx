@@ -3,8 +3,10 @@ import { IButtonBaseProps } from "../lib";
 import clsx from "clsx";
 import {
   BUTTON_SIZES_DICT,
+  BUTTON_VARIANTS,
   EButtonSize,
   EButtonTextAlign,
+  EButtonVariant,
 } from "../lib/helpers";
 
 export const Button = memo<IButtonBaseProps>(
@@ -15,6 +17,7 @@ export const Button = memo<IButtonBaseProps>(
     size = EButtonSize.SM,
     leftIcon,
     rightIcon,
+    variant = EButtonVariant.DEFAULT,
     ...props
   }) => {
     return (
@@ -22,16 +25,17 @@ export const Button = memo<IButtonBaseProps>(
         {...props}
         className={clsx(
           "flex items-center rounded-lg border text-base font-semibold shadow-sm",
-          className,
           textAlign === EButtonTextAlign.Left && "justify-start",
           textAlign === EButtonTextAlign.Center && "justify-center",
           textAlign === EButtonTextAlign.Right && "justify-end",
-          BUTTON_SIZES_DICT[size]
+          BUTTON_VARIANTS[variant],
+          BUTTON_SIZES_DICT[size],
+          className
         )}
       >
-        {leftIcon && <div>left</div>}
+        {leftIcon && leftIcon}
         {children}
-        {rightIcon && <div>left</div>}
+        {rightIcon && rightIcon}
       </button>
     );
   }
