@@ -60,14 +60,14 @@ const InputWrapper = memo<models.IInputWrapper>(
       <label
         className={clsx(
           className,
-          "flex",
+          "flex gap-1.5",
           CAPTION_POSITION_DICT[captionPosition]
         )}
         data-qa="Input__container"
       >
         {caption && (
           <span
-            className="mb-1.5 self-start text-sm text-gray-700"
+            className="self-start text-sm text-gray-700"
             data-qa="Input__caption"
             title={caption}
           >

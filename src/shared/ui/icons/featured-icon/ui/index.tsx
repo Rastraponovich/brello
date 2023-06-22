@@ -1,23 +1,27 @@
 import clsx from "clsx";
 import { memo } from "react";
+import {
+  EFeaturedIconSize,
+  FEATURED_ICON_SIZE_DICT,
+  IFeaturedIconProps,
+} from "../lib";
 
-interface IFeaturedIconProps {
-  icon: TFeaturedIcon;
-  className?: string;
-  rounded?: boolean;
-  iconClassName?: string;
-}
-
-export type TFeaturedIcon = "user" | "shield-folder" | "plus" | "search";
 export const FeaturedIcon = memo<IFeaturedIconProps>(
-  ({ icon, className, rounded, iconClassName }) => {
+  ({
+    icon,
+    className,
+    rounded,
+    iconClassName,
+    size = EFeaturedIconSize.MD,
+  }) => {
     const Component = ICON_DICT[icon];
     return (
       <div
         className={clsx(
-          "mb-8 flex h-14 w-14 items-center justify-center border border-gray-200 bg-white sm:mb-12",
+          "flex items-center justify-center border",
           className,
-          rounded ? "rounded-full" : "rounded-xl"
+          rounded ? "rounded-full" : "rounded-xl",
+          FEATURED_ICON_SIZE_DICT[size]
         )}
       >
         <Component
@@ -131,13 +135,6 @@ export const SearchIcon = ({ className }: IIconBaseProps) => {
   );
 };
 
-const ICON_DICT = {
-  user: UserIcon,
-  "shield-folder": ShieldFolderIcon,
-  plus: PlusIcon,
-  search: SearchIcon,
-};
-
 export const MenuIcon = ({ className }: IIconBaseProps) => {
   return (
     <svg
@@ -208,4 +205,35 @@ export const UserCircleIcon = ({ className }: IIconBaseProps) => {
       </g>
     </svg>
   );
+};
+
+export const UploadCloudIcon = ({ className }: IIconBaseProps) => {
+  return (
+    <svg
+      width="21"
+      height="20"
+      viewBox="0 0 21 20"
+      fill="none"
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g id="upload-cloud-02">
+        <path
+          id="Icon"
+          d="M7.16666 13.3333L10.5 10M10.5 10L13.8333 13.3333M10.5 10V17.5M17.1667 13.9524C18.1846 13.1117 18.8333 11.8399 18.8333 10.4167C18.8333 7.88536 16.7813 5.83333 14.25 5.83333C14.0679 5.83333 13.8975 5.73833 13.8051 5.58145C12.7184 3.73736 10.712 2.5 8.41666 2.5C4.96488 2.5 2.16666 5.29822 2.16666 8.75C2.16666 10.4718 2.86286 12.0309 3.98911 13.1613"
+          stroke="currentColor"
+          strokeWidth="1.66667"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  );
+};
+const ICON_DICT = {
+  user: UserIcon,
+  "shield-folder": ShieldFolderIcon,
+  plus: PlusIcon,
+  search: SearchIcon,
+  "upload-cloud": UploadCloudIcon,
 };

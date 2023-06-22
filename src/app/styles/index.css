@@ -18,4 +18,9 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  .baseline::before {
+    width: 0;
+    content: "\200b";
+  }
 }

@@ -23,7 +23,8 @@
       "src/*": ["./src/*"],
       "shared/*": ["./src/shared/*"],
       "entities/*": ["./src/entities/*"],
-      "app/*": ["./src/app/*"]
+      "app/*": ["./src/app/*"],
+      "pages/*": ["./src/pages/*"]
     }
   },
   "include": ["src"],
