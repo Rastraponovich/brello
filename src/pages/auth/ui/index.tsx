@@ -5,6 +5,8 @@ import { actions } from "../model";
 import { Logo } from "src/shared/ui/icons/logo";
 import { SocialAuthButton } from "src/features/sochial-auth-button/ui";
 import { Button } from "src/shared/ui/button";
+import { FeaturedIcon } from "src/shared/ui/icons/featured-icon/ui";
+import { Input } from "src/shared/ui/input";
 
 export const AuthPage = () => {
   const [value, setValue, isValid] = selectors.useEmailField();
@@ -19,36 +21,27 @@ export const AuthPage = () => {
           <h3 className="mt-2 text-base font-normal text-gray-600">
             Start your 30-day free trial.
           </h3>
-          <form
-            onSubmit={onSubmit}
-            className=" mt-8 flex flex-col space-y-6"
-            noValidate
-          >
-            <label className="flex flex-col">
-              <span className="text-sm text-gray-700 first-letter:uppercase">
-                email
+          <form onSubmit={onSubmit} className=" mt-8 flex flex-col" noValidate>
+            <Input
+              caption="Email"
+              placeholder="Enter your email"
+              value={value as string}
+              onChange={setValue}
+              type="email"
+              required
+            />
+            {!isValid && (
+              // TODO: change margin top
+              <span className="mt-1.5 text-sm text-red-500 ">
+                Please enter a valid email address
               </span>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                value={value as string}
-                onChange={setValue}
-                required
-                className="mt-1.5 gap-2 rounded-lg border border-gray-300 bg-white px-3.5 py-2.5 text-base font-normal shadow-sm placeholder:text-gray-500 invalid:[&:not(:placeholder-shown):not(:focus)]:border-red-500  "
-              />
-              {!isValid && (
-                <span className="mt-2  text-sm text-red-500 ">
-                  Please enter a valid email address
-                </span>
-              )}
-            </label>
-            <div className="col-start-1 flex flex-col space-y-4 text-base font-semibold md:col-start-2">
+            )}
+
+            <div className="col-start-1 mt-6 flex flex-col space-y-4 text-base font-semibold md:col-start-2">
               <Button
                 type="submit"
                 textAlign="center"
-                size="xs"
-                leftIcon="xxx"
-                rightIcon="zzz"
+                size="sm"
                 // disabled={!isValid}
                 className="bg-blue-600 text-white first-letter:uppercase disabled:pointer-events-none disabled:opacity-30"
               >
@@ -77,12 +70,13 @@ export const AuthOnboarding = () => {
     event.preventDefault();
   };
   return (
-    <main className="flex h-screen w-full flex-col">
-      <section className="mx-auto my-0 flex h-screen flex-col bg-cells-pattern bg-center bg-no-repeat  px-4 pt-[300px]	md:max-w-[512px]">
+    <main className="flex h-screen w-full flex-col items-center justify-center bg-cells-pattern bg-[center_-160px] bg-no-repeat pt-16 sm:bg-[center_-240px] sm:pt-0">
+      <section className="mx-auto my-0  flex w-full grow flex-col px-4 sm:max-w-[512px] sm:justify-center">
+        <FeaturedIcon icon="user" />
         <h2 className="text-4xl font-semibold text-gray-900">
           Please, introduce yourself
         </h2>
-        <p className="mt-4 text-lg font-normal text-gray-600 md:mt-5">
+        <p className="mb-11 mt-4 text-lg font-normal text-gray-600 md:mt-5">
           You can do this later on Profile page.{" "}
           <a href="/" className="font-medium text-blue-700">
             Skip
@@ -90,38 +84,17 @@ export const AuthOnboarding = () => {
         </p>
         <form
           onSubmit={handleSubmit}
-          className="mt-11 grid grid-cols-1 gap-6 md:grid-cols-2"
+          className="grid-cols-0 grid w-full gap-6 text-sm text-gray-700 sm:grid-cols-2"
         >
-          <label
-            htmlFor=""
-            className="flex flex-col space-y-1.5 text-sm text-gray-700"
-          >
-            <span className="first-letter:uppercase">first name</span>
-            <input
-              type="text"
-              placeholder="first name"
-              className="gap-2 rounded-lg border border-gray-300 px-3.5 py-2.5 text-base font-normal shadow-sm placeholder:text-gray-300 placeholder:first-letter:uppercase"
-            />
-          </label>
-
-          <label
-            htmlFor=""
-            className="flex flex-col space-y-1.5 text-sm text-gray-700"
-          >
-            <span className="first-letter:uppercase">last name</span>
-            <input
-              type="text"
-              placeholder="last name"
-              className="mt-8 gap-2 rounded-lg border border-gray-300 px-3.5 py-2.5 text-base font-normal shadow-sm placeholder:text-gray-300 placeholder:first-letter:uppercase"
-            />
-          </label>
-
-          <button
+          <Input placeholder="First name" caption="First name" />
+          <Input placeholder="Last name" caption="Last name" />
+          <Button
             type="submit"
-            className="col-span-2 rounded-lg bg-blue-600 py-3 text-center text-base font-semibold text-white first-letter:uppercase"
+            size="lg"
+            className="col-span-2 bg-blue-600 text-white first-letter:uppercase"
           >
-            continue
-          </button>
+            Continue
+          </Button>
         </form>
       </section>
     </main>
