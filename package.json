@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "prepare": "husky install",
     "lint:css": "stylelint \"**/*.css\"",
@@ -14,6 +13,9 @@
   },
   "dependencies": {
     "clsx": "^1.2.1",
+    "effector": "^22.8.6",
+    "effector-react": "^22.5.3",
+    "patronum": "^1.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -37,6 +39,7 @@
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
+    "stylelint": "^15.7.0",
     "stylelint-config-idiomatic-order": "^9.0.0",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^33.0.0",
