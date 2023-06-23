@@ -1,32 +1,45 @@
 import clsx from "clsx";
 import { memo } from "react";
 import {
-  EFeaturedIconSize,
+  SQUARE_COLORS,
+  CIRCLE_COLORS,
+  EFeaturedIconColor,
+  EFeaturedIconVariant,
+  FEATURED_ICON_CONTAINER_SIZE_DICT,
   FEATURED_ICON_SIZE_DICT,
-  IFeaturedIconProps,
+  FEATURED_ICON_VARIANT_DICT,
+  TFeaturedIconProps,
+  EFeaturedIconType,
+  TCircleVariant,
+  TSquareVariant,
+  BORDER_SIZE,
 } from "../lib";
+import { Sizes } from "src/shared/lib";
 
-export const FeaturedIcon = memo<IFeaturedIconProps>(
+export const FeaturedIcon = memo<TFeaturedIconProps>(
   ({
     icon,
     className,
-    rounded,
-    iconClassName,
-    size = EFeaturedIconSize.MD,
+    size = Sizes.XS,
+    color = EFeaturedIconColor.PRIMARY,
+    type = EFeaturedIconType.CIRCLE,
+    variant = EFeaturedIconVariant.LIGHT_CIRCLE,
   }) => {
     const Component = ICON_DICT[icon];
     return (
       <div
         className={clsx(
-          "flex items-center justify-center border",
+          "block",
           className,
-          rounded ? "rounded-full" : "rounded-xl",
-          FEATURED_ICON_SIZE_DICT[size]
+          FEATURED_ICON_CONTAINER_SIZE_DICT[size],
+          FEATURED_ICON_VARIANT_DICT[variant],
+          type === "circle" && variant !== "lightCircle" && BORDER_SIZE[size],
+          type === "circle"
+            ? CIRCLE_COLORS[variant as TCircleVariant][color]
+            : SQUARE_COLORS[variant as TSquareVariant]
         )}
       >
-        <Component
-          className={clsx(iconClassName ? iconClassName : "text-gray-700")}
-        />
+        <Component className={clsx(FEATURED_ICON_SIZE_DICT[size])} />
       </div>
     );
   }

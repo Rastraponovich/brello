@@ -5,12 +5,14 @@ import { IUploadProps } from "..";
 
 export const Upload = memo<IUploadProps>(() => {
   return (
-    <div className="flex w-full max-w-[428px] flex-col justify-center gap-2 rounded-xl border border-dashed border-gray-200 px-6 py-4">
+    <div className="flex w-full max-w-[428px] flex-col items-center gap-2 rounded-xl border border-dashed border-gray-200 px-6 py-4">
       <FeaturedIcon
         icon="upload-cloud"
-        rounded
-        className="self-center border-8 border-gray-50 bg-gray-100 hover:border-blue-50 hover:bg-blue-100 sm:mb-4"
-        iconClassName="text-gray-600 h-5 w-5"
+        size="md"
+        variant="outline"
+        type="circle"
+        color="gray"
+        className="sm:mb-4"
       />
       <div className="flex items-baseline justify-center gap-1">
         <Button size="md" variant="link">
