@@ -114,7 +114,7 @@ BaseInputArea.displayName = "BaseInputArea";
 const BaseInputWeb = memo<models.IBaseInputWeb>(
   ({ onChange, leftValue, rightValue, leftPlaceholder, rightPlaceholder }) => {
     return (
-      <div className="hidden sm:flex" data-qa="InputWeb__block">
+      <div className="flex" data-qa="InputWeb__block">
         <BaseInput
           className="w-min border-collapse rounded-l-md rounded-r-none"
           placeholder={leftPlaceholder}
