@@ -24,12 +24,12 @@ export const Button = memo<IButtonBaseProps>(
       <button
         {...props}
         className={clsx(
-          "flex items-center rounded-lg border text-base font-semibold shadow-sm",
+          "flex items-center rounded-lg border text-base font-semibold",
           textAlign === EButtonTextAlign.Left && "justify-start",
           textAlign === EButtonTextAlign.Center && "justify-center",
           textAlign === EButtonTextAlign.Right && "justify-end",
+          variant !== "link" && BUTTON_SIZES_DICT[size],
           BUTTON_VARIANTS[variant],
-          BUTTON_SIZES_DICT[size],
           className
         )}
       >

@@ -17,4 +17,4 @@ interface IButtonIcon {
 export type TButtonTextAlign = "center" | "left" | "right";
 export type TButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 
-export type TVariant = "default" | "primary";
+export type TVariant = "default" | "primary" | "link";
