@@ -8,7 +8,7 @@ import { Header } from "src/widgets/header";
 
 export const WorkSpaceSettingsPage = () => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col ">
       <Header />
       <main className="container mx-auto my-0 flex flex-col">
         <BoardList />
