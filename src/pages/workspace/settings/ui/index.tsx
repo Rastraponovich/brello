@@ -1,4 +1,5 @@
 import { FormEventHandler, ReactNode } from "react";
+import { BoardList } from "src/entities/board";
 import { Button } from "src/shared/ui/button";
 import { Logo } from "src/shared/ui/icons/logo";
 import { Input, InputArea, InputWeb } from "src/shared/ui/input";
@@ -10,6 +11,7 @@ export const WorkSpaceSettingsPage = () => {
     <div className="flex flex-col">
       <Header />
       <main className="container mx-auto my-0 flex flex-col">
+        <BoardList />
         <section className="flex flex-col gap-8 px-4 py-8">
           <h2 className="text-2xl font-semibold text-gray-900">
             Workspace settings
