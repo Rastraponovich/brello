@@ -2,7 +2,7 @@ import { AddAvatarButton, AvatarGroup } from "src/shared/ui/avatar";
 import { IAvatarBlockProps, TBoard } from "../lib";
 import { memo, useCallback, useState } from "react";
 import { Bage } from "src/shared/ui/bage";
-import { Button } from "src/shared/ui/button";
+import { Button, IconButton } from "src/shared/ui/button";
 import { InputArea } from "src/shared/ui/input";
 
 const BoardActions = () => {
@@ -130,15 +130,16 @@ const BoardBottomActions = memo<IBoardBottomActionProps>(({ edit, onEdit }) => {
       {edit && <InputArea />}
       <div className="flex items-center gap-2">
         <Button
-          variant={edit ? "primary" : "link"}
+          variant={edit ? "primary" : "tertiary"}
           size="md"
           onClick={onEdit}
           leftIcon={<PlusCircle />}
-          className="grow"
+          className=" grow justify-center"
         >
           Add card
         </Button>
-        {edit && <Button>X</Button>}
+
+        {edit && <IconButton size="md" icon="x" variant="tertiary" />}
       </div>
     </div>
   );
