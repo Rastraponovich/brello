@@ -11,7 +11,15 @@ export const WorkSpaceSettingsPage = () => {
     <div className="flex flex-col ">
       <Header />
       <main className="container mx-auto my-0 flex flex-col">
-        <BoardList />
+        <div className="overflow-hidden">
+          <div className="flex items-start gap-12 overflow-auto px-8">
+            <BoardList />
+            <BoardList />
+            <BoardList />
+            <BoardList />
+          </div>
+        </div>
+
         <section className="flex flex-col gap-8 px-4 py-8">
           <h2 className="text-2xl font-semibold text-gray-900">
             Workspace settings

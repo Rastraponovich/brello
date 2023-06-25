@@ -4,6 +4,7 @@ import { memo, useCallback, useState } from "react";
 import { Bage } from "src/shared/ui/bage";
 import { Button, IconButton } from "src/shared/ui/button";
 import { InputArea } from "src/shared/ui/input";
+import { ScrollContainer } from "src/shared/ui/scroll-container";
 
 const BoardActions = () => {
   return (
@@ -67,14 +68,15 @@ export const BoardList = () => {
     },
   ];
   return (
-    <div className="flex flex-col gap-4 rounded-2xl bg-[#FCFCFD] p-4">
-      <div className="flex items-center gap-2 py-1 pl-4 text-lg font-bold text-gray-900">
-        <h3 className="grow">To Do</h3>
-        <BoardActions />
+    <div className="flex h-full grow flex-col gap-4 overflow-x-hidden  rounded-2xl bg-[#FCFCFD] py-4">
+      <div className="px-4">
+        <div className="flex items-center gap-2 py-1 pl-4 text-lg font-bold text-gray-900">
+          <h3 className="grow">To Do</h3>
+          <BoardActions />
+        </div>
       </div>
-      {/* cardlist */}
-      <div className="flex max-h-[300px] flex-col overflow-hidden">
-        <div className="no-scrollbar  flex flex-col gap-4 overflow-y-auto  font-bold text-gray-900">
+      <ScrollContainer>
+        <div className=" flex flex-col gap-4 font-bold text-gray-900">
           {cards.map((card) => (
             <div
               key={card.id}
@@ -114,7 +116,7 @@ export const BoardList = () => {
             </div>
           ))}
         </div>
-      </div>
+      </ScrollContainer>
       <BoardBottomActions edit={isEditable} onEdit={handleSetEdit} />
     </div>
   );
