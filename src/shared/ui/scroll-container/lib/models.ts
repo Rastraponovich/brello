@@ -6,4 +6,4 @@ export interface IScrollContainer {
   scrollOrientation?: TScrollOrientation;
 }
 
-export type TScrollOrientation = "vertical" | "horizonttal" | "both";
+export type TScrollOrientation = "vertical" | "horizontal" | "both";

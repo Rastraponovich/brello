@@ -2,15 +2,20 @@ import { AddAvatarButton, AvatarGroup } from "src/shared/ui/avatar";
 import { IAvatarBlockProps, TBoard } from "../lib";
 import { memo, useCallback, useState } from "react";
 import { Bage } from "src/shared/ui/bage";
-import { Button, IconButton } from "src/shared/ui/button";
+import { Button, CloseXButton } from "src/shared/ui/button";
 import { InputArea } from "src/shared/ui/input";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
+import {
+  DotsVerticalIcon,
+  PlusCircleIcon,
+  PlusSquareIcon,
+} from "src/shared/ui/icons/common";
 
 const BoardActions = () => {
   return (
-    <div className="flex gap-3">
-      <BottomDotsIcon />
-      <PlusCircle />
+    <div className="flex gap-3 text-gray-400">
+      <DotsVerticalIcon />
+      <PlusCircleIcon />
     </div>
   );
 };
@@ -68,12 +73,11 @@ export const BoardList = () => {
     },
   ];
   return (
-    <div className="flex h-full grow flex-col gap-4 overflow-x-hidden  rounded-2xl bg-[#FCFCFD] py-4">
-      <div className="px-4">
-        <div className="flex items-center gap-2 py-1 pl-4 text-lg font-bold text-gray-900">
-          <h3 className="grow">To Do</h3>
-          <BoardActions />
-        </div>
+    //overflow-x-hidden
+    <div className="flex h-full max-w-[360px] shrink-0 grow snap-center snap-normal flex-col gap-4 rounded-2xl bg-[#FCFCFD] py-4">
+      <div className="flex items-center gap-2 py-1 pl-4 pr-4 text-lg font-bold text-gray-900">
+        <h3 className="grow px-4">To Do</h3>
+        <BoardActions />
       </div>
       <ScrollContainer>
         <div className=" flex flex-col gap-4 font-bold text-gray-900">
@@ -128,20 +132,20 @@ interface IBoardBottomActionProps {
 }
 const BoardBottomActions = memo<IBoardBottomActionProps>(({ edit, onEdit }) => {
   return (
-    <div className="flex flex-col gap-1.5 bg-white">
+    <div className="flex flex-col gap-1.5 bg-white px-4">
       {edit && <InputArea />}
       <div className="flex items-center gap-2">
         <Button
           variant={edit ? "primary" : "tertiary"}
-          size="md"
+          size="lg"
           onClick={onEdit}
-          leftIcon={<PlusCircle />}
+          leftIcon={<PlusSquareIcon />}
           className=" grow justify-center"
         >
           Add card
         </Button>
 
-        {edit && <IconButton size="md" icon="x" variant="tertiary" />}
+        {edit && <CloseXButton size="lg" variant="primary" />}
       </div>
     </div>
   );
@@ -206,67 +210,6 @@ const AttachmentIcon = () => {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-    </svg>
-  );
-};
-
-const BottomDotsIcon = () => {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M9.99996 10.8333C10.4602 10.8333 10.8333 10.4602 10.8333 9.99998C10.8333 9.53974 10.4602 9.16665 9.99996 9.16665C9.53972 9.16665 9.16663 9.53974 9.16663 9.99998C9.16663 10.4602 9.53972 10.8333 9.99996 10.8333Z"
-        stroke="#98A2B3"
-        strokeWidth="1.66667"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.99996 4.99998C10.4602 4.99998 10.8333 4.62688 10.8333 4.16665C10.8333 3.70641 10.4602 3.33331 9.99996 3.33331C9.53972 3.33331 9.16663 3.70641 9.16663 4.16665C9.16663 4.62688 9.53972 4.99998 9.99996 4.99998Z"
-        stroke="#98A2B3"
-        strokeWidth="1.66667"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.99996 16.6666C10.4602 16.6666 10.8333 16.2935 10.8333 15.8333C10.8333 15.3731 10.4602 15 9.99996 15C9.53972 15 9.16663 15.3731 9.16663 15.8333C9.16663 16.2935 9.53972 16.6666 9.99996 16.6666Z"
-        stroke="#98A2B3"
-        strokeWidth="1.66667"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-};
-
-const PlusCircle = () => {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g clip-path="url(#clip0_13_31926)">
-        <path
-          d="M9.99996 6.66669V13.3334M6.66663 10H13.3333M18.3333 10C18.3333 14.6024 14.6023 18.3334 9.99996 18.3334C5.39759 18.3334 1.66663 14.6024 1.66663 10C1.66663 5.39765 5.39759 1.66669 9.99996 1.66669C14.6023 1.66669 18.3333 5.39765 18.3333 10Z"
-          stroke="#98A2B3"
-          strokeWidth="1.66667"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-      <defs>
-        <clipPath id="clip0_13_31926">
-          <rect width="20" height="20" fill="white" />
-        </clipPath>
-      </defs>
     </svg>
   );
 };

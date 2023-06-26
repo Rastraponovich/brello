@@ -1,11 +1,16 @@
 import { ButtonHTMLAttributes, ReactElement, ReactNode } from "react";
 
-export interface IIconButton extends IButtonBaseProps {
+export interface ICloseXButton extends IButtonBaseProps {
+  size?: "sm" | "md" | "lg";
+  theme?: "light" | "dark";
+  variant?: "primary" | "gray";
+}
+export interface IIconButton extends IButtonBaseProps, IButtonBaseVariant {
   size?: TButtonSize;
   icon: string | ReactNode | ReactElement;
 }
 
-export interface IButton extends IButtonBaseProps {
+export interface IButton extends IButtonBaseProps, IButtonBaseVariant {
   children?: ReactNode;
   visualType?: TButtonType;
 }
@@ -13,8 +18,11 @@ export interface IButton extends IButtonBaseProps {
 export interface IButtonBaseProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: TButtonSize;
+}
+interface IButtonBaseVariant {
   variant?: TVariant;
 }
+
 export type TButtonProps = IButton & TConditionalButton;
 
 type TConditionalButton =
