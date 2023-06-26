@@ -10,11 +10,13 @@ import {
   PlusCircleIcon,
   PlusSquareIcon,
 } from "src/shared/ui/icons/common";
+import { Dropdown } from "src/shared/ui/dropdown";
 
 const BoardActions = () => {
   return (
     <div className="flex gap-3 text-gray-400">
-      <DotsVerticalIcon />
+      <Dropdown buttonContent={<DotsVerticalIcon />} groupProperty="group" />
+      {/* <DotsVerticalIcon /> */}
       <PlusCircleIcon />
     </div>
   );
