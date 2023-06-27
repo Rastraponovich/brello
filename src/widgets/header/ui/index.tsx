@@ -3,7 +3,7 @@ import {
   LayersTwoIcon,
   MenuIcon,
   UserCircleIcon,
-} from "src/shared/ui/icons/featured-icon/ui";
+} from "src/shared/ui/icons/common";
 import { Logo } from "src/shared/ui/icons/logo";
 import { NavItem, TNavItem } from "src/shared/ui/nav-item";
 

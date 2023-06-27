@@ -19,7 +19,7 @@ export interface IButtonBaseProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: TButtonSize;
 }
-interface IButtonBaseVariant {
+export interface IButtonBaseVariant {
   variant?: TVariant;
 }
 
