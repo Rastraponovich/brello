@@ -2,14 +2,14 @@
 to: src/entities/<%=name %>/ui/index.tsx
 ---
 import {memo} from 'react';
-import {I<%= Name %>Props} from '../lib'
+import {I<%= h.changeCase.pascalCase(name) %>Props} from '../lib'
 
 
-export const <%= Name %> = memo<I<%=Name %>Props>((props) => {
+export const <%= h.changeCase.pascalCase(name) %> = memo<I<%=h.changeCase.pascalCase(name) %>Props>((props) => {
 
   return <div>Hello</div>
 })
-<%= Name %>.displayName = '<%=Name %>'
+<%= h.changeCase.pascalCase(name) %>.displayName = '<%=h.changeCase.pascalCase(name) %>'
 
 
 
