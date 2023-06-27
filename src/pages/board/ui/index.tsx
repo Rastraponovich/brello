@@ -1,4 +1,13 @@
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { BoardList } from "src/entities/board";
+import { AddList } from "src/features/add-list";
 import { AvatarGroup } from "src/shared/ui/avatar";
 import { IconButton } from "src/shared/ui/button";
 import { StarIcon } from "src/shared/ui/icons/common";
@@ -37,17 +46,71 @@ export const BoardPage = () => {
 };
 
 const List = () => {
-  // const scrollref = useHorizontalScroll();
+  const [editable, setEditable] = useState(false);
+  const boards = useMemo<unknown[]>(() => [], []);
+  const [value, setValue] = useState("");
+
+  const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
+    (event) => setValue(event.target.value),
+    []
+  );
+
+  const handleReset = useCallback<FormEventHandler<HTMLFormElement>>(
+    (event) => {
+      event.preventDefault();
+      setEditable(false);
+    },
+    []
+  );
+
+  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
+    (event) => {
+      event.preventDefault();
+      setEditable((prev) => !prev);
+
+      if (value.length > 0) {
+        boards.unshift({
+          id: boards.length + 1,
+          title: value,
+          subTitle: "",
+          items: [],
+        });
+      }
+    },
+    [boards, value]
+  );
+
+  useEffect(() => {
+    if (!editable) {
+      setValue("");
+    }
+  }, [editable]);
 
   return (
-    <div
-      // ref={scrollref}
-      className="flex snap-x snap-mandatory scroll-px-4 items-start gap-12 overflow-x-auto overflow-y-hidden px-4 sm:scroll-px-8 sm:px-8"
-    >
+    <div className="flex snap-x snap-mandatory scroll-px-4 items-start gap-12 overflow-x-auto overflow-y-hidden px-4 sm:scroll-px-8 sm:px-8">
       <BoardList />
       <BoardList />
       <BoardList />
       <BoardList />
+
+      <AddList
+        editable={editable}
+        onChange={handleChange}
+        onReset={handleReset}
+        onSubmit={handleSubmit}
+        value={value}
+        buttonCaption="Add List"
+      />
+      {editable && (
+        <AddList
+          editable={false}
+          onChange={handleChange}
+          onReset={handleReset}
+          onSubmit={handleSubmit}
+          value={value}
+          buttonCaption="Add List"
+        />
+      )}
     </div>
   );
 };
