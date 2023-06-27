@@ -12,9 +12,11 @@
     "lint:js": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.15",
     "clsx": "^1.2.1",
     "effector": "^22.8.6",
     "effector-react": "^22.5.3",
+    "hygen": "^6.2.11",
     "patronum": "^1.18.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
