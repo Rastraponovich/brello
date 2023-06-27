@@ -5,7 +5,7 @@ interface IBaseIconProps {
 }
 
 export const PlusSquareIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  ({ className }, ref) => {
+  (props, ref) => {
     return (
       <svg
         width="24"
@@ -13,7 +13,7 @@ export const PlusSquareIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
         viewBox="0 0 24 24"
         fill="none"
         ref={ref}
-        className={className}
+        {...props}
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -29,7 +29,7 @@ export const PlusSquareIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
 );
 
 export const XCloseIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  ({ className }, ref) => {
+  (props, ref) => {
     return (
       <svg
         width="24"
@@ -37,7 +37,7 @@ export const XCloseIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
         viewBox="0 0 24 24"
         fill="none"
         ref={ref}
-        className={className}
+        {...props}
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -53,14 +53,14 @@ export const XCloseIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
 );
 
 export const StarIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  ({ className }, ref) => {
+  (props, ref) => {
     return (
       <svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
-        className={className}
         ref={ref}
+        {...props}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -77,7 +77,7 @@ export const StarIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
 );
 
 export const PlusCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  ({ className }, ref) => {
+  (props, ref) => {
     return (
       <svg
         width="24"
@@ -85,7 +85,7 @@ export const PlusCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
         viewBox="0 0 24 24"
         fill="none"
         ref={ref}
-        className={className}
+        {...props}
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -101,14 +101,14 @@ export const PlusCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
 );
 
 export const DotsVerticalIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  ({ className }, ref) => {
+  (props, ref) => {
     return (
       <svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
         fill="none"
-        className={className}
+        {...props}
         ref={ref}
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -138,35 +138,39 @@ export const DotsVerticalIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   }
 );
 
-export const LogoutIcon = forwardRef<SVGSVGElement, IBaseIconProps>((props) => {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M16 17L21 12M21 12L16 7M21 12H9M9 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21H9"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-});
-
-export const UsersPlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  (props) => {
+export const LogoutIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
+  (props, ref) => {
     return (
       <svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
         fill="none"
+        {...props}
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M16 17L21 12M21 12L16 7M21 12H9M9 3H7.8C6.11984 3 5.27976 3 4.63803 3.32698C4.07354 3.6146 3.6146 4.07354 3.32698 4.63803C3 5.27976 3 6.11984 3 7.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21H9"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+);
+
+export const UsersPlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
+  (props, ref) => {
+    return (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        ref={ref}
         {...props}
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -183,13 +187,14 @@ export const UsersPlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
 );
 
 export const Settings2Icon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  (props) => {
+  (props, ref) => {
     return (
       <svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
         fill="none"
+        ref={ref}
         {...props}
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -215,13 +220,14 @@ export const Settings2Icon = forwardRef<SVGSVGElement, IBaseIconProps>(
 Settings2Icon.displayName = "Settings2Icon";
 
 export const SearchLGIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  (props) => {
+  (props, ref) => {
     return (
       <svg
         width="24"
         height="24"
         viewBox="0 0 24 24"
         fill="none"
+        ref={ref}
         xmlns="http://www.w3.org/2000/svg"
         {...props}
       >
@@ -237,53 +243,32 @@ export const SearchLGIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   }
 );
 
-export const PlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>((props) => {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <path
-        d="M12 5V19M5 12H19"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-});
-
-export const MenuIcon = forwardRef<SVGSVGElement, IBaseIconProps>((props) => {
-  return (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g id="menu-02">
+export const PlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
+  (props, ref) => {
+    return (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        {...props}
+        ref={ref}
+      >
         <path
-          id="Icon"
-          d="M3 12H15M3 6H21M3 18H21"
+          d="M12 5V19M5 12H19"
           stroke="currentColor"
           strokeWidth="2"
-          strokeLinecap="round"
           strokeLinejoin="round"
+          strokeLinecap="round"
         />
-      </g>
-    </svg>
-  );
-});
+      </svg>
+    );
+  }
+);
 
-export const LayersTwoIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  (props) => {
+export const MenuIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
+  (props, ref) => {
     return (
       <svg
         width="24"
@@ -291,6 +276,34 @@ export const LayersTwoIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
         viewBox="0 0 24 24"
         fill="none"
         {...props}
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g id="menu-02">
+          <path
+            id="Icon"
+            d="M3 12H15M3 6H21M3 18H21"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </g>
+      </svg>
+    );
+  }
+);
+
+export const LayersTwoIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
+  (props, ref) => {
+    return (
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        {...props}
+        ref={ref}
         xmlns="http://www.w3.org/2000/svg"
       >
         <g id="layers-two-01">
@@ -309,7 +322,7 @@ export const LayersTwoIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
 );
 
 export const UserCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  (props) => {
+  (props, ref) => {
     return (
       <svg
         width="24"
@@ -317,6 +330,7 @@ export const UserCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
         viewBox="0 0 24 24"
         fill="none"
         {...props}
+        ref={ref}
         xmlns="http://www.w3.org/2000/svg"
       >
         <g id="user-circle">
@@ -334,29 +348,32 @@ export const UserCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   }
 );
 
-export const UserIcon = forwardRef<SVGSVGElement, IBaseIconProps>((props) => {
-  return (
-    <svg
-      width="28"
-      height="28"
-      viewBox="0 0 28 28"
-      fill="none"
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M23.3333 24.5C23.3333 22.8718 23.3333 22.0578 23.1324 21.3953C22.6799 19.9039 21.5128 18.7367 20.0213 18.2843C19.3589 18.0833 18.5448 18.0833 16.9167 18.0833H11.0833C9.45517 18.0833 8.64109 18.0833 7.97866 18.2843C6.48719 18.7367 5.32004 19.9039 4.8676 21.3953C4.66666 22.0578 4.66666 22.8718 4.66666 24.5M19.25 8.75C19.25 11.6495 16.8995 14 14 14C11.1005 14 8.74999 11.6495 8.74999 8.75C8.74999 5.8505 11.1005 3.5 14 3.5C16.8995 3.5 19.25 5.8505 19.25 8.75Z"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
-    </svg>
-  );
-});
+export const UserIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
+  (props, ref) => {
+    return (
+      <svg
+        width="28"
+        height="28"
+        viewBox="0 0 28 28"
+        fill="none"
+        {...props}
+        ref={ref}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M23.3333 24.5C23.3333 22.8718 23.3333 22.0578 23.1324 21.3953C22.6799 19.9039 21.5128 18.7367 20.0213 18.2843C19.3589 18.0833 18.5448 18.0833 16.9167 18.0833H11.0833C9.45517 18.0833 8.64109 18.0833 7.97866 18.2843C6.48719 18.7367 5.32004 19.9039 4.8676 21.3953C4.66666 22.0578 4.66666 22.8718 4.66666 24.5M19.25 8.75C19.25 11.6495 16.8995 14 14 14C11.1005 14 8.74999 11.6495 8.74999 8.75C8.74999 5.8505 11.1005 3.5 14 3.5C16.8995 3.5 19.25 5.8505 19.25 8.75Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    );
+  }
+);
 
 export const ShieldFolderIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  (props) => {
+  (props, ref) => {
     return (
       <svg
         width="26"
@@ -364,6 +381,7 @@ export const ShieldFolderIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
         viewBox="0 0 26 24"
         fill="none"
         {...props}
+        ref={ref}
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -379,7 +397,7 @@ export const ShieldFolderIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
 );
 
 export const UploadCloudIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
-  (props) => {
+  (props, ref) => {
     return (
       <svg
         width="21"
@@ -387,6 +405,7 @@ export const UploadCloudIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
         viewBox="0 0 21 20"
         fill="none"
         {...props}
+        ref={ref}
         xmlns="http://www.w3.org/2000/svg"
       >
         <g id="upload-cloud-02">
