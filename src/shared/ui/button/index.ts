@@ -1,2 +1,2 @@
-export * from "./ui"
-export * from "./lib"
+export * from "./ui";
+export * as buttonLib from "./lib";

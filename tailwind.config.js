@@ -12,6 +12,13 @@ export default {
       fontFamily: {
         inter: ["Inter var, sans-serif"],
       },
+      spacing: {
+        4.5: "1.125rem",
+      },
+      borderWidth: {
+        6: "6px",
+        10: "10px",
+      },
     },
   },
   plugins: [],

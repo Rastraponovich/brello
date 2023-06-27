@@ -2,12 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  font-family: "Inter var", sans-serif;
+}
+
 @layer base {
-  html {
-    font-family: "Inter var", sans-serif;
+  body {
+    @apply mx-auto my-0 h-screen;
+  }
+
+  #root {
+    @apply flex h-full flex-col;
   }
 }
+
 @layer utilities {
+  .scroll-bar::-webkit-scrollbar {
+    @apply w-2 rounded-lg;
+  }
+
+  .scroll-bar::-webkit-scrollbar-thumb {
+    @apply rounded-lg bg-gray-200 hover:bg-gray-400;
+  }
+
+  .scroll-bar-visible::-webkit-scrollbar-thumb {
+    @apply visible;
+  }
+
+  .scroll-bar-invisible::-webkit-scrollbar-thumb {
+    @apply invisible;
+  }
+
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -17,5 +42,10 @@
   .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+  }
+
+  .baseline::before {
+    width: 0;
+    content: "\200b";
   }
 }
