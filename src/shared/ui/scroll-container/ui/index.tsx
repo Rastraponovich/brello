@@ -6,14 +6,10 @@ import { ORIENTATION_DICT } from "../lib/helpers";
 export const ScrollContainer = memo<IScrollContainer>(
   ({ children, scrollOrientation = "vertical" }) => {
     return (
-      <div
-        className={clsx(
-          "flex grow flex-col overflow-visible sm:overflow-y-hidden"
-        )}
-      >
+      <div className={clsx("flex grow flex-col overflow-hidden")}>
         <div
           className={clsx(
-            "hover:scroll-bar",
+            "scroll-bar hover:scroll-bar-visible scroll-bar-invisible overflow-y-auto",
             ORIENTATION_DICT[scrollOrientation]
           )}
         >

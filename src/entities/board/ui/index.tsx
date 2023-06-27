@@ -1,22 +1,30 @@
 import { AddAvatarButton, AvatarGroup } from "src/shared/ui/avatar";
 import { IAvatarBlockProps, TBoard } from "../lib";
-import { memo, useCallback, useState } from "react";
-import { Bage } from "src/shared/ui/bage";
-import { Button, CloseXButton } from "src/shared/ui/button";
-import { InputArea } from "src/shared/ui/input";
-import { ScrollContainer } from "src/shared/ui/scroll-container";
 import {
-  DotsVerticalIcon,
-  PlusCircleIcon,
-  PlusSquareIcon,
-} from "src/shared/ui/icons/common";
+  ChangeEventHandler,
+  FormEventHandler,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Bage } from "src/shared/ui/bage";
+
+import { ScrollContainer } from "src/shared/ui/scroll-container";
+import { DotsVerticalIcon, PlusCircleIcon } from "src/shared/ui/icons/common";
 import { Dropdown } from "src/shared/ui/dropdown";
+import { AddEntity } from "src/features/add-entity";
 
 const BoardActions = () => {
+  const ddRef = useRef(null);
   return (
     <div className="flex gap-3 text-gray-400">
-      <Dropdown buttonContent={<DotsVerticalIcon />} groupProperty="group" />
-      {/* <DotsVerticalIcon /> */}
+      <Dropdown
+        buttonContent={<DotsVerticalIcon ref={ddRef} />}
+        groupProperty="group"
+      />
       <PlusCircleIcon />
     </div>
   );
@@ -24,65 +32,102 @@ const BoardActions = () => {
 
 export const BoardList = () => {
   const [isEditable, setIsEditable] = useState(false);
+  const cards: TBoard[] = useMemo(
+    () => [
+      {
+        id: 1,
+        title: "Product Designer",
+        subTitle: "",
+        items: [],
+      },
+      {
+        id: 2,
+        title: "Product Designer",
+        subTitle:
+          "We’re looking for a mid-level product designer to join our team.",
+        items: [],
+      },
+      {
+        id: 3,
+        title: "Product Designer",
+        subTitle:
+          "We’re looking for a mid-level product designer to join our team.",
+        items: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      },
+      {
+        id: 4,
+        title: "Product Designer",
+        subTitle:
+          "We’re looking for a mid-level product designer to join our team.",
+        items: [{ id: 1 }, { id: 2 }, { id: 3 }],
+        timeStamp: new Date("04-01-2023"),
+        attachments: 5,
+        bages: [
+          {
+            id: 1,
+            caption: "preved",
+            variant: "dot",
+            color: "blue",
+            size: "md",
+          },
+          {
+            id: 2,
+            caption: "medved",
+            variant: "dot",
+            color: "blue",
+            size: "md",
+          },
+        ],
+      },
+    ],
+    []
+  );
+  const [value, setValue] = useState("");
 
-  const handleSetEdit = useCallback(() => setIsEditable((prev) => !prev), []);
+  const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
+    (event) => setValue(event.target.value),
+    []
+  );
 
-  const cards: TBoard[] = [
-    {
-      id: 1,
-      title: "Product Designer",
-      subTitle: "",
-      items: [],
+  const handleReset = useCallback<FormEventHandler<HTMLFormElement>>(
+    (event) => {
+      event.preventDefault();
+      setIsEditable(false);
     },
-    {
-      id: 2,
-      title: "Product Designer",
-      subTitle:
-        "We’re looking for a mid-level product designer to join our team.",
-      items: [],
+    []
+  );
+
+  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
+    (event) => {
+      event.preventDefault();
+      setIsEditable((prev) => !prev);
+
+      if (value.length > 0) {
+        cards.unshift({
+          id: cards.length + 1,
+          title: value,
+          subTitle: "",
+          items: [],
+        });
+      }
     },
-    {
-      id: 3,
-      title: "Product Designer",
-      subTitle:
-        "We’re looking for a mid-level product designer to join our team.",
-      items: [{ id: 1 }, { id: 2 }, { id: 3 }],
-    },
-    {
-      id: 4,
-      title: "Product Designer",
-      subTitle:
-        "We’re looking for a mid-level product designer to join our team.",
-      items: [{ id: 1 }, { id: 2 }, { id: 3 }],
-      timeStamp: new Date("04-01-2023"),
-      attachments: 5,
-      bages: [
-        {
-          id: 1,
-          caption: "preved",
-          variant: "dot",
-          color: "blue",
-          size: "md",
-        },
-        {
-          id: 2,
-          caption: "medved",
-          variant: "dot",
-          color: "blue",
-          size: "md",
-        },
-      ],
-    },
-  ];
+    [cards, value]
+  );
+
+  useEffect(() => {
+    if (!isEditable) {
+      setValue("");
+    }
+  }, [isEditable]);
+
   return (
-    //overflow-x-hidden
-    <div className="flex h-full max-w-[360px] shrink-0 grow snap-center snap-normal flex-col gap-4 rounded-2xl bg-[#FCFCFD] py-4">
+    <div className="flex h-full max-w-[360px] shrink-0 grow snap-center snap-normal flex-col gap-4 overflow-hidden rounded-2xl border border-gray-200 bg-[#FCFCFD] py-4 shadow-sm">
       <div className="flex items-center gap-2 py-1 pl-4 pr-4 text-lg font-bold text-gray-900">
         <h3 className="grow px-4">To Do</h3>
         <BoardActions />
       </div>
       <ScrollContainer>
-        <div className=" flex flex-col gap-4 font-bold text-gray-900">
+        <div className=" flex flex-col gap-4 overflow-hidden font-bold text-gray-900">
           {cards.map((card) => (
             <div
               key={card.id}
@@ -123,36 +168,17 @@ export const BoardList = () => {
           ))}
         </div>
       </ScrollContainer>
-      <BoardBottomActions edit={isEditable} onEdit={handleSetEdit} />
+      <AddEntity
+        editable={isEditable}
+        onReset={handleReset}
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        value={value}
+        buttonCaption="Add Card"
+      />
     </div>
   );
 };
-
-interface IBoardBottomActionProps {
-  edit?: boolean;
-  onEdit?(): void;
-}
-const BoardBottomActions = memo<IBoardBottomActionProps>(({ edit, onEdit }) => {
-  return (
-    <div className="flex flex-col gap-1.5 bg-white px-4">
-      {edit && <InputArea />}
-      <div className="flex items-center gap-2">
-        <Button
-          variant={edit ? "primary" : "tertiary"}
-          size="lg"
-          onClick={onEdit}
-          leftIcon={<PlusSquareIcon />}
-          className=" grow justify-center"
-        >
-          Add card
-        </Button>
-
-        {edit && <CloseXButton size="lg" variant="primary" />}
-      </div>
-    </div>
-  );
-});
-BoardBottomActions.displayName = "BoardBottomActions";
 
 const AvatarBlock = memo<IAvatarBlockProps>(({ size = "sm", items }) => {
   return (
