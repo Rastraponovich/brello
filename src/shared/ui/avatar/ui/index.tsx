@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { memo } from "react";
-import { PlusIcon } from "shared/ui/icons/featured-icon";
 import {
   IAvatarGroup,
   IAvatarProps,
@@ -8,6 +7,7 @@ import {
   IAvatarCounterProps,
   IAddAvatarButtonProps,
 } from "../lib";
+import { PlusIcon } from "../../icons/common";
 
 export const Avatar = memo<IAvatarProps>(({ className, size = "md", user }) => {
   return (
