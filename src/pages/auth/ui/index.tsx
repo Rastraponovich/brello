@@ -5,7 +5,7 @@ import { actions } from "../model";
 import { Logo } from "src/shared/ui/icons/logo";
 import { SocialAuthButton } from "src/features/social-auth-button";
 import { Button } from "src/shared/ui/button";
-// import { FeaturedIcon } from "src/shared/ui/icons/featured-icon/ui";
+import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
 import { Input } from "src/shared/ui/input";
 
 export const AuthPage = () => {
@@ -64,32 +64,41 @@ export const AuthOnboarding = () => {
     event.preventDefault();
   };
   return (
-    <main className="flex h-screen w-full flex-col items-center justify-center bg-cells-pattern bg-[center_-160px] bg-no-repeat pt-16 sm:bg-[center_-240px] sm:pt-0">
-      <section className="mx-auto my-0  flex w-full grow flex-col px-4 sm:max-w-[512px] sm:justify-center">
-        {/* <FeaturedIcon icon="user" /> */}
-        <h2 className="text-4xl font-semibold text-gray-900">
-          Please, introduce yourself
-        </h2>
-        <p className="mb-11 mt-4 text-lg font-normal text-gray-600 md:mt-5">
-          You can do this later on Profile page.{" "}
-          <a href="/" className="font-medium text-blue-700">
-            Skip
-          </a>
-        </p>
-        <form
-          onSubmit={handleSubmit}
-          className="grid-cols-0 grid w-full gap-6 text-sm text-gray-700 sm:grid-cols-2"
-        >
-          <Input placeholder="First name" caption="First name" />
-          <Input placeholder="Last name" caption="Last name" />
-          <Button
-            type="submit"
-            size="lg"
-            className="col-span-2 bg-blue-600 text-white first-letter:uppercase"
-          >
-            Continue
-          </Button>
-        </form>
+    <main className="flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-cells-pattern bg-[center_-390px] bg-no-repeat pt-16 sm:bg-[center_-240px] sm:pt-0">
+      <section className="container mx-auto my-0 flex w-full grow flex-col px-4  sm:items-center sm:justify-center">
+        <div className="flex max-w-[512px] flex-col gap-12">
+          <FeaturedIcon
+            icon="user"
+            type="square"
+            variant="modern"
+            size="xl"
+            className="self-start"
+          />
+          <div className="flex flex-col gap-4 sm:gap-5">
+            <h2 className="text-4xl font-semibold text-gray-900">
+              Please, introduce yourself
+            </h2>
+            <p className="text-lg font-normal text-gray-600">
+              You can do this later on Profile page.{" "}
+              <a href="/" className="font-medium text-blue-700">
+                Skip
+              </a>
+            </p>
+          </div>
+          <div className="flex flex-col gap-8">
+            <form
+              onSubmit={handleSubmit}
+              id="form"
+              className="flex w-full flex-col gap-6 text-sm text-gray-700 sm:max-w-[512px] sm:flex-row sm:gap-8"
+            >
+              <Input placeholder="First name" caption="First name" />
+              <Input placeholder="Last name" caption="Last name" />
+            </form>
+            <Button type="submit" size="lg" form="form" variant="primary">
+              Continue
+            </Button>
+          </div>
+        </div>
       </section>
     </main>
   );
