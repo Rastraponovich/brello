@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 interface IBaseIconProps {
   className?: string;
 }
-
+//exported
 export const PlusSquareIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -27,7 +27,7 @@ export const PlusSquareIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const XCloseIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -51,7 +51,7 @@ export const XCloseIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const StarIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -75,7 +75,7 @@ export const StarIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const PlusCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -99,7 +99,7 @@ export const PlusCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const DotsVerticalIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -137,7 +137,7 @@ export const DotsVerticalIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const LogoutIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -161,7 +161,7 @@ export const LogoutIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const UsersPlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -186,6 +186,7 @@ export const UsersPlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   }
 );
 
+//exported
 export const Settings2Icon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -217,8 +218,7 @@ export const Settings2Icon = forwardRef<SVGSVGElement, IBaseIconProps>(
   }
 );
 
-Settings2Icon.displayName = "Settings2Icon";
-
+//exported
 export const SearchLGIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -242,7 +242,7 @@ export const SearchLGIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const PlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -266,7 +266,7 @@ export const PlusIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const MenuIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -293,7 +293,7 @@ export const MenuIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const LayersTwoIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -321,6 +321,7 @@ export const LayersTwoIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   }
 );
 
+//exported
 export const UserCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -348,6 +349,7 @@ export const UserCircleIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   }
 );
 
+//exported
 export const UserIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -372,6 +374,7 @@ export const UserIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   }
 );
 
+//exported
 export const ShieldFolderIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
@@ -395,7 +398,7 @@ export const ShieldFolderIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
     );
   }
 );
-
+//exported
 export const UploadCloudIcon = forwardRef<SVGSVGElement, IBaseIconProps>(
   (props, ref) => {
     return (
