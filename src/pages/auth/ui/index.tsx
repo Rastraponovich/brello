@@ -3,9 +3,9 @@ import { selectors } from "..";
 import { useUnit } from "effector-react";
 import { actions } from "../model";
 import { Logo } from "src/shared/ui/icons/logo";
-import { SocialAuthButton } from "src/features/sochial-auth-button/ui";
+import { SocialAuthButton } from "src/features/social-auth-button";
 import { Button } from "src/shared/ui/button";
-import { FeaturedIcon } from "src/shared/ui/icons/featured-icon/ui";
+// import { FeaturedIcon } from "src/shared/ui/icons/featured-icon/ui";
 import { Input } from "src/shared/ui/input";
 
 export const AuthPage = () => {
@@ -37,18 +37,12 @@ export const AuthPage = () => {
               </span>
             )}
 
-            <div className="col-start-1 mt-6 flex flex-col space-y-4 text-base font-semibold md:col-start-2">
-              <Button
-                type="submit"
-                textAlign="center"
-                size="sm"
-                // disabled={!isValid}
-                className="bg-blue-600 text-white first-letter:uppercase disabled:pointer-events-none disabled:opacity-30"
-              >
-                <span className="first-letter:uppercase ">get started</span>
+            <div className="col-start-1 mt-6 flex flex-col space-y-4  md:col-start-2">
+              <Button type="submit" variant="primary" size="md">
+                Get started
               </Button>
 
-              <SocialAuthButton authService="google" textAlign="center" />
+              <SocialAuthButton social="google" theme="brand" />
             </div>
           </form>
         </div>
@@ -72,7 +66,7 @@ export const AuthOnboarding = () => {
   return (
     <main className="flex h-screen w-full flex-col items-center justify-center bg-cells-pattern bg-[center_-160px] bg-no-repeat pt-16 sm:bg-[center_-240px] sm:pt-0">
       <section className="mx-auto my-0  flex w-full grow flex-col px-4 sm:max-w-[512px] sm:justify-center">
-        <FeaturedIcon icon="user" />
+        {/* <FeaturedIcon icon="user" /> */}
         <h2 className="text-4xl font-semibold text-gray-900">
           Please, introduce yourself
         </h2>

@@ -1,0 +1,31 @@
+import clsx from "clsx";
+import { memo } from "react";
+import { BaseIcon } from "src/shared/ui/icon";
+import { models, helpers } from "../lib";
+import { utils } from "src/shared/lib";
+
+export const SocialAuthButton = memo<models.ISocialButtonProps>(
+  ({ noCaption, social, theme = "colorWithBrand", className, ...props }) => {
+    return (
+      <button
+        {...props}
+        className={clsx(
+          "flex items-center justify-center gap-3 rounded-lg border shadow-sm",
+          "text-base font-semibold",
+          theme === "brand"
+            ? helpers.BUTTON_COLORS_DICT[social]
+            : helpers.Colors.Default,
+          noCaption ? "p-2.5" : "px-4 py-2.5",
+          className
+        )}
+      >
+        <BaseIcon
+          icon={helpers.ICONS_DICT[social][theme]}
+          source="social"
+          size="large"
+        />
+        {!noCaption && <span>Sign in with {utils.capitalize(social)}</span>}
+      </button>
+    );
+  }
+);

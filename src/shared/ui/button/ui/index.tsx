@@ -29,7 +29,7 @@ export const Button = memo<TButtonProps>(
       <button
         {...props}
         className={clsx(
-          "flex items-center rounded-lg border font-semibold",
+          "flex items-center justify-center rounded-lg border font-semibold",
           size === "xl" ? "gap-3" : "gap-2",
           BUTTON_TEXT_ALIGN[textAlign],
           BUTTON_SIZES_DICT[size],
@@ -42,7 +42,7 @@ export const Button = memo<TButtonProps>(
         {leftIcon && (
           <BaseIcon {...leftIcon} size={size === "xl" ? "large" : "normal"} />
         )}
-        <span>{children}</span>
+        {children}
         {rightIcon && (
           <BaseIcon {...rightIcon} size={size === "xl" ? "large" : "normal"} />
         )}

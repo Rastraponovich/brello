@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { ComponentProps, forwardRef, ForwardedRef } from "react";
+import { TSocial } from "../lib";
 
 const Sprite = (
   props: ComponentProps<"svg"> & {
@@ -65,6 +66,10 @@ export type TBaseIconProps =
   | {
       source: "shapes";
       icon: "star";
+    }
+  | {
+      source: "social";
+      icon: TSocial;
     };
 
 export const BaseIcon = forwardRef<SVGSVGElement, IBaseIcon>(
