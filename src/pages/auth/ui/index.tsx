@@ -13,10 +13,10 @@ export const AuthPage = () => {
   const onSubmit = useUnit(actions.submitted);
 
   return (
-    <main className="flex h-screen flex-col sm:flex-row">
-      <div className="order-last flex w-full flex-col sm:order-first sm:max-w-[50%] sm:px-0">
+    <main className="grid h-screen grid-rows-[64px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
+      <div className="order-last flex w-full shrink flex-col items-center sm:order-first sm:px-0">
         <Logo className="mb-6 mt-8 w-full px-4 sm:my-8 sm:px-8" />
-        <div className="mx-auto my-0 flex w-full max-w-[360px] grow flex-col justify-center  px-4 sm:px-0">
+        <div className="flex w-full max-w-[360px] grow flex-col justify-start px-4 sm:justify-center sm:px-0">
           <h2 className="text-2xl font-semibold text-gray-900">Sign in</h2>
           <h3 className="mt-2 text-base font-normal text-gray-600">
             Start your 30-day free trial.
@@ -46,12 +46,12 @@ export const AuthPage = () => {
             </div>
           </form>
         </div>
-        <div className="hidden justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
+        <div className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
           <span>&copy; Brello 2023</span>
           <a href="mailto:help@brello.io">help@brello.io</a>
         </div>
       </div>
-      <div className="order-first flex w-full max-w-[50%] flex-col items-center sm:order-last">
+      <div className="order-first place-self-auto overflow-hidden sm:order-last">
         <SmallPattern />
         <LargePattern />
       </div>
