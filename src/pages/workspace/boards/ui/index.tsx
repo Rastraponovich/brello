@@ -1,5 +1,5 @@
 import { useList, useUnit } from "effector-react";
-import { type ReactNode, memo, useMemo } from "react";
+import { type ReactNode, memo } from "react";
 import { $boards, actions, selectors } from "../model";
 
 import type { IBoardCard } from "../lib";
@@ -17,18 +17,11 @@ import {
   FeaturedIcon,
 } from "src/shared/ui/icons/featured-icon";
 
-import {
-  PlusCircleIcon,
-  PlusIcon,
-  Settings2Icon,
-  UsersPlusIcon,
-} from "src/shared/ui/icons/common";
-
 const BoardsHeaderActionPanel = () => {
   return (
     <div className="flex shrink-0 items-start space-x-3">
       <Button
-        leftIcon={<Settings2Icon className="h-5 w-5" />}
+        leftIcon={{ source: "general", icon: "settings" }}
         size="sm"
         variant="secondaryGray"
       >
@@ -36,7 +29,7 @@ const BoardsHeaderActionPanel = () => {
       </Button>
       <Button
         variant="primary"
-        leftIcon={<UsersPlusIcon className="h-5 w-5" />}
+        leftIcon={{ source: "users", icon: "users-plus" }}
         size="sm"
       >
         Invite members
@@ -90,7 +83,11 @@ const Boards = () => {
       <div className="flex w-full flex-col gap-8 overflow-hidden">
         <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="text-lg font-semibold">Boards</h2>
-          <InputSearch value={search} onChange={searched} />
+          <InputSearch
+            value={search}
+            onChange={searched}
+            placeholder="Search"
+          />
         </div>
         {isNotFound ? (
           <NotFoundState />
@@ -131,7 +128,6 @@ interface IBaseEmptyProps {
 }
 const BaseEmpty = memo<IBaseEmptyProps>(
   ({ icon, title, subTitle, actions, onClick }) => {
-    const LeftIcon = useMemo(() => <PlusIcon className="h-5 w-5" />, []);
     return (
       <div className="flex flex-col items-center">
         {icon && (
@@ -156,7 +152,10 @@ const BaseEmpty = memo<IBaseEmptyProps>(
           <Button
             variant="primary"
             size="md"
-            leftIcon={LeftIcon}
+            leftIcon={{
+              source: "general",
+              icon: "plus",
+            }}
             onClick={onClick}
           >
             New board
@@ -204,14 +203,12 @@ NotFoundState.displayName = "NotFoundState";
 const AddBoardCard = memo(() => {
   const onCreated = useUnit(actions.addBoard);
 
-  const LeftIcon = useMemo(() => <PlusCircleIcon />, []);
-
   return (
     <div className="flex flex-col justify-start rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
       <Button
         size="sm"
         variant="tertiaryGray"
-        leftIcon={LeftIcon}
+        leftIcon={{ source: "general", icon: "plus-circle" }}
         onClick={onCreated}
       >
         Create new board

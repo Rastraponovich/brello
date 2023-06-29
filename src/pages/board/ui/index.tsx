@@ -10,7 +10,6 @@ import { BoardList } from "src/entities/board";
 import { AddList } from "src/features/add-list";
 import { AvatarGroup } from "src/shared/ui/avatar";
 import { IconButton } from "src/shared/ui/button";
-import { StarIcon } from "src/shared/ui/icons/common";
 import { Layout } from "src/widgets/layout";
 
 const PageHeaderContent = () => {
@@ -20,7 +19,7 @@ const PageHeaderContent = () => {
         <div className="flex flex-col justify-start gap-4 text-3xl font-semibold text-gray-900 sm:flex-row sm:items-center">
           <h2 className="w-full">Sprint #3 (03.04.2023 - 10.04.2023)</h2>
           <IconButton
-            icon={<StarIcon />}
+            icon={{ source: "shapes", icon: "star" }}
             size="sm"
             variant="tertiaryGray"
             className="self-start sm:self-auto"

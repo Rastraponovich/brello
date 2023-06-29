@@ -4,6 +4,7 @@ export type TKey = keyof Omit<TMenuItem, "icon">;
 
 export interface IDropdownProps {
   buttonContent: string | ReactNode | ReactElement;
+
   buttonClassName?: string;
   menuHead?: ReactNode | ReactElement;
   groupProperty?: keyof TMenuItem;

@@ -39,7 +39,7 @@ const BaseInput = memo<models.IBaseInput>(
 export const InputSearch = memo<models.IInputProps>(({ caption, ...props }) => {
   return (
     <InputWrapper caption={caption} className="relative justify-center">
-      <SearchIcon className="absolute left-2 h-6 w-6" />
+      <SearchIcon className="absolute left-2 h-5 w-5" />
       <BaseInput
         className={clsx(props.className, "pl-9 pr-3")}
         {...props}
