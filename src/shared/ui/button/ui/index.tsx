@@ -11,7 +11,7 @@ import {
   CLOSE_BUTTON_SIZE_DICT,
   CLOSE_BUTTON_VARIANT_DICT,
 } from "../lib/helpers";
-import { XCloseIcon } from "../../icons/common";
+import { BaseIcon } from "../../icon";
 
 export const Button = memo<TButtonProps>(
   ({
@@ -22,6 +22,7 @@ export const Button = memo<TButtonProps>(
     leftIcon = undefined,
     rightIcon = undefined,
     variant = "primary",
+
     ...props
   }) => {
     return (
@@ -38,9 +39,13 @@ export const Button = memo<TButtonProps>(
           className
         )}
       >
-        {leftIcon && leftIcon}
+        {leftIcon && (
+          <BaseIcon {...leftIcon} size={size === "xl" ? "large" : "normal"} />
+        )}
         <span>{children}</span>
-        {rightIcon && rightIcon}
+        {rightIcon && (
+          <BaseIcon {...rightIcon} size={size === "xl" ? "large" : "normal"} />
+        )}
       </button>
     );
   }
@@ -48,7 +53,7 @@ export const Button = memo<TButtonProps>(
 Button.displayName = "Button";
 
 export const IconButton = memo<IIconButton>(
-  ({ className, size = "sm", icon = "", variant = "primary", ...props }) => {
+  ({ className, size = "sm", icon, variant = "primary", ...props }) => {
     return (
       <button
         {...props}
@@ -60,7 +65,7 @@ export const IconButton = memo<IIconButton>(
           className
         )}
       >
-        {icon}
+        <BaseIcon size={size === "lg" ? "large" : "normal"} {...icon} />
       </button>
     );
   }
@@ -79,7 +84,11 @@ export const CloseXButton = memo<ICloseXButton>(
           className
         )}
       >
-        <XCloseIcon className={clsx(size === "lg" ? "h-6 w-6" : "h-5 w-5")} />
+        <BaseIcon
+          size={size === "lg" ? "large" : "normal"}
+          source="general"
+          icon="x-close"
+        />
       </button>
     );
   }
