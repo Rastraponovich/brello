@@ -10,7 +10,7 @@ export const SocialAuthButton = memo<models.ISocialButtonProps>(
       <button
         {...props}
         className={clsx(
-          "flex items-center justify-center gap-3 rounded-lg border shadow-sm",
+          "flex items-center justify-center gap-3 rounded-lg border shadow-sm focus-within:ring-4 focus-within:ring-gray-100 focus:ring-4 focus:ring-gray-100 focus-visible:ring-4 focus-visible:ring-gray-100",
           "text-base font-semibold",
           theme === "brand"
             ? helpers.BUTTON_COLORS_DICT[social]
