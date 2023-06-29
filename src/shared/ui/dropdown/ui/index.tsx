@@ -27,7 +27,7 @@ const MenuItem = memo<IMenuItemProps>(
           disabled={disabled}
           onClick={onClick}
           ref={ref}
-          className=" flex items-center p-2.5 text-left text-sm font-medium  text-gray-700 hover:bg-gray-50 disabled:text-gray-300"
+          className="flex w-full items-center p-2.5 text-left text-sm font-medium  text-gray-700 hover:bg-gray-50 disabled:text-gray-300"
         >
           {type === "checkbox" ? (
             <input type="checkbox" checked={active} />
@@ -59,8 +59,8 @@ export const Dropdown = memo<IDropdownProps>(
       ? Array.from(new Set([...items.map((item) => item[groupProperty])]))
       : [];
 
-    const onClick = useCallback<MouseEventHandler<HTMLButtonElement>>((e) => {
-      console.log(e);
+    const onClick = useCallback<MouseEventHandler<HTMLButtonElement>>(() => {
+      // console.log(e);
     }, []);
 
     return (

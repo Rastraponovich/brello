@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { UserAvatarWithDropdown } from "src/entities/user";
 import {
   LayersTwoIcon,
   MenuIcon,
@@ -30,6 +31,7 @@ export const Header = memo<IHeaderProps>(() => {
             ))}
           </nav>
         </div>
+        <UserAvatarWithDropdown />
         <MenuIcon className="text-gray-500 hover:text-gray-900 sm:hidden" />
       </div>
     </header>

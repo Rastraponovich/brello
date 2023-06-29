@@ -11,7 +11,7 @@ import { PlusIcon } from "../../icons/common";
 
 export const Avatar = memo<IAvatarProps>(({ className, size = "md", user }) => {
   return (
-    <button
+    <div
       className={clsx(
         "flex items-center justify-center rounded-full bg-gray-200 text-gray-300 focus:border-4 focus:border-blue-100",
         className,
@@ -20,7 +20,7 @@ export const Avatar = memo<IAvatarProps>(({ className, size = "md", user }) => {
     >
       {!user && <UserIcon />}
       {user && !user.photo && <span>X</span>}
-    </button>
+    </div>
   );
 });
 Avatar.displayName = "Avatar";
