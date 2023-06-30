@@ -1,14 +1,5 @@
-import { ButtonHTMLAttributes, ReactElement, ReactNode } from "react";
-
-export interface ICloseXButton extends IButtonBaseProps {
-  size?: "sm" | "md" | "lg";
-  theme?: "light" | "dark";
-  variant?: "primary" | "gray";
-}
-export interface IIconButton extends IButtonBaseProps, IButtonBaseVariant {
-  size?: TButtonSize;
-  icon: string | ReactNode | ReactElement;
-}
+import { ButtonHTMLAttributes, ReactNode } from "react";
+import { TBaseIconProps } from "../../icon";
 
 export interface IButton extends IButtonBaseProps, IButtonBaseVariant {
   children?: ReactNode;
@@ -19,7 +10,8 @@ export interface IButtonBaseProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: TButtonSize;
 }
-interface IButtonBaseVariant {
+
+export interface IButtonBaseVariant {
   variant?: TVariant;
 }
 
@@ -29,14 +21,14 @@ type TConditionalButton =
   | {
       visualType: "dot";
       textAlign?: TButtonTextAlign;
-      leftIcon?: never;
-      rightIcon?: never;
+      leftIcon: undefined;
+      rightIcon: undefined;
     }
   | {
       visualType?: "default";
       textAlign?: TButtonTextAlign;
-      leftIcon?: string | ReactNode;
-      rightIcon?: string | ReactNode;
+      leftIcon?: TBaseIconProps;
+      rightIcon?: TBaseIconProps;
     };
 
 export type TButtonTextAlign = "center" | "left" | "right";
@@ -52,3 +44,14 @@ export type TVariant =
   | "linkGray";
 
 export type TButtonType = "dot" | "default";
+
+export interface IIconButton extends IButtonBaseProps, IButtonBaseVariant {
+  size?: TButtonSize;
+  icon: TBaseIconProps;
+}
+
+export interface ICloseXButton extends IButtonBaseProps {
+  size?: "sm" | "md" | "lg";
+  theme?: "light" | "dark";
+  variant?: "primary" | "gray";
+}

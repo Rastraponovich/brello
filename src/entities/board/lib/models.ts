@@ -1,16 +1,11 @@
 import { TBage } from "src/shared/ui/bage/lib";
 
-export type TBoard = {
+export type TCard = {
   id: number;
   title: string;
+  bages?: TBage[];
   subTitle: string;
   items: unknown[];
   timeStamp?: Date;
-  bages?: TBage[];
   attachments?: number;
 };
-
-export interface IAvatarBlockProps {
-  items: unknown[];
-  size?: "xs" | "sm" | "md";
-}

@@ -1,6 +1,5 @@
 import { memo } from "react";
 import { Button, CloseXButton } from "src/shared/ui/button";
-import { PlusSquareIcon } from "src/shared/ui/icons/common";
 import { InputArea } from "src/shared/ui/input";
 import { IAddEntityProps } from "../lib/models";
 
@@ -25,7 +24,7 @@ export const AddEntity = memo<IAddEntityProps>(
             type="submit"
             variant={editable ? "primary" : "tertiary"}
             size="lg"
-            leftIcon={<PlusSquareIcon />}
+            leftIcon={{ icon: "plus-square", source: "general" }}
             className=" grow justify-center"
           >
             {buttonCaption}

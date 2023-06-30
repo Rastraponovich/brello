@@ -1,5 +1,4 @@
 import { ButtonHTMLAttributes } from "react";
-import { TButtonTextAlign } from "src/shared/ui/button";
 
 export type TAuthServices =
   | "google"
@@ -11,7 +10,9 @@ export type TAuthServices =
 
 export interface ISocialButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
-  authService: TAuthServices;
-  textAlign?: TButtonTextAlign;
+  social: TAuthServices;
   noCaption?: boolean;
+  theme?: TButtonTheme;
 }
+
+export type TButtonTheme = "brand" | "color" | "colorWithBrand";

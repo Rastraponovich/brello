@@ -19,6 +19,20 @@ export default {
         6: "6px",
         10: "10px",
       },
+      colors: {
+        facebook: {
+          600: "#1877F2",
+          700: "#0C63D4",
+        },
+        twitter: {
+          600: "#1DA1F2",
+          700: "#0C8BD9",
+        },
+        dribbble: {
+          600: "#EA4C89",
+          700: "#E62872",
+        },
+      },
     },
   },
   plugins: [],

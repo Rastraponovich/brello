@@ -2,12 +2,12 @@
 to: src/features/<%=name %>/lib/models.ts
 ---
 
-export type T<%= Name %> = {
+export type T<%= h.changeCase.pascalCase(name) %> = {
   foo?:'bar'
 }
 
-export interface I<%= Name %>Props {
-  item: T<%= Name %>;
+export interface I<%= h.changeCase.pascalCase(name) %>Props {
+  item: T<%= h.changeCase.pascalCase(name) %>;
 }
 
 

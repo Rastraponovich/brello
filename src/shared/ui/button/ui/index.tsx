@@ -11,7 +11,7 @@ import {
   CLOSE_BUTTON_SIZE_DICT,
   CLOSE_BUTTON_VARIANT_DICT,
 } from "../lib/helpers";
-import { XCloseIcon } from "../../icons/common";
+import { BaseIcon } from "../../icon";
 
 export const Button = memo<TButtonProps>(
   ({
@@ -28,7 +28,7 @@ export const Button = memo<TButtonProps>(
       <button
         {...props}
         className={clsx(
-          "flex items-center rounded-lg border font-semibold",
+          "flex items-center justify-center rounded-lg border font-semibold",
           size === "xl" ? "gap-3" : "gap-2",
           BUTTON_TEXT_ALIGN[textAlign],
           BUTTON_SIZES_DICT[size],
@@ -38,9 +38,13 @@ export const Button = memo<TButtonProps>(
           className
         )}
       >
-        {leftIcon && leftIcon}
-        <span>{children}</span>
-        {rightIcon && rightIcon}
+        {leftIcon && (
+          <BaseIcon {...leftIcon} size={size === "xl" ? "large" : "normal"} />
+        )}
+        {children}
+        {rightIcon && (
+          <BaseIcon {...rightIcon} size={size === "xl" ? "large" : "normal"} />
+        )}
       </button>
     );
   }
@@ -48,7 +52,7 @@ export const Button = memo<TButtonProps>(
 Button.displayName = "Button";
 
 export const IconButton = memo<IIconButton>(
-  ({ className, size = "sm", icon = "", variant = "primary", ...props }) => {
+  ({ className, size = "sm", icon, variant = "primary", ...props }) => {
     return (
       <button
         {...props}
@@ -60,7 +64,7 @@ export const IconButton = memo<IIconButton>(
           className
         )}
       >
-        {icon}
+        <BaseIcon size={size === "lg" ? "large" : "normal"} {...icon} />
       </button>
     );
   }
@@ -79,8 +83,13 @@ export const CloseXButton = memo<ICloseXButton>(
           className
         )}
       >
-        <XCloseIcon className={clsx(size === "lg" ? "h-6 w-6" : "h-5 w-5")} />
+        <BaseIcon
+          size={size === "lg" ? "large" : "normal"}
+          source="general"
+          icon="x-close"
+        />
       </button>
     );
   }
 );
+Button.displayName = "Button";

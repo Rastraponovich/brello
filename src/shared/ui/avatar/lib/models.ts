@@ -26,6 +26,7 @@ export interface IAvatarGroup {
   size?: TAvatarGroupSize;
   itemClassName?: string;
   counter?: number;
+  canAddedUser?: boolean;
 }
 
 export interface IAvatarCounterProps extends IAvatarGroupSize {

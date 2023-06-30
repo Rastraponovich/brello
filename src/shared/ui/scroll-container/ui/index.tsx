@@ -1,6 +1,6 @@
+import clsx from "clsx";
 import { memo } from "react";
 import { IScrollContainer } from "../lib";
-import clsx from "clsx";
 import { ORIENTATION_DICT } from "../lib/helpers";
 
 export const ScrollContainer = memo<IScrollContainer>(

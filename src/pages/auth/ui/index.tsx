@@ -3,20 +3,20 @@ import { selectors } from "..";
 import { useUnit } from "effector-react";
 import { actions } from "../model";
 import { Logo } from "src/shared/ui/icons/logo";
-import { SocialAuthButton } from "src/features/sochial-auth-button/ui";
+import { SocialAuthButton } from "src/features/social-auth-button";
 import { Button } from "src/shared/ui/button";
-import { FeaturedIcon } from "src/shared/ui/icons/featured-icon/ui";
 import { Input } from "src/shared/ui/input";
+import { OnboardingLayout } from "src/widgets/layout";
 
 export const AuthPage = () => {
   const [value, setValue, isValid] = selectors.useEmailField();
   const onSubmit = useUnit(actions.submitted);
 
   return (
-    <main className="flex h-screen flex-col sm:flex-row">
-      <div className="order-last flex w-full flex-col sm:order-first sm:max-w-[50%] sm:px-0">
+    <main className="grid h-screen grid-rows-[64px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
+      <div className="order-last flex w-full shrink flex-col items-center sm:order-first sm:px-0">
         <Logo className="mb-6 mt-8 w-full px-4 sm:my-8 sm:px-8" />
-        <div className="mx-auto my-0 flex w-full max-w-[360px] grow flex-col justify-center  px-4 sm:px-0">
+        <div className="flex w-full max-w-[360px] grow flex-col justify-start px-4 sm:justify-center sm:px-0">
           <h2 className="text-2xl font-semibold text-gray-900">Sign in</h2>
           <h3 className="mt-2 text-base font-normal text-gray-600">
             Start your 30-day free trial.
@@ -37,27 +37,21 @@ export const AuthPage = () => {
               </span>
             )}
 
-            <div className="col-start-1 mt-6 flex flex-col space-y-4 text-base font-semibold md:col-start-2">
-              <Button
-                type="submit"
-                textAlign="center"
-                size="sm"
-                // disabled={!isValid}
-                className="bg-blue-600 text-white first-letter:uppercase disabled:pointer-events-none disabled:opacity-30"
-              >
-                <span className="first-letter:uppercase ">get started</span>
+            <div className="col-start-1 mt-6 flex flex-col space-y-4  md:col-start-2">
+              <Button type="submit" variant="primary" size="md">
+                Get started
               </Button>
 
-              <SocialAuthButton authService="google" textAlign="center" />
+              <SocialAuthButton social="google" theme="brand" />
             </div>
           </form>
         </div>
-        <div className="hidden justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
+        <div className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
           <span>&copy; Brello 2023</span>
           <a href="mailto:help@brello.io">help@brello.io</a>
         </div>
       </div>
-      <div className="order-first flex w-full max-w-[50%] flex-col items-center sm:order-last">
+      <div className="order-first place-self-auto overflow-hidden sm:order-last">
         <SmallPattern />
         <LargePattern />
       </div>
@@ -70,34 +64,32 @@ export const AuthOnboarding = () => {
     event.preventDefault();
   };
   return (
-    <main className="flex h-screen w-full flex-col items-center justify-center bg-cells-pattern bg-[center_-160px] bg-no-repeat pt-16 sm:bg-[center_-240px] sm:pt-0">
-      <section className="mx-auto my-0  flex w-full grow flex-col px-4 sm:max-w-[512px] sm:justify-center">
-        <FeaturedIcon icon="user" />
+    <OnboardingLayout icon="user" backgroundImage="bg-cells-pattern">
+      <div className="flex flex-col gap-4 sm:gap-5">
         <h2 className="text-4xl font-semibold text-gray-900">
           Please, introduce yourself
         </h2>
-        <p className="mb-11 mt-4 text-lg font-normal text-gray-600 md:mt-5">
+        <p className="text-lg font-normal text-gray-600">
           You can do this later on Profile page.{" "}
           <a href="/" className="font-medium text-blue-700">
             Skip
           </a>
         </p>
+      </div>
+      <div className="flex flex-col gap-8">
         <form
           onSubmit={handleSubmit}
-          className="grid-cols-0 grid w-full gap-6 text-sm text-gray-700 sm:grid-cols-2"
+          id="form"
+          className="flex w-full flex-col gap-6 text-sm text-gray-700 sm:max-w-[512px] sm:flex-row sm:gap-8"
         >
           <Input placeholder="First name" caption="First name" />
           <Input placeholder="Last name" caption="Last name" />
-          <Button
-            type="submit"
-            size="lg"
-            className="col-span-2 bg-blue-600 text-white first-letter:uppercase"
-          >
-            Continue
-          </Button>
         </form>
-      </section>
-    </main>
+        <Button type="submit" size="lg" form="form" variant="primary">
+          Continue
+        </Button>
+      </div>
+    </OnboardingLayout>
   );
 };
 
