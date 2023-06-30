@@ -6,12 +6,15 @@ import {
   useMemo,
   useState,
 } from "react";
-import { BoardList } from "src/entities/board";
-import { AddList } from "src/features/add-list";
-import { AvatarGroup } from "src/shared/ui/avatar";
-import { IconButton } from "src/shared/ui/button";
-import { Heading } from "src/shared/ui/heading";
+
+import { helpers } from "../lib";
+
+import { Board } from "src/entities/board";
 import { Layout } from "src/widgets/layout";
+import { AddList } from "src/features/add-list";
+import { Heading } from "src/shared/ui/heading";
+import { IconButton } from "src/shared/ui/button";
+import { AvatarGroup } from "src/shared/ui/avatar";
 
 const PageHeaderContent = () => {
   return (
@@ -20,17 +23,17 @@ const PageHeaderContent = () => {
         <div className="flex flex-col justify-start gap-4 text-3xl font-semibold text-gray-900 sm:flex-row sm:items-center">
           <Heading as="h2">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
           <IconButton
-            icon={{ source: "shapes", icon: "star" }}
             size="sm"
             variant="tertiaryGray"
             className="self-start sm:self-auto"
+            icon={{ source: "shapes", icon: "star" }}
           />
         </div>
         <AvatarGroup
-          items={[{ id: 1 }, { id: 3 }, { id: 2 }, { id: 5 }, { id: 4 }]}
           size="md"
           counter={5}
           canAddedUser
+          items={[{ id: 1 }, { id: 3 }, { id: 2 }, { id: 5 }, { id: 4 }]}
         />
       </div>
     </section>
@@ -88,27 +91,26 @@ const List = () => {
   }, [editable]);
 
   return (
-    <div className="flex snap-x snap-mandatory scroll-px-4 items-start gap-12 overflow-x-auto overflow-y-hidden px-4 sm:scroll-px-8 sm:px-8">
-      <BoardList />
-      <BoardList />
-      <BoardList />
-      <BoardList />
+    <div className="flex snap-x snap-mandatory scroll-px-4 items-start gap-12 overflow-x-auto overflow-y-hidden p-4 sm:scroll-px-8 sm:p-8 ">
+      {helpers.BOARDS.map((board) => (
+        <Board board={board} key={board.id} />
+      ))}
 
       <AddList
-        editable={editable}
-        onChange={handleChange}
-        onReset={handleReset}
-        onSubmit={handleSubmit}
         value={value}
+        editable={editable}
+        onReset={handleReset}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
         buttonCaption="Add List"
       />
       {editable && (
         <AddList
-          editable={false}
-          onChange={handleChange}
-          onReset={handleReset}
-          onSubmit={handleSubmit}
           value={value}
+          editable={false}
+          onReset={handleReset}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
           buttonCaption="Add List"
         />
       )}
