@@ -3,7 +3,6 @@ import { memo } from "react";
 import { IAddListProps } from "../lib";
 import { InputArea } from "src/shared/ui/input";
 import { Button, CloseXButton } from "src/shared/ui/button";
-import { PlusSquareIcon } from "src/shared/ui/icons/common";
 
 export const AddList = memo<IAddListProps>(
   ({ editable, onChange, onReset, onSubmit, value, buttonCaption }) => {
@@ -29,7 +28,7 @@ export const AddList = memo<IAddListProps>(
             type="submit"
             variant={editable ? "primary" : "tertiary"}
             size="lg"
-            leftIcon={<PlusSquareIcon />}
+            leftIcon={{ source: "general", icon: "plus-square" }}
             className=" grow justify-center"
           >
             {buttonCaption}

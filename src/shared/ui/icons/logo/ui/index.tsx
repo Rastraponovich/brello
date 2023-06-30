@@ -4,9 +4,17 @@ import clsx from "clsx";
 
 export const Logo = memo<ILogoProps>(({ short, className }) => {
   return (
-    <a href="/" className={clsx("flex items-center", className)}>
-      <LogoIcon name="icon-logo" className="h-8 w-8" />
-      {!short && <LogoTitle className="ml-2.5  sm:flex" />}
+    <a
+      href="/"
+      className={clsx(
+        "relative flex items-center gap-2.5",
+        className,
+        "after:content-[' '] after:absolute after:bottom-0 after:flex after:h-4 after:w-8 after:rounded-b-lg  after:backdrop-blur-[2px]"
+      )}
+    >
+      <LogoIcon name="icon-logo" className=" h-8 w-8 " />
+
+      {!short && <LogoTitle className="sm:flex" />}
     </a>
   );
 });
@@ -62,7 +70,7 @@ const LogoIcon = (props: ILogoIconProps) => {
           colorInterpolationFilters="sRGB"
         >
           <feFlood floodOpacity="0" result="BackgroundImageFix" />
-          <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.5" />
+          <feGaussianBlur in="BackgroundImageFix" stdDeviation="7.5" />
           <feComposite
             in2="SourceAlpha"
             operator="in"
@@ -128,3 +136,44 @@ const LogoTitle = (props: ILogoIconProps) => {
     </svg>
   );
 };
+
+<svg
+  width="32"
+  height="16"
+  viewBox="0 0 32 16"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <g filter="url(#filter0_b_1101_81660)">
+    <path
+      d="M0 0H32V3.2C32 7.68042 32 9.92063 31.1281 11.6319C30.3611 13.1372 29.1372 14.3611 27.6319 15.1281C25.9206 16 23.6804 16 19.2 16H12.8C8.31958 16 6.07937 16 4.36808 15.1281C2.86278 14.3611 1.63893 13.1372 0.871948 11.6319C0 9.92063 0 7.68042 0 3.2V0Z"
+      fill="white"
+      fill-opacity="0.2"
+    />
+  </g>
+  <defs>
+    <filter
+      id="filter0_b_1101_81660"
+      x="-5"
+      y="-5"
+      width="42"
+      height="26"
+      filterUnits="userSpaceOnUse"
+      color-interpolation-filters="sRGB"
+    >
+      <feFlood flood-opacity="0" result="BackgroundImageFix" />
+      <feGaussianBlur in="BackgroundImageFix" stdDeviation="2.5" />
+      <feComposite
+        in2="SourceAlpha"
+        operator="in"
+        result="effect1_backgroundBlur_1101_81660"
+      />
+      <feBlend
+        mode="normal"
+        in="SourceGraphic"
+        in2="effect1_backgroundBlur_1101_81660"
+        result="shape"
+      />
+    </filter>
+  </defs>
+</svg>;

@@ -45,10 +45,13 @@ export type TBaseIconProps =
         | "plus"
         | "plus-circle"
         | "plus-square"
+        | "menu"
         | "search-lg"
         | "dots-vertical"
         | "logout"
         | "settings"
+        | "clock"
+        | "attachment"
         | "x-close";
     }
   | {

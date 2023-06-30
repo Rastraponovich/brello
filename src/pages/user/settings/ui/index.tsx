@@ -22,7 +22,11 @@ export const UserPage = (): ReactElement => {
         </div>
 
         <div className="flex flex-col gap-6">
-          <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+          <form
+            className="flex flex-col gap-8"
+            onSubmit={handleSubmit}
+            id="form"
+          >
             <div className="grid gap-5 sm:grid-cols-[280px_512px]  sm:items-center sm:gap-8 ">
               <h3 className="hidden w-full shrink-0 sm:inline">name</h3>
               <div className="grid w-full  gap-6 sm:grid-cols-2">
@@ -51,10 +55,10 @@ export const UserPage = (): ReactElement => {
             </div>
           </form>
           <div className="flex items-center justify-end gap-3 border-t border-gray-200 pt-5">
-            <Button size="sm" variant="secondaryGray" type="button">
+            <Button size="sm" variant="secondaryGray" type="reset" form="form">
               cancel
             </Button>
-            <Button type="submit" size="sm" variant="primary">
+            <Button type="submit" size="sm" variant="primary" form="form">
               save
             </Button>
           </div>
