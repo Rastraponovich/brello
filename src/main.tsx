@@ -2,11 +2,11 @@ import ReactDOM from "react-dom/client";
 import React from "react";
 
 import "app/styles/index.css";
-import { UserPage } from "./pages/user/settings";
+import { BoardPage } from "./pages/board";
 
 const root = document.getElementById("root") as HTMLElement;
 ReactDOM.createRoot(root).render(
   <React.StrictMode>
-    <UserPage />
+    <BoardPage />
   </React.StrictMode>
 );

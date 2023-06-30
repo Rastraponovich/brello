@@ -49,6 +49,8 @@ export type TBaseIconProps =
         | "dots-vertical"
         | "logout"
         | "settings"
+        | "clock"
+        | "attachment"
         | "x-close";
     }
   | {

@@ -9,8 +9,3 @@ export type TBoard = {
   bages?: TBage[];
   attachments?: number;
 };
-
-export interface IAvatarBlockProps {
-  items: unknown[];
-  size?: "xs" | "sm" | "md";
-}
