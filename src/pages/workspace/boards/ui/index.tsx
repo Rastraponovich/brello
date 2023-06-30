@@ -16,21 +16,22 @@ import {
   type TFeaturedIcon,
   FeaturedIcon,
 } from "src/shared/ui/icons/featured-icon";
+import { Heading } from "src/shared/ui/heading";
 
 const BoardsHeaderActionPanel = () => {
   return (
     <div className="flex shrink-0 items-start space-x-3">
       <Button
-        leftIcon={{ source: "general", icon: "settings" }}
         size="sm"
         variant="secondaryGray"
+        leftIcon={{ source: "general", icon: "settings" }}
       >
         Settings
       </Button>
       <Button
+        size="sm"
         variant="primary"
         leftIcon={{ source: "users", icon: "users-plus" }}
-        size="sm"
       >
         Invite members
       </Button>
@@ -47,9 +48,9 @@ const BoardsHeader = () => {
             CI
           </div>
           <div className="flex flex-col">
-            <h2 className="text-2xl font-semibold text-gray-900">
+            <Heading as="h2" className="text-2xl font-semibold text-gray-900">
               Coding in action
-            </h2>
+            </Heading>
             <span className="text-gray-600">Private</span>
           </div>
         </div>
@@ -79,10 +80,11 @@ const Boards = () => {
   const isNotFound = selectors.useEmptySearchResult();
   return (
     <section className="flex w-full flex-col items-center overflow-hidden px-6 py-8 sm:px-8">
-      {/* {hasBoards ? ( */}
       <div className="flex w-full flex-col gap-8 overflow-hidden">
         <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="text-lg font-semibold">Boards</h2>
+          <Heading as="h2" className="text-lg font-semibold">
+            Boards
+          </Heading>
           <InputSearch
             value={search}
             onChange={searched}
@@ -94,9 +96,7 @@ const Boards = () => {
         ) : isEmpty ? (
           <EmptyState />
         ) : (
-          <ScrollContainer>
-            <BoardsList />
-          </ScrollContainer>
+          <BoardsList />
         )}
       </div>
     </section>
@@ -105,12 +105,14 @@ const Boards = () => {
 
 const BoardsList = () => {
   return (
-    <div className="grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
-      <AddBoardCard />
-      {useList($boards, {
-        fn: (board) => <BoardCard {...board} />,
-      })}
-    </div>
+    <ScrollContainer>
+      <div className="grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+        <AddBoardCard />
+        {useList($boards, {
+          fn: (board) => <BoardCard {...board} />,
+        })}
+      </div>
+    </ScrollContainer>
   );
 };
 
@@ -132,14 +134,16 @@ const BaseEmpty = memo<IBaseEmptyProps>(
       <div className="flex flex-col items-center">
         {icon && (
           <FeaturedIcon
-            icon={icon}
             size="lg"
+            icon={icon}
             type="circle"
             color="primary"
             variant="outline"
           />
         )}
-        <h3 className="font-semibold text-gray-900">{title}</h3>
+        <Heading as="h3" className="font-semibold text-gray-900">
+          {title}
+        </Heading>
         {subTitle && (
           <p className="text-center text-sm text-gray-600">{subTitle}</p>
         )}
@@ -150,13 +154,10 @@ const BaseEmpty = memo<IBaseEmptyProps>(
             </Button>
           ))}
           <Button
-            variant="primary"
             size="md"
-            leftIcon={{
-              source: "general",
-              icon: "plus",
-            }}
+            variant="primary"
             onClick={onClick}
+            leftIcon={{ source: "general", icon: "plus" }}
           >
             New board
           </Button>
@@ -173,11 +174,11 @@ const EmptyState = () => {
 
   return (
     <BaseEmpty
-      title="Start by creating a board"
       icon="plus"
-      subTitle="Your boards will live here. Start creating by clicking on «New board»"
-      actions={[{ caption: "Learn More", className: "hidden sm:flex" }]}
       onClick={onCreated}
+      title="Start by creating a board"
+      actions={[{ caption: "Learn More", className: "hidden sm:flex" }]}
+      subTitle="Your boards will live here. Start creating by clicking on «New board»"
     />
   );
 };
@@ -191,10 +192,10 @@ const NotFoundState = memo(() => {
   return (
     <BaseEmpty
       icon="search"
-      title="No boards found"
       subTitle={message}
-      actions={[{ caption: "Clear search", onClick: onClear }]}
       onClick={onCreated}
+      title="No boards found"
+      actions={[{ caption: "Clear search", onClick: onClear }]}
     />
   );
 });
@@ -207,9 +208,9 @@ const AddBoardCard = memo(() => {
     <div className="flex flex-col justify-start rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
       <Button
         size="sm"
+        onClick={onCreated}
         variant="tertiaryGray"
         leftIcon={{ source: "general", icon: "plus-circle" }}
-        onClick={onCreated}
       >
         Create new board
       </Button>
@@ -222,7 +223,7 @@ const BoardCard = memo<IBoardCard>(({ title }) => {
   return (
     <figure className="flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 bg-gray-900 px-5 py-6 pt-5 text-lg font-medium text-white">
       <figcaption>
-        <h3>{title}</h3>
+        <Heading as="h4">{title}</Heading>
       </figcaption>
     </figure>
   );
