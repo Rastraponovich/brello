@@ -1,5 +1,5 @@
-import { useList, useUnit } from "effector-react";
 import { type ReactNode, memo } from "react";
+import { useList, useUnit } from "effector-react";
 import { $boards, actions, selectors } from "../model";
 
 import type { IBoardCard } from "../lib";
@@ -8,15 +8,15 @@ import type {
   IButtonBaseVariant,
 } from "src/shared/ui/button/lib";
 
-import { Button } from "src/shared/ui/button";
 import { Layout } from "src/widgets/layout";
+import { Button } from "src/shared/ui/button";
+import { Heading } from "src/shared/ui/heading";
 import { InputSearch } from "src/shared/ui/input";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
 import {
   type TFeaturedIcon,
   FeaturedIcon,
 } from "src/shared/ui/icons/featured-icon";
-import { Heading } from "src/shared/ui/heading";
 
 const BoardsHeaderActionPanel = () => {
   return (
