@@ -19,6 +19,7 @@ import { Dropdown } from "src/shared/ui/dropdown";
 import { AvatarGroup } from "src/shared/ui/avatar";
 import { AddEntity } from "src/features/add-entity";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
+import { TCard } from "../lib/models";
 
 const BoardActions = () => {
   return (
@@ -38,6 +39,7 @@ interface IBoardProps {
   board: TBoard;
 }
 export const Board = memo<IBoardProps>(({ board }) => {
+  const [cards, setCards] = useState<TCard[]>(board.cards);
   const [isEditable, setIsEditable] = useState(false);
   const [value, setValue] = useState("");
 
@@ -60,15 +62,17 @@ export const Board = memo<IBoardProps>(({ board }) => {
       setIsEditable((prev) => !prev);
 
       if (value.length > 0) {
-        board.cards.unshift({
+        const newState = [...cards];
+        newState.unshift({
           id: board.cards.length + 1,
           title: value,
           subTitle: "",
-          items: [],
+          users: [],
         });
+        setCards(newState);
       }
     },
-    [board.cards, value]
+    [board.cards.length, cards, value]
   );
 
   useEffect(() => {
@@ -83,17 +87,16 @@ export const Board = memo<IBoardProps>(({ board }) => {
         "flex w-full flex-col gap-4 py-4",
         "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
         "overflow-hidden "
-        // board.cards.length > 0 && "h-full"
       )}
     >
       <div className="flex items-center gap-2 py-1 pl-4 pr-4 text-lg font-bold text-gray-900">
         <Heading as="h3" className="grow px-4">
-          To Do
+          {board.title || "To Do"}
         </Heading>
         <BoardActions />
       </div>
       <ScrollContainer>
-        <CardList cards={board.cards} />
+        <CardList cards={cards} />
       </ScrollContainer>
       <AddEntity
         value={value}
@@ -111,7 +114,7 @@ interface ICardProps extends models.TCard {
   onClick?(): void;
 }
 const Card = memo<ICardProps>(
-  ({ bages, subTitle, title, items, attachments, timeStamp }) => {
+  ({ bages, subTitle, title, users, attachments, timeStamp }) => {
     return (
       <div className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5">
         <div className="flex flex-col gap-1">
@@ -129,8 +132,8 @@ const Card = memo<ICardProps>(
           )}
         </div>
 
-        {items.length > 0 && (
-          <AvatarGroup items={items} size="sm" counter={5} canAddedUser />
+        {users.length > 0 && (
+          <AvatarGroup items={users} size="sm" counter={5} canAddedUser />
         )}
 
         {timeStamp && (

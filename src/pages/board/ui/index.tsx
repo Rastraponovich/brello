@@ -5,11 +5,10 @@ import {
   useEffect,
   ReactNode,
   useState,
-  useMemo,
   memo,
 } from "react";
 
-import { helpers } from "../lib";
+import { helpers, models } from "../lib";
 
 import { Board } from "src/entities/board";
 import { Layout } from "src/widgets/layout";
@@ -35,7 +34,38 @@ const PageHeaderContent = () => {
           size="md"
           counter={5}
           canAddedUser
-          items={[{ id: 1 }, { id: 3 }, { id: 2 }, { id: 5 }, { id: 4 }]}
+          items={[
+            {
+              id: 1,
+              photo: "images/Image.png",
+              firstName: "Habal",
+              lastName: "Habalych",
+            },
+            {
+              id: 3,
+              photo: "images/Image.png",
+              firstName: "John",
+              lastName: "Travolta",
+            },
+            {
+              id: 2,
+              photo: "images/Image.png",
+              firstName: "Edvard",
+              lastName: "Calin",
+            },
+            {
+              id: 5,
+              photo: "images/Image.png",
+              firstName: "Timber",
+              lastName: "Saw",
+            },
+            {
+              id: 4,
+              photo: "images/Image.png",
+              firstName: "Keth",
+              lastName: "Flint",
+            },
+          ]}
         />
       </div>
     </section>
@@ -53,7 +83,7 @@ export const BoardPage = () => {
 
 const List = () => {
   const [editable, setEditable] = useState(false);
-  const boards = useMemo<unknown[]>(() => [], []);
+  const [boards, setBoards] = useState<models.TBoard[]>(helpers.BOARDS);
   const [value, setValue] = useState("");
 
   const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
@@ -75,12 +105,15 @@ const List = () => {
       setEditable((prev) => !prev);
 
       if (value.length > 0) {
-        boards.unshift({
+        const newState = [...boards];
+
+        newState.push({
           id: boards.length + 1,
           title: value,
-          subTitle: "",
-          items: [],
+          cards: [],
         });
+
+        setBoards(newState);
       }
     },
     [boards, value]
@@ -94,9 +127,9 @@ const List = () => {
 
   return (
     <Grid>
-      {helpers.BOARDS.map((board) => (
-        <GridColumn>
-          <Board board={board} key={board.id} />
+      {boards.map((board) => (
+        <GridColumn key={board.id}>
+          <Board board={board} />
         </GridColumn>
       ))}
       <GridColumn>
