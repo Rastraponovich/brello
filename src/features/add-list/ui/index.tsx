@@ -9,7 +9,7 @@ export const AddList = memo<IAddListProps>(
     return (
       <form
         className={clsx(
-          "flex w-full max-w-[360px] shrink-0 snap-center snap-normal flex-col gap-4 rounded-2xl border border-gray-200 bg-[#FCFCFD]",
+          "flex w-full  flex-col justify-start gap-4 rounded-2xl border border-gray-200 bg-[#FCFCFD]",
           editable && "px-4 py-5 shadow-sm"
         )}
         onSubmit={onSubmit}
