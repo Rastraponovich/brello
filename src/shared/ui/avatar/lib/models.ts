@@ -1,3 +1,4 @@
+import { TUser } from "src/entities/user/lib";
 import { TSizes } from "src/shared/lib";
 
 export type TAvatarSizes = TSizes | "2xl";
@@ -12,17 +13,11 @@ export interface IAvatarProps {
   foo?: "bar";
   className?: string;
   size?: TAvatarSizes;
-  user?: {
-    firstName?: string;
-    lastName?: string;
-    fullName?: string;
-    photo?: string;
-    id?: number;
-  };
+  user?: TUser;
 }
 
 export interface IAvatarGroup {
-  items: unknown[];
+  items: TUser[];
   size?: TAvatarGroupSize;
   itemClassName?: string;
   counter?: number;
