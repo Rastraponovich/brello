@@ -80,9 +80,10 @@ export const Board = memo<IBoardProps>(({ board }) => {
   return (
     <div
       className={clsx(
-        "flex w-full max-w-[360px] shrink-0 grow flex-col gap-4 py-4",
-        "snap-center snap-normal overflow-hidden rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
-        board.cards.length > 0 && "h-full"
+        "flex w-full flex-col gap-4 py-4",
+        "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
+        "overflow-hidden "
+        // board.cards.length > 0 && "h-full"
       )}
     >
       <div className="flex items-center gap-2 py-1 pl-4 pr-4 text-lg font-bold text-gray-900">

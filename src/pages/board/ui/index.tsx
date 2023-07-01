@@ -3,8 +3,10 @@ import {
   FormEventHandler,
   useCallback,
   useEffect,
-  useMemo,
+  ReactNode,
   useState,
+  useMemo,
+  memo,
 } from "react";
 
 import { helpers } from "../lib";
@@ -91,29 +93,58 @@ const List = () => {
   }, [editable]);
 
   return (
-    <div className="flex snap-x snap-mandatory scroll-px-4 items-start gap-12 overflow-x-auto overflow-y-hidden p-4 sm:scroll-px-8 sm:p-8 ">
+    <Grid>
       {helpers.BOARDS.map((board) => (
-        <Board board={board} key={board.id} />
+        <GridColumn>
+          <Board board={board} key={board.id} />
+        </GridColumn>
       ))}
-
-      <AddList
-        value={value}
-        editable={editable}
-        onReset={handleReset}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        buttonCaption="Add List"
-      />
-      {editable && (
+      <GridColumn>
         <AddList
           value={value}
-          editable={false}
+          editable={editable}
           onReset={handleReset}
           onChange={handleChange}
           onSubmit={handleSubmit}
           buttonCaption="Add List"
         />
+      </GridColumn>
+
+      {editable && (
+        <GridColumn>
+          <AddList
+            value={value}
+            editable={false}
+            onReset={handleReset}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            buttonCaption="Add List"
+          />
+        </GridColumn>
       )}
-    </div>
+    </Grid>
   );
 };
+
+interface IGrid {
+  children?: ReactNode;
+}
+
+const Grid = memo<IGrid>(({ children }) => {
+  return (
+    <div className="grid snap-x snap-mandatory  scroll-px-4 auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden p-4 sm:scroll-px-8 sm:p-8 ">
+      {children}
+    </div>
+  );
+});
+
+interface IGridColumn {
+  children: ReactNode;
+}
+const GridColumn = memo<IGridColumn>(({ children }) => {
+  return (
+    <div className="flex  snap-center snap-normal flex-col justify-start overflow-hidden">
+      {children}
+    </div>
+  );
+});
