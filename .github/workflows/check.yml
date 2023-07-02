@@ -41,7 +41,7 @@ jobs:
           path: ${{ steps.yarn-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-yarn-store${{ hashFiles('**/yarn-lock.yaml') }}
           restore-keys: |
-            ${{ runner-os }}-yarn-store-
+            ${{ runner.os }}-yarn-store-
 
       - name: Install dependecies
         run: yarn install
@@ -83,7 +83,7 @@ jobs:
           path: ${{ steps.yarn-cache.outputs.STORE_PATH }}
           key: ${{ runner.os }}-yarn-store${{ hashFiles('**/yarn-lock.yaml') }}
           restore-keys: |
-            ${{ runner-os }}-yarn-store-
+            ${{ runner.os }}-yarn-store-
 
       - name: Install dependecies
         run: yarn install
