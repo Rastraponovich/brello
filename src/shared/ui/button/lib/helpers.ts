@@ -1,4 +1,4 @@
-import { TButtonSize, TButtonTextAlign, TVariant } from ".";
+import { TButtonSize, TButtonTextAlign, TVariant } from "./models";
 
 enum CloseXButtonSize {
   SM = "p-2",
