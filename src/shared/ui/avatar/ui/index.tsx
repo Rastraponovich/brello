@@ -1,80 +1,145 @@
 import clsx from "clsx";
-import { memo } from "react";
-import {
-  IAvatarGroup,
-  IAvatarProps,
-  AVATAR_SIZE_DICT,
-  IAvatarCounterProps,
-  IAddAvatarButtonProps,
-  AVATAR_GROUP_SPACING,
-} from "../lib";
-import { BaseIcon } from "../../icon";
+import { memo, useMemo } from "react";
 
-export const Avatar = memo<IAvatarProps>(({ className, size = "md", user }) => {
-  return (
-    <div
-      className={clsx(
-        "flex items-center justify-center rounded-full bg-gray-100 text-gray-600",
-        className,
-        AVATAR_SIZE_DICT[size]
-      )}
-    >
-      {!user && (
-        <BaseIcon
-          source="users"
-          icon="user"
-          size={size === "md" ? "large" : "normal"}
-        />
-      )}
-      {user && !user.photo && <span>X</span>}
-    </div>
-  );
-});
+import type { TUser } from "entities/user/lib";
+import { type models, helpers } from "../lib";
+
+import { BaseIcon } from "shared/ui/icon";
+
+function getShortName(user: TUser): string {
+  let result = "";
+  switch (true) {
+    case Boolean(!user.lastName && user.firstName):
+      result = `${user.firstName[0]}${user.firstName[1]}`;
+      break;
+    case user.lastName && !user.firstName:
+      result = `${user.lastName[0]}${user.lastName[1]}`;
+      break;
+    case Boolean(user.lastName && user.firstName):
+      result = `${user.firstName[0]}${user.lastName[0]}`;
+      break;
+    default:
+      break;
+  }
+
+  return result;
+}
+
+export const Avatar = memo<models.IAvatarProps>(
+  ({ className, size = "md", user }) => {
+    return (
+      <div
+        data-qa="Avatar-button"
+        title={
+          !user?.firstName && !user?.lastName
+            ? "unautorizied user"
+            : `${user?.firstName} ${user?.lastName}`
+        }
+        className={clsx(
+          "flex items-center justify-center overflow-hidden rounded-full bg-gray-100 font-medium text-gray-600",
+          className,
+          helpers.AVATAR_SIZE_DICT[size]
+        )}
+      >
+        {user ? (
+          !user.photo ? (
+            <span data-qa="Avatar-button__name" className="uppercase">
+              {getShortName(user)}
+            </span>
+          ) : (
+            <img
+              alt="user-image"
+              src={user?.photo}
+              data-qa="Avatar-button__photo"
+              height={helpers.AVATAR_IMAGE_SIZE_DICT[size]}
+              width={helpers.AVATAR_IMAGE_SIZE_DICT[size]}
+            />
+          )
+        ) : (
+          <BaseIcon
+            icon="user"
+            source="users"
+            data-qa="Avatar-button__icon"
+            size={size === "md" ? "large" : "normal"}
+          />
+        )}
+      </div>
+    );
+  }
+);
 Avatar.displayName = "Avatar";
 
-export const AvatarCounter = memo<IAvatarCounterProps>(({ count, size }) => {
-  return (
-    <div
-      className={clsx(
-        "flex items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
-        AVATAR_SIZE_DICT[size],
-        size === "md" ? "text-base" : "text-sm"
-      )}
-    >
-      +{count}
-    </div>
-  );
-});
+export const AvatarCounter = memo<models.IAvatarCounterProps>(
+  ({ count, size }) => {
+    const avatarCounterGetClass = useMemo(
+      () =>
+        clsx(
+          "flex items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
+          helpers.AVATAR_SIZE_DICT[size],
+          size === "md" ? "text-base" : "text-sm"
+        ),
+      [size]
+    );
+
+    return (
+      <div
+        title={`more ${count}`}
+        data-qa="Avatar-button__counter"
+        className={avatarCounterGetClass}
+      >
+        +{count}
+      </div>
+    );
+  }
+);
 AvatarCounter.displayName = "AvatarCounter";
 
-export const AddAvatarButton = memo<IAddAvatarButtonProps>(({ size }) => {
-  return (
-    <button
-      className={clsx(
-        "flex items-center justify-center rounded-full border border-dashed border-gray-300",
-        size === "md" ? "p-1.5" : "p-1",
-        AVATAR_SIZE_DICT[size]
-      )}
-    >
-      <div className="rounded text-gray-400">
-        <BaseIcon size="normal" source="general" icon="plus" />
-      </div>
-    </button>
-  );
-});
+export const AddAvatarButton = memo<models.IAddAvatarButtonProps>(
+  ({ size }) => {
+    const avatarAddButtonGetClass = useMemo(
+      () =>
+        clsx(
+          "flex items-center justify-center rounded-full border border-dashed border-gray-300",
+          size === "md" ? "p-1.5" : "p-1",
+          helpers.AVATAR_SIZE_DICT[size]
+        ),
+      [size]
+    );
+    return (
+      <button
+        type="button"
+        title="add user"
+        data-qa="Avatar-add-button"
+        className={avatarAddButtonGetClass}
+      >
+        <div className="rounded text-gray-400">
+          <BaseIcon
+            icon="plus"
+            size="normal"
+            source="general"
+            data-qa="Avatar-add-icon"
+          />
+        </div>
+      </button>
+    );
+  }
+);
 AddAvatarButton.displayName = "AddAvatarButton";
 
-export const AvatarGroup = memo<IAvatarGroup>(
+export const AvatarGroup = memo<models.IAvatarGroup>(
   ({ items, size = "sm", itemClassName, counter, canAddedUser }) => {
     return (
-      <div className="flex items-center gap-2">
-        <div className={clsx(AVATAR_GROUP_SPACING[size], "flex")}>
+      <div className="flex items-center gap-2" data-qa="Avatar-group">
+        <div
+          data-qa="Avatar-group__container"
+          className={clsx(helpers.AVATAR_GROUP_SPACING[size], "flex")}
+        >
           {items.map((item, idx) => (
             <Avatar
               key={idx}
               size={size}
-              className={clsx("border-[1.5px] border-white", itemClassName)}
-              {...(item as object)}
+              user={item}
+              className={clsx("border-1.5px border-white", itemClassName)}
             />
           ))}
           {counter && <AvatarCounter size={size} count={counter} />}

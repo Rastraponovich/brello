@@ -1,3 +1,4 @@
+import { TUser } from "src/entities/user/lib";
 import { TBage } from "src/shared/ui/bage/lib";
 
 export type TCard = {
@@ -5,7 +6,7 @@ export type TCard = {
   title: string;
   bages?: TBage[];
   subTitle: string;
-  items: unknown[];
+  users: TUser[];
   timeStamp?: Date;
   attachments?: number;
 };

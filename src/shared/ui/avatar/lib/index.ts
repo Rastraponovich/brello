@@ -1,2 +1,2 @@
-export * from "./models";
-export * from "./helpers";
+export * as models from "./models";
+export * as helpers from "./helpers";
