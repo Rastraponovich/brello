@@ -1,5 +1,5 @@
 import { FormEventHandler, ReactNode } from "react";
-import { BoardList } from "src/entities/board";
+// import { BoardList } from "src/entities/board";
 import { Button } from "src/shared/ui/button";
 import { Logo } from "src/shared/ui/icons/logo";
 import { Input, InputArea, InputWeb } from "src/shared/ui/input";
@@ -13,10 +13,10 @@ export const WorkSpaceSettingsPage = () => {
       <main className="container mx-auto my-0 flex flex-col">
         <div className="overflow-hidden">
           <div className="flex items-start gap-12 overflow-auto px-8">
+            {/* <BoardList />
             <BoardList />
             <BoardList />
-            <BoardList />
-            <BoardList />
+            <BoardList /> */}
           </div>
         </div>
 
