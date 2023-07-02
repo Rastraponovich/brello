@@ -1,12 +1,30 @@
-import type { TAvatarGroupSize, TAvatarSizes } from ".";
+import type { TAvatarGroupSize, TAvatarSizes } from "./models";
+
+enum ImageSize {
+  XS = 24,
+  SM = 32,
+  MD = 40,
+  LG = 48,
+  XL = 56,
+  "2XL" = 64,
+}
+
+export const AVATAR_IMAGE_SIZE_DICT: Record<TAvatarSizes, ImageSize> = {
+  xs: ImageSize.XS,
+  sm: ImageSize.SM,
+  md: ImageSize.MD,
+  lg: ImageSize.LG,
+  xl: ImageSize.XL,
+  "2xl": ImageSize["2XL"],
+};
 
 enum Sizes {
-  XS = "h-4 w-4",
-  SM = "h-8 w-8",
-  MD = "h-10 w-10",
-  LG = "h-12 w-12",
-  XL = "h-14 w-14",
-  "2XL" = "h-16 w-16",
+  XS = "h-4 w-4 text-xs",
+  SM = "h-8 w-8 text-sm",
+  MD = "h-10 w-10 text-base",
+  LG = "h-12 w-12 text-lg",
+  XL = "h-14 w-14 text-xl",
+  "2XL" = "h-16 w-16 text-2xl",
 }
 
 export const AVATAR_SIZE_DICT: Record<TAvatarSizes, Sizes> = {

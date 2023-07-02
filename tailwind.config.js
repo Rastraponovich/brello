@@ -16,6 +16,7 @@ export default {
         4.5: "1.125rem",
       },
       borderWidth: {
+        "1.5px": "1.5px",
         6: "6px",
         10: "10px",
       },

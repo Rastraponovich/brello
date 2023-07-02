@@ -3,11 +3,12 @@ import {
   FormEventHandler,
   useCallback,
   useEffect,
-  useMemo,
+  ReactNode,
   useState,
+  memo,
 } from "react";
 
-import { helpers } from "../lib";
+import { helpers, models } from "../lib";
 
 import { Board } from "src/entities/board";
 import { Layout } from "src/widgets/layout";
@@ -33,7 +34,38 @@ const PageHeaderContent = () => {
           size="md"
           counter={5}
           canAddedUser
-          items={[{ id: 1 }, { id: 3 }, { id: 2 }, { id: 5 }, { id: 4 }]}
+          items={[
+            {
+              id: 1,
+              photo: "images/Image.png",
+              firstName: "Habal",
+              lastName: "Habalych",
+            },
+            {
+              id: 3,
+              photo: "images/Image.png",
+              firstName: "John",
+              lastName: "Travolta",
+            },
+            {
+              id: 2,
+              photo: "images/Image.png",
+              firstName: "Edvard",
+              lastName: "Calin",
+            },
+            {
+              id: 5,
+              photo: "images/Image.png",
+              firstName: "Timber",
+              lastName: "Saw",
+            },
+            {
+              id: 4,
+              photo: "images/Image.png",
+              firstName: "Keth",
+              lastName: "Flint",
+            },
+          ]}
         />
       </div>
     </section>
@@ -51,7 +83,7 @@ export const BoardPage = () => {
 
 const List = () => {
   const [editable, setEditable] = useState(false);
-  const boards = useMemo<unknown[]>(() => [], []);
+  const [boards, setBoards] = useState<models.TBoard[]>(helpers.BOARDS);
   const [value, setValue] = useState("");
 
   const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
@@ -73,12 +105,15 @@ const List = () => {
       setEditable((prev) => !prev);
 
       if (value.length > 0) {
-        boards.unshift({
+        const newState = [...boards];
+
+        newState.push({
           id: boards.length + 1,
           title: value,
-          subTitle: "",
-          items: [],
+          cards: [],
         });
+
+        setBoards(newState);
       }
     },
     [boards, value]
@@ -91,29 +126,58 @@ const List = () => {
   }, [editable]);
 
   return (
-    <div className="flex snap-x snap-mandatory scroll-px-4 items-start gap-12 overflow-x-auto overflow-y-hidden p-4 sm:scroll-px-8 sm:p-8 ">
-      {helpers.BOARDS.map((board) => (
-        <Board board={board} key={board.id} />
+    <Grid>
+      {boards.map((board) => (
+        <GridColumn key={board.id}>
+          <Board board={board} />
+        </GridColumn>
       ))}
-
-      <AddList
-        value={value}
-        editable={editable}
-        onReset={handleReset}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        buttonCaption="Add List"
-      />
-      {editable && (
+      <GridColumn>
         <AddList
           value={value}
-          editable={false}
+          editable={editable}
           onReset={handleReset}
           onChange={handleChange}
           onSubmit={handleSubmit}
           buttonCaption="Add List"
         />
+      </GridColumn>
+
+      {editable && (
+        <GridColumn>
+          <AddList
+            value={value}
+            editable={false}
+            onReset={handleReset}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+            buttonCaption="Add List"
+          />
+        </GridColumn>
       )}
-    </div>
+    </Grid>
   );
 };
+
+interface IGrid {
+  children?: ReactNode;
+}
+
+const Grid = memo<IGrid>(({ children }) => {
+  return (
+    <div className="grid snap-x snap-mandatory  scroll-px-4 auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden p-4 sm:scroll-px-8 sm:p-8 ">
+      {children}
+    </div>
+  );
+});
+
+interface IGridColumn {
+  children: ReactNode;
+}
+const GridColumn = memo<IGridColumn>(({ children }) => {
+  return (
+    <div className="flex  snap-center snap-normal flex-col justify-start overflow-hidden">
+      {children}
+    </div>
+  );
+});
