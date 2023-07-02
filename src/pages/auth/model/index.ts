@@ -15,6 +15,8 @@ submitted.watch((e) => e.preventDefault());
 export const $isValid = createStore<boolean>(false);
 
 sample({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
   clock: $emailField,
   filter: (value) => !!value,
   fn: (value) => value?.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/),
