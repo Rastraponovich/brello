@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { memo } from "react";
+import { memo, useMemo } from "react";
 
 import type { TUser } from "entities/user/lib";
 import { type models, helpers } from "../lib";
@@ -29,7 +29,7 @@ export const Avatar = memo<models.IAvatarProps>(
   ({ className, size = "md", user }) => {
     return (
       <div
-        data-qa="avatar-button"
+        data-qa="Avatar-button"
         title={
           !user?.firstName && !user?.lastName
             ? "unautorizied user"
@@ -43,14 +43,14 @@ export const Avatar = memo<models.IAvatarProps>(
       >
         {user ? (
           !user.photo ? (
-            <span data-qa="avatar-button__name" className="uppercase">
+            <span data-qa="Avatar-button__name" className="uppercase">
               {getShortName(user)}
             </span>
           ) : (
             <img
               alt="user-image"
               src={user?.photo}
-              data-qa="avatar-button__photo"
+              data-qa="Avatar-button__photo"
               height={helpers.AVATAR_IMAGE_SIZE_DICT[size]}
               width={helpers.AVATAR_IMAGE_SIZE_DICT[size]}
             />
@@ -59,7 +59,7 @@ export const Avatar = memo<models.IAvatarProps>(
           <BaseIcon
             icon="user"
             source="users"
-            data-qa="avatar-button__icon"
+            data-qa="Avatar-button__icon"
             size={size === "md" ? "large" : "normal"}
           />
         )}
@@ -71,17 +71,23 @@ Avatar.displayName = "Avatar";
 
 export const AvatarCounter = memo<models.IAvatarCounterProps>(
   ({ count, size }) => {
-    return (
-      <div
-        title={`more ${count}`}
-        data-qa="avatar-button__counter"
-        className={clsx(
+    const avatarCounterGetClass = useMemo(
+      () =>
+        clsx(
           "flex items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
           helpers.AVATAR_SIZE_DICT[size],
           size === "md" ? "text-base" : "text-sm"
-        )}
+        ),
+      [size]
+    );
+
+    return (
+      <div
+        title={`more ${count}`}
+        data-qa="Avatar-button__counter"
+        className={avatarCounterGetClass}
       >
-        + {count}
+        +{count}
       </div>
     );
   }
@@ -90,22 +96,28 @@ AvatarCounter.displayName = "AvatarCounter";
 
 export const AddAvatarButton = memo<models.IAddAvatarButtonProps>(
   ({ size }) => {
-    return (
-      <button
-        title="add user"
-        data-qa="avatar-add-button"
-        className={clsx(
+    const avatarAddButtonGetClass = useMemo(
+      () =>
+        clsx(
           "flex items-center justify-center rounded-full border border-dashed border-gray-300",
           size === "md" ? "p-1.5" : "p-1",
           helpers.AVATAR_SIZE_DICT[size]
-        )}
+        ),
+      [size]
+    );
+    return (
+      <button
+        type="button"
+        title="add user"
+        data-qa="Avatar-add-button"
+        className={avatarAddButtonGetClass}
       >
         <div className="rounded text-gray-400">
           <BaseIcon
             icon="plus"
             size="normal"
             source="general"
-            data-qa="avatar-add-icon"
+            data-qa="Avatar-add-icon"
           />
         </div>
       </button>
@@ -117,9 +129,9 @@ AddAvatarButton.displayName = "AddAvatarButton";
 export const AvatarGroup = memo<models.IAvatarGroup>(
   ({ items, size = "sm", itemClassName, counter, canAddedUser }) => {
     return (
-      <div className="flex items-center gap-2" data-qa="avatarGroup">
+      <div className="flex items-center gap-2" data-qa="Avatar-group">
         <div
-          data-qa="avatarGroup__container"
+          data-qa="Avatar-group__container"
           className={clsx(helpers.AVATAR_GROUP_SPACING[size], "flex")}
         >
           {items.map((item, idx) => (
@@ -127,7 +139,7 @@ export const AvatarGroup = memo<models.IAvatarGroup>(
               key={idx}
               size={size}
               user={item}
-              className={clsx("border-[1.5px] border-white", itemClassName)}
+              className={clsx("border-1.5px border-white", itemClassName)}
             />
           ))}
           {counter && <AvatarCounter size={size} count={counter} />}

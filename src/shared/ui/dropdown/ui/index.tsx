@@ -24,18 +24,30 @@ const MenuItem = memo<IMenuItemProps>(
 
       return (
         <button
-          disabled={disabled}
-          onClick={onClick}
           ref={ref}
+          onClick={onClick}
+          disabled={disabled}
+          data-qa="Dropdown__menuItem"
+          title={item[titleProperty] as string}
           className="flex w-full items-center p-2.5 text-left text-sm font-medium  text-gray-700 hover:bg-gray-50 disabled:text-gray-300"
         >
           {type === "checkbox" ? (
-            <input type="checkbox" checked={active} />
+            <input type="checkbox" checked={active} data-qa="Input__checkbox" />
           ) : (
-            Icon && cloneElement(Icon as ReactElement, { className: "h-5 w-5" })
+            Icon &&
+            cloneElement(Icon as ReactElement, {
+              className: "h-5 w-5",
+              "data-qa": "MenuItem__icon",
+            })
           )}
-          <span className="ml-2 w-full">{item[titleProperty]}</span>
-          <span className="ml-3 shrink-0 text-xs font-normal text-gray-500 disabled:text-gray-300">
+          <span className="ml-2 w-full" data-qa="MenuItem__text">
+            {item[titleProperty]}
+          </span>
+          <span
+            title={hotkey}
+            data-qa="MenuItem__hotkey"
+            className="ml-3 shrink-0 text-xs font-normal text-gray-500 disabled:text-gray-300"
+          >
             {hotkey}
           </span>
         </button>
@@ -63,17 +75,27 @@ export const Dropdown = memo<IDropdownProps>(
       // console.log(e);
     }, []);
 
+    const menuButtonGetClasses = useCallback(
+      ({ open }: { open: boolean }) =>
+        clsx(
+          "flex w-full justify-center rounded-md text-sm  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75",
+          open ? "text-gray-700" : "text-gray-400",
+          buttonClassName
+        ),
+      [buttonClassName]
+    );
+
     return (
-      <Menu as="div" className="relative inline-block text-left">
+      <Menu
+        as="div"
+        data-qa="Dropdown"
+        className="relative inline-block text-left"
+      >
         <div>
           <Menu.Button
-            className={({ open }) =>
-              clsx(
-                "flex w-full justify-center rounded-md text-sm  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75",
-                open ? "text-gray-700" : "text-gray-400",
-                buttonClassName
-              )
-            }
+            title="open dropdown"
+            data-qa="Dropdown-button"
+            className={menuButtonGetClasses}
           >
             {buttonContent}
           </Menu.Button>
@@ -87,10 +109,16 @@ export const Dropdown = memo<IDropdownProps>(
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute right-0 z-50 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-lg border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            {menuHead}
+          <Menu.Items
+            data-qa="Dropdown-menuItems"
+            className="absolute right-0 z-50 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-lg border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          >
+            <div data-qa="Dropdown-menuItems__header">{menuHead}</div>
             {!groupProperty && (
-              <div className="gap-1 px-1.5 py-1">
+              <div
+                className="gap-1 px-1.5 py-1"
+                data-qa="Dropdown-menuItems__container"
+              >
                 {items.map((item) => (
                   <Menu.Item key={item.id}>
                     {(renderProps) => (
@@ -108,7 +136,11 @@ export const Dropdown = memo<IDropdownProps>(
             )}
             {groupProperty &&
               groups.map((group, id) => (
-                <div key={id} className="flex flex-col">
+                <div
+                  key={id}
+                  className="flex flex-col"
+                  data-qa="Dropdown-menuItems__container"
+                >
                   {items
                     .filter((item) => item[groupProperty] === group)
                     .map((filtered) => (
