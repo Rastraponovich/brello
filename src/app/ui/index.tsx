@@ -1,10 +1,10 @@
 import "app/styles/index.css";
-import { OnboardingPage } from "src/pages/workspace/onboarding";
+import { AuthPage } from "src/pages/auth";
 
 export const App = () => {
   return (
     <>
-      <OnboardingPage />
+      <AuthPage />
     </>
   );
 };

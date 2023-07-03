@@ -10,6 +10,7 @@ import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
 import { OnboardingLayout } from "src/widgets/layout";
 import { SocialAuthButton } from "src/features/social-auth-button";
+import { ButtonsGroup } from "src/shared/ui/buttons-group/ui";
 
 export const AuthPage = () => {
   const [value, setValue] = selectors.useEmailField();
@@ -42,6 +43,10 @@ export const AuthPage = () => {
               <Button type="submit" variant="primary" size="md">
                 Get started
               </Button>
+              <ButtonsGroup actions={[]} variant="dot" />
+              <ButtonsGroup actions={[]} variant="icon" />
+              <ButtonsGroup actions={[]} variant="text" />
+              <ButtonsGroup actions={[]} variant="iconWithText" />
 
               <SocialAuthButton social="google" theme="brand" />
             </div>
