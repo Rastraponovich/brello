@@ -1,33 +1,22 @@
 import { FormEventHandler, ReactNode } from "react";
-import { BoardList } from "src/entities/board";
+// import { BoardList } from "src/entities/board";
 import { Button } from "src/shared/ui/button";
+import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
 import { Input, InputArea, InputWeb } from "src/shared/ui/input";
 import { Upload } from "src/shared/ui/upload";
-import { Header } from "src/widgets/header";
+import { Layout } from "src/widgets/layout";
 
 export const WorkSpaceSettingsPage = () => {
   return (
-    <div className="flex flex-col ">
-      <Header />
-      <main className="container mx-auto my-0 flex flex-col">
-        <div className="overflow-hidden">
-          <div className="flex items-start gap-12 overflow-auto px-8">
-            <BoardList />
-            <BoardList />
-            <BoardList />
-            <BoardList />
-          </div>
-        </div>
-
-        <section className="flex flex-col gap-8 px-4 py-8">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            Workspace settings
-          </h2>
-          <WorkSpaceSettingsForm />
-        </section>
-      </main>
-    </div>
+    <Layout>
+      <section className="flex flex-col gap-8 px-4">
+        <Heading as="h2" className="text-2xl font-semibold text-gray-900">
+          Workspace settings
+        </Heading>
+        <WorkSpaceSettingsForm />
+      </section>
+    </Layout>
   );
 };
 
@@ -62,8 +51,10 @@ const WorkSpaceSettingsForm = () => {
       </FormBlockWrapper>
 
       <WorkspaceUplad />
-      <div className="flex items-center justify-end gap-4">
-        <Button size="md">Cancel</Button>
+      <div className="flex items-center justify-end gap-4 border-t border-gray-200 pt-4">
+        <Button size="md" variant="secondaryGray">
+          Cancel
+        </Button>
         <Button size="md" variant="primary">
           Save
         </Button>
@@ -80,8 +71,10 @@ const WorkspaceUplad = () => {
         <span>Update your logo.</span>
       </FormBlockHeader>
       <FormBlockBody>
-        <div className="flex flex-col items-start gap-6 sm:flex-row">
-          <Logo />
+        <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8">
+          <div className="flex w-full max-w-[142px] sm:mt-4">
+            <Logo />
+          </div>
           <Upload />
         </div>
       </FormBlockBody>
@@ -91,14 +84,14 @@ const WorkspaceUplad = () => {
 
 const FormBlockWrapper = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex flex-col gap-5 border-b border-gray-200 pb-5 text-sm font-normal text-gray-600 sm:flex-row">
+    <div className="grid gap-5 border-b border-gray-200 pb-5 text-sm font-normal text-gray-600 sm:grid-cols-[280px_1fr]">
       {children}
     </div>
   );
 };
 
 const FormBlockHeader = ({ children }: { children: ReactNode }) => {
-  return <div className="flex w-full max-w-[280px] flex-col">{children}</div>;
+  return <div className="flex w-full flex-col">{children}</div>;
 };
 
 const FormBlockBody = ({ children }: { children: ReactNode }) => {

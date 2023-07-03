@@ -25,6 +25,7 @@ export const UserAvatarWithDropdown = () => {
     firstName: "Vitaliy",
     lastName: "Wilde",
     email: "olivia@brello.io",
+    id: 123123,
   };
   const menuItems = useMemo<TMenuItem[]>(
     () => [

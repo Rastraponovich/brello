@@ -3,10 +3,8 @@ import { useList, useUnit } from "effector-react";
 import { $boards, actions, selectors } from "../model";
 
 import type { IBoardCard } from "../lib";
-import type {
-  IButtonBaseProps,
-  IButtonBaseVariant,
-} from "src/shared/ui/button/lib";
+
+import { buttonLib } from "src/shared/ui/button";
 
 import { Layout } from "src/widgets/layout";
 import { Button } from "src/shared/ui/button";
@@ -116,7 +114,9 @@ const BoardsList = () => {
   );
 };
 
-interface IAction extends IButtonBaseProps, IButtonBaseVariant {
+interface IAction
+  extends buttonLib.models.IButtonBaseProps,
+    buttonLib.models.IButtonBaseVariant {
   caption: string;
 }
 
