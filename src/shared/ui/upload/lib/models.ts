@@ -1,3 +1,3 @@
 export interface IUploadProps {
-  foo?: "bar";
+  disabled?: boolean;
 }
