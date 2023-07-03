@@ -52,6 +52,7 @@ export type TBaseIconProps =
         | "settings"
         | "clock"
         | "attachment"
+        | "mail"
         | "x-close";
     }
   | {
