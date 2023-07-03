@@ -1,12 +1,12 @@
 import "app/styles/index.css";
 
-import { Header } from "src/widgets/header";
+// import { BoardPage } from "pages/board";
+import { WorkSpaceSettingsPage } from "src/pages/workspace/settings";
 
 export const App = () => {
   return (
     <>
-      <Header />
-      <main className="flex flex-col items-center">{/* <StackList /> */}</main>
+      <WorkSpaceSettingsPage />
     </>
   );
 };
