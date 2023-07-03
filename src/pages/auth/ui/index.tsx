@@ -4,15 +4,15 @@ import { useUnit } from "effector-react";
 import { selectors, actions } from "../model";
 
 import { Input } from "src/shared/ui/input";
+import { BaseIcon } from "src/shared/ui/icon";
 import { Button } from "src/shared/ui/button";
+import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
 import { OnboardingLayout } from "src/widgets/layout";
 import { SocialAuthButton } from "src/features/social-auth-button";
-import { BaseIcon } from "src/shared/ui/icon";
 
 export const AuthPage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [value, setValue, isValid] = selectors.useEmailField();
+  const [value, setValue] = selectors.useEmailField();
   const onSubmit = useUnit(actions.submitted);
 
   return (
@@ -86,9 +86,9 @@ export const AuthOnboarding = () => {
   return (
     <OnboardingLayout icon="user" backgroundImage="bg-cells-pattern">
       <div className="flex flex-col gap-4 sm:gap-5">
-        <h2 className="text-4xl font-semibold text-gray-900">
+        <Heading as="h2" className="text-4xl font-semibold text-gray-900">
           Please, introduce yourself
-        </h2>
+        </Heading>
         <p className="text-lg font-normal text-gray-600">
           You can do this later on Profile page.{" "}
           <a href="/" className="font-medium text-blue-700">
