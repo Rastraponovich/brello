@@ -51,6 +51,7 @@ export type TBaseIconProps =
         | "logout"
         | "settings"
         | "clock"
+        | "search"
         | "attachment"
         | "x-close";
     }
