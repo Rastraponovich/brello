@@ -24,11 +24,9 @@ const BaseInput = memo<models.IBaseInput>(
           "text-base text-gray-900 placeholder:text-gray-500",
           "gap-2 bg-white shadow-sm",
           "border-gray-300, rounded-lg border",
-          "focus-visible:outline-blue-300 focus-visible:ring-4 focus-visible:ring-blue-100",
-          "focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
-          "focus-within:outline-blue-300 focus-within:ring-4 focus-within:ring-blue-100",
-          "invalid:focus-within:red-100 invalid:focus-within:red-100 invalid:focus:outline-red-300 invalid:focus:ring-red-100",
-          "focus-within:shadow-none focus:shadow-none focus-visible:shadow-none",
+          "focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
+          "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
+          "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
           "disabled:bg-gray-50",
           helpers.INPUT_SIZE_DICT[size],
           className
@@ -38,23 +36,29 @@ const BaseInput = memo<models.IBaseInput>(
   }
 );
 
-export const InputSearch = memo<models.IInputProps>(({ caption, ...props }) => {
-  return (
-    <InputWrapper caption={caption} className="relative justify-center">
-      <BaseIcon
-        className="absolute left-2 h-5 w-5"
-        source="general"
-        icon="search"
-        size="normal"
-      />
-      <BaseInput
-        className={clsx(props.className, "pl-9 pr-3")}
-        {...props}
-        size="sm"
-      />
-    </InputWrapper>
-  );
-});
+export const InputSearch = memo<models.IInputProps>(
+  ({ caption, hint, ...props }) => {
+    return (
+      <InputWrapper
+        hint={hint}
+        caption={caption}
+        className="relative justify-center"
+      >
+        <BaseIcon
+          className="absolute left-2 h-5 w-5"
+          source="general"
+          icon="search"
+          size="normal"
+        />
+        <BaseInput
+          className={clsx(props.className, "pl-9 pr-3")}
+          {...props}
+          size="sm"
+        />
+      </InputWrapper>
+    );
+  }
+);
 
 const InputWrapper = memo<models.IInputWrapper>(
   ({ children, caption, className, hint }) => {
@@ -112,9 +116,12 @@ const BaseInputArea = memo<models.IBaseInputArea>(
         rows={rows}
         className={clsx(
           "px-3 py-2 sm:px-3.5 sm:py-2.5",
-          "text-base font-normal focus:text-gray-900",
-          "border border-gray-300 focus-visible:border-blue-300 focus-visible:shadow-md focus-visible:ring-4 focus-visible:ring-blue-100",
-          "resize-none gap-2 rounded-lg bg-white text-gray-500 shadow-sm placeholder:text-gray-500 ",
+          "rounded-lg border border-gray-300",
+          "resize-none gap-2  bg-white shadow-sm",
+          "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
+          "text-base font-normal text-gray-500 placeholder:text-gray-500",
+          "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
+          "focus:text-gray-900 focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
           className
         )}
       />
@@ -128,16 +135,18 @@ const BaseInputWeb = memo<models.IBaseInputWeb>(
     return (
       <div className="flex" data-qa="InputWeb__block">
         <BaseInput
-          className="w-min border-collapse rounded-l-md rounded-r-none"
-          placeholder={leftPlaceholder}
-          onChange={onChange}
+          readOnly
+          tabIndex={-1}
           value={leftValue}
+          onChange={onChange}
+          placeholder={leftPlaceholder}
+          className="w-min rounded-l-md rounded-r-none border-r-transparent"
         />
         <BaseInput
-          className="w-full border-collapse rounded-l-none rounded-r-md"
-          placeholder={rightPlaceholder}
-          onChange={onChange}
           value={rightValue}
+          onChange={onChange}
+          placeholder={rightPlaceholder}
+          className="w-full border-collapse rounded-l-none rounded-r-md"
         />
       </div>
     );
