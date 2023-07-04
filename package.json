@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
+    "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "effector": "^22.8.6",
     "effector-react": "^22.5.3",

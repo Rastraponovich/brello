@@ -45,8 +45,8 @@ export const AuthPage = () => {
               </Button>
               <ButtonsGroup actions={[]} variant="dot" />
               <ButtonsGroup actions={[]} variant="icon" />
-              <ButtonsGroup actions={[]} variant="text" />
-              <ButtonsGroup actions={[]} variant="iconWithText" />
+              <ButtonsGroup actions={[]} />
+              <ButtonsGroup actions={[]} variant="iconWithText" fullWidth />
 
               <SocialAuthButton social="google" theme="brand" />
             </div>
