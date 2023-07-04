@@ -17,28 +17,29 @@ export interface SpritesMap {
     | "settings"
     | "star"
     | "upload-cloud"
-    | "user"
+    | "x-close"
     | "users-plus"
-    | "x-close";
+    | "user"
+    | "user-circle";
   social:
-    | "apple-brand"
     | "apple-color"
+    | "apple-brand"
     | "apple-colorWithBrand"
-    | "dribbble-brand"
-    | "dribbble-color"
-    | "dribbble-colorWithBrand"
     | "facebook-brand"
     | "facebook-color"
     | "facebook-colorWithBrand"
     | "figma-brand"
+    | "dribbble-color"
     | "figma-color"
     | "figma-colorWithBrand"
-    | "google-brand"
     | "google-color"
-    | "google-colorWithBrand"
+    | "google-brand"
     | "twitter-brand"
+    | "google-colorWithBrand"
     | "twitter-color"
-    | "twitter-colorWithBrand";
+    | "dribbble-colorWithBrand"
+    | "twitter-colorWithBrand"
+    | "dribbble-brand";
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
@@ -60,28 +61,29 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "settings",
     "star",
     "upload-cloud",
-    "user",
-    "users-plus",
     "x-close",
+    "users-plus",
+    "user",
+    "user-circle",
   ],
   social: [
-    "apple-brand",
     "apple-color",
+    "apple-brand",
     "apple-colorWithBrand",
-    "dribbble-brand",
-    "dribbble-color",
-    "dribbble-colorWithBrand",
     "facebook-brand",
     "facebook-color",
     "facebook-colorWithBrand",
     "figma-brand",
+    "dribbble-color",
     "figma-color",
     "figma-colorWithBrand",
-    "google-brand",
     "google-color",
-    "google-colorWithBrand",
+    "google-brand",
     "twitter-brand",
+    "google-colorWithBrand",
     "twitter-color",
+    "dribbble-colorWithBrand",
     "twitter-colorWithBrand",
+    "dribbble-brand",
   ],
 };
