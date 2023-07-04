@@ -7,6 +7,7 @@ export interface SpritesMap {
     | "folder-shield"
     | "layers-two"
     | "log-out"
+    | "mail"
     | "menu"
     | "plus-circle"
     | "plus-square"
@@ -28,6 +29,7 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "folder-shield",
     "layers-two",
     "log-out",
+    "mail",
     "menu",
     "plus-circle",
     "plus-square",

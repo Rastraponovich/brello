@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { forwardRef, type ForwardedRef, SVGProps } from "react";
 import { SpritesMap } from "../sprite.h";
 
-import type { IBaseIcon } from "../lib";
+import type { IBaseIcon, IBaseIconSize } from "../lib";
 
 enum BaseIconSize {
   small = "h-4 w-4",
@@ -37,19 +37,26 @@ export type IconName = {
 }[keyof SpritesMap];
 
 export interface IconProps
-  extends Omit<SVGProps<SVGSVGElement>, "name" | "type"> {
+  extends Omit<SVGProps<SVGSVGElement>, "name" | "type">,
+    IBaseIconSize {
   name: IconName;
 }
-export function Icon({ name, className, viewBox, ...props }: IconProps) {
+export function Icon({
+  name,
+  className,
+  size = "normal",
+  ...props
+}: IconProps) {
   const [spriteName, iconName] = name.split("/");
 
   return (
     <svg
       className={clsx(
         "inline-block h-[1em] w-[1em] select-none fill-current text-inherit",
-        className
+        className,
+        BaseIconSize[size]
       )}
-      viewBox={viewBox}
+      viewBox="0 0 24 24"
       focusable="false"
       aria-hidden
       {...props}
