@@ -3,21 +3,21 @@ import { ReactNode, ReactElement, ForwardRefExoticComponent } from "react";
 export type TKey = keyof Omit<TMenuItem, "icon">;
 
 export interface IDropdownProps {
-  buttonContent: string | ReactNode | ReactElement;
-  buttonClassName?: string;
-  menuHead?: ReactNode | ReactElement;
-  groupProperty?: keyof TMenuItem;
   keyProperty?: TKey;
-  titleProperty?: TKey;
   items?: TMenuItem[];
+  titleProperty?: TKey;
+  buttonClassName?: string;
+  groupProperty?: keyof TMenuItem;
+  menuHead?: ReactNode | ReactElement;
+  buttonContent: string | ReactNode | ReactElement;
 }
 
 export type TMenuItem = {
   id: number;
-  group?: number | string | null;
   text: string;
-  icon?: string | ReactElement | ReactNode | ForwardRefExoticComponent<unknown>;
   hotkey: string;
+  group?: number | string | null;
+  icon?: string | ReactElement | ReactNode | ForwardRefExoticComponent<unknown>;
 };
 
 export interface IMenuItemProps {
@@ -25,8 +25,8 @@ export interface IMenuItemProps {
   active: boolean;
   disabled: boolean;
   className?: string;
-  onClick: React.DOMAttributes<HTMLButtonElement>["onClick"];
   keyProperty?: TKey;
   titleProperty: TKey;
   type?: "menu" | "checkbox";
+  onClick: React.DOMAttributes<HTMLButtonElement>["onClick"];
 }
