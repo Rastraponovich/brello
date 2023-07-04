@@ -1,5 +1,6 @@
 import clsx from "clsx";
-import { forwardRef, type ForwardedRef } from "react";
+import { forwardRef, type ForwardedRef, SVGProps } from "react";
+import { SpritesMap } from "../sprite.h";
 
 import type { IBaseIcon } from "../lib";
 
@@ -30,3 +31,30 @@ export const BaseIcon = forwardRef<SVGSVGElement, IBaseIcon>(
   }
 );
 BaseIcon.displayName = "__BaseIcon__";
+
+export type IconName = {
+  [Key in keyof SpritesMap]: `${Key}/${SpritesMap[Key]}`;
+}[keyof SpritesMap];
+
+export interface IconProps
+  extends Omit<SVGProps<SVGSVGElement>, "name" | "type"> {
+  name: IconName;
+}
+export function Icon({ name, className, viewBox, ...props }: IconProps) {
+  const [spriteName, iconName] = name.split("/");
+
+  return (
+    <svg
+      className={clsx(
+        "inline-block h-[1em] w-[1em] select-none fill-current text-inherit",
+        className
+      )}
+      viewBox={viewBox}
+      focusable="false"
+      aria-hidden
+      {...props}
+    >
+      <use xlinkHref={`/sprites/${spriteName}.svg#${iconName}`} />
+    </svg>
+  );
+}
