@@ -10,7 +10,6 @@ import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
 import { OnboardingLayout } from "src/widgets/layout";
 import { SocialAuthButton } from "src/features/social-auth-button";
-import { ButtonsGroup } from "src/shared/ui/buttons-group/ui";
 
 export const AuthPage = () => {
   const [value, setValue] = selectors.useEmailField();
@@ -43,10 +42,6 @@ export const AuthPage = () => {
               <Button type="submit" variant="primary" size="md">
                 Get started
               </Button>
-              <ButtonsGroup actions={[]} variant="dot" />
-              <ButtonsGroup actions={[]} variant="icon" />
-              <ButtonsGroup actions={[]} />
-              <ButtonsGroup actions={[]} variant="iconWithText" fullWidth />
 
               <SocialAuthButton social="google" theme="brand" />
             </div>
@@ -55,12 +50,7 @@ export const AuthPage = () => {
         <div className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
           <span>&copy; Brello 2023</span>
           <a href="mailto:help@brello.io" className="flex items-center gap-2">
-            <BaseIcon
-              icon="mail"
-              size="normal"
-              source="general"
-              className="h-4 w-4"
-            />
+            <BaseIcon icon="mail" size="small" source="general" />
             <span>help@brello.io</span>
           </a>
         </div>
