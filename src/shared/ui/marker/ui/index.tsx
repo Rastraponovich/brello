@@ -17,8 +17,9 @@ export type TMarkerStyles = VariantProps<typeof markerStyles>;
 
 interface IMarker extends TMarkerStyles {
   variant?: TMarkerVariant;
+  className?: string;
 }
 
-export const Marker = ({ variant = "active" }: IMarker) => {
-  return <i className={markerStyles({ variant })} />;
+export const Marker = ({ variant = "active", className }: IMarker) => {
+  return <i className={markerStyles({ variant, className })} />;
 };
