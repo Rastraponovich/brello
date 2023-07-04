@@ -1,18 +1,19 @@
-import { Menu, Transition } from "@headlessui/react";
 import clsx from "clsx";
 import {
-  MouseEventHandler,
-  forwardRef,
   memo,
+  Fragment,
+  forwardRef,
   useCallback,
   cloneElement,
   ReactElement,
+  MouseEventHandler,
 } from "react";
-import { Fragment } from "react";
-import { IDropdownProps, IMenuItemProps } from "../lib/models";
+
+import type { IDropdownProps, IMenuItemProps } from "../lib/models";
+
 import { ITEMS } from "../lib";
-import { LogoutIcon } from "../../icons/common";
-LogoutIcon;
+
+import { Menu, Transition } from "@headlessui/react";
 
 const MenuItem = memo<IMenuItemProps>(
   forwardRef<null, IMenuItemProps>(
@@ -59,13 +60,13 @@ MenuItem.displayName = "MenuItem";
 
 export const Dropdown = memo<IDropdownProps>(
   ({
-    buttonContent,
-    buttonClassName,
     menuHead,
+    buttonContent,
     groupProperty,
     items = ITEMS,
-    titleProperty = "text",
+    buttonClassName,
     keyProperty = "id",
+    titleProperty = "text",
   }) => {
     const groups = groupProperty
       ? Array.from(new Set([...items.map((item) => item[groupProperty])]))
@@ -102,12 +103,12 @@ export const Dropdown = memo<IDropdownProps>(
         </div>
         <Transition
           as={Fragment}
+          leaveTo="transform opacity-0 scale-95"
+          leave="transition ease-in duration-75"
           enter="transition ease-out duration-100"
           enterFrom="transform opacity-0 scale-95"
           enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
           leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
         >
           <Menu.Items
             data-qa="Dropdown-menuItems"

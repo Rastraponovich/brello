@@ -9,10 +9,11 @@ export default defineConfig({
     svg({
       root: "src/shared/ui/icon/assets",
       group: true,
-      output: "public",
+      output: "public/sprites",
       definitions: "src/shared/ui/icon/sprite.h.ts",
       resetColors: {
         replaceUnknown: "currentColor",
+        properties: "stroke",
       },
     }),
   ],

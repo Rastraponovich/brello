@@ -1,5 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import { TBaseIconProps } from "../../icon";
+import { type IconProps } from "shared/ui/icon";
 
 export interface IButton extends IButtonBaseProps, IButtonBaseVariant {
   children?: ReactNode;
@@ -27,8 +27,8 @@ type TConditionalButton =
   | {
       visualType?: "default";
       textAlign?: TButtonTextAlign;
-      leftIcon?: TBaseIconProps;
-      rightIcon?: TBaseIconProps;
+      leftIcon?: IconProps["name"];
+      rightIcon?: IconProps["name"];
     };
 
 export type TButtonTextAlign = "center" | "left" | "right";
@@ -47,7 +47,7 @@ export type TButtonType = "dot" | "default";
 
 export interface IIconButton extends IButtonBaseProps, IButtonBaseVariant {
   size?: TButtonSize;
-  icon: TBaseIconProps;
+  icon: IconProps["name"];
 }
 
 export interface ICloseXButton extends IButtonBaseProps {
