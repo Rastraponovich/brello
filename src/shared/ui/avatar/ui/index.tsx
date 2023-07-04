@@ -4,7 +4,7 @@ import { memo, useMemo } from "react";
 import type { TUser } from "entities/user/lib";
 import { type models, helpers } from "../lib";
 
-import { BaseIcon } from "shared/ui/icon";
+import { Icon } from "shared/ui/icon";
 
 function getShortName(user: TUser): string {
   let result = "";
@@ -56,9 +56,8 @@ export const Avatar = memo<models.IAvatarProps>(
             />
           )
         ) : (
-          <BaseIcon
-            icon="user"
-            source="users"
+          <Icon
+            name="common/user"
             data-qa="Avatar-button__icon"
             size={size === "md" ? "large" : "normal"}
           />
@@ -113,12 +112,7 @@ export const AddAvatarButton = memo<models.IAddAvatarButtonProps>(
         className={avatarAddButtonGetClass}
       >
         <div className="rounded text-gray-400">
-          <BaseIcon
-            icon="plus"
-            size="normal"
-            source="general"
-            data-qa="Avatar-add-icon"
-          />
+          <Icon data-qa="Avatar-add-icon" name="common/plus" size="normal" />
         </div>
       </button>
     );

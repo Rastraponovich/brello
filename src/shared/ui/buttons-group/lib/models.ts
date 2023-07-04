@@ -1,12 +1,12 @@
 import { MouseEventHandler } from "react";
-import { TBaseIconProps } from "shared/ui/icon";
+import { type IconProps } from "shared/ui/icon";
 
 export type TBaseButtonGroupVariant = "text" | "icon" | "dot" | "iconWithText";
 
 export type TBaseButtonGroupAction = {
   id: number;
   text?: string;
-  icon?: TBaseIconProps;
+  icon?: IconProps["name"];
   handler?: MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
   variant?: TBaseButtonGroupVariant | null | undefined;

@@ -2,7 +2,8 @@ import clsx from "clsx";
 import { memo } from "react";
 
 import { type models, helpers } from "../lib";
-import { BaseIcon } from "shared/ui/icon";
+
+import { Icon } from "shared/ui/icon";
 
 export const Input = memo<models.IInputProps>(
   ({ caption, className, hint, ...props }) => {
@@ -44,16 +45,15 @@ export const InputSearch = memo<models.IInputProps>(
         caption={caption}
         className="relative justify-center"
       >
-        <BaseIcon
-          className="absolute left-2 h-5 w-5"
-          source="general"
-          icon="search"
+        <Icon
           size="normal"
+          name="common/search-lg"
+          className="absolute left-2 h-5 w-5"
         />
         <BaseInput
+          size="sm"
           className={clsx(props.className, "pl-9 pr-3")}
           {...props}
-          size="sm"
         />
       </InputWrapper>
     );

@@ -2,8 +2,8 @@ import { memo } from "react";
 
 import { type models, closeXButton, iconButton, button } from "../lib";
 
-import { BaseIcon } from "shared/ui/icon";
-import { Marker } from "../../marker";
+import { Icon } from "shared/ui/icon";
+import { Marker } from "shared/ui/marker";
 
 export const Button = memo<models.TButtonProps>(
   ({
@@ -23,10 +23,10 @@ export const Button = memo<models.TButtonProps>(
         className={button({ variant, size, className })}
       >
         {leftIcon && visualType !== "dot" && (
-          <BaseIcon
+          <Icon
+            name={leftIcon}
             data-qa="Button-icon__left"
             size={size === "xl" ? "large" : "normal"}
-            {...leftIcon}
           />
         )}
         {visualType === "dot" &&
@@ -34,10 +34,10 @@ export const Button = memo<models.TButtonProps>(
           variant !== "linkGray" && <Marker className="shrink-0" />}
         {children}
         {rightIcon && visualType !== "dot" && (
-          <BaseIcon
+          <Icon
+            name={rightIcon}
             data-qa="Button-icon__right"
             size={size === "xl" ? "large" : "normal"}
-            {...rightIcon}
           />
         )}
       </button>
@@ -54,10 +54,10 @@ export const IconButton = memo<models.IIconButton>(
         {...props}
         className={iconButton({ variant, size, className })}
       >
-        <BaseIcon
+        <Icon
+          name={icon}
           data-qa="IconButton__icon"
           size={size === "lg" ? "large" : "normal"}
-          {...icon}
         />
       </button>
     );
@@ -73,9 +73,8 @@ export const CloseXButton = memo<models.ICloseXButton>(
         {...props}
         className={closeXButton({ size, variant, className })}
       >
-        <BaseIcon
-          icon="x-close"
-          source="general"
+        <Icon
+          name="common/x-close"
           data-qa="CloseXButton__icon"
           size={size === "lg" ? "large" : "normal"}
         />

@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { type models } from "../lib";
 
-import { BaseIcon } from "shared/ui/icon";
+import { Icon } from "shared/ui/icon";
 import { Marker } from "shared/ui/marker";
 
 interface IBaseGroupButton
@@ -49,9 +49,9 @@ const BaseGroupButton = memo<IBaseGroupButton>(
           <Marker variant={disabled ? "disabled" : "active"} />
         )}
         {(variant === "iconWithText" || variant === "icon") && icon && (
-          <BaseIcon
+          <Icon
+            name={icon}
             size="normal"
-            {...icon}
             className="text-gray-500 group-hover:text-gray-700 group-disabled:text-gray-300"
           />
         )}
@@ -77,26 +77,18 @@ export const ButtonsGroup = memo<models.IButtonsGroup>(
       {
         id: 1,
         text: "preved",
-        icon: {
-          source: "general",
-          icon: "plus",
-        },
+        icon: "common/plus",
       },
       {
         id: 2,
         text: "medved",
-        icon: {
-          source: "general",
-          icon: "plus",
-        },
+        icon: "common/plus",
       },
       {
         id: 3,
         text: "velosiped",
-        icon: {
-          source: "general",
-          icon: "plus",
-        },
+        icon: "common/plus",
+
         disabled: true,
       },
     ];

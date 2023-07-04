@@ -1,7 +1,9 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
-import { FeaturedIcon, TFeaturedIcon } from "src/shared/ui/icons/featured-icon";
+
 import { Header } from "src/widgets/header";
+import { IconName } from "src/shared/ui/icon";
+import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
 
 interface ILayoutProps {
   children: ReactNode;
@@ -25,15 +27,15 @@ export const BaseLayout = ({ children }: IBaseLayoutProps) => {
   );
 };
 interface IOnboardingLayoutProps extends IBaseLayoutProps {
+  icon?: IconName;
   className?: string;
-  icon?: TFeaturedIcon;
   backgroundImage?: string;
 }
 export const OnboardingLayout = ({
   children,
-  icon = "user",
   className,
   backgroundImage,
+  icon = "common/user",
 }: IOnboardingLayoutProps) => {
   return (
     <main
@@ -46,10 +48,10 @@ export const OnboardingLayout = ({
       <section className="container mx-auto my-0 flex w-full grow flex-col px-4  sm:items-center sm:justify-center">
         <div className="flex max-w-[512px] flex-col gap-12">
           <FeaturedIcon
+            size="xl"
             icon={icon}
             type="square"
             variant="modern"
-            size="xl"
             className="self-start"
           />
           {children}

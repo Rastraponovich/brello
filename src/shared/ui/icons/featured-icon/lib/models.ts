@@ -1,11 +1,5 @@
-import { TColors, TSizes } from "src/shared/lib";
-
-export type TFeaturedIcon =
-  | "user"
-  | "shield-folder"
-  | "plus"
-  | "search"
-  | "upload-cloud";
+import type { TColors, TSizes } from "src/shared/lib";
+import { type IconName } from "src/shared/ui/icon";
 
 export type TFeaturedType = "cirlce" | "square";
 export type TCircleVariant = "lightCircle" | "darkCircle" | "outline";
@@ -13,7 +7,7 @@ export type TSquareVariant = "light" | "dark" | "mid" | "modern" | "glass";
 
 export interface IFeaturedIconProps {
   color?: TColors;
-  icon: TFeaturedIcon;
+  icon: IconName;
   className?: string;
   iconClassName?: string;
   size?: TSizes;
