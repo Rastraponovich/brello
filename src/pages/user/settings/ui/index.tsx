@@ -1,8 +1,9 @@
-import { FormEventHandler, ReactElement } from "react";
-import { Button } from "src/shared/ui/button";
+import type { FormEventHandler, ReactElement } from "react";
+
 import { Input } from "src/shared/ui/input";
-import { Upload } from "src/shared/ui/upload";
 import { Layout } from "src/widgets/layout";
+import { Button } from "src/shared/ui/button";
+import { Upload } from "src/shared/ui/upload";
 
 /**
  * User Settings Page
@@ -23,17 +24,17 @@ export const UserPage = (): ReactElement => {
 
         <div className="flex flex-col gap-6">
           <form
-            className="flex flex-col gap-8"
-            onSubmit={handleSubmit}
             id="form"
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-8"
           >
             <div className="grid gap-5 sm:grid-cols-[280px_512px]  sm:items-center sm:gap-8 ">
               <h3 className="hidden w-full shrink-0 sm:inline">name</h3>
               <div className="grid w-full  gap-6 sm:grid-cols-2">
                 <Input
+                  size="md"
                   caption="First name"
                   placeholder="First name"
-                  size="md"
                 />
                 <Input caption="Last name" placeholder="Last name" size="md" />
               </div>

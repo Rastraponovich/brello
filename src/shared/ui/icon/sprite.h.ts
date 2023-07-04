@@ -17,28 +17,28 @@ export interface SpritesMap {
     | "settings"
     | "star"
     | "upload-cloud"
-    | "x-close"
+    | "user"
     | "users-plus"
-    | "user";
+    | "x-close";
   social:
-    | "google-color"
+    | "apple-brand"
     | "apple-color"
-    | "facebook-color"
-    | "twitter-color"
-    | "dribbble-color"
-    | "figma-color"
-    | "facebook-colorWithBrand"
     | "apple-colorWithBrand"
-    | "dribbble-colorWithBrand"
-    | "figma-colorWithBrand"
-    | "google-colorWithBrand"
-    | "twitter-colorWithBrand"
-    | "google-brand"
-    | "figma-brand"
     | "dribbble-brand"
+    | "dribbble-color"
+    | "dribbble-colorWithBrand"
     | "facebook-brand"
+    | "facebook-color"
+    | "facebook-colorWithBrand"
+    | "figma-brand"
+    | "figma-color"
+    | "figma-colorWithBrand"
+    | "google-brand"
+    | "google-color"
+    | "google-colorWithBrand"
     | "twitter-brand"
-    | "apple-brand";
+    | "twitter-color"
+    | "twitter-colorWithBrand";
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
@@ -60,28 +60,28 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "settings",
     "star",
     "upload-cloud",
-    "x-close",
-    "users-plus",
     "user",
+    "users-plus",
+    "x-close",
   ],
   social: [
-    "google-color",
-    "apple-color",
-    "facebook-color",
-    "twitter-color",
-    "dribbble-color",
-    "figma-color",
-    "facebook-colorWithBrand",
-    "apple-colorWithBrand",
-    "dribbble-colorWithBrand",
-    "figma-colorWithBrand",
-    "google-colorWithBrand",
-    "twitter-colorWithBrand",
-    "google-brand",
-    "figma-brand",
-    "dribbble-brand",
-    "facebook-brand",
-    "twitter-brand",
     "apple-brand",
+    "apple-color",
+    "apple-colorWithBrand",
+    "dribbble-brand",
+    "dribbble-color",
+    "dribbble-colorWithBrand",
+    "facebook-brand",
+    "facebook-color",
+    "facebook-colorWithBrand",
+    "figma-brand",
+    "figma-color",
+    "figma-colorWithBrand",
+    "google-brand",
+    "google-color",
+    "google-colorWithBrand",
+    "twitter-brand",
+    "twitter-color",
+    "twitter-colorWithBrand",
   ],
 };

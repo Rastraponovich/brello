@@ -1,7 +1,8 @@
-import { FormEventHandler } from "react";
+import { type FormEventHandler } from "react";
+
 import { Button } from "src/shared/ui/button";
-import { Input, InputArea, InputWeb } from "src/shared/ui/input";
 import { OnboardingLayout } from "src/widgets/layout";
+import { Input, InputArea, InputWeb } from "src/shared/ui/input";
 
 export const OnboardingPage = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -10,7 +11,7 @@ export const OnboardingPage = () => {
 
   return (
     <OnboardingLayout
-      icon="shield-folder"
+      icon="common/folder-shield"
       backgroundImage="bg-geometric-square"
     >
       <div className="flex flex-col gap-4 sm:gap-5">
@@ -24,15 +25,15 @@ export const OnboardingPage = () => {
       </div>
       <div className="flex flex-col gap-8">
         <form
-          onSubmit={handleSubmit}
           id="form"
+          onSubmit={handleSubmit}
           className="flex w-full flex-col gap-6 sm:max-w-[512px]"
         >
           <Input caption="Workspace name" placeholder="Your Company Co." />
 
           <InputWeb
-            leftPlaceholder="brello.io/workspaces/"
             rightPlaceholder="your-company-co"
+            leftPlaceholder="brello.io/workspaces/"
           />
           <InputArea
             caption="Description"

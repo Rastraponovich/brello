@@ -79,7 +79,7 @@ export const AuthOnboarding = () => {
     event.preventDefault();
   };
   return (
-    <OnboardingLayout icon="user" backgroundImage="bg-cells-pattern">
+    <OnboardingLayout icon="common/user" backgroundImage="bg-cells-pattern">
       <div className="flex flex-col gap-4 sm:gap-5">
         <Heading as="h2" className="text-4xl font-semibold text-gray-900">
           Please, introduce yourself

@@ -1,9 +1,11 @@
 import { memo, useMemo } from "react";
-import { Dropdown } from "src/shared/ui/dropdown";
+
+import { type TUser } from "../lib";
+
 import { Avatar } from "src/shared/ui/avatar";
+import { Dropdown } from "src/shared/ui/dropdown";
 import { LogoutIcon } from "src/shared/ui/icons/common";
-import { TMenuItem } from "src/shared/ui/dropdown/lib";
-import { TUser } from "../lib";
+import { type TMenuItem } from "src/shared/ui/dropdown/lib";
 
 type IUserCardSmallProps = TUser;
 const UserCardSmall = memo<IUserCardSmallProps>(
@@ -43,9 +45,9 @@ export const UserAvatarWithDropdown = () => {
 
   return (
     <Dropdown
-      buttonContent={<Avatar />}
       items={menuItems}
       groupProperty="group"
+      buttonContent={<Avatar />}
       menuHead={<UserCardSmall {...user} />}
     />
   );
