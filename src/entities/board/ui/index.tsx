@@ -13,7 +13,7 @@ import type { TBoard } from "src/pages/board/lib/models";
 
 import { Bage } from "src/shared/ui/bage";
 
-import { BaseIcon } from "src/shared/ui/icon";
+import { BaseIcon, Icon } from "src/shared/ui/icon";
 import { Heading } from "src/shared/ui/heading";
 import { Dropdown } from "src/shared/ui/dropdown";
 import { AvatarGroup } from "src/shared/ui/avatar";
@@ -25,12 +25,10 @@ const BoardActions = () => {
   return (
     <div className="flex gap-3 text-gray-400">
       <Dropdown
-        buttonContent={
-          <BaseIcon source="general" icon="dots-vertical" size="large" />
-        }
+        buttonContent={<Icon name="common/dots-vertical" size="large" />}
         groupProperty="group"
       />
-      <BaseIcon source="general" icon="plus-circle" size="large" />
+      <Icon name="common/plus-circle" size="large" />
     </div>
   );
 };

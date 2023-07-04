@@ -4,7 +4,7 @@ import { useUnit } from "effector-react";
 import { selectors, actions } from "../model";
 
 import { Input } from "src/shared/ui/input";
-import { BaseIcon } from "src/shared/ui/icon";
+import { Icon } from "src/shared/ui/icon";
 import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
@@ -50,7 +50,7 @@ export const AuthPage = () => {
         <div className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
           <span>&copy; Brello 2023</span>
           <a href="mailto:help@brello.io" className="flex items-center gap-2">
-            <BaseIcon icon="mail" size="small" source="general" />
+            <Icon name={"common/mail"} size={"small"} />
             <span>help@brello.io</span>
           </a>
         </div>
