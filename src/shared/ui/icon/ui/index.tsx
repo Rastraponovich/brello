@@ -1,81 +1,13 @@
 import clsx from "clsx";
-import { ComponentProps, forwardRef, ForwardedRef } from "react";
-import { TSocial } from "../lib";
+import { forwardRef, type ForwardedRef } from "react";
 
-const Sprite = (
-  props: ComponentProps<"svg"> & {
-    source?: string;
-  },
-  svgRef: ForwardedRef<SVGSVGElement>
-) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      aria-hidden={true}
-      {...props}
-      ref={svgRef}
-    >
-      <use
-        xlinkHref={`${
-          props.source
-            ? `/icons/${props.source}.svg#${props.name}`
-            : `/icons/sprites.svg#${props.name}`
-        }`}
-      ></use>
-    </svg>
-  );
-};
-export const SpriteIcons = forwardRef(Sprite);
+import type { IBaseIcon } from "../lib";
 
 enum BaseIconSize {
+  small = "h-4 w-4",
   normal = "h-5 w-5",
   large = "h-6 w-6",
 }
-export interface IBaseIconSize {
-  size: "normal" | "large";
-}
-export type IBaseIcon = ComponentProps<"svg"> & TBaseIconProps & IBaseIconSize;
-
-export type TBaseIconProps =
-  | {
-      source: "general";
-      icon:
-        | "plus"
-        | "plus-circle"
-        | "plus-square"
-        | "menu"
-        | "search-lg"
-        | "dots-vertical"
-        | "logout"
-        | "settings"
-        | "clock"
-        | "search"
-        | "attachment"
-        | "mail"
-        | "x-close";
-    }
-  | {
-      source: "layout";
-      icon: "layers-two";
-    }
-  | {
-      source: "security";
-      icon: "menu" | "folder-shield";
-    }
-  | {
-      source: "users";
-      icon: "user" | "user-circle" | "users-plus";
-    }
-  | {
-      source: "shapes";
-      icon: "star";
-    }
-  | {
-      source: "social";
-      icon: TSocial;
-    };
 
 export const BaseIcon = forwardRef<SVGSVGElement, IBaseIcon>(
   (
@@ -84,13 +16,13 @@ export const BaseIcon = forwardRef<SVGSVGElement, IBaseIcon>(
   ) => {
     return (
       <svg
-        xmlns="http://www.w3.org/2000/svg"
+        ref={ref}
+        aria-hidden
         fill="none"
         viewBox="0 0 24 24"
-        aria-hidden={true}
-        {...props}
+        xmlns="http://www.w3.org/2000/svg"
         className={clsx(props.className, BaseIconSize[size])}
-        ref={ref}
+        {...props}
       >
         <use xlinkHref={`/icons/${source}.svg#${icon}-icon`}></use>
       </svg>
