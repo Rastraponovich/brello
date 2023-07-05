@@ -46,7 +46,6 @@ export interface SpritesMap {
     | "twitter-brand"
     | "twitter-color"
     | "twitter-colorWithBrand";
-  test: "user-01";
   users:
     | "user-01"
     | "user-circle"
@@ -106,7 +105,6 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "twitter-color",
     "twitter-colorWithBrand",
   ],
-  test: ["user-01"],
   users: [
     "user-01",
     "user-circle",
