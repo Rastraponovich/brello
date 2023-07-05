@@ -52,7 +52,7 @@ export interface SpritesMap {
     | "users-plus"
     | "user-01";
   shapes: "star-01";
-  Development: "container";
+  development: "container";
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
@@ -112,5 +112,5 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "user-01",
   ],
   shapes: ["star-01"],
-  Development: ["container"],
+  development: ["container"],
 };
