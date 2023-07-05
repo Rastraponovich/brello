@@ -1,7 +1,7 @@
 import { FormEventHandler } from "react";
 import { useUnit } from "effector-react";
 
-import { selectors, actions } from "../model";
+import { selectors, actions, skipButtonClicked } from "../model";
 
 import { Input } from "src/shared/ui/input";
 
@@ -80,17 +80,24 @@ export const AuthOnboarding = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
   };
+
+  const handleSkip = useUnit(skipButtonClicked);
   return (
     <OnboardingLayout icon="common/user" backgroundImage="bg-cells-pattern">
       <div className="flex flex-col gap-4 sm:gap-5">
         <Heading as="h2" className="text-4xl font-semibold text-gray-900">
           Please, introduce yourself
         </Heading>
-        <p className="text-lg font-normal text-gray-600">
+        <p className="text-xl font-normal text-gray-600">
           You can do this later on Profile page.{" "}
-          <a href="/" className="font-medium text-blue-700">
+          <Button
+            onClick={handleSkip}
+            variant="link"
+            size="sm"
+            className="inline-flex !text-xl !font-normal"
+          >
             Skip
-          </a>
+          </Button>
         </p>
       </div>
       <div className="flex flex-col gap-8">

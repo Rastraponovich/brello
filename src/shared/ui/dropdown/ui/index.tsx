@@ -16,16 +16,13 @@ import { Menu, Transition } from "@headlessui/react";
 
 const MenuItem = memo<IMenuItemProps>(
   forwardRef<null, IMenuItemProps>(
-    (
-      { item, active, disabled, onClick, titleProperty, type = "menu" },
-      ref,
-    ) => {
+    ({ item, active, disabled, titleProperty, type = "menu" }, ref) => {
       const { icon, hotkey } = item;
 
       return (
         <button
           ref={ref}
-          onClick={onClick}
+          onClick={item.onClick}
           disabled={disabled}
           data-qa="Dropdown__menuItem"
           title={item[titleProperty] as string}
