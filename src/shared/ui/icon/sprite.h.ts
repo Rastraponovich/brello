@@ -5,6 +5,7 @@ export interface SpritesMap {
     | "clock"
     | "dots-vertical"
     | "folder-shield"
+    | "help-circle"
     | "layers-two"
     | "log-out"
     | "mail"
@@ -14,13 +15,16 @@ export interface SpritesMap {
     | "plus"
     | "search-lg"
     | "search"
+    | "settings-01"
     | "settings"
-    | "star"
     | "upload-cloud"
     | "user-circle"
     | "user"
     | "users-plus"
-    | "x-close";
+    | "x-close"
+    | "zap"
+    | "home-line";
+  communication: "message-smile-circle";
   social:
     | "apple-brand"
     | "apple-color"
@@ -40,6 +44,15 @@ export interface SpritesMap {
     | "twitter-brand"
     | "twitter-color"
     | "twitter-colorWithBrand";
+  users:
+    | "user-circle"
+    | "user-plus-01"
+    | "user"
+    | "users-01"
+    | "users-plus"
+    | "user-01";
+  shapes: "star-01";
+  development: "container";
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
@@ -49,6 +62,7 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "clock",
     "dots-vertical",
     "folder-shield",
+    "help-circle",
     "layers-two",
     "log-out",
     "mail",
@@ -58,14 +72,17 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "plus",
     "search-lg",
     "search",
+    "settings-01",
     "settings",
-    "star",
     "upload-cloud",
     "user-circle",
     "user",
     "users-plus",
     "x-close",
+    "zap",
+    "home-line",
   ],
+  communication: ["message-smile-circle"],
   social: [
     "apple-brand",
     "apple-color",
@@ -86,4 +103,14 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "twitter-color",
     "twitter-colorWithBrand",
   ],
+  users: [
+    "user-circle",
+    "user-plus-01",
+    "user",
+    "users-01",
+    "users-plus",
+    "user-01",
+  ],
+  shapes: ["star-01"],
+  development: ["container"],
 };
