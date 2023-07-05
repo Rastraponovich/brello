@@ -1,8 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createEvent, createStore, sample } from "effector";
-import { BOARDS, TBoard } from "../lib";
-import { ChangeEvent } from "react";
 import { debounce } from "patronum";
+import { createEvent, createStore, sample } from "effector";
+
+import { routes } from "src/shared/routing";
+
+import { BOARDS, type TBoard } from "../lib";
+
+import { type ChangeEvent } from "react";
+
 const addBoard = createEvent();
 
 const resetSearch = createEvent();
@@ -13,7 +18,7 @@ export const $search = createStore("")
 
 export const $boards = createStore<TBoard[]>(BOARDS).on(
   addBoard,
-  (state, _) => [...state, { id: state.length + 1, title: "newBoard" }]
+  (state, _) => [...state, { id: state.length + 1, title: "newBoard" }],
 );
 
 export const $boardsLength = $boards.map((state) => state.length);
@@ -37,8 +42,16 @@ sample({
   target: $isNotFound,
 });
 
+const settingsButtonClicked = createEvent();
+
+sample({
+  clock: settingsButtonClicked,
+  target: routes.workspace.settings.open,
+});
+
 export const actions = {
-  addBoard,
+  settingsButtonClicked,
   resetSearch,
+  addBoard,
   searched,
 };

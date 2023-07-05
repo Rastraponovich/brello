@@ -12,7 +12,7 @@ export const Input = memo<models.IInputProps>(
         <BaseInput {...props} className={clsx(className)} />
       </InputWrapper>
     );
-  }
+  },
 );
 
 const BaseInput = memo<models.IBaseInput>(
@@ -30,11 +30,11 @@ const BaseInput = memo<models.IBaseInput>(
           "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
           "disabled:bg-gray-50",
           helpers.INPUT_SIZE_DICT[size],
-          className
+          className,
         )}
       />
     );
-  }
+  },
 );
 
 export const InputSearch = memo<models.IInputProps>(
@@ -57,7 +57,7 @@ export const InputSearch = memo<models.IInputProps>(
         />
       </InputWrapper>
     );
-  }
+  },
 );
 
 const InputWrapper = memo<models.IInputWrapper>(
@@ -67,7 +67,7 @@ const InputWrapper = memo<models.IInputWrapper>(
         data-qa="Input__container"
         className={clsx(
           "flex flex-col gap-1.5 text-left text-sm font-normal",
-          className
+          className,
         )}
       >
         {caption && (
@@ -85,7 +85,7 @@ const InputWrapper = memo<models.IInputWrapper>(
             title={hint?.text}
             data-qa="Input__hint"
             className={clsx(
-              hint.type === "invalid" ? "text-rose-500" : "text-gray-600"
+              hint.type === "invalid" ? "text-rose-500" : "text-gray-600",
             )}
           >
             {hint?.text}
@@ -93,7 +93,7 @@ const InputWrapper = memo<models.IInputWrapper>(
         )}
       </label>
     );
-  }
+  },
 );
 
 export const InputArea = memo<models.IInputAreaProps>(
@@ -103,7 +103,7 @@ export const InputArea = memo<models.IInputAreaProps>(
         <BaseInputArea {...props} className={clsx(className)} />
       </InputWrapper>
     );
-  }
+  },
 );
 InputArea.displayName = "InputArea";
 
@@ -122,11 +122,11 @@ const BaseInputArea = memo<models.IBaseInputArea>(
           "text-base font-normal text-gray-500 placeholder:text-gray-500",
           "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
           "focus:text-gray-900 focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
-          className
+          className,
         )}
       />
     );
-  }
+  },
 );
 BaseInputArea.displayName = "BaseInputArea";
 
@@ -150,7 +150,7 @@ const BaseInputWeb = memo<models.IBaseInputWeb>(
         />
       </div>
     );
-  }
+  },
 );
 BaseInputWeb.displayName = "BaseInputWeb";
 
@@ -164,30 +164,6 @@ export const InputWeb = memo<models.IInputWebProps>(
         />
       </InputWrapper>
     );
-  }
+  },
 );
 InputWeb.displayName = "InputWeb";
-
-export const SearchIcon = ({ className }: { className?: string }) => {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      className={className}
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <g id="search-sm">
-        <path
-          id="Icon"
-          d="M17.5 17.5L12.5001 12.5M14.1667 8.33333C14.1667 11.555 11.555 14.1667 8.33333 14.1667C5.11167 14.1667 2.5 11.555 2.5 8.33333C2.5 5.11167 5.11167 2.5 8.33333 2.5C11.555 2.5 14.1667 5.11167 14.1667 8.33333Z"
-          stroke="#667085"
-          strokeWidth="1.66667"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </g>
-    </svg>
-  );
-};

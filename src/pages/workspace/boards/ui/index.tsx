@@ -15,9 +15,15 @@ import { ScrollContainer } from "src/shared/ui/scroll-container";
 import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
 
 const BoardsHeaderActionPanel = () => {
+  const settingsButtonClicked = useUnit(actions.settingsButtonClicked);
   return (
     <div className="flex shrink-0 items-start space-x-3">
-      <Button size="sm" variant="secondaryGray" leftIcon="common/settings">
+      <Button
+        size="sm"
+        variant="secondaryGray"
+        leftIcon="common/settings"
+        onClick={settingsButtonClicked}
+      >
         Settings
       </Button>
       <Button size="sm" variant="primary" leftIcon="common/users-plus">
@@ -67,18 +73,14 @@ const Boards = () => {
 
   const isNotFound = selectors.useEmptySearchResult();
   return (
-    <section className="flex w-full flex-col items-center overflow-hidden px-6 py-8 sm:px-8">
-      <div className="flex w-full flex-col gap-8 overflow-hidden">
-        <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Heading as="h2" className="text-lg font-semibold">
-            Boards
-          </Heading>
-          <InputSearch
-            value={search}
-            onChange={searched}
-            placeholder="Search"
-          />
-        </div>
+    <section className="flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
+      <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <Heading as="h2" className="w-full text-lg font-semibold">
+          Boards
+        </Heading>
+        <InputSearch value={search} onChange={searched} placeholder="Search" />
+      </div>
+      <div className="flex w-full flex-col overflow-hidden pb-24">
         {isNotFound ? (
           <NotFoundState />
         ) : isEmpty ? (
@@ -154,7 +156,7 @@ const BaseEmpty = memo<IBaseEmptyProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 BaseEmpty.displayName = "BaseEmpty";
