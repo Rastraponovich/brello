@@ -1,8 +1,5 @@
 {
-  "**/*.{js,ts,tsx}": [
-    "eslint --fix --debug",
-    "prettier --write",
-    "yarn run lint:js"
-  ],
-  "**/*.{css}": ["stylelint --fix", "prettier --write", "yarn run lint:css"]
+  "**/*.{js,ts,tsx,css}": "prettier --write",
+  "**/*.{ts,tsx}": ["eslint --fix --debug", "yarn run lint:js"],
+  "**/*.{css}": ["stylelint --fix", "yarn run lint:css"]
 }
