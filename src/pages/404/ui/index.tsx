@@ -1,10 +1,18 @@
+import { useUnit } from "effector-react";
+
+import { goBackButtonClicked, goHomeButtonClicked } from "../model";
+
+import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";
-import { Icon } from "src/shared/ui/icon";
 
 export const NotFoundPage = () => {
+  const [backButtonClicked, homeButtonClicked] = useUnit([
+    goBackButtonClicked,
+    goHomeButtonClicked,
+  ]);
   return (
-    <main className="mx-auto my-0 flex h-screen flex-col pt-16 md:pt-0">
-      <section className="flex h-full flex-col space-y-8 px-4 md:justify-center md:px-[112px]">
+    <main className="container mx-auto my-0 flex h-full flex-col justify-center pt-16 md:pt-0">
+      <section className="flex h-full flex-col gap-8 px-4 sm:gap-12 md:justify-center">
         <div className="flex flex-col gap-6 font-semibold">
           <a className="text-base text-blue-700">404 error</a>
 
@@ -16,20 +24,18 @@ export const NotFoundPage = () => {
           </p>
         </div>
 
-        <div className="flex flex-col gap-3 font-semibold md:flex-row-reverse md:justify-end ">
-          <a
-            href="/"
-            className="rounded-lg border border-blue-600 bg-blue-600 py-3 text-center text-white md:px-3 md:py-4 md:text-lg"
-          >
+        <div className="flex flex-col gap-3 font-semibold sm:flex-row-reverse sm:justify-end ">
+          <Button onClick={homeButtonClicked} variant="primary" size="xl">
             Take me home
-          </a>
-          <a
-            href="/"
-            className="flex items-center justify-center gap-3 rounded-lg border border-gray-300 py-3 text-center text-gray-700 md:px-3 md:py-4 md:text-lg"
+          </Button>
+          <Button
+            onClick={backButtonClicked}
+            leftIcon="arrows/arrow-left"
+            variant="secondaryGray"
+            size="xl"
           >
-            <Icon name="arrows/arrow-left" />
             <span>Go back</span>
-          </a>
+          </Button>
         </div>
       </section>
     </main>

@@ -6,6 +6,8 @@ import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
 import { Input, InputArea, InputWeb } from "src/shared/ui/input";
+import { useUnit } from "effector-react";
+import { cancelButtonClicked } from "../model";
 
 export const WorkSpaceSettingsPage = () => {
   return (
@@ -23,19 +25,25 @@ export const WorkSpaceSettingsPage = () => {
 const WorkSpaceSettingsForm = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) =>
     e.preventDefault();
+
+  const handleCancel = useUnit(cancelButtonClicked);
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+    <form
+      onReset={handleCancel}
+      onSubmit={handleSubmit}
+      className="flex flex-col gap-5"
+    >
       <FormBlockWrapper>
         <FormBlockHeader>
           <h3 className="font-medium text-gray-700">Name</h3>
           <span>This will be displayed on your profile.</span>
         </FormBlockHeader>
         <FormBlockBody>
-          <Input value="Coding in action" />
+          <Input placeholder="Coding in action" />
           <InputWeb
             leftPlaceholder="brello.io/.../"
             rightPlaceholder="coding-in-action"
-            rightValue="coding-in-action"
+            // rightValue="coding-in-action"
           />
         </FormBlockBody>
       </FormBlockWrapper>
@@ -46,16 +54,16 @@ const WorkSpaceSettingsForm = () => {
           <span>A quick snapshot of your workspace.</span>
         </FormBlockHeader>
         <FormBlockBody>
-          <InputArea value="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance." />
+          <InputArea placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance." />
         </FormBlockBody>
       </FormBlockWrapper>
 
       <WorkspaceUplad />
       <div className="flex items-center justify-end gap-4 border-t border-gray-200 pt-4">
-        <Button size="md" variant="secondaryGray">
+        <Button size="md" variant="secondaryGray" type="reset">
           Cancel
         </Button>
-        <Button size="md" variant="primary">
+        <Button size="md" variant="primary" type="submit">
           Save
         </Button>
       </div>
