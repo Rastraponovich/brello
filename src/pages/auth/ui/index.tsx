@@ -4,9 +4,11 @@ import { useUnit } from "effector-react";
 import { selectors, actions } from "../model";
 
 import { Input } from "src/shared/ui/input";
+
 import { Icon } from "src/shared/ui/icon";
 import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";
+
 import { Logo } from "src/shared/ui/icons/logo";
 import { OnboardingLayout } from "src/widgets/layout";
 import { SocialAuthButton } from "src/features/social-auth-button";
