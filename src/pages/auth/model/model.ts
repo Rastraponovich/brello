@@ -6,7 +6,7 @@ export const $emailField = createStore<null | string>(null).on(
   changedEmail,
   (_, event) => {
     return event.target.value;
-  }
+  },
 );
 
 const submitted = createEvent<FormEvent<HTMLFormElement>>();
