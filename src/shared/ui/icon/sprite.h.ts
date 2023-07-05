@@ -1,4 +1,5 @@
 export interface SpritesMap {
+  arrows: "arrow-left";
   common:
     | "arrow-left"
     | "attachment"
@@ -53,10 +54,10 @@ export interface SpritesMap {
     | "user"
     | "users-01"
     | "users-plus";
-  arrows: "arrow-left";
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
+  arrows: ["arrow-left"],
   common: [
     "arrow-left",
     "attachment",
@@ -114,5 +115,4 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "users-01",
     "users-plus",
   ],
-  arrows: ["arrow-left"],
 };
