@@ -1,5 +1,6 @@
 import { createEvent, createStore, sample } from "effector";
 import { ChangeEvent, FormEvent } from "react";
+import { routes } from "src/shared/routing";
 
 const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
 export const $emailField = createStore<null | string>(null).on(
@@ -21,6 +22,13 @@ sample({
   filter: (value) => !!value,
   fn: (value) => value?.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/),
   target: $isValid,
+});
+
+export const skipButtonClicked = createEvent();
+
+sample({
+  clock: skipButtonClicked,
+  target: routes.boards.open,
 });
 
 export const actions = {

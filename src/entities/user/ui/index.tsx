@@ -1,4 +1,7 @@
 import { memo, useMemo } from "react";
+import { useUnit } from "effector-react";
+
+import { logOutButtonClicked, viewProfileButtonClicked } from "../model";
 
 import { type TUser } from "../lib";
 
@@ -22,6 +25,11 @@ const UserCardSmall = memo<IUserCardSmallProps>(
 UserCardSmall.displayName = "UserCardSmall";
 
 export const UserAvatarWithDropdown = () => {
+  const [openUser, logout] = useUnit([
+    viewProfileButtonClicked,
+    logOutButtonClicked,
+  ]);
+
   const user: TUser = {
     firstName: "Vitaliy",
     lastName: "Wilde",
@@ -31,20 +39,23 @@ export const UserAvatarWithDropdown = () => {
   const menuItems = useMemo<TMenuItem[]>(
     () => [
       {
-        id: 1,
         group: 1,
-        text: "View profile",
-        icon: "users/user",
         hotkey: "⌘K->P",
+        id: "viewProfile",
+        onClick: openUser,
+        icon: "users/user",
+        text: "View profile",
       },
       {
-        id: 11,
         group: null,
-        text: "Logout",
-        icon: "common/log-out",
+        id: "logout",
         hotkey: "⌥⇧Q",
+        text: "Logout",
+        onClick: logout,
+        icon: "common/log-out",
       },
     ],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 

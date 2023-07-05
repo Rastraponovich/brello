@@ -1,7 +1,7 @@
 import { ReactNode, ReactElement } from "react";
 import { IconName } from "shared/ui/icon";
 
-export type TKey = keyof TMenuItem;
+export type TKey = keyof Omit<TMenuItem, "onClick" | "handler">;
 
 export interface IDropdownProps {
   keyProperty?: TKey;
@@ -14,11 +14,12 @@ export interface IDropdownProps {
 }
 
 export type TMenuItem = {
-  id: number;
   text: string;
   hotkey: string;
+  id: number | string;
   icon?: IconName | null;
   group?: number | string | null;
+  onClick?: React.DOMAttributes<HTMLButtonElement>["onClick"];
 };
 
 export interface IMenuItemProps {

@@ -4,6 +4,8 @@ import { Input } from "src/shared/ui/input";
 import { Layout } from "src/widgets/layout";
 import { Button } from "src/shared/ui/button";
 import { Upload } from "src/shared/ui/upload";
+import { useUnit } from "effector-react";
+import { resetButtonClicked } from "../model";
 
 /**
  * User Settings Page
@@ -13,6 +15,8 @@ export const UserPage = (): ReactElement => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
   };
+
+  const handleResetForm = useUnit(resetButtonClicked);
   return (
     <Layout>
       <section className="container mx-auto my-0 flex flex-col gap-8 px-4 sm:px-8">
@@ -26,6 +30,7 @@ export const UserPage = (): ReactElement => {
           <form
             id="form"
             onSubmit={handleSubmit}
+            onReset={handleResetForm}
             className="flex flex-col gap-8"
           >
             <div className="grid gap-5 sm:grid-cols-[280px_512px]  sm:items-center sm:gap-8 ">
@@ -48,7 +53,7 @@ export const UserPage = (): ReactElement => {
                 </p>
               </div>
               <div className="flex w-full flex-col gap-5  sm:flex-row">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-400 text-gray-200">
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gray-400 text-gray-200">
                   X
                 </div>
                 <Upload />
