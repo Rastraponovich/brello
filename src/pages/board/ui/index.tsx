@@ -1,9 +1,9 @@
 import {
-  ChangeEventHandler,
-  FormEventHandler,
+  type ChangeEventHandler,
+  type FormEventHandler,
+  type ReactNode,
   useCallback,
   useEffect,
-  ReactNode,
   useState,
   memo,
 } from "react";
@@ -25,9 +25,9 @@ const PageHeaderContent = () => {
           <Heading as="h2">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
           <IconButton
             size="sm"
+            icon="common/star"
             variant="tertiaryGray"
             className="self-start sm:self-auto"
-            icon={{ source: "shapes", icon: "star" }}
           />
         </div>
         <AvatarGroup

@@ -4,13 +4,17 @@ import { useUnit } from "effector-react";
 import { selectors, actions } from "../model";
 
 import { Input } from "src/shared/ui/input";
+
+import { Icon } from "src/shared/ui/icon";
 import { Button } from "src/shared/ui/button";
+import { Heading } from "src/shared/ui/heading";
+
 import { Logo } from "src/shared/ui/icons/logo";
 import { OnboardingLayout } from "src/widgets/layout";
 import { SocialAuthButton } from "src/features/social-auth-button";
 
 export const AuthPage = () => {
-  const [value, setValue, isValid] = selectors.useEmailField();
+  const [value, setValue] = selectors.useEmailField();
   const onSubmit = useUnit(actions.submitted);
 
   return (
@@ -22,7 +26,7 @@ export const AuthPage = () => {
           <h3 className="mt-2 text-base font-normal text-gray-600">
             Start your 30-day free trial.
           </h3>
-          <form onSubmit={onSubmit} className=" mt-8 flex flex-col" noValidate>
+          <form onSubmit={onSubmit} className=" mt-8 flex flex-col">
             <Input
               caption="Email"
               placeholder="Enter your email"
@@ -30,13 +34,11 @@ export const AuthPage = () => {
               onChange={setValue}
               type="email"
               required
+              hint={{
+                text: "Please enter a valid email address",
+                type: "invalid",
+              }}
             />
-            {!isValid && (
-              // TODO: change margin top
-              <span className="mt-1.5 text-sm text-red-500 ">
-                Please enter a valid email address
-              </span>
-            )}
 
             <div className="col-start-1 mt-6 flex flex-col space-y-4  md:col-start-2">
               <Button type="submit" variant="primary" size="md">
@@ -49,7 +51,10 @@ export const AuthPage = () => {
         </div>
         <div className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
           <span>&copy; Brello 2023</span>
-          <a href="mailto:help@brello.io">help@brello.io</a>
+          <a href="mailto:help@brello.io" className="flex items-center gap-2">
+            <Icon name={"common/mail"} size={"small"} />
+            <span>help@brello.io</span>
+          </a>
         </div>
       </div>
       <div className="order-first place-self-auto overflow-hidden sm:order-last">
@@ -76,11 +81,11 @@ export const AuthOnboarding = () => {
     event.preventDefault();
   };
   return (
-    <OnboardingLayout icon="user" backgroundImage="bg-cells-pattern">
+    <OnboardingLayout icon="common/user" backgroundImage="bg-cells-pattern">
       <div className="flex flex-col gap-4 sm:gap-5">
-        <h2 className="text-4xl font-semibold text-gray-900">
+        <Heading as="h2" className="text-4xl font-semibold text-gray-900">
           Please, introduce yourself
-        </h2>
+        </Heading>
         <p className="text-lg font-normal text-gray-600">
           You can do this later on Profile page.{" "}
           <a href="/" className="font-medium text-blue-700">

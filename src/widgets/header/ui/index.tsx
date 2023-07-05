@@ -4,7 +4,7 @@ import { useList, useUnit } from "effector-react";
 import { models } from "../lib";
 import { $menuItems, $selected } from "../model";
 
-import { BaseIcon } from "src/shared/ui/icon";
+import { Icon } from "src/shared/ui/icon";
 import { Logo } from "src/shared/ui/icons/logo";
 import { NavItem } from "src/shared/ui/nav-item";
 import { UserAvatarWithDropdown } from "src/entities/user";
@@ -24,10 +24,9 @@ export const Header = memo<models.IHeaderProps>(() => {
           </nav>
         </div>
         <UserAvatarWithDropdown />
-        <BaseIcon
-          icon="menu"
+        <Icon
           size="normal"
-          source="general"
+          name="common/menu"
           className="text-gray-500 hover:text-gray-900 sm:hidden"
         />
       </div>

@@ -1,6 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
 import { TMenuItem } from ".";
-import { LogoutIcon } from "../../icons/common";
 
 export const ITEMS: TMenuItem[] = [
   { id: 1, group: 1, text: "View profile", icon: "", hotkey: "⌘K->P" },
@@ -17,7 +15,6 @@ export const ITEMS: TMenuItem[] = [
     id: 11,
     group: null,
     text: "Logout",
-    icon: <LogoutIcon />,
     hotkey: "⌥⇧Q",
   },
 ];

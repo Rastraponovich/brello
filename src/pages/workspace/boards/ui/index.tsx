@@ -3,6 +3,8 @@ import { useList, useUnit } from "effector-react";
 import { $boards, actions, selectors } from "../model";
 
 import type { IBoardCard } from "../lib";
+import { type IconName } from "src/shared/ui/icon";
+
 
 import { buttonLib } from "src/shared/ui/button";
 
@@ -11,26 +13,15 @@ import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";
 import { InputSearch } from "src/shared/ui/input";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
-import {
-  type TFeaturedIcon,
-  FeaturedIcon,
-} from "src/shared/ui/icons/featured-icon";
+import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
 
 const BoardsHeaderActionPanel = () => {
   return (
     <div className="flex shrink-0 items-start space-x-3">
-      <Button
-        size="sm"
-        variant="secondaryGray"
-        leftIcon={{ source: "general", icon: "settings" }}
-      >
+      <Button size="sm" variant="secondaryGray" leftIcon="common/settings">
         Settings
       </Button>
-      <Button
-        size="sm"
-        variant="primary"
-        leftIcon={{ source: "users", icon: "users-plus" }}
-      >
+      <Button size="sm" variant="primary" leftIcon="common/users-plus">
         Invite members
       </Button>
     </div>
@@ -121,12 +112,12 @@ interface IAction
 }
 
 interface IBaseEmptyProps {
-  children?: ReactNode;
-  icon?: TFeaturedIcon;
   title: string;
+  icon?: IconName;
+  onClick?(): void;
   subTitle?: string;
   actions?: IAction[];
-  onClick?(): void;
+  children?: ReactNode;
 }
 const BaseEmpty = memo<IBaseEmptyProps>(
   ({ icon, title, subTitle, actions, onClick }) => {
@@ -157,7 +148,7 @@ const BaseEmpty = memo<IBaseEmptyProps>(
             size="md"
             variant="primary"
             onClick={onClick}
-            leftIcon={{ source: "general", icon: "plus" }}
+            leftIcon="common/plus"
           >
             New board
           </Button>
@@ -174,7 +165,7 @@ const EmptyState = () => {
 
   return (
     <BaseEmpty
-      icon="plus"
+      icon="common/plus"
       onClick={onCreated}
       title="Start by creating a board"
       actions={[{ caption: "Learn More", className: "hidden sm:flex" }]}
@@ -191,9 +182,9 @@ const NotFoundState = memo(() => {
   const message = `Your search ${searchValue} did not match any boards. Please try again.`;
   return (
     <BaseEmpty
-      icon="search"
       subTitle={message}
       onClick={onCreated}
+      icon="common/search"
       title="No boards found"
       actions={[{ caption: "Clear search", onClick: onClear }]}
     />
@@ -210,7 +201,7 @@ const AddBoardCard = memo(() => {
         size="sm"
         onClick={onCreated}
         variant="tertiaryGray"
-        leftIcon={{ source: "general", icon: "plus-circle" }}
+        leftIcon="common/plus-circle"
       >
         Create new board
       </Button>

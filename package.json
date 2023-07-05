@@ -11,10 +11,12 @@
     "prepare": "husky install",
     "lint:css": "stylelint \"**/*.css\"",
     "generate": "yarn hygen generate",
+    "gen:sprite": "yarn sprite --group --root src/shared/ui/icon/assets -o public/sprites -d src/shared/ui/icon/sprite.h.ts --reset-unknown-colors",
     "lint:js": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
+    "class-variance-authority": "^0.6.1",
     "clsx": "^1.2.1",
     "effector": "^22.8.6",
     "effector-react": "^22.5.3",
@@ -24,6 +26,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@neodx/svg": "^0.2.0",
     "@types/node": "^20.2.5",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",

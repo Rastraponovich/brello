@@ -7,25 +7,25 @@ export const AddEntity = memo<IAddEntityProps>(
   ({ editable, onChange, onReset, onSubmit, value, buttonCaption }) => {
     return (
       <form
-        className="flex flex-col gap-4 px-4 py-1"
-        onSubmit={onSubmit}
         onReset={onReset}
+        onSubmit={onSubmit}
+        className="flex flex-col gap-4 px-4 py-1"
       >
         {editable && (
           <InputArea
             rows={3}
+            value={value}
             autoFocus={editable}
             onChange={onChange}
-            value={value}
           />
         )}
         <div className="flex items-center gap-2">
           <Button
-            type="submit"
-            variant={editable ? "primary" : "tertiary"}
             size="lg"
-            leftIcon={{ icon: "plus-square", source: "general" }}
+            type="submit"
+            leftIcon="common/plus-square"
             className=" grow justify-center"
+            variant={editable ? "primary" : "tertiary"}
           >
             {buttonCaption}
           </Button>

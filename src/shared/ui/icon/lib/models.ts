@@ -1,17 +1,3 @@
-export type TSocial =
-  | "apple-gray"
-  | "facebook-gray"
-  | "twitter-gray"
-  | "google-gray"
-  | "figma-gray"
-  | "dribbble-gray"
-  | "apple-color"
-  | "facebook-color"
-  | "twitter-color"
-  | "google-color"
-  | "figma-color"
-  | "dribbble-color"
-  | "apple-white"
-  | "facebook-white"
-  | "twitter-white"
-  | "dribbble-white";
+export interface IBaseIconSize {
+  size?: "normal" | "large" | "small";
+}

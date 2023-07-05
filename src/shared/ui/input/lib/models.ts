@@ -2,14 +2,18 @@ import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 
 /** TODO: fix */
 export interface IBaseInput
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">,
+    IHint {
   size?: TInputSize;
 }
-export interface IInputCaptionPosition {
-  captionPosition?: TCaptionPosition;
+export interface IHint {
+  hint?: {
+    text?: string;
+    type?: string;
+  };
 }
 
-export interface IInputProps extends IBaseInput, IInputCaptionPosition {
+export interface IInputProps extends IBaseInput {
   caption?: string;
 }
 
@@ -18,16 +22,19 @@ export interface IBaseInputArea
   rows?: number;
 }
 
-export interface IInputAreaProps extends IBaseInputArea, IInputCaptionPosition {
+export interface IInputAreaProps extends IBaseInputArea, IHint {
   caption?: string;
 }
 
-export interface IInputWrapper extends IInputCaptionPosition {
+export interface IInputWrapper extends IHint {
   children: ReactNode;
   caption?: string;
   className?: string;
 }
+
+// TODO: remove || depricated
 export type TCaptionPosition = "left" | "top" | "right" | "bottom";
+
 export type TInputSize = "sm" | "md";
 
 export interface IInputSize {
@@ -43,6 +50,6 @@ export interface IBaseInputWeb {
   leftWidth?: number | string;
 }
 
-export interface IInputWebProps extends IInputCaptionPosition, IBaseInputWeb {
+export interface IInputWebProps extends IHint, IBaseInputWeb {
   caption?: string;
 }

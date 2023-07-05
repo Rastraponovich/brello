@@ -1,8 +1,11 @@
-import { memo, useCallback, useRef } from "react";
-import { Button } from "shared/ui/button";
-import { FeaturedIcon } from "shared/ui/icons/featured-icon/ui";
-import { type models } from "../lib";
 import clsx from "clsx";
+import { memo, useCallback, useRef } from "react";
+
+import { type models } from "../lib";
+
+import { Button } from "shared/ui/button";
+import { FeaturedIcon } from "shared/ui/icons/featured-icon";
+
 
 export const Upload = memo<models.IUploadProps>(({ disabled }) => {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -25,7 +28,7 @@ export const Upload = memo<models.IUploadProps>(({ disabled }) => {
           color="gray"
           type="circle"
           variant="outline"
-          icon="upload-cloud"
+          icon="common/upload-cloud"
         />
         <input
           id="input"

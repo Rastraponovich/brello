@@ -8,29 +8,27 @@ import {
   useState,
 } from "react";
 
-import { models } from "../lib";
-import type { TBoard } from "src/pages/board/lib/models";
+import { type models } from "../lib";
+import { type TBoard } from "src/pages/board/lib/models";
+import { type TCard } from "../lib/models";
 
 import { Bage } from "src/shared/ui/bage";
 
-import { BaseIcon } from "src/shared/ui/icon";
+import { Icon } from "src/shared/ui/icon";
 import { Heading } from "src/shared/ui/heading";
 import { Dropdown } from "src/shared/ui/dropdown";
 import { AvatarGroup } from "src/shared/ui/avatar";
 import { AddEntity } from "src/features/add-entity";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
-import { TCard } from "../lib/models";
 
 const BoardActions = () => {
   return (
     <div className="flex gap-3 text-gray-400">
       <Dropdown
-        buttonContent={
-          <BaseIcon source="general" icon="dots-vertical" size="large" />
-        }
+        buttonContent={<Icon name="common/dots-vertical" size="large" />}
         groupProperty="group"
       />
-      <BaseIcon source="general" icon="plus-circle" size="large" />
+      <Icon name="common/plus-circle" size="large" />
     </div>
   );
 };
@@ -137,24 +135,14 @@ const Card = memo<ICardProps>(
         )}
 
         {timeStamp && (
-          <div className="flex items-center justify-between text-base font-medium text-gray-600">
+          <div className="flex items-center justify-between text-base font-medium text-gray-400">
             <div className="flex items-center gap-2">
-              <BaseIcon
-                icon="clock"
-                size="normal"
-                source="general"
-                className="text-gray-400"
-              />
-              <span>{timeStamp.toDateString()}</span>
+              <Icon size="normal" name="common/clock" />
+              <span className="text-gray-600">{timeStamp.toDateString()}</span>
             </div>
             {attachments && (
               <div className="flex items-center gap-2">
-                <BaseIcon
-                  size="normal"
-                  source="general"
-                  icon="attachment"
-                  className="text-gray-400"
-                />
+                <Icon size="normal" name="common/attachment" />
                 <span>5</span>
               </div>
             )}

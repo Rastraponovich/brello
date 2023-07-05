@@ -15,13 +15,8 @@ import {
   BORDER_SIZE,
 } from "../lib";
 import { Sizes } from "src/shared/lib";
-import {
-  PlusIcon,
-  SearchLGIcon,
-  ShieldFolderIcon,
-  UploadCloudIcon,
-  UserIcon,
-} from "../../common";
+
+import { Icon } from "src/shared/ui/icon";
 
 export const FeaturedIcon = memo<TFeaturedIconProps>(
   ({
@@ -32,7 +27,6 @@ export const FeaturedIcon = memo<TFeaturedIconProps>(
     type = EFeaturedIconType.CIRCLE,
     variant = EFeaturedIconVariant.LIGHT_CIRCLE,
   }) => {
-    const Component = ICON_DICT[icon];
     return (
       <div
         className={clsx(
@@ -46,18 +40,10 @@ export const FeaturedIcon = memo<TFeaturedIconProps>(
             : SQUARE_COLORS[variant as TSquareVariant]
         )}
       >
-        <Component className={clsx(FEATURED_ICON_SIZE_DICT[size])} />
+        <Icon name={icon} className={clsx(FEATURED_ICON_SIZE_DICT[size])} />
       </div>
     );
   }
 );
 
 FeaturedIcon.displayName = "FeaturedIcon";
-
-const ICON_DICT = {
-  user: UserIcon,
-  "shield-folder": ShieldFolderIcon,
-  plus: PlusIcon,
-  search: SearchLGIcon,
-  "upload-cloud": UploadCloudIcon,
-};

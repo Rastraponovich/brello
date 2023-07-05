@@ -1,49 +1,43 @@
-import clsx from "clsx";
 import { memo } from "react";
 
-import { helpers, type models } from "../lib";
+import { type models, closeXButton, iconButton, button } from "../lib";
 
-import { BaseIcon } from "shared/ui/icon";
+import { Icon } from "shared/ui/icon";
+import { Marker } from "shared/ui/marker";
 
 export const Button = memo<models.TButtonProps>(
   ({
     children,
     className,
-    textAlign = "center",
     size = "sm",
     leftIcon = undefined,
     rightIcon = undefined,
     variant = "primary",
+    visualType,
     ...props
   }) => {
     return (
       <button
         data-qa={`Button__${variant}`}
         {...props}
-        className={clsx(
-          "flex items-center justify-center rounded-lg border font-semibold",
-          size === "xl" ? "gap-3" : "gap-2",
-          helpers.BUTTON_TEXT_ALIGN[textAlign],
-          helpers.BUTTON_SIZES_DICT[size],
-          helpers.BUTTON_VARIANTS[variant],
-          helpers.BUTTON_COLORS[variant],
-          helpers.BUTTON_TEXT_SIZE_DICT[size],
-          className
-        )}
+        className={button({ variant, size, className })}
       >
-        {leftIcon && (
-          <BaseIcon
+        {leftIcon && visualType !== "dot" && (
+          <Icon
+            name={leftIcon}
             data-qa="Button-icon__left"
             size={size === "xl" ? "large" : "normal"}
-            {...leftIcon}
           />
         )}
+        {visualType === "dot" &&
+          variant !== "link" &&
+          variant !== "linkGray" && <Marker className="shrink-0" />}
         {children}
-        {rightIcon && (
-          <BaseIcon
+        {rightIcon && visualType !== "dot" && (
+          <Icon
+            name={rightIcon}
             data-qa="Button-icon__right"
             size={size === "xl" ? "large" : "normal"}
-            {...rightIcon}
           />
         )}
       </button>
@@ -58,18 +52,12 @@ export const IconButton = memo<models.IIconButton>(
       <button
         data-qa="IconButton"
         {...props}
-        className={clsx(
-          "flex shrink items-center rounded-lg border font-semibold",
-          helpers.BUTTON_ICON_SIZE[size],
-          helpers.BUTTON_VARIANTS[variant],
-          helpers.BUTTON_COLORS[variant],
-          className
-        )}
+        className={iconButton({ variant, size, className })}
       >
-        <BaseIcon
+        <Icon
+          name={icon}
           data-qa="IconButton__icon"
           size={size === "lg" ? "large" : "normal"}
-          {...icon}
         />
       </button>
     );
@@ -83,16 +71,10 @@ export const CloseXButton = memo<models.ICloseXButton>(
       <button
         data-qa="CloseXButton"
         {...props}
-        className={clsx(
-          "flex items-center rounded-lg border border-transparent font-semibold",
-          helpers.CLOSE_BUTTON_SIZE_DICT[size],
-          helpers.CLOSE_BUTTON_VARIANT_DICT[variant],
-          className
-        )}
+        className={closeXButton({ size, variant, className })}
       >
-        <BaseIcon
-          icon="x-close"
-          source="general"
+        <Icon
+          name="common/x-close"
           data-qa="CloseXButton__icon"
           size={size === "lg" ? "large" : "normal"}
         />

@@ -1,3 +1,4 @@
+// TODO: remove || depricated
 export enum ECaptionPosition {
   Left = "left",
   Bottom = "bottom",
@@ -5,6 +6,7 @@ export enum ECaptionPosition {
   Top = "top",
 }
 
+// TODO: remove || depricated
 export const CAPTION_POSITION_DICT: Record<ECaptionPosition, string> = {
   [ECaptionPosition.Bottom]: "flex-col-reverse",
   [ECaptionPosition.Left]: "flex-row",
