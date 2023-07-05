@@ -6,7 +6,6 @@ import { type models } from "../lib";
 import { Button } from "shared/ui/button";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
 
-
 export const Upload = memo<models.IUploadProps>(({ disabled }) => {
   const fileRef = useRef<HTMLInputElement>(null);
 

@@ -2,7 +2,6 @@ import type { FormEventHandler, ReactNode } from "react";
 
 import { Layout } from "src/widgets/layout";
 import { Upload } from "src/shared/ui/upload";
-
 import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
