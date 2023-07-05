@@ -25,7 +25,7 @@ const PageHeaderContent = () => {
           <Heading as="h2">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
           <IconButton
             size="sm"
-            icon="common/star"
+            icon="shapes/star-01"
             variant="tertiaryGray"
             className="self-start sm:self-auto"
           />
@@ -88,7 +88,7 @@ const List = () => {
 
   const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
     (event) => setValue(event.target.value),
-    []
+    [],
   );
 
   const handleReset = useCallback<FormEventHandler<HTMLFormElement>>(
@@ -96,7 +96,7 @@ const List = () => {
       event.preventDefault();
       setEditable(false);
     },
-    []
+    [],
   );
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
@@ -116,7 +116,7 @@ const List = () => {
         setBoards(newState);
       }
     },
-    [boards, value]
+    [boards, value],
   );
 
   useEffect(() => {

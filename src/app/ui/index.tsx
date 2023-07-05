@@ -1,10 +1,10 @@
 import "app/styles/index.css";
-import { AuthPage } from "src/pages/auth";
+import { BoardPage } from "src/pages/board";
 
 export const App = () => {
   return (
     <>
-      <AuthPage />
+      <BoardPage />
     </>
   );
 };

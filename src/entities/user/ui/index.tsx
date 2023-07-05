@@ -4,7 +4,6 @@ import { type TUser } from "../lib";
 
 import { Avatar } from "src/shared/ui/avatar";
 import { Dropdown } from "src/shared/ui/dropdown";
-import { LogoutIcon } from "src/shared/ui/icons/common";
 import { type TMenuItem } from "src/shared/ui/dropdown/lib";
 
 type IUserCardSmallProps = TUser;
@@ -18,7 +17,7 @@ const UserCardSmall = memo<IUserCardSmallProps>(
         <span className="font-normal text-gray-600">{email}</span>
       </div>
     );
-  }
+  },
 );
 UserCardSmall.displayName = "UserCardSmall";
 
@@ -31,16 +30,22 @@ export const UserAvatarWithDropdown = () => {
   };
   const menuItems = useMemo<TMenuItem[]>(
     () => [
-      { id: 1, group: 1, text: "View profile", icon: "", hotkey: "⌘K->P" },
+      {
+        id: 1,
+        group: 1,
+        text: "View profile",
+        icon: "users/user",
+        hotkey: "⌘K->P",
+      },
       {
         id: 11,
         group: null,
         text: "Logout",
-        icon: <LogoutIcon />,
+        icon: "common/log-out",
         hotkey: "⌥⇧Q",
       },
     ],
-    []
+    [],
   );
 
   return (

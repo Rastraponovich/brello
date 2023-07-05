@@ -4,24 +4,23 @@ import {
   Fragment,
   forwardRef,
   useCallback,
-  cloneElement,
-  ReactElement,
-  MouseEventHandler,
+  type MouseEventHandler,
 } from "react";
 
 import type { IDropdownProps, IMenuItemProps } from "../lib/models";
 
 import { ITEMS } from "../lib";
 
+import { Icon } from "shared/ui/icon";
 import { Menu, Transition } from "@headlessui/react";
 
 const MenuItem = memo<IMenuItemProps>(
   forwardRef<null, IMenuItemProps>(
     (
       { item, active, disabled, onClick, titleProperty, type = "menu" },
-      ref
+      ref,
     ) => {
-      const { icon: Icon, hotkey } = item;
+      const { icon, hotkey } = item;
 
       return (
         <button
@@ -35,11 +34,7 @@ const MenuItem = memo<IMenuItemProps>(
           {type === "checkbox" ? (
             <input type="checkbox" checked={active} data-qa="Input__checkbox" />
           ) : (
-            Icon &&
-            cloneElement(Icon as ReactElement, {
-              className: "h-5 w-5",
-              "data-qa": "MenuItem__icon",
-            })
+            icon && <Icon name={icon} size="large" data-qa="MenuItem-icon" />
           )}
           <span className="ml-2 w-full" data-qa="MenuItem__text">
             {item[titleProperty]}
@@ -53,8 +48,8 @@ const MenuItem = memo<IMenuItemProps>(
           </span>
         </button>
       );
-    }
-  )
+    },
+  ),
 );
 MenuItem.displayName = "MenuItem";
 
@@ -81,9 +76,9 @@ export const Dropdown = memo<IDropdownProps>(
         clsx(
           "flex w-full justify-center rounded-md text-sm  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75",
           open ? "text-gray-700" : "text-gray-400",
-          buttonClassName
+          buttonClassName,
         ),
-      [buttonClassName]
+      [buttonClassName],
     );
 
     return (
@@ -163,7 +158,7 @@ export const Dropdown = memo<IDropdownProps>(
         </Transition>
       </Menu>
     );
-  }
+  },
 );
 
 Dropdown.displayName = "Dropdown";

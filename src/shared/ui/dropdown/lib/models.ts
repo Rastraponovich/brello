@@ -1,13 +1,14 @@
-import { ReactNode, ReactElement, ForwardRefExoticComponent } from "react";
+import { ReactNode, ReactElement } from "react";
+import { IconName } from "shared/ui/icon";
 
-export type TKey = keyof Omit<TMenuItem, "icon">;
+export type TKey = keyof TMenuItem;
 
 export interface IDropdownProps {
   keyProperty?: TKey;
   items?: TMenuItem[];
   titleProperty?: TKey;
+  groupProperty?: TKey;
   buttonClassName?: string;
-  groupProperty?: keyof TMenuItem;
   menuHead?: ReactNode | ReactElement;
   buttonContent: string | ReactNode | ReactElement;
 }
@@ -16,8 +17,8 @@ export type TMenuItem = {
   id: number;
   text: string;
   hotkey: string;
+  icon?: IconName | null;
   group?: number | string | null;
-  icon?: string | ReactElement | ReactNode | ForwardRefExoticComponent<unknown>;
 };
 
 export interface IMenuItemProps {
