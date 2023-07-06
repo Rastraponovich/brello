@@ -1,19 +1,17 @@
 import clsx from "clsx";
 import {
-  ChangeEventHandler,
-  FormEventHandler,
   memo,
-  useCallback,
-  useEffect,
   useState,
+  useEffect,
+  useCallback,
+  type FormEventHandler,
+  type ChangeEventHandler,
 } from "react";
 
 import { type models } from "../lib";
 import { type TBoard } from "src/pages/board/lib/models";
-import { type TCard } from "../lib/models";
 
 import { Bage } from "src/shared/ui/bage";
-
 import { Icon } from "src/shared/ui/icon";
 import { Heading } from "src/shared/ui/heading";
 import { Dropdown } from "src/shared/ui/dropdown";
@@ -21,7 +19,7 @@ import { AvatarGroup } from "src/shared/ui/avatar";
 import { AddEntity } from "src/features/add-entity";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
 
-const BoardActions = () => {
+const BoardActions = memo(() => {
   return (
     <div className="flex gap-3 text-gray-400">
       <Dropdown
@@ -31,19 +29,19 @@ const BoardActions = () => {
       <Icon name="common/plus-circle" size="large" />
     </div>
   );
-};
+});
 
 interface IBoardProps {
   board: TBoard;
 }
 export const Board = memo<IBoardProps>(({ board }) => {
-  const [cards, setCards] = useState<TCard[]>(board.cards);
+  const [cards, setCards] = useState<models.TCard[]>(board.cards);
   const [isEditable, setIsEditable] = useState(false);
   const [value, setValue] = useState("");
 
   const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
     (event) => setValue(event.target.value),
-    []
+    [],
   );
 
   const handleReset = useCallback<FormEventHandler<HTMLFormElement>>(
@@ -51,7 +49,7 @@ export const Board = memo<IBoardProps>(({ board }) => {
       event.preventDefault();
       setIsEditable(false);
     },
-    []
+    [],
   );
 
   const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
@@ -70,7 +68,7 @@ export const Board = memo<IBoardProps>(({ board }) => {
         setCards(newState);
       }
     },
-    [board.cards.length, cards, value]
+    [board.cards.length, cards, value],
   );
 
   useEffect(() => {
@@ -84,7 +82,7 @@ export const Board = memo<IBoardProps>(({ board }) => {
       className={clsx(
         "flex w-full flex-col gap-4 py-4",
         "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
-        "overflow-hidden "
+        "overflow-hidden ",
       )}
     >
       <div className="flex items-center gap-2 py-1 pl-4 pr-4 text-lg font-bold text-gray-900">
@@ -108,6 +106,7 @@ export const Board = memo<IBoardProps>(({ board }) => {
   );
 });
 Board.displayName = "Board";
+
 interface ICardProps extends models.TCard {
   onClick?(): void;
 }
@@ -150,8 +149,10 @@ const Card = memo<ICardProps>(
         )}
       </div>
     );
-  }
+  },
 );
+
+Card.displayName = "Card";
 
 interface ICardListProps {
   cards: models.TCard[];
