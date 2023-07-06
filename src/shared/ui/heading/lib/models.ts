@@ -5,7 +5,7 @@ import {
   ReactNode,
 } from "react";
 
-type THeadingElement = DetailedHTMLProps<
+export type THeadingElement = DetailedHTMLProps<
   HTMLAttributes<HTMLHeadingElement>,
   HTMLHeadingElement
 >;

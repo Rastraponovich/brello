@@ -1,14 +1,17 @@
-import { memo } from "react";
-import { models } from "../lib";
+import { forwardRef, memo } from "react";
 
-export const Heading = memo<models.IHeanding>(
-  ({ as: Component = "h2", caption, children, ...props }) => {
-    return (
-      <Component data-qa="Heading" {...props}>
-        {children || caption}
-      </Component>
-    );
-  }
+import { type models } from "../lib";
+
+export const Heading = memo(
+  forwardRef<HTMLHeadingElement, models.IHeadingProps>(
+    ({ as: Component = "h2", caption, children, ...props }, ref) => {
+      return (
+        <Component data-qa="Heading" ref={ref} {...props}>
+          {children || caption}
+        </Component>
+      );
+    },
+  ),
 );
 
 Heading.displayName = "Heading";
