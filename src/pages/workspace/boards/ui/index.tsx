@@ -55,10 +55,24 @@ const BoardsHeader = () => {
 };
 
 export const BoardsPage = () => {
+  const [search, searched] = selectors.useSearch();
+
   return (
     <Layout>
-      <section className=" flex w-full  flex-col space-y-4 py-8 sm:items-center sm:gap-6 sm:px-0 sm:py-0 ">
+      <section className=" flex w-full  flex-col gap-4 py-8 sm:items-center sm:gap-6 sm:px-0 sm:py-0 ">
         <BoardsHeader />
+      </section>
+      <section className="flex w-full flex-col items-center gap-8 px-6 sm:px-8">
+        <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <Heading as="h2" className="w-full text-lg font-semibold">
+            Boards
+          </Heading>
+          <InputSearch
+            value={search}
+            onChange={searched}
+            placeholder="Search"
+          />
+        </div>
       </section>
 
       <Boards />
@@ -67,20 +81,13 @@ export const BoardsPage = () => {
 };
 
 const Boards = () => {
-  const [search, searched] = selectors.useSearch();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, isEmpty] = selectors.useBoardLength();
 
   const isNotFound = selectors.useEmptySearchResult();
   return (
     <section className="flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
-      <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Heading as="h2" className="w-full text-lg font-semibold">
-          Boards
-        </Heading>
-        <InputSearch value={search} onChange={searched} placeholder="Search" />
-      </div>
-      <div className="flex w-full flex-col overflow-hidden pb-24">
+      <div className="flex w-full flex-col overflow-hidden">
         {isNotFound ? (
           <NotFoundState />
         ) : isEmpty ? (
