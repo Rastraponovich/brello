@@ -1,5 +1,5 @@
 import { createEvent, createStore, sample } from "effector";
-import { ChangeEvent, FormEvent } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import { routes } from "src/shared/routing";
 
 export const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
@@ -12,6 +12,11 @@ export const $emailField = createStore<null | string>(null).on(
 
 export const submitted = createEvent<FormEvent<HTMLFormElement>>();
 submitted.watch((e) => e.preventDefault());
+
+sample({
+  clock: submitted,
+  target: routes.auth.onboarding.open,
+});
 
 export const $isValid = createStore<boolean>(false);
 
