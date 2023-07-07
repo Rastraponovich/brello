@@ -8,7 +8,7 @@ import {
   memo,
 } from "react";
 
-import { helpers, models } from "../lib";
+import { helpers, models } from "./lib";
 
 import { Board } from "src/entities/board";
 import { Layout } from "src/widgets/layout";

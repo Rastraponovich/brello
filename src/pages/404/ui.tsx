@@ -1,6 +1,6 @@
 import { useUnit } from "effector-react";
 
-import { goBackButtonClicked, goHomeButtonClicked } from "../model";
+import { goBackButtonClicked, goHomeButtonClicked } from "./model";
 
 import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";

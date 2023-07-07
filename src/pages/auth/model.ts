@@ -2,7 +2,7 @@ import { createEvent, createStore, sample } from "effector";
 import { ChangeEvent, FormEvent } from "react";
 import { routes } from "src/shared/routing";
 
-const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
+export const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
 export const $emailField = createStore<null | string>(null).on(
   changedEmail,
   (_, event) => {
@@ -10,7 +10,7 @@ export const $emailField = createStore<null | string>(null).on(
   },
 );
 
-const submitted = createEvent<FormEvent<HTMLFormElement>>();
+export const submitted = createEvent<FormEvent<HTMLFormElement>>();
 submitted.watch((e) => e.preventDefault());
 
 export const $isValid = createStore<boolean>(false);
@@ -30,8 +30,3 @@ sample({
   clock: skipButtonClicked,
   target: routes.boards.open,
 });
-
-export const actions = {
-  changedEmail,
-  submitted,
-};
