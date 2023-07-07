@@ -8,7 +8,7 @@ import {
   type ChangeEventHandler,
 } from "react";
 
-import { type models } from "../lib";
+import { type models } from "./lib";
 import { type TBoard } from "src/pages/board/lib/models";
 
 import { Bage } from "src/shared/ui/bage";

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { memo } from "react";
 
-import { type IAddListProps } from "../lib";
+import { type IAddListProps } from "./lib";
 
 import { InputArea } from "src/shared/ui/input";
 import { Button, CloseXButton } from "src/shared/ui/button";
@@ -14,7 +14,7 @@ export const AddList = memo<IAddListProps>(
         onSubmit={onSubmit}
         className={clsx(
           "flex w-full  flex-col justify-start gap-4 rounded-2xl border border-gray-200 bg-[#FCFCFD]",
-          editable && "px-4 py-5 shadow-sm"
+          editable && "px-4 py-5 shadow-sm",
         )}
       >
         {editable && (
@@ -42,6 +42,6 @@ export const AddList = memo<IAddListProps>(
         </div>
       </form>
     );
-  }
+  },
 );
 AddList.displayName = "AddList";

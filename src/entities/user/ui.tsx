@@ -1,9 +1,9 @@
 import { memo, useMemo } from "react";
 import { useUnit } from "effector-react";
 
-import { logOutButtonClicked, viewProfileButtonClicked } from "../model";
+import { logOutButtonClicked, viewProfileButtonClicked } from "./model";
 
-import { type TUser } from "../lib";
+import { type TUser } from "./lib";
 
 import { Avatar } from "src/shared/ui/avatar";
 import { Dropdown } from "src/shared/ui/dropdown";
