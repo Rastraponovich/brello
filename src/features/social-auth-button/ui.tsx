@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { memo } from "react";
 import { Icon } from "src/shared/ui/icon";
-import { type models, helpers } from "../lib";
+import { type models, helpers } from "./lib";
 import { utils } from "src/shared/lib";
 
 export const SocialAuthButton = memo<models.ISocialButtonProps>(
@@ -16,12 +16,12 @@ export const SocialAuthButton = memo<models.ISocialButtonProps>(
             ? helpers.BUTTON_COLORS_DICT[social]
             : helpers.Colors.Default,
           noCaption ? "p-2.5" : "px-4 py-2.5",
-          className
+          className,
         )}
       >
         <Icon name={`social/${social}-${theme}`} size="large" />
         {!noCaption && <span>Sign in with {utils.capitalize(social)}</span>}
       </button>
     );
-  }
+  },
 );

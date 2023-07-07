@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Button, CloseXButton } from "src/shared/ui/button";
 import { InputArea } from "src/shared/ui/input";
-import { IAddEntityProps } from "../lib/models";
+import { IAddEntityProps } from "./lib/models";
 
 export const AddEntity = memo<IAddEntityProps>(
   ({ editable, onChange, onReset, onSubmit, value, buttonCaption }) => {
@@ -36,6 +36,6 @@ export const AddEntity = memo<IAddEntityProps>(
         </div>
       </form>
     );
-  }
+  },
 );
 AddEntity.displayName = "AddEntity";

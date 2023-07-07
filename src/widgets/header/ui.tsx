@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { useList, useUnit } from "effector-react";
 
-import { models } from "../lib";
-import { $menuItems, $selected } from "../model";
+import { models } from "./lib";
+import { $menuItems, $selected } from "./model";
 
 import { Icon } from "src/shared/ui/icon";
 import { Logo } from "src/shared/ui/icons/logo";

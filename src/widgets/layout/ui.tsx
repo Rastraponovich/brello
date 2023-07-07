@@ -42,7 +42,7 @@ export const OnboardingLayout = ({
       className={clsx(
         "flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-[center_-390px] bg-no-repeat pt-16 sm:bg-[center_-240px] sm:pt-0",
         className,
-        backgroundImage
+        backgroundImage,
       )}
     >
       <section className="container mx-auto my-0 flex w-full grow flex-col px-4  sm:items-center sm:justify-center">
