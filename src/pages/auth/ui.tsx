@@ -31,7 +31,7 @@ export const AuthPage = () => {
           <h3 className="mt-2 text-base font-normal text-gray-600">
             Start your 30-day free trial.
           </h3>
-          <form onSubmit={onSubmit} className=" mt-8 flex flex-col">
+          <form onSubmit={onSubmit} className=" mt-8 flex flex-col" noValidate>
             <Input
               caption="Email"
               placeholder="Enter your email"

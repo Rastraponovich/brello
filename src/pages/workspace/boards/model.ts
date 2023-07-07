@@ -49,3 +49,14 @@ sample({
   clock: settingsButtonClicked,
   target: routes.workspace.settings.open,
 });
+
+/**
+ * click event on board card
+ * @param {TBoard}
+ */
+export const boardCardClicked = createEvent<TBoard>();
+sample({
+  clock: boardCardClicked,
+  fn: (card) => ({ id: card.id }),
+  target: routes.board.open,
+});

@@ -9,6 +9,7 @@ import {
   addBoard,
   resetSearch,
   settingsButtonClicked,
+  boardCardClicked,
 } from "./model";
 
 import type { IBoardCard } from "./lib";
@@ -22,6 +23,7 @@ import { Heading } from "src/shared/ui/heading";
 import { InputSearch } from "src/shared/ui/input";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
 import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
+import { Avatar } from "src/shared/ui/avatar";
 
 const BoardsHeaderActionPanel = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
@@ -47,9 +49,11 @@ const BoardsHeader = () => {
     <div className="flex w-full flex-col px-6 sm:px-8">
       <div className="flex w-full flex-col  gap-5 border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex w-full grow space-x-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-xl text-gray-600">
-            CI
-          </div>
+          <Avatar
+            size="xl"
+            user={{ firstName: "Clara", lastName: "Carala", id: 123 }}
+          />
+
           <div className="flex flex-col">
             <Heading as="h2" className="text-2xl font-semibold text-gray-900">
               Coding in action
@@ -107,12 +111,15 @@ const Boards = () => {
 };
 
 const BoardsList = () => {
+  const handleCardClick = useUnit(boardCardClicked);
   return (
     <ScrollContainer>
       <div className="grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
         <AddBoardCard />
         {useList($boards, {
-          fn: (board) => <BoardCard {...board} />,
+          fn: (board) => (
+            <BoardCard {...board} onClick={() => handleCardClick(board)} />
+          ),
         })}
       </div>
     </ScrollContainer>
@@ -223,9 +230,12 @@ const AddBoardCard = memo(() => {
 });
 AddBoardCard.displayName = "AddBoardCard";
 
-const BoardCard = memo<IBoardCard>(({ title }) => {
+const BoardCard = memo<IBoardCard>(({ title, onClick }) => {
   return (
-    <figure className="flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 bg-gray-900 px-5 py-6 pt-5 text-lg font-medium text-white">
+    <figure
+      onClick={onClick}
+      className="flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 bg-gray-900 px-5 py-6 pt-5 text-lg font-medium text-white"
+    >
       <figcaption>
         <Heading as="h4">{title}</Heading>
       </figcaption>
