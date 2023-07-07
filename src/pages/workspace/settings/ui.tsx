@@ -7,7 +7,7 @@ import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
 import { Input, InputArea, InputWeb } from "src/shared/ui/input";
 import { useUnit } from "effector-react";
-import { cancelButtonClicked } from "../model";
+import { cancelButtonClicked } from "./model";
 
 export const WorkSpaceSettingsPage = () => {
   return (

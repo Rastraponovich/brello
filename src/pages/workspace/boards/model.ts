@@ -4,14 +4,15 @@ import { createEvent, createStore, sample } from "effector";
 
 import { routes } from "src/shared/routing";
 
-import { BOARDS, type TBoard } from "../lib";
+import { BOARDS, type TBoard } from "./lib";
 
 import { type ChangeEvent } from "react";
 
-const addBoard = createEvent();
+export const addBoard = createEvent();
 
-const resetSearch = createEvent();
-const searched = createEvent<ChangeEvent<HTMLInputElement>>();
+export const resetSearch = createEvent();
+
+export const searched = createEvent<ChangeEvent<HTMLInputElement>>();
 export const $search = createStore("")
   .on(searched, (_, event) => event.target.value)
   .reset([resetSearch, addBoard]);
@@ -42,16 +43,9 @@ sample({
   target: $isNotFound,
 });
 
-const settingsButtonClicked = createEvent();
+export const settingsButtonClicked = createEvent();
 
 sample({
   clock: settingsButtonClicked,
   target: routes.workspace.settings.open,
 });
-
-export const actions = {
-  settingsButtonClicked,
-  resetSearch,
-  addBoard,
-  searched,
-};

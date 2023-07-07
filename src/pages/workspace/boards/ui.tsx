@@ -1,8 +1,17 @@
 import { type ReactNode, memo } from "react";
 import { useList, useUnit } from "effector-react";
-import { $boards, actions, selectors } from "../model";
+import {
+  $search,
+  $boards,
+  $isNotFound,
+  $boardsEmpty,
+  searched,
+  addBoard,
+  resetSearch,
+  settingsButtonClicked,
+} from "./model";
 
-import type { IBoardCard } from "../lib";
+import type { IBoardCard } from "./lib";
 import { type IconName } from "src/shared/ui/icon";
 
 import { buttonLib } from "src/shared/ui/button";
@@ -15,14 +24,14 @@ import { ScrollContainer } from "src/shared/ui/scroll-container";
 import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
 
 const BoardsHeaderActionPanel = () => {
-  const settingsButtonClicked = useUnit(actions.settingsButtonClicked);
+  const handleOpenSettings = useUnit(settingsButtonClicked);
   return (
     <div className="flex shrink-0 items-start space-x-3">
       <Button
         size="sm"
         variant="secondaryGray"
         leftIcon="common/settings"
-        onClick={settingsButtonClicked}
+        onClick={handleOpenSettings}
       >
         Settings
       </Button>
@@ -55,7 +64,7 @@ const BoardsHeader = () => {
 };
 
 export const BoardsPage = () => {
-  const [search, searched] = selectors.useSearch();
+  const [search, handleSearch] = useUnit([$search, searched]);
 
   return (
     <Layout>
@@ -69,7 +78,7 @@ export const BoardsPage = () => {
           </Heading>
           <InputSearch
             value={search}
-            onChange={searched}
+            onChange={handleSearch}
             placeholder="Search"
           />
         </div>
@@ -81,10 +90,7 @@ export const BoardsPage = () => {
 };
 
 const Boards = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, isEmpty] = selectors.useBoardLength();
-
-  const isNotFound = selectors.useEmptySearchResult();
+  const [isEmpty, isNotFound] = useUnit([$boardsEmpty, $isNotFound]);
   return (
     <section className="flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
       <div className="flex w-full flex-col overflow-hidden">
@@ -169,12 +175,12 @@ const BaseEmpty = memo<IBaseEmptyProps>(
 BaseEmpty.displayName = "BaseEmpty";
 
 const EmptyState = () => {
-  const onCreated = useUnit(actions.addBoard);
+  const handleAddBoard = useUnit(addBoard);
 
   return (
     <BaseEmpty
       icon="common/plus"
-      onClick={onCreated}
+      onClick={handleAddBoard}
       title="Start by creating a board"
       actions={[{ caption: "Learn More", className: "hidden sm:flex" }]}
       subTitle="Your boards will live here. Start creating by clicking on «New board»"
@@ -183,17 +189,16 @@ const EmptyState = () => {
 };
 
 const NotFoundState = memo(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [searchValue, _, onClear] = selectors.useSearch();
-  const onCreated = useUnit(actions.addBoard);
+  const [searchValue, onClear] = useUnit([$search, resetSearch]);
+  const handleAddBoard = useUnit(addBoard);
 
   const message = `Your search ${searchValue} did not match any boards. Please try again.`;
   return (
     <BaseEmpty
       subTitle={message}
-      onClick={onCreated}
       icon="common/search"
       title="No boards found"
+      onClick={handleAddBoard}
       actions={[{ caption: "Clear search", onClick: onClear }]}
     />
   );
@@ -201,14 +206,14 @@ const NotFoundState = memo(() => {
 NotFoundState.displayName = "NotFoundState";
 
 const AddBoardCard = memo(() => {
-  const onCreated = useUnit(actions.addBoard);
+  const handleAddBoard = useUnit(addBoard);
 
   return (
     <div className="flex flex-col justify-start rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
       <Button
         size="sm"
-        onClick={onCreated}
         variant="tertiaryGray"
+        onClick={handleAddBoard}
         leftIcon="common/plus-circle"
       >
         Create new board

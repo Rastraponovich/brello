@@ -5,7 +5,7 @@ import { Layout } from "src/widgets/layout";
 import { Button } from "src/shared/ui/button";
 import { Upload } from "src/shared/ui/upload";
 import { useUnit } from "effector-react";
-import { resetButtonClicked } from "../model";
+import { resetButtonClicked } from "./model";
 
 /**
  * User Settings Page
