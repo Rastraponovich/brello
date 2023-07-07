@@ -1,9 +1,6 @@
 import "app/styles/index.css";
-import { useEffect } from "react";
-import { useUnit } from "effector-react";
 import { RouterProvider, Route } from "atomic-router-react";
 
-import { appStarted } from "src/shared/config";
 import { routes, router } from "shared/routing";
 
 import { BoardPage } from "src/pages/board";
@@ -15,11 +12,6 @@ import { OnboardingPage } from "src/pages/workspace/onboarding";
 import { WorkSpaceSettingsPage } from "src/pages/workspace/settings";
 
 export const App = () => {
-  const starting = useUnit(appStarted);
-  useEffect(() => {
-    starting();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   return (
     <RouterProvider router={router}>
       <Route route={routes.boards} view={BoardsPage} />
