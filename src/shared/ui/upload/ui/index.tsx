@@ -18,7 +18,7 @@ export const Upload = memo<models.IUploadProps>(({ disabled }) => {
     <div
       className={clsx(
         "flex w-full flex-col items-center gap-2 rounded-xl border border-dashed border-gray-200 px-6 py-4 ",
-        disabled ? "bg-gray-50" : "hover:ring-2 hover:ring-blue-600"
+        disabled ? "bg-gray-50" : "hover:ring-2 hover:ring-blue-600",
       )}
     >
       <label className="relative flex w-full flex-col items-center gap-2 sm:gap-3">
@@ -37,7 +37,7 @@ export const Upload = memo<models.IUploadProps>(({ disabled }) => {
           className="absolute h-0 w-0 opacity-0"
         />
         <div className="flex flex-col gap-1">
-          <div className="flex items-baseline justify-center gap-1">
+          <div className="flex flex-wrap items-center justify-center gap-1">
             <Button
               size="md"
               variant="link"
@@ -46,7 +46,7 @@ export const Upload = memo<models.IUploadProps>(({ disabled }) => {
             >
               <span className="text-sm">Click to upload</span>
             </Button>
-            <span className="hidden sm:inline">or drag and drop</span>
+            <span className="hidden truncate sm:inline">or drag and drop</span>
           </div>
 
           <span className="text-center text-xs text-gray-600">

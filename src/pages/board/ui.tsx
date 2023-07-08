@@ -19,7 +19,7 @@ import { AvatarGroup } from "src/shared/ui/avatar";
 
 const PageHeaderContent = () => {
   return (
-    <section className="flex flex-col gap-5 px-8 ">
+    <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
       <div className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-start gap-4 text-3xl font-semibold text-gray-900 sm:flex-row sm:items-center">
           <Heading as="h2">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
@@ -126,36 +126,38 @@ const List = () => {
   }, [editable]);
 
   return (
-    <Grid>
-      {boards.map((board) => (
-        <GridColumn key={board.id}>
-          <Board board={board} />
-        </GridColumn>
-      ))}
-      <GridColumn>
-        <AddList
-          value={value}
-          editable={editable}
-          onReset={handleReset}
-          onChange={handleChange}
-          onSubmit={handleSubmit}
-          buttonCaption="Add List"
-        />
-      </GridColumn>
-
-      {editable && (
+    <section className="container mx-auto my-0 flex grow flex-col overflow-hidden">
+      <Grid>
+        {boards.map((board) => (
+          <GridColumn key={board.id}>
+            <Board board={board} />
+          </GridColumn>
+        ))}
         <GridColumn>
           <AddList
             value={value}
-            editable={false}
+            editable={editable}
             onReset={handleReset}
             onChange={handleChange}
             onSubmit={handleSubmit}
             buttonCaption="Add List"
           />
         </GridColumn>
-      )}
-    </Grid>
+
+        {editable && (
+          <GridColumn>
+            <AddList
+              value={value}
+              editable={false}
+              onReset={handleReset}
+              onChange={handleChange}
+              onSubmit={handleSubmit}
+              buttonCaption="Add List"
+            />
+          </GridColumn>
+        )}
+      </Grid>
+    </section>
   );
 };
 

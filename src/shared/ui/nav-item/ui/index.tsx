@@ -1,24 +1,29 @@
-import clsx from "clsx";
 import { forwardRef, memo } from "react";
+import { cva } from "class-variance-authority";
 
 import type { INavItemProps } from "..";
 
 import { Icon } from "shared/ui/icon";
+import { Link } from "atomic-router-react";
+
+const navItem = cva(
+  "flex cursor-pointer items-center  gap-3 rounded-md px-3 py-2 text-gray-700 hover:bg-gray-50",
+  {
+    variants: {
+      selected: {
+        true: "bg-gray-50 text-gray-900",
+      },
+    },
+  },
+);
 
 const _NavItem = forwardRef<HTMLAnchorElement, INavItemProps>(
-  ({ href, selected, icon, title }, ref) => {
+  ({ path, selected, icon, title }, ref) => {
     return (
-      <a
-        href={href}
-        ref={ref}
-        className={clsx(
-          "flex cursor-pointer items-center  gap-3 rounded-md px-3 py-2 text-gray-700 hover:bg-gray-50",
-          selected && "bg-gray-50 text-gray-900",
-        )}
-      >
+      <Link ref={ref} to={path || "/"} className={navItem({ selected })}>
         {icon && <Icon name={icon} className="text-gray-500" size="normal" />}
         <span>{title}</span>
-      </a>
+      </Link>
     );
   },
 );

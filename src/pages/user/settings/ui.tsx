@@ -6,6 +6,7 @@ import { Button } from "src/shared/ui/button";
 import { Upload } from "src/shared/ui/upload";
 import { useUnit } from "effector-react";
 import { resetButtonClicked } from "./model";
+import { Heading } from "src/shared/ui/heading";
 
 /**
  * User Settings Page
@@ -19,14 +20,15 @@ export const UserPage = (): ReactElement => {
   const handleResetForm = useUnit(resetButtonClicked);
   return (
     <Layout>
-      <section className="container mx-auto my-0 flex flex-col gap-8 px-4 sm:px-8">
-        <div className="border-b border-gray-200 pb-5">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            Profile settings
-          </h2>
-        </div>
+      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-hidden px-4 sm:px-8">
+        <Heading
+          as="h1"
+          className="border-b border-gray-200 pb-5 text-2xl font-semibold text-gray-900"
+        >
+          Profile settings
+        </Heading>
 
-        <div className="flex flex-col gap-6">
+        <div className="scroll-shadows  flex flex-col gap-6 overflow-auto">
           <form
             id="form"
             onSubmit={handleSubmit}

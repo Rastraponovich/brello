@@ -46,24 +46,26 @@ const BoardsHeaderActionPanel = () => {
 
 const BoardsHeader = () => {
   return (
-    <div className="flex w-full flex-col px-6 sm:px-8">
-      <div className="flex w-full flex-col  gap-5 border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
-        <div className="flex w-full grow space-x-4">
-          <Avatar
-            size="xl"
-            user={{ firstName: "Clara", lastName: "Carala", id: 123 }}
-          />
+    <section className="container mx-auto my-0  flex w-full  flex-col gap-4 py-8 sm:items-center sm:gap-6 sm:px-0 sm:py-0 ">
+      <div className="flex w-full flex-col px-6 sm:px-8">
+        <div className="flex w-full flex-col  gap-5 border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
+          <div className="flex w-full grow space-x-4">
+            <Avatar
+              size="xl"
+              user={{ firstName: "Clara", lastName: "Carala", id: 123 }}
+            />
 
-          <div className="flex flex-col">
-            <Heading as="h2" className="text-2xl font-semibold text-gray-900">
-              Coding in action
-            </Heading>
-            <span className="text-gray-600">Private</span>
+            <div className="flex flex-col">
+              <Heading as="h2" className="text-2xl font-semibold text-gray-900">
+                Coding in action
+              </Heading>
+              <span className="text-gray-600">Private</span>
+            </div>
           </div>
+          <BoardsHeaderActionPanel />
         </div>
-        <BoardsHeaderActionPanel />
       </div>
-    </div>
+    </section>
   );
 };
 
@@ -72,10 +74,8 @@ export const BoardsPage = () => {
 
   return (
     <Layout>
-      <section className=" flex w-full  flex-col gap-4 py-8 sm:items-center sm:gap-6 sm:px-0 sm:py-0 ">
-        <BoardsHeader />
-      </section>
-      <section className="flex w-full flex-col items-center gap-8 px-6 sm:px-8">
+      <BoardsHeader />
+      <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
         <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <Heading as="h2" className="w-full text-lg font-semibold">
             Boards
@@ -96,7 +96,7 @@ export const BoardsPage = () => {
 const Boards = () => {
   const [isEmpty, isNotFound] = useUnit([$boardsEmpty, $isNotFound]);
   return (
-    <section className="flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
+    <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
       <div className="flex w-full flex-col overflow-hidden">
         {isNotFound ? (
           <NotFoundState />
@@ -114,7 +114,7 @@ const BoardsList = () => {
   const handleCardClick = useUnit(boardCardClicked);
   return (
     <ScrollContainer>
-      <div className="grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+      <div className=" grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
         <AddBoardCard />
         {useList($boards, {
           fn: (board) => (
@@ -216,9 +216,9 @@ const AddBoardCard = memo(() => {
   const handleAddBoard = useUnit(addBoard);
 
   return (
-    <div className="flex flex-col justify-start rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
       <Button
-        size="sm"
+        size="md"
         variant="tertiaryGray"
         onClick={handleAddBoard}
         leftIcon="common/plus-circle"

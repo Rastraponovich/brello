@@ -12,11 +12,13 @@ import { cancelButtonClicked } from "./model";
 export const WorkSpaceSettingsPage = () => {
   return (
     <Layout>
-      <section className="flex flex-col gap-8 px-4">
+      <section className="flex flex-col gap-8 overflow-auto">
         <Heading as="h2" className="text-2xl font-semibold text-gray-900">
           Workspace settings
         </Heading>
-        <WorkSpaceSettingsForm />
+        <div className="flex flex-col gap-8  overflow-auto px-4">
+          <WorkSpaceSettingsForm />
+        </div>
       </section>
     </Layout>
   );
