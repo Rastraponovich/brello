@@ -24,45 +24,57 @@ export const AuthPage = () => {
 
   return (
     <main className="grid h-screen grid-rows-[62.5px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
-      <div className="order-last flex w-full shrink flex-col items-center sm:order-first sm:px-0">
-        <Logo className="mb-6 mt-8 w-full px-4 sm:my-8 sm:px-8" />
-        <div className="flex w-full max-w-[360px] grow flex-col justify-start px-4 sm:justify-center sm:px-0">
-          <h2 className="text-2xl font-semibold text-gray-900">Sign in</h2>
-          <h3 className="mt-2 text-base font-normal text-gray-600">
-            Start your 30-day free trial.
-          </h3>
-          <form onSubmit={onSubmit} className=" mt-8 flex flex-col" noValidate>
-            <Input
-              caption="Email"
-              placeholder="Enter your email"
-              value={value as string}
-              onChange={setValue}
-              type="email"
-              required
-              hint={{
-                text: "Please enter a valid email address",
-                type: "invalid",
-              }}
-            />
+      <section className="order-last flex w-full shrink flex-col items-center sm:order-first sm:px-0">
+        <header className="mb-6 mt-8 flex w-full px-4 sm:my-8 sm:px-8">
+          <Logo className="" />
+        </header>
 
-            <div className="col-start-1 mt-6 flex flex-col space-y-4  md:col-start-2">
-              <Button type="submit" variant="primary" size="md">
-                Get started
-              </Button>
+        <div className="container mx-auto my-0 flex grow flex-col justify-center px-4 sm:px-8">
+          <div className="flex w-full max-w-[360px] grow flex-col justify-start sm:justify-center">
+            <Heading as="h1" className="text-2xl font-semibold text-gray-900">
+              Sign in
+            </Heading>
+            <h3 className="mt-2 text-base font-normal text-gray-600">
+              Start your 30-day free trial.
+            </h3>
+            <form
+              onSubmit={onSubmit}
+              className=" mt-8 flex flex-col"
+              noValidate
+            >
+              <Input
+                caption="Email"
+                placeholder="Enter your email"
+                value={value as string}
+                onChange={setValue}
+                type="email"
+                required
+                hint={{
+                  text: "Please enter a valid email address",
+                  type: "invalid",
+                }}
+              />
 
-              <SocialAuthButton social="google" theme="brand" />
-            </div>
-          </form>
+              <div className="col-start-1 mt-6 flex flex-col space-y-4  md:col-start-2">
+                <Button type="submit" variant="primary" size="md">
+                  Get started
+                </Button>
+
+                <SocialAuthButton social="google" theme="brand" />
+              </div>
+            </form>
+          </div>
         </div>
-        <div className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
+
+        <footer className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
           <span>&copy; Brello 2023</span>
           <a href="mailto:help@brello.io" className="flex items-center gap-2">
             <Icon name={"common/mail"} size={"small"} />
             <span>help@brello.io</span>
           </a>
-        </div>
-      </div>
-      <div className="order-first place-self-auto overflow-hidden sm:order-last">
+        </footer>
+      </section>
+      <aside className="order-first place-self-auto overflow-hidden sm:order-last">
         <img
           alt="frendly image"
           data-qa="FrendlyImage"
@@ -76,7 +88,7 @@ export const AuthPage = () => {
           className="object-left sm:hidden"
           src="images/geometric-shapes-small.svg"
         />
-      </div>
+      </aside>
     </main>
   );
 };
