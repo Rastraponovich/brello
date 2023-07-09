@@ -17,7 +17,7 @@ const _Avatar = forwardRef<HTMLDivElement, models.IAvatarProps>(
             : `${user?.firstName} ${user?.lastName}`
         }
         className={clsx(
-          "flex items-center justify-center overflow-hidden rounded-full bg-gray-100 font-medium text-gray-600",
+          "flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 font-medium text-gray-600",
           className,
           helpers.AVATAR_SIZE_DICT[size],
         )}
@@ -60,7 +60,7 @@ export const AvatarCounter = forwardRef<
       title={`more ${count}`}
       data-qa="Avatar-button__counter"
       className={clsx(
-        "flex items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
+        "flex shrink-0 items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
         helpers.AVATAR_SIZE_DICT[size],
         size === "md" ? "text-base" : "text-sm",
       )}

@@ -20,76 +20,61 @@ import { buttonLib } from "src/shared/ui/button";
 import { Layout } from "src/widgets/layout";
 import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";
-import { InputSearch } from "src/shared/ui/input";
+import { type IPageHeaderAction, PageHeader } from "src/widgets/page-header";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
 import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
-import { Avatar } from "src/shared/ui/avatar";
-
-const BoardsHeaderActionPanel = () => {
-  const handleOpenSettings = useUnit(settingsButtonClicked);
-  return (
-    <div className="flex shrink-0 items-start space-x-3">
-      <Button
-        size="sm"
-        variant="secondaryGray"
-        leftIcon="common/settings"
-        onClick={handleOpenSettings}
-      >
-        Settings
-      </Button>
-      <Button size="sm" variant="primary" leftIcon="common/users-plus">
-        Invite members
-      </Button>
-    </div>
-  );
-};
-
-const BoardsHeader = () => {
-  return (
-    <section className="container mx-auto my-0  flex w-full  flex-col gap-4 py-8 sm:items-center sm:gap-6 sm:px-0 sm:py-0 ">
-      <div className="flex w-full flex-col px-6 sm:px-8">
-        <div className="flex w-full flex-col  gap-5 border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
-          <div className="flex w-full grow space-x-4">
-            <Avatar
-              size="xl"
-              user={{ firstName: "Clara", lastName: "Carala", id: 123 }}
-            />
-
-            <div className="flex flex-col">
-              <Heading as="h2" className="text-2xl font-semibold text-gray-900">
-                Coding in action
-              </Heading>
-              <span className="text-gray-600">Private</span>
-            </div>
-          </div>
-          <BoardsHeaderActionPanel />
-        </div>
-      </div>
-    </section>
-  );
-};
 
 export const BoardsPage = () => {
-  const [search, handleSearch] = useUnit([$search, searched]);
+  const handleOpenSettings = useUnit(settingsButtonClicked);
+
+  const actions: IPageHeaderAction[] = [
+    {
+      id: "settings",
+      title: "Settings",
+      variant: "secondaryGray",
+      leftIcon: "common/settings",
+      onClick: handleOpenSettings,
+    },
+    {
+      id: "invite",
+      variant: "primary",
+      title: "Invite members",
+      leftIcon: "users/users-plus",
+    },
+  ];
 
   return (
     <Layout>
-      <BoardsHeader />
-      <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
-        <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Heading as="h2" className="w-full text-lg font-semibold">
-            Boards
-          </Heading>
-          <InputSearch
-            value={search}
-            onChange={handleSearch}
-            placeholder="Search"
-          />
-        </div>
+      <section className="container mx-auto my-0 px-6 sm:px-8">
+        <PageHeader
+          divider
+          actions={actions}
+          description="Private"
+          title="Coding in action"
+          avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
+        />
       </section>
+      <BoardsFilter />
 
       <Boards />
     </Layout>
+  );
+};
+
+const BoardsFilter = () => {
+  const [search, handleSearch] = useUnit([$search, searched]);
+
+  return (
+    <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
+      <PageHeader
+        title="Boards"
+        headingAs="h2"
+        placeholder="Search"
+        searchValue={search}
+        onSearch={handleSearch}
+        heandingClassName="text-lg"
+      />
+    </section>
   );
 };
 

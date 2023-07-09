@@ -6,7 +6,7 @@ import { Button } from "src/shared/ui/button";
 import { Upload } from "src/shared/ui/upload";
 import { useUnit } from "effector-react";
 import { resetButtonClicked } from "./model";
-import { Heading } from "src/shared/ui/heading";
+import { PageHeader } from "src/widgets/page-header";
 
 /**
  * User Settings Page
@@ -21,12 +21,7 @@ export const UserPage = (): ReactElement => {
   return (
     <Layout>
       <section className="container mx-auto my-0 flex flex-col gap-8 overflow-hidden px-4 sm:px-8">
-        <Heading
-          as="h1"
-          className="border-b border-gray-200 pb-5 text-2xl font-semibold text-gray-900"
-        >
-          Profile settings
-        </Heading>
+        <PageHeader title="Profile settings" divider />
 
         <div className="scroll-shadows  flex flex-col gap-6 overflow-auto">
           <form

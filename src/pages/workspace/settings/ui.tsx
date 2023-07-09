@@ -1,22 +1,25 @@
+import { useUnit } from "effector-react";
+
 import type { FormEventHandler, ReactNode } from "react";
+
+import { cancelButtonClicked } from "./model";
 
 import { Layout } from "src/widgets/layout";
 import { Upload } from "src/shared/ui/upload";
 import { Button } from "src/shared/ui/button";
-import { Heading } from "src/shared/ui/heading";
 import { Logo } from "src/shared/ui/icons/logo";
+import { PageHeader } from "src/widgets/page-header";
 import { Input, InputArea, InputWeb } from "src/shared/ui/input";
-import { useUnit } from "effector-react";
-import { cancelButtonClicked } from "./model";
 
 export const WorkSpaceSettingsPage = () => {
   return (
     <Layout>
-      <section className="flex flex-col gap-8 overflow-auto">
-        <Heading as="h2" className="text-2xl font-semibold text-gray-900">
-          Workspace settings
-        </Heading>
-        <div className="flex flex-col gap-8  overflow-auto px-4">
+      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto ">
+        <div className="px-4 sm:px-8">
+          <PageHeader divider title="Workspace settings" />
+        </div>
+
+        <div className="scroll-shadows flex flex-col gap-8  overflow-auto px-4 sm:px-8 ">
           <WorkSpaceSettingsForm />
         </div>
       </section>
