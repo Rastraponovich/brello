@@ -7,7 +7,6 @@ import { cancelButtonClicked } from "./model";
 import { Layout } from "src/widgets/layout";
 import { Upload } from "src/shared/ui/upload";
 import { Button } from "src/shared/ui/button";
-import { Logo } from "src/shared/ui/icons/logo";
 import { PageHeader } from "src/widgets/page-header";
 import { Input, InputArea, InputWeb } from "src/shared/ui/input";
 
@@ -86,7 +85,12 @@ const WorkspaceUplad = () => {
       <FormBlockBody>
         <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8">
           <div className="flex w-full max-w-[142px] sm:mt-4">
-            <Logo />
+            <img
+              height={32}
+              width={142}
+              alt="preview-image"
+              src="/brand-logo.svg"
+            />
           </div>
           <Upload />
         </div>

@@ -1,7 +1,7 @@
 import { forwardRef, memo } from "react";
 import { cva } from "class-variance-authority";
 
-import type { INavItemProps } from "..";
+import type { INavItemProps } from ".";
 
 import { Icon } from "shared/ui/icon";
 import { Link } from "atomic-router-react";

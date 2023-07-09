@@ -26,10 +26,10 @@ export const AuthPage = () => {
     <main className="grid h-screen grid-rows-[62.5px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
       <section className="order-last flex w-full shrink flex-col items-center sm:order-first sm:px-0">
         <header className="mb-6 mt-8 flex w-full px-4 sm:my-8 sm:px-8">
-          <Logo className="" />
+          <Logo canHideTitle />
         </header>
 
-        <div className="container mx-auto my-0 flex grow flex-col justify-center px-4 sm:px-8">
+        <div className="container mx-auto my-0 flex grow flex-col items-center justify-center px-4 sm:px-8">
           <div className="flex w-full max-w-[360px] grow flex-col justify-start sm:justify-center">
             <Heading as="h1" className="text-2xl font-semibold text-gray-900">
               Sign in
@@ -74,7 +74,7 @@ export const AuthPage = () => {
           </a>
         </footer>
       </section>
-      <aside className="order-first place-self-auto overflow-hidden sm:order-last">
+      <section className="order-first place-self-auto overflow-hidden sm:order-last">
         <img
           alt="frendly image"
           data-qa="FrendlyImage"
@@ -88,7 +88,7 @@ export const AuthPage = () => {
           className="object-left sm:hidden"
           src="images/geometric-shapes-small.svg"
         />
-      </aside>
+      </section>
     </main>
   );
 };

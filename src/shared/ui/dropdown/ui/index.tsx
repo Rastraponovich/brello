@@ -56,6 +56,7 @@ export const Dropdown = memo<IDropdownProps>(
     buttonContent,
     groupProperty,
     items = ITEMS,
+    menuClassName,
     buttonClassName,
     keyProperty = "id",
     titleProperty = "text",
@@ -82,7 +83,7 @@ export const Dropdown = memo<IDropdownProps>(
       <Menu
         as="div"
         data-qa="Dropdown"
-        className="relative inline-block text-left"
+        className={clsx("relative inline-block text-left", menuClassName)}
       >
         <div>
           <Menu.Button

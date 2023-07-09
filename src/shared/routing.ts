@@ -28,7 +28,7 @@ const routesMap: UnmappedRouteObject<any>[] = [
     route: routes.auth.login,
   },
   {
-    path: "/firstonboarding",
+    path: "/auth/onboarding",
     route: routes.auth.onboarding,
   },
   {

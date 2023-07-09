@@ -23,8 +23,8 @@ export const PageHeader = memo<IPageHeader>(
     return (
       <header
         className={clsx(
-          "flex w-full flex-col items-start  justify-between gap-4 border-b pb-5 sm:flex-row",
-          divider ? "border-gray-200" : "border-transparent",
+          "flex w-full flex-col items-start  justify-between gap-4 sm:flex-row",
+          divider ? "border-b border-gray-200 pb-5" : "border-transparent",
           className,
         )}
       >
@@ -58,7 +58,7 @@ export const PageHeader = memo<IPageHeader>(
           </div>
         )}
         {onSearch && (
-          <div className="w-full max-w-[320px] shrink-0">
+          <div className="w-full max-w-[320px] shrink-0 text-gray-500">
             <InputSearch value={searchValue} onChange={onSearch} />
           </div>
         )}

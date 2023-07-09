@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-  font-family: "Inter var", sans-serif;
+  font-family: Inter, sans-serif;
 }
 
 @layer base {
