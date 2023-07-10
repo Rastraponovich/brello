@@ -97,9 +97,13 @@ const Boards = () => {
 
 const BoardsList = () => {
   const handleCardClick = useUnit(boardCardClicked);
+
   return (
     <ScrollContainer>
-      <div className=" grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+      <div
+        draggable
+        className=" grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
+      >
         <AddBoardCard />
         {useList($boards, {
           fn: (board) => (

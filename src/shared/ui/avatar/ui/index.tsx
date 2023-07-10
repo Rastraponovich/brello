@@ -30,7 +30,7 @@ const _Avatar = forwardRef<HTMLDivElement, models.IAvatarProps>(
           ) : (
             <img
               alt="user-image"
-              src={user?.photo}
+              src={`/${user?.photo}`}
               data-qa="Avatar-button__photo"
               height={helpers.AVATAR_IMAGE_SIZE_DICT[size]}
               width={helpers.AVATAR_IMAGE_SIZE_DICT[size]}

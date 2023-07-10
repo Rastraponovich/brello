@@ -16,6 +16,7 @@ export interface SpritesMap {
     | "plus-square"
     | "plus"
     | "search-lg"
+    | "search-sm"
     | "search"
     | "settings-01"
     | "settings"
@@ -24,8 +25,7 @@ export interface SpritesMap {
     | "user"
     | "users-plus"
     | "x-close"
-    | "zap"
-    | "search-sm";
+    | "zap";
   communication: "message-smile-circle";
   development: "container";
   shapes: "star-01";
@@ -75,6 +75,7 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "plus-square",
     "plus",
     "search-lg",
+    "search-sm",
     "search",
     "settings-01",
     "settings",
@@ -84,7 +85,6 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "users-plus",
     "x-close",
     "zap",
-    "search-sm",
   ],
   communication: ["message-smile-circle"],
   development: ["container"],

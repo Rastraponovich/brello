@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
   memo,
+  DragEventHandler,
 } from "react";
 
 import { helpers, models } from "./lib";
@@ -16,6 +17,9 @@ import { AddList } from "src/features/add-list";
 import { Heading } from "src/shared/ui/heading";
 import { IconButton } from "src/shared/ui/button";
 import { AvatarGroup } from "src/shared/ui/avatar";
+import { TBoard } from "./lib/models";
+
+type TDragEventHandler = (event: DragEvent, item: TBoard) => void;
 
 const PageHeaderContent = () => {
   return (
@@ -125,12 +129,64 @@ const List = () => {
     }
   }, [editable]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentItem, setCurrentItem] = useState<TBoard | null>(null);
+  const handleDragStart: TDragEventHandler = (_event, item) => {
+    setCurrentItem(item);
+    // console.log(event.type, item);
+  };
+  const handleDragEnd: DragEventHandler<HTMLDivElement> = (event) => {
+    // console.log(event.type);
+    const container = event.target.closest(".GRID_COL");
+
+    if (container) {
+      container.classList.remove("border-2");
+      container.classList.remove("border-black");
+    }
+  };
+  const handleDragLeave: DragEventHandler = (event) => {
+    // console.log(event.type, event);
+    const container = event.target.closest(".GRID_COL");
+
+    if (container) {
+      container.classList.remove("border-2");
+      container.classList.remove("border-black");
+    }
+  };
+  const handleDragOver: DragEventHandler = (event) => {
+    event.preventDefault();
+    const container = event.target.closest(".GRID_COL");
+
+    if (container) {
+      container.classList.add("border-2");
+      container.classList.add("border-black");
+    }
+
+    // console.log(event.type);
+  };
+  const handleDragDrop: (event: DragEvent, item: unknown) => void = (event) => {
+    event.preventDefault();
+    const container = event.target.closest(".GRID_COL");
+
+    if (container) {
+      container.classList.remove("border-2");
+      container.classList.remove("border-black");
+    }
+  };
+
   return (
     <section className="container mx-auto my-0 flex grow flex-col overflow-hidden">
       <Grid>
         {boards.map((board) => (
           <GridColumn key={board.id}>
-            <Board board={board} />
+            <Board
+              board={board}
+              onDragDrop={(e) => handleDragDrop(e, board)}
+              onDragEnd={handleDragEnd}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDragStart={(e) => handleDragStart(e, board)}
+            />
           </GridColumn>
         ))}
         <GridColumn>
@@ -178,7 +234,7 @@ interface IGridColumn {
 }
 const GridColumn = memo<IGridColumn>(({ children }) => {
   return (
-    <div className="flex  snap-center snap-normal flex-col justify-start overflow-hidden">
+    <div className="GRID_COL flex  snap-center snap-normal flex-col justify-start overflow-hidden">
       {children}
     </div>
   );
