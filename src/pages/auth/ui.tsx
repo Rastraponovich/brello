@@ -60,10 +60,11 @@ export const AuthPage = () => {
                   Get started
                 </Button>
 
-                <SocialAuthButton social="google" theme="brand" />
+                <SocialAuthButton social="google" theme="brand" type="button"/>
               </div>
             </form>
           </div>
+
         </div>
 
         <footer className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
