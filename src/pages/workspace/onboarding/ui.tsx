@@ -27,7 +27,7 @@ export const OnboardingPage = () => {
         <form
           id="form"
           onSubmit={handleSubmit}
-          className="flex w-full flex-col gap-6 sm:max-w-[512px]"
+          className=" flex w-full flex-col gap-6 sm:max-w-[512px]"
         >
           <Input caption="Workspace name" placeholder="Your Company Co." />
 

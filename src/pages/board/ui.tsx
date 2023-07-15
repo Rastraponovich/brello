@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
   memo,
+  DragEventHandler,
 } from "react";
 
 import { helpers, models } from "./lib";
@@ -16,10 +17,13 @@ import { AddList } from "src/features/add-list";
 import { Heading } from "src/shared/ui/heading";
 import { IconButton } from "src/shared/ui/button";
 import { AvatarGroup } from "src/shared/ui/avatar";
+import { TBoard } from "./lib/models";
+
+type TDragEventHandler = (event: DragEvent, item: TBoard) => void;
 
 const PageHeaderContent = () => {
   return (
-    <section className="flex flex-col gap-5 px-8 ">
+    <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
       <div className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-start gap-4 text-3xl font-semibold text-gray-900 sm:flex-row sm:items-center">
           <Heading as="h2">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
@@ -125,37 +129,91 @@ const List = () => {
     }
   }, [editable]);
 
-  return (
-    <Grid>
-      {boards.map((board) => (
-        <GridColumn key={board.id}>
-          <Board board={board} />
-        </GridColumn>
-      ))}
-      <GridColumn>
-        <AddList
-          value={value}
-          editable={editable}
-          onReset={handleReset}
-          onChange={handleChange}
-          onSubmit={handleSubmit}
-          buttonCaption="Add List"
-        />
-      </GridColumn>
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [currentItem, setCurrentItem] = useState<TBoard | null>(null);
+  const handleDragStart: TDragEventHandler = (_event, item) => {
+    setCurrentItem(item);
+    // console.log(event.type, item);
+  };
+  const handleDragEnd: DragEventHandler<HTMLDivElement> = (event) => {
+    // console.log(event.type);
+    const container = event.target.closest(".GRID_COL");
 
-      {editable && (
+    if (container) {
+      container.classList.remove("border-2");
+      container.classList.remove("border-black");
+    }
+  };
+  const handleDragLeave: DragEventHandler = (event) => {
+    // console.log(event.type, event);
+    const container = event.target.closest(".GRID_COL");
+
+    if (container) {
+      container.classList.remove("border-2");
+      container.classList.remove("border-black");
+    }
+  };
+  const handleDragOver: DragEventHandler = (event) => {
+    event.preventDefault();
+    const container = event.target.closest(".GRID_COL");
+
+    if (container) {
+      container.classList.add("border-2");
+      container.classList.add("border-black");
+    }
+
+    // console.log(event.type);
+  };
+  const handleDragDrop: (event: DragEvent, item: unknown) => void = (event) => {
+    event.preventDefault();
+    const container = event.target.closest(".GRID_COL");
+
+    if (container) {
+      container.classList.remove("border-2");
+      container.classList.remove("border-black");
+    }
+  };
+
+  return (
+    <section className="container mx-auto my-0 flex grow flex-col overflow-hidden">
+      <Grid>
+        {boards.map((board) => (
+          <GridColumn key={board.id}>
+            <Board
+              board={board}
+              onDragDrop={(e) => handleDragDrop(e, board)}
+              onDragEnd={handleDragEnd}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+              onDragStart={(e) => handleDragStart(e, board)}
+            />
+          </GridColumn>
+        ))}
         <GridColumn>
           <AddList
             value={value}
-            editable={false}
+            editable={editable}
             onReset={handleReset}
             onChange={handleChange}
             onSubmit={handleSubmit}
             buttonCaption="Add List"
           />
         </GridColumn>
-      )}
-    </Grid>
+
+        {editable && (
+          <GridColumn>
+            <AddList
+              value={value}
+              editable={false}
+              onReset={handleReset}
+              onChange={handleChange}
+              onSubmit={handleSubmit}
+              buttonCaption="Add List"
+            />
+          </GridColumn>
+        )}
+      </Grid>
+    </section>
   );
 };
 
@@ -176,7 +234,7 @@ interface IGridColumn {
 }
 const GridColumn = memo<IGridColumn>(({ children }) => {
   return (
-    <div className="flex  snap-center snap-normal flex-col justify-start overflow-hidden">
+    <div className="GRID_COL flex  snap-center snap-normal flex-col justify-start overflow-hidden">
       {children}
     </div>
   );

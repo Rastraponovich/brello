@@ -28,7 +28,7 @@ const routesMap: UnmappedRouteObject<any>[] = [
     route: routes.auth.login,
   },
   {
-    path: "/firstonboarding",
+    path: "/auth/onboarding",
     route: routes.auth.onboarding,
   },
   {
@@ -58,6 +58,8 @@ export const router = createHistoryRouter({
   controls,
   notFoundRoute: routes.notFountPage,
 });
+
+export const $currentPage = router.$path.map((state) => state);
 
 sample({
   clock: appStarted,

@@ -6,6 +6,8 @@ import {
   useCallback,
   type FormEventHandler,
   type ChangeEventHandler,
+  DragEventHandler,
+  useRef,
 } from "react";
 
 import { type models } from "./lib";
@@ -33,78 +35,94 @@ const BoardActions = memo(() => {
 
 interface IBoardProps {
   board: TBoard;
+  onDragStart?: DragEventHandler;
+  onDragEnd?: DragEventHandler;
+  onDragLeave?: DragEventHandler;
+  onDragOver?: DragEventHandler;
+  onDragDrop?: DragEventHandler;
 }
-export const Board = memo<IBoardProps>(({ board }) => {
-  const [cards, setCards] = useState<models.TCard[]>(board.cards);
-  const [isEditable, setIsEditable] = useState(false);
-  const [value, setValue] = useState("");
+export const Board = memo<IBoardProps>(
+  ({ board, onDragDrop, onDragEnd, onDragLeave, onDragOver, onDragStart }) => {
+    const [cards, setCards] = useState<models.TCard[]>(board.cards);
+    const [isEditable, setIsEditable] = useState(false);
+    const [value, setValue] = useState("");
 
-  const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
-    (event) => setValue(event.target.value),
-    [],
-  );
+    const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
+      (event) => setValue(event.target.value),
+      [],
+    );
 
-  const handleReset = useCallback<FormEventHandler<HTMLFormElement>>(
-    (event) => {
-      event.preventDefault();
-      setIsEditable(false);
-    },
-    [],
-  );
+    const handleReset = useCallback<FormEventHandler<HTMLFormElement>>(
+      (event) => {
+        event.preventDefault();
+        setIsEditable(false);
+      },
+      [],
+    );
 
-  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
-    (event) => {
-      event.preventDefault();
-      setIsEditable((prev) => !prev);
+    const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
+      (event) => {
+        event.preventDefault();
+        setIsEditable((prev) => !prev);
 
-      if (value.length > 0) {
-        const newState = [...cards];
-        newState.unshift({
-          id: board.cards.length + 1,
-          title: value,
-          subTitle: "",
-          users: [],
-        });
-        setCards(newState);
+        if (value.length > 0) {
+          const newState = [...cards];
+          newState.unshift({
+            id: board.cards.length + 1,
+            title: value,
+            subTitle: "",
+            users: [],
+          });
+          setCards(newState);
+        }
+      },
+      [board.cards.length, cards, value],
+    );
+
+    useEffect(() => {
+      if (!isEditable) {
+        setValue("");
       }
-    },
-    [board.cards.length, cards, value],
-  );
+    }, [isEditable]);
 
-  useEffect(() => {
-    if (!isEditable) {
-      setValue("");
-    }
-  }, [isEditable]);
+    const dragRef = useRef<HTMLDivElement>(null);
 
-  return (
-    <div
-      className={clsx(
-        "flex w-full flex-col gap-4 py-4",
-        "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
-        "overflow-hidden ",
-      )}
-    >
-      <div className="flex items-center gap-2 py-1 pl-4 pr-4 text-lg font-bold text-gray-900">
-        <Heading as="h3" className="grow px-4">
-          {board.title || "To Do"}
-        </Heading>
-        <BoardActions />
+    return (
+      <div
+        draggable
+        ref={dragRef}
+        onDragStart={onDragStart}
+        onDragLeave={onDragLeave}
+        onDragOver={onDragOver}
+        onDrop={onDragDrop}
+        onDragEnd={onDragEnd}
+        className={clsx(
+          "flex w-full flex-col gap-4 py-4",
+          "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
+          "overflow-hidden ",
+        )}
+      >
+        <div className="flex items-center gap-2 py-1 pl-4 pr-4 text-lg font-bold text-gray-900">
+          <Heading as="h3" className="grow px-4">
+            {board.title || "To Do"}
+          </Heading>
+          <BoardActions />
+        </div>
+        <ScrollContainer>
+          <CardList cards={cards} />
+        </ScrollContainer>
+        <AddEntity
+          value={value}
+          editable={isEditable}
+          onReset={handleReset}
+          onSubmit={handleSubmit}
+          onChange={handleChange}
+          buttonCaption="Add Card"
+        />
       </div>
-      <ScrollContainer>
-        <CardList cards={cards} />
-      </ScrollContainer>
-      <AddEntity
-        value={value}
-        editable={isEditable}
-        onReset={handleReset}
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        buttonCaption="Add Card"
-      />
-    </div>
-  );
-});
+    );
+  },
+);
 Board.displayName = "Board";
 
 interface ICardProps extends models.TCard {

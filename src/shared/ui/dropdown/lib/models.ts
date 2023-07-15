@@ -8,6 +8,7 @@ export interface IDropdownProps {
   items?: TMenuItem[];
   titleProperty?: TKey;
   groupProperty?: TKey;
+  menuClassName?: string;
   buttonClassName?: string;
   menuHead?: ReactNode | ReactElement;
   buttonContent: string | ReactNode | ReactElement;
