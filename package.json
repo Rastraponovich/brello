@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
+    "@supabase/supabase-js": "^2.26.0",
     "atomic-router": "^0.8.0",
     "atomic-router-react": "^0.8.3",
     "class-variance-authority": "^0.6.1",

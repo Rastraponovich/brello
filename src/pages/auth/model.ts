@@ -1,9 +1,10 @@
-import { createEvent, createStore, sample } from "effector";
+import { attach, createEvent, createStore, sample } from "effector";
 import type { ChangeEvent, FormEvent } from "react";
+import { api } from "src/shared/api";
 import { routes } from "src/shared/routing";
 
 export const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
-export const $emailField = createStore<null | string>(null).on(
+export const $emailField = createStore<Email>("").on(
   changedEmail,
   (_, event) => {
     return event.target.value;
@@ -13,9 +14,18 @@ export const $emailField = createStore<null | string>(null).on(
 export const submitted = createEvent<FormEvent<HTMLFormElement>>();
 submitted.watch((e) => e.preventDefault());
 
+const signInWithEmailFx = attach({
+  source: $emailField,
+  effect: api.auth.signInWithEmailFx,
+  mapParams: (_, email) => {
+    return { email };
+  },
+});
+
 sample({
   clock: submitted,
-  target: routes.auth.onboarding.open,
+  filter: (email) => !!email,
+  target: signInWithEmailFx,
 });
 
 export const $isValid = createStore<boolean>(false);

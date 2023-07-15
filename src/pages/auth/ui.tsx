@@ -50,7 +50,7 @@ export const AuthPage = () => {
                 Get started
               </Button>
 
-              <SocialAuthButton social="google" theme="brand" />
+              <SocialAuthButton social="google" theme="brand" type="button" />
             </div>
           </form>
         </div>
