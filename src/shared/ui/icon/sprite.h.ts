@@ -16,6 +16,7 @@ export interface SpritesMap {
     | "plus-square"
     | "plus"
     | "search-lg"
+    | "search-sm"
     | "search"
     | "settings-01"
     | "settings"
@@ -74,6 +75,7 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "plus-square",
     "plus",
     "search-lg",
+    "search-sm",
     "search",
     "settings-01",
     "settings",

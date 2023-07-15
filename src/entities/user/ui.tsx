@@ -65,6 +65,7 @@ export const UserAvatarWithDropdown = () => {
       groupProperty="group"
       buttonContent={<Avatar />}
       menuHead={<UserCardSmall {...user} />}
+      menuClassName="hidden sm:block"
     />
   );
 };

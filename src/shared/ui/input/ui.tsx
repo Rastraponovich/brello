@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { forwardRef, memo } from "react";
 
-import { type models, helpers } from "../lib";
+import { type models, helpers } from "./lib";
 
 import { Icon } from "shared/ui/icon";
 
@@ -52,13 +52,13 @@ const _InputSearch = forwardRef<HTMLInputElement, models.IInputProps>(
       >
         <Icon
           size="normal"
-          name="common/search-lg"
-          className="absolute left-2 h-5 w-5"
+          name="common/search-sm"
+          className="absolute left-3.5 h-5 w-5 "
         />
         <BaseInput
           ref={ref}
           size="sm"
-          className={clsx(props.className, "pl-9 pr-3")}
+          className={clsx(props.className, "pl-10 pr-3.5")}
           {...props}
         />
       </InputWrapper>
@@ -156,7 +156,7 @@ const _BaseInputWeb = forwardRef<HTMLInputElement, models.IBaseInputWeb>(
           value={leftValue}
           onChange={onChange}
           placeholder={leftPlaceholder}
-          className="w-min rounded-l-md rounded-r-none border-r-transparent"
+          className="w-min max-w-[110px] rounded-l-md rounded-r-none border-r-transparent placeholder:truncate"
         />
         <BaseInput
           ref={ref}

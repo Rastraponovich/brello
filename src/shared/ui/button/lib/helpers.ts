@@ -119,7 +119,7 @@ export const closeXButton = cva(
       size: "sm",
       variant: "primary",
     },
-  }
+  },
 );
 
 /**
@@ -137,7 +137,7 @@ export const iconButton = ({
   cx(
     "flex shrink items-center rounded-lg border font-semibold",
     buttonBase({ variant, className }),
-    buttonIconSize({ size })
+    buttonIconSize({ size }),
   );
 
 /**
@@ -154,6 +154,6 @@ export const button = ({
 }) =>
   cx(
     "flex shrink items-center rounded-lg border font-semibold justify-center",
+    buttonSize({ size }),
     buttonBase({ variant, className }),
-    buttonSize({ size })
   );

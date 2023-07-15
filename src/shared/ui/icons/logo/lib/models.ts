@@ -7,4 +7,5 @@ export interface ILogoIconProps extends SVGProps<SVGSVGElement> {
 export interface ILogoProps {
   short?: boolean;
   className?: string;
+  canHideTitle?: boolean;
 }

@@ -20,83 +20,68 @@ import { buttonLib } from "src/shared/ui/button";
 import { Layout } from "src/widgets/layout";
 import { Button } from "src/shared/ui/button";
 import { Heading } from "src/shared/ui/heading";
-import { InputSearch } from "src/shared/ui/input";
+import { type IPageHeaderAction, PageHeader } from "src/widgets/page-header";
 import { ScrollContainer } from "src/shared/ui/scroll-container";
 import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
-import { Avatar } from "src/shared/ui/avatar";
-
-const BoardsHeaderActionPanel = () => {
-  const handleOpenSettings = useUnit(settingsButtonClicked);
-  return (
-    <div className="flex shrink-0 items-start space-x-3">
-      <Button
-        size="sm"
-        variant="secondaryGray"
-        leftIcon="common/settings"
-        onClick={handleOpenSettings}
-      >
-        Settings
-      </Button>
-      <Button size="sm" variant="primary" leftIcon="common/users-plus">
-        Invite members
-      </Button>
-    </div>
-  );
-};
-
-const BoardsHeader = () => {
-  return (
-    <div className="flex w-full flex-col px-6 sm:px-8">
-      <div className="flex w-full flex-col  gap-5 border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
-        <div className="flex w-full grow space-x-4">
-          <Avatar
-            size="xl"
-            user={{ firstName: "Clara", lastName: "Carala", id: 123 }}
-          />
-
-          <div className="flex flex-col">
-            <Heading as="h2" className="text-2xl font-semibold text-gray-900">
-              Coding in action
-            </Heading>
-            <span className="text-gray-600">Private</span>
-          </div>
-        </div>
-        <BoardsHeaderActionPanel />
-      </div>
-    </div>
-  );
-};
 
 export const BoardsPage = () => {
-  const [search, handleSearch] = useUnit([$search, searched]);
+  const handleOpenSettings = useUnit(settingsButtonClicked);
+
+  const actions: IPageHeaderAction[] = [
+    {
+      id: "settings",
+      title: "Settings",
+      variant: "secondaryGray",
+      leftIcon: "common/settings",
+      onClick: handleOpenSettings,
+    },
+    {
+      id: "invite",
+      variant: "primary",
+      title: "Invite members",
+      leftIcon: "users/users-plus",
+    },
+  ];
 
   return (
     <Layout>
-      <section className=" flex w-full  flex-col gap-4 py-8 sm:items-center sm:gap-6 sm:px-0 sm:py-0 ">
-        <BoardsHeader />
+      <section className="container mx-auto my-0 px-6 sm:px-8">
+        <PageHeader
+          divider
+          actions={actions}
+          description="Private"
+          title="Coding in action"
+          avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
+        />
       </section>
-      <section className="flex w-full flex-col items-center gap-8 px-6 sm:px-8">
-        <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <Heading as="h2" className="w-full text-lg font-semibold">
-            Boards
-          </Heading>
-          <InputSearch
-            value={search}
-            onChange={handleSearch}
-            placeholder="Search"
-          />
-        </div>
-      </section>
+      <BoardsFilter />
 
       <Boards />
     </Layout>
   );
 };
 
+const BoardsFilter = () => {
+  const [search, handleSearch] = useUnit([$search, searched]);
+
+  return (
+    <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
+      <PageHeader
+        title="Boards"
+        headingAs="h2"
+        placeholder="Search"
+        searchValue={search}
+        onSearch={handleSearch}
+        heandingClassName="text-lg"
+      />
+    </section>
+  );
+};
+
 const Boards = () => {
   const [isEmpty, isNotFound] = useUnit([$boardsEmpty, $isNotFound]);
   return (
-    <section className="flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
+    <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
       <div className="flex w-full flex-col overflow-hidden">
         {isNotFound ? (
           <NotFoundState />
@@ -112,9 +97,13 @@ const Boards = () => {
 
 const BoardsList = () => {
   const handleCardClick = useUnit(boardCardClicked);
+
   return (
     <ScrollContainer>
-      <div className="grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+      <div
+        draggable
+        className=" grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
+      >
         <AddBoardCard />
         {useList($boards, {
           fn: (board) => (
@@ -216,9 +205,9 @@ const AddBoardCard = memo(() => {
   const handleAddBoard = useUnit(addBoard);
 
   return (
-    <div className="flex flex-col justify-start rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
       <Button
-        size="sm"
+        size="md"
         variant="tertiaryGray"
         onClick={handleAddBoard}
         leftIcon="common/plus-circle"
