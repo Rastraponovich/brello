@@ -26,7 +26,8 @@ export interface SpritesMap {
     | "user"
     | "users-plus"
     | "x-close"
-    | "zap";
+    | "zap"
+    | "trash-01";
   communication: "message-smile-circle";
   development: "container";
   shapes: "star-01";
@@ -87,6 +88,7 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "users-plus",
     "x-close",
     "zap",
+    "trash-01",
   ],
   communication: ["message-smile-circle"],
   development: ["container"],

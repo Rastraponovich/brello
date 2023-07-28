@@ -1,8 +1,11 @@
 import { attach, createEvent, createStore, sample } from "effector";
 import { debug, reset } from "patronum";
 import type { ChangeEvent, FormEvent } from "react";
-import { api } from "src/shared/api";
-import { routes } from "src/shared/routing";
+import { routes } from "shared/routing";
+import { api } from "shared/api";
+
+const EMAIL_PATTERN = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+const validateEmail = new RegExp(EMAIL_PATTERN);
 
 export const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
 export const $emailField = createStore<Email>("").on(
@@ -37,9 +40,6 @@ export const $isPendning = createStore<boolean>(false).on(
   (_, pending) => pending,
 );
 export const $isValidEmail = createStore<boolean>(false);
-
-const EMAIL_PATTERN = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-const validateEmail = new RegExp(EMAIL_PATTERN);
 
 sample({
   clock: $emailField,
@@ -85,7 +85,7 @@ sample({
   target: reset({ target: $errors }),
 });
 
-debug($emailField, $isValidEmail, $errors);
+debug(signInWithEmailFx.done, signInWithEmailFx.doneData);
 
 export const skipButtonClicked = createEvent();
 

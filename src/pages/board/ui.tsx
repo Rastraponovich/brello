@@ -130,13 +130,15 @@ const List = () => {
   }, [editable]);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [currentItem, setCurrentItem] = useState<TBoard | null>(null);
+  const [_, setCurrentItem] = useState<TBoard | null>(null);
   const handleDragStart: TDragEventHandler = (_event, item) => {
     setCurrentItem(item);
     // console.log(event.type, item);
   };
   const handleDragEnd: DragEventHandler<HTMLDivElement> = (event) => {
     // console.log(event.type);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     const container = event.target.closest(".GRID_COL");
 
     if (container) {
@@ -146,6 +148,8 @@ const List = () => {
   };
   const handleDragLeave: DragEventHandler = (event) => {
     // console.log(event.type, event);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     const container = event.target.closest(".GRID_COL");
 
     if (container) {
@@ -155,6 +159,8 @@ const List = () => {
   };
   const handleDragOver: DragEventHandler = (event) => {
     event.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     const container = event.target.closest(".GRID_COL");
 
     if (container) {
@@ -166,6 +172,8 @@ const List = () => {
   };
   const handleDragDrop: (event: DragEvent, item: unknown) => void = (event) => {
     event.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
     const container = event.target.closest(".GRID_COL");
 
     if (container) {
@@ -181,10 +189,14 @@ const List = () => {
           <GridColumn key={board.id}>
             <Board
               board={board}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               onDragDrop={(e) => handleDragDrop(e, board)}
               onDragEnd={handleDragEnd}
               onDragLeave={handleDragLeave}
               onDragOver={handleDragOver}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               onDragStart={(e) => handleDragStart(e, board)}
             />
           </GridColumn>

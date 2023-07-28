@@ -3,7 +3,7 @@ import { RouterProvider, Route } from "atomic-router-react";
 
 import { routes, router } from "shared/routing";
 
-import { BoardPage } from "src/pages/board";
+import { BoardPage, BoardSettingsPage } from "src/pages/board";
 import { NotFoundPage } from "src/pages/404";
 import { UserPage } from "src/pages/user/settings";
 import { BoardsPage } from "src/pages/workspace/boards";
@@ -22,6 +22,7 @@ export const App = () => {
       <Route route={routes.auth.onboarding} view={AuthOnboarding} />
       <Route route={routes.workspace.settings} view={WorkSpaceSettingsPage} />
       <Route route={routes.workspace.onboarding} view={OnboardingPage} />
+      <Route route={routes.boardSettings} view={BoardSettingsPage} />
 
       <Route route={routes.notFountPage} view={NotFoundPage} />
     </RouterProvider>

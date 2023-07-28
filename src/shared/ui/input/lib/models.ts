@@ -36,9 +36,10 @@ export interface IInputAreaProps extends IBaseInputArea, IHint {
 }
 
 export interface IInputWrapper extends IHint, Errors {
+  type?: HTMLInputElement["type"];
   children: ReactNode;
-  caption?: string;
   className?: string;
+  caption?: string;
 }
 
 // TODO: remove || depricated

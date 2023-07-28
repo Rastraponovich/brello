@@ -1,20 +1,37 @@
 import clsx from "clsx";
-import { forwardRef, memo } from "react";
+import { HTMLInputTypeAttribute, forwardRef, memo } from "react";
 
 import { type models, helpers } from "./lib";
 
-import { Icon } from "shared/ui/icon";
+import { Icon, IconName } from "shared/ui/icon";
+
+const iconNames: Partial<Record<HTMLInputTypeAttribute, IconName>> = {
+  email: "common/mail",
+  search: "common/search-sm",
+};
 
 const _Input = forwardRef<HTMLInputElement, models.IInputProps>(
-  ({ caption, className, hint, hasError, errors, ...props }, ref) => {
+  ({ caption, className, hint, hasError, errors, type, ...props }, ref) => {
     return (
       <InputWrapper
-        caption={caption}
-        hint={hint}
         hasError={hasError}
+        className="w-full"
+        caption={caption}
         errors={errors}
+        hint={hint}
       >
-        <BaseInput {...props} className={className} ref={ref} />
+        <BaseInput
+          {...props}
+          ref={ref}
+          className={clsx(className, type !== "text" && "pl-10 pr-3.5")}
+        />
+        {type && type !== "text" && (
+          <Icon
+            size="normal"
+            name={iconNames[type] as IconName}
+            className="absolute bottom-3 left-3.5 h-5 w-5 "
+          />
+        )}
       </InputWrapper>
     );
   },
@@ -79,7 +96,7 @@ const InputWrapper = memo<models.IInputWrapper>(
       <label
         data-qa="Input__container"
         className={clsx(
-          "flex flex-col gap-1.5 text-left text-sm font-normal",
+          "relative flex flex-col gap-1.5 text-left text-sm font-normal",
           className,
         )}
       >

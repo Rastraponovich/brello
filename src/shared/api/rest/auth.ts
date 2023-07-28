@@ -21,6 +21,7 @@ export const signInWithEmailFx = createEffect<
 >(async ({ email }) => {
   const { error } = await client.auth.signInWithOtp({
     email,
+
     options: {
       emailRedirectTo: SITE_URL,
     },
