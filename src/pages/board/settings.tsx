@@ -7,63 +7,69 @@ import { Layout } from "src/widgets/layout";
 export const BoardSettingsPage = () => {
   return (
     <Layout>
-      <PageHeaderContent />
+      <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
+        <PageHeaderContent />
+        <PageForm />
+      </section>
     </Layout>
   );
 };
 
 const PageHeaderContent = () => {
   return (
-    <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
-      <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
-        <div className="flex flex-col justify-start gap-4 text-3xl font-semibold text-gray-900 sm:flex-row sm:items-center">
-          <Heading as="h2">Board settings</Heading>
-        </div>
-      </header>
-      <section className="flex flex-col gap-8">
-        <form action="" className="flex flex-col gap-5">
-          <FormBlock
-            title="Name"
-            description="This will be displayed in board header."
-          >
-            <Input />
-          </FormBlock>
-          <FormBlock
-            title="Invite collaborators"
-            description="Invite colleagues on this board."
-            bodyClassName="flex flex-col gap-3"
-          >
-            <EmailRow
-              caption="Email address"
-              placeholder="you@yourcompany.io"
-              value="you@yourcompany.io"
-            />
-            <EmailRow
-              placeholder="you@yourcompany.io"
-              value="you@yourcompany.io"
-            />
+    <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
+      <div className="flex flex-col justify-start gap-4 text-3xl font-semibold text-gray-900 sm:flex-row sm:items-center">
+        <Heading as="h2">Board settings</Heading>
+      </div>
+    </header>
+  );
+};
 
-            <AddEmail />
-          </FormBlock>
-          <FormBlock
-            title="Delete this board"
-            description=" Once you delete a board, there is no going back. Please be
-                certain."
-          >
-            <Button variant="primary" size="sm" type="button">
-              Delete this board
-            </Button>
-          </FormBlock>
-        </form>
-        <div className="flex items-center justify-end gap-3">
-          <Button type="reset" variant="secondaryGray" size="sm">
-            Cancel
+const PageForm = () => {
+  return (
+    <section className="flex flex-col gap-8">
+      <form action="" className="flex flex-col gap-5">
+        <FormBlock
+          title="Name"
+          description="This will be displayed in board header."
+        >
+          <Input />
+        </FormBlock>
+        <FormBlock
+          title="Invite collaborators"
+          description="Invite colleagues on this board."
+          bodyClassName="flex flex-col gap-3"
+        >
+          <EmailRow
+            caption="Email address"
+            placeholder="you@yourcompany.io"
+            value="you@yourcompany.io"
+          />
+          <EmailRow
+            placeholder="you@yourcompany.io"
+            value="you@yourcompany.io"
+          />
+
+          <AddEmail />
+        </FormBlock>
+        <FormBlock
+          title="Delete this board"
+          description=" Once you delete a board, there is no going back. Please be
+          certain."
+        >
+          <Button variant="primary" size="sm" type="button">
+            Delete this board
           </Button>
-          <Button type="submit" size="sm">
-            Save
-          </Button>
-        </div>
-      </section>
+        </FormBlock>
+      </form>
+      <div className="flex items-center justify-end gap-3">
+        <Button type="reset" variant="secondaryGray" size="sm">
+          Cancel
+        </Button>
+        <Button type="submit" size="sm">
+          Save
+        </Button>
+      </div>
     </section>
   );
 };

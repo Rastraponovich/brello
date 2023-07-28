@@ -21,13 +21,13 @@ export interface SpritesMap {
     | "search"
     | "settings-01"
     | "settings"
+    | "trash-01"
     | "upload-cloud"
     | "user-circle"
     | "user"
     | "users-plus"
     | "x-close"
-    | "zap"
-    | "trash-01";
+    | "zap";
   communication: "message-smile-circle";
   development: "container";
   shapes: "star-01";
@@ -82,13 +82,13 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "search",
     "settings-01",
     "settings",
+    "trash-01",
     "upload-cloud",
     "user-circle",
     "user",
     "users-plus",
     "x-close",
     "zap",
-    "trash-01",
   ],
   communication: ["message-smile-circle"],
   development: ["container"],
