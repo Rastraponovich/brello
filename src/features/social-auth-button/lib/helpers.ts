@@ -1,7 +1,7 @@
 import { TAuthServices } from "./models";
 
 export enum Colors {
-  Default = "border-gray-300 bg-white text-gray-700 hover:bg-gray-50",
+  Default = "border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:hover:bg-white  disabled:opacity-50",
   Facebook = "bg-facebook-600 border-facebook-600 text-white hover:bg-facebook-700 hover:border-facebook-700",
   Apple = "bg-black text-white border-black text-white",
   Figma = "bg-black text-white border-black text-white",

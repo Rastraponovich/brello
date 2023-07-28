@@ -9,6 +9,7 @@ export interface SpritesMap {
     | "help-circle"
     | "home-line"
     | "layers-two"
+    | "loading-02"
     | "log-out"
     | "mail"
     | "menu"
@@ -68,6 +69,7 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "help-circle",
     "home-line",
     "layers-two",
+    "loading-02",
     "log-out",
     "mail",
     "menu",

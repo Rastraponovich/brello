@@ -16,6 +16,7 @@ export const SocialAuthButton = memo<models.ISocialButtonProps>(
             ? helpers.BUTTON_COLORS_DICT[social]
             : helpers.Colors.Default,
           noCaption ? "p-2.5" : "px-4 py-2.5",
+
           className,
         )}
       >

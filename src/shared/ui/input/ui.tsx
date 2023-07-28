@@ -6,9 +6,14 @@ import { type models, helpers } from "./lib";
 import { Icon } from "shared/ui/icon";
 
 const _Input = forwardRef<HTMLInputElement, models.IInputProps>(
-  ({ caption, className, hint, ...props }, ref) => {
+  ({ caption, className, hint, hasError, errors, ...props }, ref) => {
     return (
-      <InputWrapper caption={caption} hint={hint}>
+      <InputWrapper
+        caption={caption}
+        hint={hint}
+        hasError={hasError}
+        errors={errors}
+      >
         <BaseInput {...props} className={className} ref={ref} />
       </InputWrapper>
     );
@@ -69,7 +74,7 @@ export const InputSearch = memo(_InputSearch);
 InputSearch.displayName = "InputSearch";
 
 const InputWrapper = memo<models.IInputWrapper>(
-  ({ children, caption, className, hint }) => {
+  ({ children, caption, className, hint, hasError, errors }) => {
     return (
       <label
         data-qa="Input__container"
@@ -88,7 +93,23 @@ const InputWrapper = memo<models.IInputWrapper>(
           </span>
         )}
         {children}
-        {hint && (
+        {hasError &&
+          errors &&
+          errors.map((error, id) => (
+            <div className="flex flex-col gap-1" key={id}>
+              <span
+                key={error.text}
+                title={error.text}
+                data-qa="Input__hint"
+                className={clsx(
+                  error.type === "invalid" ? "text-rose-500" : "text-gray-600",
+                )}
+              >
+                {error.text}
+              </span>
+            </div>
+          ))}
+        {hasError && hint && (
           <span
             title={hint?.text}
             data-qa="Input__hint"

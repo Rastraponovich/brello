@@ -4,6 +4,7 @@ import { IconName, type IconProps } from "shared/ui/icon";
 export interface IButton extends IButtonBaseProps, IButtonBaseVariant {
   children?: ReactNode;
   visualType?: TButtonType;
+  pending?: boolean;
 }
 
 export interface IButtonBaseProps

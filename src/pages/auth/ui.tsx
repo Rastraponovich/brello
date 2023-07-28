@@ -6,6 +6,9 @@ import {
   $emailField,
   changedEmail,
   submitted,
+  $isPendning,
+  $isValidEmail,
+  $errors,
 } from "./model";
 
 import { Input } from "src/shared/ui/input";
@@ -21,6 +24,10 @@ import { SocialAuthButton } from "src/features/social-auth-button";
 export const AuthPage = () => {
   const [value, setValue] = useUnit([$emailField, changedEmail]);
   const onSubmit = useUnit(submitted);
+  const isValidEmail = useUnit($isValidEmail);
+  const pending = useUnit($isPendning);
+
+  const errors = useUnit($errors);
 
   return (
     <main className="grid h-screen grid-rows-[62.5px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
@@ -47,24 +54,33 @@ export const AuthPage = () => {
                 placeholder="Enter your email"
                 value={value as string}
                 onChange={setValue}
+                disabled={pending}
                 type="email"
                 required
-                hint={{
-                  text: "Please enter a valid email address",
-                  type: "invalid",
-                }}
+                hasError={!isValidEmail}
+                errors={errors}
               />
 
               <div className="col-start-1 mt-6 flex flex-col space-y-4  md:col-start-2">
-                <Button type="submit" variant="primary" size="md">
+                <Button
+                  disabled={pending}
+                  pending={pending}
+                  variant="primary"
+                  type="submit"
+                  size="md"
+                >
                   Get started
                 </Button>
 
-                <SocialAuthButton social="google" theme="brand" type="button"/>
+                <SocialAuthButton
+                  disabled={pending}
+                  social="google"
+                  theme="brand"
+                  type="button"
+                />
               </div>
             </form>
           </div>
-
         </div>
 
         <footer className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">

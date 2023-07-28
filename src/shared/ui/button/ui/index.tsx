@@ -12,6 +12,7 @@ const _Button = forwardRef<HTMLButtonElement, models.TButtonProps>(
       className,
       size = "sm",
       leftIcon,
+      pending,
       rightIcon,
       variant = "primary",
       visualType = "default",
@@ -26,9 +27,18 @@ const _Button = forwardRef<HTMLButtonElement, models.TButtonProps>(
         {...props}
         className={button({ variant, size, className })}
       >
-        {leftIcon && visualType !== "dot" && (
+        {!pending ? (
+          leftIcon &&
+          visualType !== "dot" && (
+            <Icon
+              name={leftIcon}
+              data-qa="Button-icon__left"
+              size={size === "xl" ? "large" : "normal"}
+            />
+          )
+        ) : (
           <Icon
-            name={leftIcon}
+            name="common/loading-02"
             data-qa="Button-icon__left"
             size={size === "xl" ? "large" : "normal"}
           />

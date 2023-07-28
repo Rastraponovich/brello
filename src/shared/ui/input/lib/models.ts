@@ -13,7 +13,16 @@ export interface IHint {
   };
 }
 
-export interface IInputProps extends IBaseInput {
+interface Validators {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  validators?: Function[];
+}
+
+interface Errors {
+  hasError?: boolean;
+  errors?: { text: string; type: string }[];
+}
+export interface IInputProps extends IBaseInput, Validators, Errors {
   caption?: string;
 }
 
@@ -26,7 +35,7 @@ export interface IInputAreaProps extends IBaseInputArea, IHint {
   caption?: string;
 }
 
-export interface IInputWrapper extends IHint {
+export interface IInputWrapper extends IHint, Errors {
   children: ReactNode;
   caption?: string;
   className?: string;
