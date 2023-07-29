@@ -1,4 +1,4 @@
-import { ReactNode, memo } from "react";
+import { ChangeEventHandler, ReactNode, memo, useState } from "react";
 import { Button, IconButton } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
 import { Input, inputLib } from "shared/ui/input";
@@ -26,6 +26,26 @@ const PageHeaderContent = () => {
 };
 
 const PageForm = () => {
+  const [emails, setEmails] = useState<string[]>([]);
+
+  const [newEmail, setNewEmail] = useState("");
+
+  const handleChangeNewEmail: ChangeEventHandler<HTMLInputElement> = (event) =>
+    setNewEmail(event.target.value);
+
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+    console.log(event.target);
+  };
+
+  const onAddClick = () => {
+    setEmails((prev) => [...prev, newEmail]);
+
+    setNewEmail("");
+  };
+
+  const onDelete = (id: number) => {
+    setEmails((prev) => prev.filter((_, index) => index !== id));
+  };
   return (
     <section className="flex flex-col gap-8">
       <form action="" className="flex flex-col gap-5">
@@ -40,17 +60,23 @@ const PageForm = () => {
           description="Invite colleagues on this board."
           bodyClassName="flex flex-col gap-3"
         >
-          <EmailRow
-            caption="Email address"
-            placeholder="you@yourcompany.io"
-            value="you@yourcompany.io"
-          />
-          <EmailRow
-            placeholder="you@yourcompany.io"
-            value="you@yourcompany.io"
-          />
+          {emails.map((email, id) => (
+            <EmailRow
+              key={id}
+              caption="Email address"
+              placeholder="you@yourcompany.io"
+              value={email}
+              id={String(id)}
+              onChange={handleChange}
+              onDelete={onDelete}
+            />
+          ))}
 
-          <AddEmail />
+          <AddEmail
+            value={newEmail}
+            onChange={handleChangeNewEmail}
+            onAddClick={onAddClick}
+          />
         </FormBlock>
         <FormBlock
           title="Delete this board"
@@ -95,15 +121,30 @@ const FormBlock = memo<FormBlockProps>(
 );
 FormBlock.displayName = "FormBlock";
 
-const AddEmail = () => {
+const AddEmail = ({
+  value,
+  onChange,
+  onAddClick,
+}: {
+  value: string;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  onAddClick(): void;
+}) => {
   return (
     <div className="flex flex-col gap-2.5">
-      <Input className="w-full" placeholder="you@yourcompany.io" type="email" />
+      <Input
+        className="w-full"
+        placeholder="you@yourcompany.io"
+        type="email"
+        value={value}
+        onChange={onChange}
+      />
       <Button
         type="button"
         variant="link"
         leftIcon="common/plus"
         className="self-start"
+        onClick={onAddClick}
       >
         Add another
       </Button>
@@ -114,15 +155,20 @@ const AddEmail = () => {
 interface EmailRowProps
   extends Pick<
     inputLib.models.IInputProps,
-    "caption" | "placeholder" | "value" | "onChange"
+    "caption" | "placeholder" | "value" | "onChange" | "id"
   > {
   caption?: string;
+  onDelete(id: number): void;
 }
 const EmailRow = memo<EmailRowProps>(
-  ({ caption, value, onChange, placeholder }) => {
+  ({ caption, value, onChange, placeholder, id, onDelete }) => {
+    const handleClick = () => {
+      onDelete(Number(id));
+    };
     return (
       <div className="flex items-end gap-2.5">
         <Input
+          id={id}
           size="md"
           type="email"
           value={value}
@@ -134,6 +180,7 @@ const EmailRow = memo<EmailRowProps>(
         <IconButton
           icon="common/trash-01"
           variant="secondaryGray"
+          onClick={handleClick}
           size="md"
           type="button"
         />
