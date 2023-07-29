@@ -5,9 +5,9 @@ import { logOutButtonClicked, viewProfileButtonClicked } from "./model";
 
 import { type TUser } from "./lib";
 
-import { Avatar } from "src/shared/ui/avatar";
-import { Dropdown } from "src/shared/ui/dropdown";
-import { type TMenuItem } from "src/shared/ui/dropdown/lib";
+import { Avatar } from "shared/ui/avatar";
+import { Dropdown } from "shared/ui/dropdown";
+import { type TMenuItem } from "shared/ui/dropdown/lib";
 
 type IUserCardSmallProps = TUser;
 const UserCardSmall = memo<IUserCardSmallProps>(

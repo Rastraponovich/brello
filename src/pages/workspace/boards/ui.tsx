@@ -13,16 +13,16 @@ import {
 } from "./model";
 
 import type { IBoardCard } from "./lib";
-import { type IconName } from "src/shared/ui/icon";
+import { type IconName } from "shared/ui/icon";
 
-import { buttonLib } from "src/shared/ui/button";
+import { buttonLib } from "shared/ui/button";
 
-import { Layout } from "src/widgets/layout";
-import { Button } from "src/shared/ui/button";
-import { Heading } from "src/shared/ui/heading";
-import { type IPageHeaderAction, PageHeader } from "src/widgets/page-header";
-import { ScrollContainer } from "src/shared/ui/scroll-container";
-import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
+import { Layout } from "widgets/layout";
+import { Button } from "shared/ui/button";
+import { Heading } from "shared/ui/heading";
+import { type IPageHeaderAction, PageHeader } from "widgets/page-header";
+import { ScrollContainer } from "shared/ui/scroll-container";
+import { FeaturedIcon } from "shared/ui/icons/featured-icon";
 
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);

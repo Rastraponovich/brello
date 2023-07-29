@@ -1,6 +1,6 @@
 import { forwardRef, memo } from "react";
 
-import { type models } from "../lib";
+import { type models } from "./lib";
 
 export const Heading = memo(
   forwardRef<HTMLHeadingElement, models.IHeadingProps>(

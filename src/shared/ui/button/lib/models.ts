@@ -14,6 +14,7 @@ export interface IButtonBaseProps
 
 export interface IButtonBaseVariant {
   variant?: TVariant;
+  destructive?: boolean;
 }
 
 export type TButtonProps = IButton & TConditionalButton;

@@ -23,11 +23,12 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      src: "/src",
-      shared: "/src/shared",
-      entities: "/src/entities",
       app: "/src/app",
       pages: "/src/pages",
+      shared: "/src/shared",
+      widgets: "/src/widgets",
+      entities: "/src/entities",
+      features: "/src/features",
     },
   },
 });

@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import type { IPageHeader } from "./models";
 
-import { Avatar } from "src/shared/ui/avatar";
-import { Button } from "src/shared/ui/button";
-import { Heading } from "src/shared/ui/heading";
-import { InputSearch } from "src/shared/ui/input";
+import { Avatar } from "shared/ui/avatar";
+import { Button } from "shared/ui/button";
+import { Heading } from "shared/ui/heading";
+import { InputSearch } from "shared/ui/input";
 import { memo } from "react";
 
 export const PageHeader = memo<IPageHeader>(

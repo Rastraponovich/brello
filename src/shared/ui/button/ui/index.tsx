@@ -6,26 +6,25 @@ import { Icon } from "shared/ui/icon";
 import { Marker } from "shared/ui/marker";
 
 const _Button = forwardRef<HTMLButtonElement, models.TButtonProps>(
-  (
-    {
-      children,
-      className,
-      size = "sm",
-      leftIcon,
+  (props, ref) => {
+    const {
       pending,
+      children,
+      leftIcon,
+      className,
       rightIcon,
+      size = "sm",
+      destructive = false,
       variant = "primary",
       visualType = "default",
-      ...props
-    },
-    ref,
-  ) => {
+      ...buttonProps
+    } = props;
     return (
       <button
         ref={ref}
         data-qa={`Button__${variant}`}
-        {...props}
-        className={button({ variant, size, className })}
+        className={button({ variant, size, className, destructive })}
+        {...buttonProps}
       >
         {!pending ? (
           leftIcon &&
@@ -63,13 +62,21 @@ export const Button = memo(_Button);
 Button.displayName = "Button";
 
 const _IconButton = forwardRef<HTMLButtonElement, models.IIconButton>(
-  ({ className, size = "sm", icon, variant = "primary", ...props }, ref) => {
+  (props, ref) => {
+    const {
+      icon,
+      className,
+      size = "sm",
+      variant = "primary",
+      destructive = false,
+      ...buttonProps
+    } = props;
     return (
       <button
         ref={ref}
         data-qa="IconButton"
-        {...props}
-        className={iconButton({ variant, size, className })}
+        className={iconButton({ variant, size, className, destructive })}
+        {...buttonProps}
       >
         <Icon
           name={icon}

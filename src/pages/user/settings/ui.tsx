@@ -1,12 +1,12 @@
 import type { FormEventHandler, ReactElement } from "react";
 
-import { Input } from "src/shared/ui/input";
-import { Layout } from "src/widgets/layout";
-import { Button } from "src/shared/ui/button";
-import { Upload } from "src/shared/ui/upload";
+import { Input } from "shared/ui/input";
+import { Layout } from "widgets/layout";
+import { Button } from "shared/ui/button";
+import { Upload } from "shared/ui/upload";
 import { useUnit } from "effector-react";
 import { resetButtonClicked } from "./model";
-import { PageHeader } from "src/widgets/page-header";
+import { PageHeader } from "widgets/page-header";
 
 /**
  * User Settings Page

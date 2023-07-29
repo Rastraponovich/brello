@@ -1,7 +1,7 @@
 import { debounce } from "patronum";
 import { createEvent, createStore, sample } from "effector";
 
-import { routes } from "src/shared/routing";
+import { routes } from "shared/routing";
 
 import { BOARDS, type TBoard } from "./lib";
 

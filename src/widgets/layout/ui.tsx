@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
 
-import { Header } from "src/widgets/header";
-import { IconName } from "src/shared/ui/icon";
-import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
+import { Header } from "widgets/header";
+import { IconName } from "shared/ui/icon";
+import { FeaturedIcon } from "shared/ui/icons/featured-icon";
 
 interface ILayoutProps {
   children: ReactNode;

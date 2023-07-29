@@ -11,12 +11,12 @@ import {
 
 import { helpers, models } from "./lib";
 
-import { Board } from "src/entities/board";
-import { Layout } from "src/widgets/layout";
-import { AddList } from "src/features/add-list";
-import { Heading } from "src/shared/ui/heading";
-import { IconButton } from "src/shared/ui/button";
-import { AvatarGroup } from "src/shared/ui/avatar";
+import { Board } from "entities/board";
+import { Layout } from "widgets/layout";
+import { AddList } from "features/add-list";
+import { Heading } from "shared/ui/heading";
+import { IconButton } from "shared/ui/button";
+import { AvatarGroup } from "shared/ui/avatar";
 import { TBoard } from "./lib/models";
 
 type TDragEventHandler = (event: DragEvent, item: TBoard) => void;

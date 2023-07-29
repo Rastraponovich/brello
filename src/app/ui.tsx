@@ -3,13 +3,13 @@ import { RouterProvider, Route } from "atomic-router-react";
 
 import { routes, router } from "shared/routing";
 
-import { BoardPage, BoardSettingsPage } from "src/pages/board";
-import { NotFoundPage } from "src/pages/404";
-import { UserPage } from "src/pages/user/settings";
-import { BoardsPage } from "src/pages/workspace/boards";
-import { AuthOnboarding, AuthPage } from "src/pages/auth";
-import { OnboardingPage } from "src/pages/workspace/onboarding";
-import { WorkSpaceSettingsPage } from "src/pages/workspace/settings";
+import { NotFoundPage } from "pages/404";
+import { UserPage } from "pages/user/settings";
+import { BoardsPage } from "pages/workspace/boards";
+import { AuthOnboarding, AuthPage } from "pages/auth";
+import { BoardPage, BoardSettingsPage } from "pages/board";
+import { OnboardingPage } from "pages/workspace/onboarding";
+import { WorkSpaceSettingsPage } from "pages/workspace/settings";
 
 export const App = () => {
   return (

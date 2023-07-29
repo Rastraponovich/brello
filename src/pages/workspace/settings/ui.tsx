@@ -4,11 +4,11 @@ import type { FormEventHandler, ReactNode } from "react";
 
 import { cancelButtonClicked } from "./model";
 
-import { Layout } from "src/widgets/layout";
-import { Upload } from "src/shared/ui/upload";
-import { Button } from "src/shared/ui/button";
-import { PageHeader } from "src/widgets/page-header";
-import { Input, InputArea, InputWeb } from "src/shared/ui/input";
+import { Layout } from "widgets/layout";
+import { Upload } from "shared/ui/upload";
+import { Button } from "shared/ui/button";
+import { PageHeader } from "widgets/page-header";
+import { Input, InputArea, InputWeb } from "shared/ui/input";
 
 export const WorkSpaceSettingsPage = () => {
   return (

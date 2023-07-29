@@ -11,15 +11,15 @@ import {
   $errors,
 } from "./model";
 
-import { Input } from "src/shared/ui/input";
+import { Input } from "shared/ui/input";
 
-import { Icon } from "src/shared/ui/icon";
-import { Button } from "src/shared/ui/button";
-import { Heading } from "src/shared/ui/heading";
+import { Icon } from "shared/ui/icon";
+import { Button } from "shared/ui/button";
+import { Heading } from "shared/ui/heading";
 
-import { Logo } from "src/shared/ui/icons/logo";
-import { OnboardingLayout } from "src/widgets/layout";
-import { SocialAuthButton } from "src/features/social-auth-button";
+import { Logo } from "shared/ui/icons/logo";
+import { OnboardingLayout } from "widgets/layout";
+import { SocialAuthButton } from "features/social-auth-button";
 
 export const AuthPage = () => {
   const [value, setValue] = useUnit([$emailField, changedEmail]);

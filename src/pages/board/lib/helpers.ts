@@ -1,4 +1,4 @@
-import { CARDS } from "src/entities/board/lib/helpers";
+import { CARDS } from "entities/board/lib/helpers";
 import { TBoard } from "./models";
 
 export const BOARDS: TBoard[] = [

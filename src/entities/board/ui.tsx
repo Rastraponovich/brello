@@ -11,15 +11,15 @@ import {
 } from "react";
 
 import { type models } from "./lib";
-import { type TBoard } from "src/pages/board/lib/models";
+import { type TBoard } from "pages/board/lib/models";
 
-import { Bage } from "src/shared/ui/bage";
-import { Icon } from "src/shared/ui/icon";
-import { Heading } from "src/shared/ui/heading";
-import { Dropdown } from "src/shared/ui/dropdown";
-import { AvatarGroup } from "src/shared/ui/avatar";
-import { AddEntity } from "src/features/add-entity";
-import { ScrollContainer } from "src/shared/ui/scroll-container";
+import { Bage } from "shared/ui/bage";
+import { Icon } from "shared/ui/icon";
+import { Heading } from "shared/ui/heading";
+import { Dropdown } from "shared/ui/dropdown";
+import { AvatarGroup } from "shared/ui/avatar";
+import { AddEntity } from "features/add-entity";
+import { ScrollContainer } from "shared/ui/scroll-container";
 
 const BoardActions = memo(() => {
   return (

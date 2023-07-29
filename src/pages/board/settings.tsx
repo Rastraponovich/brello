@@ -1,8 +1,8 @@
 import { ReactNode, memo } from "react";
-import { Button, IconButton } from "src/shared/ui/button";
-import { Heading } from "src/shared/ui/heading";
-import { Input, inputLib } from "src/shared/ui/input";
-import { Layout } from "src/widgets/layout";
+import { Button, IconButton } from "shared/ui/button";
+import { Heading } from "shared/ui/heading";
+import { Input, inputLib } from "shared/ui/input";
+import { Layout } from "widgets/layout";
 
 export const BoardSettingsPage = () => {
   return (
@@ -57,7 +57,7 @@ const PageForm = () => {
           description=" Once you delete a board, there is no going back. Please be
           certain."
         >
-          <Button variant="primary" size="sm" type="button">
+          <Button variant="primary" size="sm" type="button" destructive>
             Delete this board
           </Button>
         </FormBlock>
