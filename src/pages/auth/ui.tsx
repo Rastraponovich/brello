@@ -1,4 +1,4 @@
-import { FormEventHandler } from "react";
+import { FormEventHandler, memo } from "react";
 import { useUnit } from "effector-react";
 
 import {
@@ -13,7 +13,7 @@ import {
 
 import { Input } from "shared/ui/input";
 
-import { Icon } from "shared/ui/icon";
+import { Icon, IconName } from "shared/ui/icon";
 import { Button } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
 
@@ -24,6 +24,22 @@ import { FeaturedIcon } from "shared/ui/icons/featured-icon";
 import { Link } from "atomic-router-react";
 import { routes } from "shared/routing";
 
+const statuses: Record<"check" | "error", SendStatusBlockProps> = {
+  check: {
+    icon: "common/mail",
+    text: "Check your email",
+    description: "We sent a login link to olivia@untitledui.com",
+    buttonText: "Back to log in",
+  },
+  error: {
+    icon: "alerts/alert-circle",
+    text: "Some error happened",
+    description: "With description",
+    buttonText: "Try again",
+    type: "error",
+  },
+};
+
 export const AuthPage = () => {
   const [value, setValue] = useUnit([$emailField, changedEmail]);
   const onSubmit = useUnit(submitted);
@@ -32,7 +48,7 @@ export const AuthPage = () => {
 
   const errors = useUnit($errors);
 
-  const linkSending = false;
+  const linkSending: "error" | "check" | null = "check";
 
   return (
     <main className="grid h-screen grid-rows-[62.5px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
@@ -44,7 +60,7 @@ export const AuthPage = () => {
         <section className="container mx-auto my-0 flex grow flex-col items-center justify-center px-4 sm:px-8">
           <section className="flex w-full max-w-[360px] grow flex-col justify-start gap-8 sm:justify-center">
             {linkSending ? (
-              <LinkWasSending />
+              <SendStatusBlock {...statuses[linkSending]} />
             ) : (
               <>
                 <header className="flex flex-col gap-2">
@@ -54,21 +70,21 @@ export const AuthPage = () => {
                   </span>
                 </header>
                 <form
+                  noValidate
                   onSubmit={onSubmit}
                   className="flex flex-col gap-6"
-                  noValidate
                 >
                   <Input
-                    caption="Email"
                     placeholder="Enter your email"
+                    hasError={!isValidEmail}
                     value={value as string}
                     onChange={setValue}
-                    disableIcon
                     disabled={pending}
-                    type="email"
-                    required
-                    hasError={!isValidEmail}
                     errors={errors}
+                    caption="Email"
+                    type="email"
+                    disableIcon
+                    required
                   />
 
                   <div className="col-start-1 flex flex-col gap-4 md:col-start-2">
@@ -148,8 +164,8 @@ export const AuthOnboarding = () => {
       </header>
       <section className="flex flex-col gap-8">
         <form
-          onSubmit={handleSubmit}
           id="form"
+          onSubmit={handleSubmit}
           className="flex w-full flex-col gap-6 text-sm text-gray-700 sm:max-w-[512px] sm:flex-row sm:gap-8"
         >
           <Input placeholder="First name" caption="First name" />
@@ -163,28 +179,41 @@ export const AuthOnboarding = () => {
   );
 };
 
-const LinkWasSending = () => {
-  return (
-    <>
-      <header className="flex flex-col items-start gap-6">
-        <FeaturedIcon
-          icon="common/mail"
-          variant="outline"
-          type="circle"
-          size="xl"
-        />
-        <div className="flex flex-col gap-3">
-          <Heading as="h1">Check your email</Heading>
-          <p className="text-base text-gray-600">
-            We sent a login link to olivia@untitledui.com
-          </p>
-        </div>
-      </header>
-      <Link to={routes.auth.login}>
-        <Button variant="linkGray" size="sm" leftIcon="arrows/arrow-left">
-          Back to log in
-        </Button>
-      </Link>
-    </>
-  );
-};
+interface SendStatusBlockProps {
+  text: string;
+  description: string;
+  icon: IconName;
+  buttonText: string;
+  type?: "error";
+}
+const SendStatusBlock = memo<SendStatusBlockProps>(
+  ({ text, description, buttonText, type, icon }) => {
+    return (
+      <>
+        <header className="flex flex-col items-start gap-6">
+          <FeaturedIcon
+            icon={icon}
+            variant="outline"
+            color={type === "error" ? "error" : "primary"}
+            type="circle"
+            size="xl"
+          />
+          <div className="flex flex-col gap-3">
+            <Heading as="h1">{text}</Heading>
+            <p className="text-base text-gray-600">{description}</p>
+          </div>
+        </header>
+        <Link to={routes.auth.login}>
+          <Button
+            size="sm"
+            type="button"
+            variant="linkGray"
+            leftIcon="arrows/arrow-left"
+          >
+            {buttonText}
+          </Button>
+        </Link>
+      </>
+    );
+  },
+);
