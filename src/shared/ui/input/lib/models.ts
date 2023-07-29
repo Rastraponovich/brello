@@ -5,6 +5,7 @@ export interface IBaseInput
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">,
     IHint {
   size?: TInputSize;
+  disableIcon?: boolean;
 }
 export interface IHint {
   hint?: {

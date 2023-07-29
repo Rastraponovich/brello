@@ -11,25 +11,38 @@ const iconNames: Partial<Record<HTMLInputTypeAttribute, IconName>> = {
 };
 
 const _Input = forwardRef<HTMLInputElement, models.IInputProps>(
-  ({ caption, className, hint, hasError, errors, type, ...props }, ref) => {
+  (
+    {
+      caption,
+      className,
+      hint,
+      hasError,
+      errors,
+      type = "text",
+      disableIcon,
+      ...props
+    },
+    ref,
+  ) => {
     return (
       <InputWrapper
         hasError={hasError}
-        className="w-full"
         caption={caption}
         errors={errors}
         hint={hint}
       >
         <BaseInput
-          {...props}
           ref={ref}
-          className={clsx(className, type !== "text" && "pl-10 pr-3.5")}
+          type={type}
+          disableIcon={disableIcon}
+          className={className}
+          {...props}
         />
-        {type && type !== "text" && (
+        {!disableIcon && type && type !== "text" && (
           <Icon
             size="normal"
             name={iconNames[type] as IconName}
-            className="absolute bottom-3 left-3.5 h-5 w-5 "
+            className="absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2"
           />
         )}
       </InputWrapper>
@@ -40,7 +53,7 @@ export const Input = memo(_Input);
 Input.displayName = "Input";
 
 const _BaseInput = forwardRef<HTMLInputElement, models.IBaseInput>(
-  ({ className, size = helpers.EInputSize.MD, ...props }, ref) => {
+  ({ className, disableIcon, size = helpers.EInputSize.MD, ...props }, ref) => {
     return (
       <input
         ref={ref}
@@ -48,7 +61,7 @@ const _BaseInput = forwardRef<HTMLInputElement, models.IBaseInput>(
         data-qa="Input__value"
         className={clsx(
           "text-base text-gray-900 placeholder:text-gray-500",
-          "gap-2 bg-white shadow-sm",
+          "w-full gap-2 bg-white shadow-sm",
           "border-gray-300, rounded-lg border",
           "focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
           "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
@@ -56,6 +69,7 @@ const _BaseInput = forwardRef<HTMLInputElement, models.IBaseInput>(
           "disabled:bg-gray-50",
           helpers.INPUT_SIZE_DICT[size],
           className,
+          props.type !== "text" && !disableIcon && "pl-10 pr-3.5",
         )}
       />
     );
@@ -96,7 +110,7 @@ const InputWrapper = memo<models.IInputWrapper>(
       <label
         data-qa="Input__container"
         className={clsx(
-          "relative flex flex-col gap-1.5 text-left text-sm font-normal",
+          "relative flex w-full flex-col gap-1.5 text-left text-sm font-normal",
           className,
         )}
       >
@@ -109,7 +123,7 @@ const InputWrapper = memo<models.IInputWrapper>(
             {caption}
           </span>
         )}
-        {children}
+        <div className="relative w-full">{children}</div>
         {hasError &&
           errors &&
           errors.map((error, id) => (

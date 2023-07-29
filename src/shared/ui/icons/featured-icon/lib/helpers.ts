@@ -38,7 +38,7 @@ export const BORDER_SIZE: Record<Sizes, string> = {
   [Sizes.SM]: "border-4",
   [Sizes.MD]: "border-6",
   [Sizes.LG]: "border-8",
-  [Sizes.XL]: "border-12",
+  [Sizes.XL]: "border-10",
 };
 
 export const FEATURED_ICON_CONTAINER_SIZE_DICT: Record<Sizes, string> = {
