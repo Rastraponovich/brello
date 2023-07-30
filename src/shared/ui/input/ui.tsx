@@ -180,7 +180,7 @@ const _BaseInutArea = forwardRef<HTMLTextAreaElement, models.IBaseInputArea>(
         className={clsx(
           "px-3 py-2 sm:px-3.5 sm:py-2.5",
           "rounded-lg border border-gray-300",
-          "resize-none gap-2  bg-white shadow-sm",
+          "w-full resize-none gap-2 bg-white shadow-sm",
           "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
           "text-base font-normal text-gray-500 placeholder:text-gray-500",
           "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",

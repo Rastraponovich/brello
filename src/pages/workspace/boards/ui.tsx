@@ -49,8 +49,10 @@ export const BoardsPage = () => {
         <PageHeader
           divider
           actions={actions}
+          headingAs="h1"
           description="Private"
           title="Coding in action"
+          className="!items-start"
           avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
         />
       </section>

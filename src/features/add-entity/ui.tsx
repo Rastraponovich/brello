@@ -15,7 +15,6 @@ export const AddEntity = memo<IAddEntityProps>(
           <InputArea
             rows={3}
             value={value}
-            className="w-full"
             onChange={onChange}
             autoFocus={editable}
           />

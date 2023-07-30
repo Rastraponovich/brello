@@ -1,25 +1,41 @@
 import { debounce } from "patronum";
-import { createEvent, createStore, sample } from "effector";
+import { attach, createEvent, createStore, sample } from "effector";
 
 import { routes } from "shared/routing";
 
-import { BOARDS, type TBoard } from "./lib";
-
 import { type ChangeEvent } from "react";
+import { api } from "shared/api";
+import { TBoard } from "./lib";
+
+const getWorkspaceFx = attach({
+  effect: api.workspace.getWorkspaceFx,
+});
+
+sample({
+  clock: routes.boards.opened,
+  target: getWorkspaceFx,
+});
 
 export const addBoard = createEvent();
 
 export const resetSearch = createEvent();
+
+sample({
+  clock: resetSearch,
+  target: getWorkspaceFx,
+});
 
 export const searched = createEvent<ChangeEvent<HTMLInputElement>>();
 export const $search = createStore("")
   .on(searched, (_, event) => event.target.value)
   .reset([resetSearch, addBoard]);
 
-export const $boards = createStore<TBoard[]>(BOARDS).on(
-  addBoard,
-  (state, _) => [...state, { id: state.length + 1, title: "newBoard" }],
-);
+export const $boards = createStore<TBoard[]>([])
+  .on(getWorkspaceFx.doneData, (_, { boards }) => boards)
+  .on(addBoard, (state, _) => [
+    ...state,
+    { id: state.length + 1, title: "newBoard" },
+  ]);
 
 export const $boardsLength = $boards.map((state) => state.length);
 export const $boardsEmpty = $boards.map((state) => state.length === 0);

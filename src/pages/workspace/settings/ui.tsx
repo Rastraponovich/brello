@@ -2,7 +2,13 @@ import { useUnit } from "effector-react";
 
 import type { FormEventHandler, ReactNode } from "react";
 
-import { cancelButtonClicked } from "./model";
+import {
+  $workspaceDescription,
+  $workspaceName,
+  cancelButtonClicked,
+  workspaceDescriptionChanged,
+  workspaceNameChanged,
+} from "./model";
 
 import { Layout } from "widgets/layout";
 import { Upload } from "shared/ui/upload";
@@ -27,6 +33,16 @@ export const WorkSpaceSettingsPage = () => {
 };
 
 const WorkSpaceSettingsForm = () => {
+  const [name, handleChangeName] = useUnit([
+    $workspaceName,
+    workspaceNameChanged,
+  ]);
+
+  const [description, setDescribtion] = useUnit([
+    $workspaceDescription,
+    workspaceDescriptionChanged,
+  ]);
+
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) =>
     e.preventDefault();
 
@@ -43,10 +59,15 @@ const WorkSpaceSettingsForm = () => {
           <span>This will be displayed on your profile.</span>
         </FormBlockHeader>
         <FormBlockBody>
-          <Input placeholder="Coding in action" />
+          <Input
+            value={name}
+            onChange={handleChangeName}
+            placeholder="Coding in action"
+          />
           <InputWeb
             leftPlaceholder="brello.io/.../"
             rightPlaceholder="coding-in-action"
+
             // rightValue="coding-in-action"
           />
         </FormBlockBody>
@@ -59,8 +80,9 @@ const WorkSpaceSettingsForm = () => {
         </FormBlockHeader>
         <FormBlockBody>
           <InputArea
+            value={description}
+            onChange={setDescribtion}
             placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance."
-            className="w-full"
           />
         </FormBlockBody>
       </FormBlockWrapper>

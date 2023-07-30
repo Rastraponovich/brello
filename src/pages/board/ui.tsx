@@ -21,12 +21,24 @@ import { TBoard } from "./lib/models";
 
 type TDragEventHandler = (event: DragEvent, item: TBoard) => void;
 
+/**
+ * @description Page
+ */
+export const BoardPage = () => {
+  return (
+    <Layout>
+      <PageHeaderContent />
+      <List />
+    </Layout>
+  );
+};
+
 const PageHeaderContent = () => {
   return (
     <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
-      <div className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
-        <div className="flex flex-col justify-start gap-4 text-3xl font-semibold text-gray-900 sm:flex-row sm:items-center">
-          <Heading as="h2">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
+      <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
+        <div className="flex flex-col justify-start gap-4 sm:flex-row sm:items-center">
+          <Heading as="h1">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
           <IconButton
             size="sm"
             icon="shapes/star-01"
@@ -71,17 +83,8 @@ const PageHeaderContent = () => {
             },
           ]}
         />
-      </div>
+      </header>
     </section>
-  );
-};
-
-export const BoardPage = () => {
-  return (
-    <Layout>
-      <PageHeaderContent />
-      <List />
-    </Layout>
   );
 };
 
