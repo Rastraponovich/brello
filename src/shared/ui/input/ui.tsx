@@ -204,6 +204,7 @@ const _BaseInputWeb = forwardRef<HTMLInputElement, models.IBaseInputWeb>(
       <div className="flex" data-qa="InputWeb__block">
         <BaseInput
           readOnly
+          type="text"
           tabIndex={-1}
           value={leftValue}
           onChange={onChange}
@@ -212,6 +213,7 @@ const _BaseInputWeb = forwardRef<HTMLInputElement, models.IBaseInputWeb>(
         />
         <BaseInput
           ref={ref}
+          type="text"
           value={rightValue}
           onChange={onChange}
           placeholder={rightPlaceholder}

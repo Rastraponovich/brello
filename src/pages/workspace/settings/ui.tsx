@@ -58,7 +58,10 @@ const WorkSpaceSettingsForm = () => {
           <span>A quick snapshot of your workspace.</span>
         </FormBlockHeader>
         <FormBlockBody>
-          <InputArea placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance." />
+          <InputArea
+            placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance."
+            className="w-full"
+          />
         </FormBlockBody>
       </FormBlockWrapper>
 

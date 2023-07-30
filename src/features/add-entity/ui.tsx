@@ -15,8 +15,9 @@ export const AddEntity = memo<IAddEntityProps>(
           <InputArea
             rows={3}
             value={value}
-            autoFocus={editable}
+            className="w-full"
             onChange={onChange}
+            autoFocus={editable}
           />
         )}
         <div className="flex items-center gap-2">

@@ -1,13 +1,25 @@
-import { ChangeEventHandler, ReactNode, memo, useState } from "react";
+import { ChangeEventHandler, ReactNode, memo } from "react";
 import { Button, IconButton } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
 import { Input, inputLib } from "shared/ui/input";
 import { Layout } from "widgets/layout";
 
+import { useUnit } from "effector-react";
+import {
+  $boardInvites,
+  $boardName,
+  $newEmail,
+  addEmailButtonClicked,
+  boardNameChanged,
+  changedNewEmail,
+  deleteEmailButtonClicked,
+  deletedBoardButtonClicked,
+} from "./model/settings";
+
 export const BoardSettingsPage = () => {
   return (
-    <Layout>
-      <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
+    <Layout scrollable>
+      <section className="container mx-auto my-0 flex flex-col gap-5 px-8 ">
         <PageHeaderContent />
         <PageForm />
       </section>
@@ -26,26 +38,15 @@ const PageHeaderContent = () => {
 };
 
 const PageForm = () => {
-  const [emails, setEmails] = useState<string[]>([]);
+  const emails = useUnit($boardInvites);
+  const [boardName, setBoardName] = useUnit([$boardName, boardNameChanged]);
 
-  const [newEmail, setNewEmail] = useState("");
-
-  const handleChangeNewEmail: ChangeEventHandler<HTMLInputElement> = (event) =>
-    setNewEmail(event.target.value);
+  const handleDeleteInviteButtonClicked = useUnit(deleteEmailButtonClicked);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     console.log(event.target);
   };
 
-  const onAddClick = () => {
-    setEmails((prev) => [...prev, newEmail]);
-
-    setNewEmail("");
-  };
-
-  const onDelete = (id: number) => {
-    setEmails((prev) => prev.filter((_, index) => index !== id));
-  };
   return (
     <section className="flex flex-col gap-8">
       <form action="" className="flex flex-col gap-5">
@@ -53,7 +54,11 @@ const PageForm = () => {
           title="Name"
           description="This will be displayed in board header."
         >
-          <Input />
+          <Input
+            value={boardName}
+            onChange={setBoardName}
+            placeholder="enter board name"
+          />
         </FormBlock>
         <FormBlock
           title="Invite collaborators"
@@ -68,24 +73,18 @@ const PageForm = () => {
               value={email}
               id={String(id)}
               onChange={handleChange}
-              onDelete={onDelete}
+              onDelete={() => handleDeleteInviteButtonClicked(email)}
             />
           ))}
 
-          <AddEmail
-            value={newEmail}
-            onChange={handleChangeNewEmail}
-            onAddClick={onAddClick}
-          />
+          <AddEmail />
         </FormBlock>
         <FormBlock
           title="Delete this board"
           description=" Once you delete a board, there is no going back. Please be
           certain."
         >
-          <Button variant="primary" size="sm" type="button" destructive>
-            Delete this board
-          </Button>
+          <DeleteBoardButton />
         </FormBlock>
       </form>
       <div className="flex items-center justify-end gap-3">
@@ -97,6 +96,21 @@ const PageForm = () => {
         </Button>
       </div>
     </section>
+  );
+};
+
+const DeleteBoardButton = () => {
+  const deletedButtonClicked = useUnit(deletedBoardButtonClicked);
+  return (
+    <Button
+      variant="primary"
+      size="sm"
+      type="button"
+      destructive
+      onClick={deletedButtonClicked}
+    >
+      Delete this board
+    </Button>
   );
 };
 
@@ -121,30 +135,24 @@ const FormBlock = memo<FormBlockProps>(
 );
 FormBlock.displayName = "FormBlock";
 
-const AddEmail = ({
-  value,
-  onChange,
-  onAddClick,
-}: {
-  value: string;
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  onAddClick(): void;
-}) => {
+const AddEmail = () => {
+  const [newEmail, emailChanged] = useUnit([$newEmail, changedNewEmail]);
+  const handleAddEmailButtonClicked = useUnit(addEmailButtonClicked);
   return (
     <div className="flex flex-col gap-2.5">
       <Input
         className="w-full"
         placeholder="you@yourcompany.io"
         type="email"
-        value={value}
-        onChange={onChange}
+        value={newEmail}
+        onChange={emailChanged}
       />
       <Button
         type="button"
         variant="link"
         leftIcon="common/plus"
         className="self-start"
-        onClick={onAddClick}
+        onClick={handleAddEmailButtonClicked}
       >
         Add another
       </Button>
@@ -160,6 +168,7 @@ interface EmailRowProps
   caption?: string;
   onDelete(id: number): void;
 }
+
 const EmailRow = memo<EmailRowProps>(
   ({ caption, value, onChange, placeholder, id, onDelete }) => {
     const handleClick = () => {

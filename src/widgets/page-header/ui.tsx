@@ -1,17 +1,19 @@
 import clsx from "clsx";
+import { memo } from "react";
+
 import type { IPageHeader } from "./models";
 
+import { Input } from "shared/ui/input";
 import { Avatar } from "shared/ui/avatar";
 import { Button } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
-import { InputSearch } from "shared/ui/input";
-import { memo } from "react";
 
 export const PageHeader = memo<IPageHeader>(
   ({
     title,
     avatar,
     searchValue,
+    placeholder = "search",
     onSearch,
     divider,
     actions,
@@ -23,21 +25,15 @@ export const PageHeader = memo<IPageHeader>(
     return (
       <header
         className={clsx(
-          "flex w-full flex-col items-start  justify-between gap-4 sm:flex-row",
+          "flex w-full flex-col items-center  justify-between gap-4 sm:flex-row",
           divider ? "border-b border-gray-200 pb-5" : "border-transparent",
           className,
         )}
       >
         <div className="flex w-full shrink items-center gap-5 overflow-hidden">
           {avatar && <Avatar size="2xl" user={avatar} />}
-          <div className="flex w-full shrink flex-col gap-1">
-            <Heading
-              as={headingAs}
-              className={clsx(
-                "text-2xl font-semibold text-gray-900",
-                heandingClassName,
-              )}
-            >
+          <div className="flex w-full shrink flex-col  gap-1">
+            <Heading as={headingAs} className={heandingClassName}>
               {title}
             </Heading>
             {description && (
@@ -59,7 +55,13 @@ export const PageHeader = memo<IPageHeader>(
         )}
         {onSearch && (
           <div className="w-full max-w-[320px] shrink-0 text-gray-500">
-            <InputSearch value={searchValue} onChange={onSearch} />
+            <Input
+              size="sm"
+              type="search"
+              value={searchValue}
+              onChange={onSearch}
+              placeholder={placeholder}
+            />
           </div>
         )}
       </header>

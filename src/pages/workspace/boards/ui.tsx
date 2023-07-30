@@ -68,11 +68,10 @@ const BoardsFilter = () => {
     <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
       <PageHeader
         title="Boards"
-        headingAs="h2"
+        headingAs="h4"
         placeholder="Search"
         searchValue={search}
         onSearch={handleSearch}
-        heandingClassName="text-lg"
       />
     </section>
   );

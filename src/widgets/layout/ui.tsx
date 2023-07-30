@@ -7,21 +7,28 @@ import { FeaturedIcon } from "shared/ui/icons/featured-icon";
 
 interface ILayoutProps {
   children: ReactNode;
+  scrollable?: boolean;
 }
-export const Layout = ({ children }: ILayoutProps) => {
+export const Layout = ({ children, scrollable }: ILayoutProps) => {
   return (
     <>
       <Header />
-      <BaseLayout>{children}</BaseLayout>
+      <BaseLayout scrollable={scrollable}>{children}</BaseLayout>
     </>
   );
 };
 interface IBaseLayoutProps {
   children: ReactNode;
+  scrollable?: boolean;
 }
-export const BaseLayout = ({ children }: IBaseLayoutProps) => {
+export const BaseLayout = ({ children, scrollable }: IBaseLayoutProps) => {
   return (
-    <main className="flex grow flex-col gap-8 overflow-y-hidden pb-12 pt-8  sm:pb-12 sm:pt-12">
+    <main
+      className={clsx(
+        "flex grow flex-col gap-8 pb-12 pt-8  sm:pb-12 sm:pt-12",
+        scrollable ? "overflow-auto" : "overflow-hidden",
+      )}
+    >
       {children}
     </main>
   );

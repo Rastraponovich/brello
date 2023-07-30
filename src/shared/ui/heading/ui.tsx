@@ -6,14 +6,17 @@ import { cva } from "class-variance-authority";
 const heading = cva("", {
   variants: {
     as: {
-      h1: "text-3xl text-gray-900 font-semibold",
-      h2: "",
-      h3: "",
-      h4: "",
+      h1: "text-3xl",
+      h2: "text-2xl",
+      h3: "text-xl",
+      h4: "text-lg",
       h5: "",
       h6: "",
     },
   },
+  compoundVariants: [
+    { as: ["h1", "h2", "h3", "h4"], className: "font-semibold text-gray-900" },
+  ],
 });
 
 export const Heading = memo(

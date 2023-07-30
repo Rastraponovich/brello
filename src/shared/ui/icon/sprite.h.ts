@@ -1,4 +1,5 @@
 export interface SpritesMap {
+  alerts: "alert-circle";
   arrows: "arrow-left";
   common:
     | "arrow-left"
@@ -57,10 +58,10 @@ export interface SpritesMap {
     | "user"
     | "users-01"
     | "users-plus";
-  alerts: "alert-circle";
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
+  alerts: ["alert-circle"],
   arrows: ["arrow-left"],
   common: [
     "arrow-left",
@@ -122,5 +123,4 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "users-01",
     "users-plus",
   ],
-  alerts: ["alert-circle"],
 };
