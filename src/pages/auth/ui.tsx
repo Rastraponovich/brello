@@ -1,28 +1,27 @@
-import { FormEventHandler, memo } from "react";
 import { useUnit } from "effector-react";
+import { type FormEventHandler, memo } from "react";
 
 import {
-  skipButtonClicked,
-  $emailField,
-  changedEmail,
+  $errors,
   submitted,
   $isPendning,
+  $emailField,
+  changedEmail,
   $isValidEmail,
-  $errors,
+  skipButtonClicked,
 } from "./model";
 
+import { routes } from "shared/routing";
+
 import { Input } from "shared/ui/input";
-
-import { Icon, IconName } from "shared/ui/icon";
 import { Button } from "shared/ui/button";
+import { Link } from "atomic-router-react";
 import { Heading } from "shared/ui/heading";
-
 import { Logo } from "shared/ui/icons/logo";
 import { OnboardingLayout } from "widgets/layout";
-import { SocialAuthButton } from "features/social-auth-button";
+import { Icon, type IconName } from "shared/ui/icon";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
-import { Link } from "atomic-router-react";
-import { routes } from "shared/routing";
+import { SocialAuthButton } from "features/auth/social-auth-button";
 
 const statuses: Record<"check" | "error", SendStatusBlockProps> = {
   check: {
@@ -48,7 +47,7 @@ export const AuthPage = () => {
 
   const errors = useUnit($errors);
 
-  const linkSending: "error" | "check" | null = "check";
+  const linkSending: "error" | "check" | null = null;
 
   return (
     <main className="grid h-screen grid-rows-[62.5px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
@@ -60,6 +59,8 @@ export const AuthPage = () => {
         <section className="container mx-auto my-0 flex grow flex-col items-center justify-center px-4 sm:px-8">
           <section className="flex w-full max-w-[360px] grow flex-col justify-start gap-8 sm:justify-center">
             {linkSending ? (
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
               <SendStatusBlock {...statuses[linkSending]} />
             ) : (
               <>

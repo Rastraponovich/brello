@@ -5,7 +5,6 @@ import {
   $boards,
   $isNotFound,
   $boardsEmpty,
-  searched,
   addBoard,
   resetSearch,
   settingsButtonClicked,
@@ -23,6 +22,7 @@ import { Heading } from "shared/ui/heading";
 import { type IPageHeaderAction, PageHeader } from "widgets/page-header";
 import { ScrollContainer } from "shared/ui/scroll-container";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
+import { BoardsSearch } from "features/boards/search";
 
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
@@ -64,17 +64,9 @@ export const BoardsPage = () => {
 };
 
 const BoardsFilter = () => {
-  const [search, handleSearch] = useUnit([$search, searched]);
-
   return (
     <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
-      <PageHeader
-        title="Boards"
-        headingAs="h4"
-        placeholder="Search"
-        searchValue={search}
-        onSearch={handleSearch}
-      />
+      <BoardsSearch />
     </section>
   );
 };

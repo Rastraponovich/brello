@@ -6,6 +6,7 @@ import { resetButtonClicked } from "./model";
 import { Input } from "shared/ui/input";
 import { Layout } from "widgets/layout";
 import { Upload } from "shared/ui/upload";
+import { Avatar } from "shared/ui/avatar";
 import { PageHeader } from "widgets/page-header";
 import { FormBlock, FormFooterActions } from "shared/ui/form-layouts";
 
@@ -57,9 +58,11 @@ const ProfileSettingsUploadImage = () => {
       description="This will be displayed on your profile."
     >
       <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8">
-        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gray-400 text-gray-200">
-          X
-        </div>
+        <Avatar
+          user={{ firstName: "x", lastName: "x", id: 123123 }}
+          size="2xl"
+        />
+
         <Upload />
       </div>
     </FormBlock>

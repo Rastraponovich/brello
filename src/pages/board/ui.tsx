@@ -1,25 +1,24 @@
 import {
   type ChangeEventHandler,
   type FormEventHandler,
+  type DragEventHandler,
   type ReactNode,
   useCallback,
   useEffect,
   useState,
   memo,
-  DragEventHandler,
 } from "react";
 
-import { helpers, models } from "./lib";
+import { helpers, type models } from "./lib";
 
 import { Board } from "entities/board";
 import { Layout } from "widgets/layout";
 import { AddList } from "features/add-list";
 import { Heading } from "shared/ui/heading";
-import { IconButton } from "shared/ui/button";
 import { AvatarGroup } from "shared/ui/avatar";
-import { TBoard } from "./lib/models";
+import { AddToFavorite } from "features/board/add-to-favorite";
 
-type TDragEventHandler = (event: DragEvent, item: TBoard) => void;
+type TDragEventHandler = (event: DragEvent, item: models.TBoard) => void;
 
 /**
  * @description Page
@@ -39,49 +38,13 @@ const PageHeaderContent = () => {
       <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-start gap-4 sm:flex-row sm:items-center">
           <Heading as="h1">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
-          <IconButton
-            size="sm"
-            icon="shapes/star-01"
-            variant="tertiaryGray"
-            className="self-start sm:self-auto"
-          />
+          <AddToFavorite />
         </div>
         <AvatarGroup
           size="md"
           counter={5}
           canAddedUser
-          items={[
-            {
-              id: 1,
-              photo: "images/Image.png",
-              firstName: "Habal",
-              lastName: "Habalych",
-            },
-            {
-              id: 3,
-              photo: "images/Image.png",
-              firstName: "John",
-              lastName: "Travolta",
-            },
-            {
-              id: 2,
-              photo: "images/Image.png",
-              firstName: "Edvard",
-              lastName: "Calin",
-            },
-            {
-              id: 5,
-              photo: "images/Image.png",
-              firstName: "Timber",
-              lastName: "Saw",
-            },
-            {
-              id: 4,
-              photo: "images/Image.png",
-              firstName: "Keth",
-              lastName: "Flint",
-            },
-          ]}
+          items={helpers._AVATARS_}
         />
       </header>
     </section>
@@ -133,7 +96,7 @@ const List = () => {
   }, [editable]);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setCurrentItem] = useState<TBoard | null>(null);
+  const [_, setCurrentItem] = useState<models.TBoard | null>(null);
   const handleDragStart: TDragEventHandler = (_event, item) => {
     setCurrentItem(item);
     // console.log(event.type, item);
