@@ -1,143 +1,133 @@
 import { useUnit } from "effector-react";
 
-import type { FormEventHandler, ReactNode } from "react";
+import { type FormEventHandler } from "react";
 
 import {
-  $workspaceDescription,
+  $workspaceURL,
   $workspaceName,
+  $workspaceDomain,
+  workspaceURLChanged,
   cancelButtonClicked,
-  workspaceDescriptionChanged,
   workspaceNameChanged,
+  $workspaceDescription,
+  workspaceDescriptionChanged,
 } from "./model";
 
 import { Layout } from "widgets/layout";
 import { Upload } from "shared/ui/upload";
 import { Button } from "shared/ui/button";
 import { PageHeader } from "widgets/page-header";
+import { FormBlock } from "shared/ui/form-layouts";
 import { Input, InputArea, InputWeb } from "shared/ui/input";
 
 export const WorkSpaceSettingsPage = () => {
   return (
     <Layout>
-      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto ">
-        <div className="px-4 sm:px-8">
-          <PageHeader divider title="Workspace settings" />
-        </div>
-
-        <div className="scroll-shadows flex flex-col gap-8  overflow-auto px-4 sm:px-8 ">
-          <WorkSpaceSettingsForm />
-        </div>
+      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
+        <PageHeader divider title="Workspace settings" />
+        <WorkSpaceSettingsForm />
+        <WorkSpaceSettingsFooter />
       </section>
     </Layout>
   );
 };
 
+const WorkSpaceSettingsFooter = () => {
+  return (
+    <footer className="flex items-center justify-end gap-4 border-t border-gray-200 pt-4">
+      <Button form="form" size="md" variant="secondaryGray" type="reset">
+        Cancel
+      </Button>
+      <Button form="form" size="md" variant="primary" type="submit">
+        Save
+      </Button>
+    </footer>
+  );
+};
+
 const WorkSpaceSettingsForm = () => {
-  const [name, handleChangeName] = useUnit([
-    $workspaceName,
-    workspaceNameChanged,
-  ]);
-
-  const [description, setDescribtion] = useUnit([
-    $workspaceDescription,
-    workspaceDescriptionChanged,
-  ]);
-
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) =>
     e.preventDefault();
 
   const handleCancel = useUnit(cancelButtonClicked);
   return (
     <form
+      id="form"
       onReset={handleCancel}
       onSubmit={handleSubmit}
-      className="flex flex-col gap-5"
+      className="scroll-shadows -mx-4 flex flex-col gap-5 overflow-auto px-4"
     >
-      <FormBlockWrapper>
-        <FormBlockHeader>
-          <h3 className="font-medium text-gray-700">Name</h3>
-          <span>This will be displayed on your profile.</span>
-        </FormBlockHeader>
-        <FormBlockBody>
-          <Input
-            value={name}
-            onChange={handleChangeName}
-            placeholder="Coding in action"
-          />
-          <InputWeb
-            leftPlaceholder="brello.io/.../"
-            rightPlaceholder="coding-in-action"
-
-            // rightValue="coding-in-action"
-          />
-        </FormBlockBody>
-      </FormBlockWrapper>
-
-      <FormBlockWrapper>
-        <FormBlockHeader>
-          <h3 className="font-medium text-gray-700">Description</h3>
-          <span>A quick snapshot of your workspace.</span>
-        </FormBlockHeader>
-        <FormBlockBody>
-          <InputArea
-            value={description}
-            onChange={setDescribtion}
-            placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance."
-          />
-        </FormBlockBody>
-      </FormBlockWrapper>
-
+      <WorkspaceName />
+      <WorkspaceDescription />
       <WorkspaceUplad />
-      <div className="flex items-center justify-end gap-4 border-t border-gray-200 pt-4">
-        <Button size="md" variant="secondaryGray" type="reset">
-          Cancel
-        </Button>
-        <Button size="md" variant="primary" type="submit">
-          Save
-        </Button>
-      </div>
     </form>
   );
 };
 
 const WorkspaceUplad = () => {
   return (
-    <FormBlockWrapper>
-      <FormBlockHeader>
-        <h3 className="font-medium text-gray-700">Logo</h3>
-        <span>Update your logo.</span>
-      </FormBlockHeader>
-      <FormBlockBody>
-        <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8">
-          <div className="flex w-full max-w-[142px] sm:mt-4">
-            <img
-              height={32}
-              width={142}
-              alt="preview-image"
-              src="/brand-logo.svg"
-            />
-          </div>
-          <Upload />
+    <FormBlock title="Logo" description="Update your logo.">
+      <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8">
+        <div className="flex w-full max-w-[142px] sm:mt-4">
+          <img
+            height={32}
+            width={142}
+            alt="preview-image"
+            src="/brand-logo.svg"
+          />
         </div>
-      </FormBlockBody>
-    </FormBlockWrapper>
+        <Upload />
+      </div>
+    </FormBlock>
   );
 };
 
-const FormBlockWrapper = ({ children }: { children: ReactNode }) => {
+const WorkspaceName = () => {
+  const [name, handleChangeName] = useUnit([
+    $workspaceName,
+    workspaceNameChanged,
+  ]);
+
+  const [url, setUrl] = useUnit([$workspaceURL, workspaceURLChanged]);
+
+  const domain = useUnit($workspaceDomain);
+
   return (
-    <div className="grid gap-5 border-b border-gray-200 pb-5 text-sm font-normal text-gray-600 sm:grid-cols-[280px_1fr]">
-      {children}
-    </div>
+    <FormBlock
+      title="Name"
+      description="This will be displayed on your profile."
+    >
+      <Input
+        value={name}
+        onChange={handleChangeName}
+        placeholder="Coding in action"
+      />
+      <InputWeb
+        rightValue={url}
+        onChange={setUrl}
+        leftValue={domain}
+        leftPlaceholder="brello.io/.../"
+        rightPlaceholder="coding-in-action"
+      />
+    </FormBlock>
   );
 };
 
-const FormBlockHeader = ({ children }: { children: ReactNode }) => {
-  return <div className="flex w-full flex-col">{children}</div>;
-};
-
-const FormBlockBody = ({ children }: { children: ReactNode }) => {
+const WorkspaceDescription = () => {
+  const [description, setDescribtion] = useUnit([
+    $workspaceDescription,
+    workspaceDescriptionChanged,
+  ]);
   return (
-    <div className="flex w-full max-w-[512px] flex-col gap-4">{children}</div>
+    <FormBlock
+      title="Description"
+      description="A quick snapsot of your workspace."
+    >
+      <InputArea
+        value={description}
+        onChange={setDescribtion}
+        placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance."
+      />
+    </FormBlock>
   );
 };

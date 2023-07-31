@@ -182,7 +182,7 @@ const _BaseInutArea = forwardRef<HTMLTextAreaElement, models.IBaseInputArea>(
           "rounded-lg border border-gray-300",
           "w-full resize-none gap-2 bg-white shadow-sm",
           "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
-          "text-base font-normal text-gray-500 placeholder:text-gray-500",
+          "text-base font-normal text-gray-900 placeholder:text-gray-500",
           "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
           "focus:text-gray-900 focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
           className,
@@ -227,11 +227,16 @@ const BaseInputWeb = memo(_BaseInputWeb);
 BaseInputWeb.displayName = "BaseInputWeb";
 
 const _InputWeb = forwardRef<HTMLInputElement, models.IInputWebProps>(
-  ({ caption, hint, leftPlaceholder, rightPlaceholder }, ref) => {
+  (
+    { caption, hint, leftPlaceholder, rightPlaceholder, leftValue, rightValue },
+    ref,
+  ) => {
     return (
       <InputWrapper caption={caption} hint={hint}>
         <BaseInputWeb
           ref={ref}
+          leftValue={leftValue}
+          rightValue={rightValue}
           leftPlaceholder={leftPlaceholder}
           rightPlaceholder={rightPlaceholder}
         />

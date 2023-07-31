@@ -8,11 +8,11 @@ interface User {
   id: UserId;
 }
 
-const checkError = (error: AuthError | null): void => {
+export function checkError(error: AuthError | null): asserts error is null {
   if (error) {
     throw error;
   }
-};
+}
 
 export const signInWithEmailFx = createEffect<
   { email: Email },
