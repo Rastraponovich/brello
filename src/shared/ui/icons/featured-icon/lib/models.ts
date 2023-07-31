@@ -1,5 +1,5 @@
-import type { TColors, TSizes } from "src/shared/lib";
-import { type IconName } from "src/shared/ui/icon";
+import type { TColors, TSizes } from "shared/lib";
+import { type IconName } from "shared/ui/icon";
 
 export type TFeaturedType = "cirlce" | "square";
 export type TCircleVariant = "lightCircle" | "darkCircle" | "outline";

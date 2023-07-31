@@ -1,8 +1,8 @@
 import { type FormEventHandler } from "react";
 
-import { Button } from "src/shared/ui/button";
-import { OnboardingLayout } from "src/widgets/layout";
-import { Input, InputArea, InputWeb } from "src/shared/ui/input";
+import { Button } from "shared/ui/button";
+import { OnboardingLayout } from "widgets/layout";
+import { Input, InputArea, InputWeb } from "shared/ui/input";
 
 export const OnboardingPage = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {

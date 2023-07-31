@@ -5,7 +5,6 @@ import {
   $boards,
   $isNotFound,
   $boardsEmpty,
-  searched,
   addBoard,
   resetSearch,
   settingsButtonClicked,
@@ -13,16 +12,17 @@ import {
 } from "./model";
 
 import type { IBoardCard } from "./lib";
-import { type IconName } from "src/shared/ui/icon";
+import { type IconName } from "shared/ui/icon";
 
-import { buttonLib } from "src/shared/ui/button";
+import { buttonLib } from "shared/ui/button";
 
-import { Layout } from "src/widgets/layout";
-import { Button } from "src/shared/ui/button";
-import { Heading } from "src/shared/ui/heading";
-import { type IPageHeaderAction, PageHeader } from "src/widgets/page-header";
-import { ScrollContainer } from "src/shared/ui/scroll-container";
-import { FeaturedIcon } from "src/shared/ui/icons/featured-icon";
+import { Layout } from "widgets/layout";
+import { Button } from "shared/ui/button";
+import { Heading } from "shared/ui/heading";
+import { type IPageHeaderAction, PageHeader } from "widgets/page-header";
+import { ScrollContainer } from "shared/ui/scroll-container";
+import { FeaturedIcon } from "shared/ui/icons/featured-icon";
+import { BoardsSearch } from "features/boards/search";
 
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
@@ -49,8 +49,10 @@ export const BoardsPage = () => {
         <PageHeader
           divider
           actions={actions}
+          headingAs="h1"
           description="Private"
           title="Coding in action"
+          className="!items-start"
           avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
         />
       </section>
@@ -62,18 +64,9 @@ export const BoardsPage = () => {
 };
 
 const BoardsFilter = () => {
-  const [search, handleSearch] = useUnit([$search, searched]);
-
   return (
     <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
-      <PageHeader
-        title="Boards"
-        headingAs="h2"
-        placeholder="Search"
-        searchValue={search}
-        onSearch={handleSearch}
-        heandingClassName="text-lg"
-      />
+      <BoardsSearch />
     </section>
   );
 };

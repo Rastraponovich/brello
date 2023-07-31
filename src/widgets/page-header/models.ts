@@ -1,7 +1,7 @@
 import type { ChangeEventHandler } from "react";
-import type { TUser } from "src/entities/user/lib";
-import type { IHeanding } from "src/shared/ui/heading";
-import type { TButtonProps } from "src/shared/ui/button/lib/models";
+import type { TUser } from "entities/user/lib";
+import type { IHeanding } from "shared/ui/heading";
+import type { TButtonProps } from "shared/ui/button/lib/models";
 
 export interface IPageHeaderAction
   extends Pick<

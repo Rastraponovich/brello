@@ -1,4 +1,5 @@
 export interface SpritesMap {
+  alerts: "alert-circle";
   arrows: "arrow-left";
   common:
     | "arrow-left"
@@ -9,6 +10,7 @@ export interface SpritesMap {
     | "help-circle"
     | "home-line"
     | "layers-two"
+    | "loading-02"
     | "log-out"
     | "mail"
     | "menu"
@@ -20,6 +22,7 @@ export interface SpritesMap {
     | "search"
     | "settings-01"
     | "settings"
+    | "trash-01"
     | "upload-cloud"
     | "user-circle"
     | "user"
@@ -58,6 +61,7 @@ export interface SpritesMap {
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
+  alerts: ["alert-circle"],
   arrows: ["arrow-left"],
   common: [
     "arrow-left",
@@ -68,6 +72,7 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "help-circle",
     "home-line",
     "layers-two",
+    "loading-02",
     "log-out",
     "mail",
     "menu",
@@ -79,6 +84,7 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "search",
     "settings-01",
     "settings",
+    "trash-01",
     "upload-cloud",
     "user-circle",
     "user",

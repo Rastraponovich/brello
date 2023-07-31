@@ -3,10 +3,10 @@ import { useList, useUnit } from "effector-react";
 
 import { models } from "./lib";
 import { $selected, $menuItems } from "./model";
-import { Icon } from "src/shared/ui/icon";
-import { Logo } from "src/shared/ui/icons/logo";
-import { NavItem } from "src/shared/ui/nav-item";
-import { UserAvatarWithDropdown } from "src/entities/user";
+import { Icon } from "shared/ui/icon";
+import { Logo } from "shared/ui/icons/logo";
+import { NavItem } from "shared/ui/nav-item";
+import { UserAvatarWithDropdown } from "entities/user";
 import clsx from "clsx";
 
 export const Header = memo<models.IHeaderProps>(() => {

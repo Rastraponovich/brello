@@ -1,15 +1,50 @@
 import clsx from "clsx";
-import { forwardRef, memo } from "react";
+import { HTMLInputTypeAttribute, forwardRef, memo } from "react";
 
 import { type models, helpers } from "./lib";
 
-import { Icon } from "shared/ui/icon";
+import { Icon, IconName } from "shared/ui/icon";
+
+const iconNames: Partial<Record<HTMLInputTypeAttribute, IconName>> = {
+  email: "common/mail",
+  search: "common/search-sm",
+};
 
 const _Input = forwardRef<HTMLInputElement, models.IInputProps>(
-  ({ caption, className, hint, ...props }, ref) => {
+  (
+    {
+      caption,
+      className,
+      hint,
+      hasError,
+      errors,
+      type = "text",
+      disableIcon,
+      ...props
+    },
+    ref,
+  ) => {
     return (
-      <InputWrapper caption={caption} hint={hint}>
-        <BaseInput {...props} className={className} ref={ref} />
+      <InputWrapper
+        hasError={hasError}
+        caption={caption}
+        errors={errors}
+        hint={hint}
+      >
+        <BaseInput
+          ref={ref}
+          type={type}
+          disableIcon={disableIcon}
+          className={className}
+          {...props}
+        />
+        {!disableIcon && type && type !== "text" && (
+          <Icon
+            size="normal"
+            name={iconNames[type] as IconName}
+            className="absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2"
+          />
+        )}
       </InputWrapper>
     );
   },
@@ -18,7 +53,7 @@ export const Input = memo(_Input);
 Input.displayName = "Input";
 
 const _BaseInput = forwardRef<HTMLInputElement, models.IBaseInput>(
-  ({ className, size = helpers.EInputSize.MD, ...props }, ref) => {
+  ({ className, disableIcon, size = helpers.EInputSize.MD, ...props }, ref) => {
     return (
       <input
         ref={ref}
@@ -26,7 +61,7 @@ const _BaseInput = forwardRef<HTMLInputElement, models.IBaseInput>(
         data-qa="Input__value"
         className={clsx(
           "text-base text-gray-900 placeholder:text-gray-500",
-          "gap-2 bg-white shadow-sm",
+          "w-full gap-2 bg-white shadow-sm",
           "border-gray-300, rounded-lg border",
           "focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
           "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
@@ -34,6 +69,7 @@ const _BaseInput = forwardRef<HTMLInputElement, models.IBaseInput>(
           "disabled:bg-gray-50",
           helpers.INPUT_SIZE_DICT[size],
           className,
+          props.type !== "text" && !disableIcon && "pl-10 pr-3.5",
         )}
       />
     );
@@ -69,12 +105,12 @@ export const InputSearch = memo(_InputSearch);
 InputSearch.displayName = "InputSearch";
 
 const InputWrapper = memo<models.IInputWrapper>(
-  ({ children, caption, className, hint }) => {
+  ({ children, caption, className, hint, hasError, errors }) => {
     return (
       <label
         data-qa="Input__container"
         className={clsx(
-          "flex flex-col gap-1.5 text-left text-sm font-normal",
+          "relative flex w-full flex-col gap-1.5 text-left text-sm font-normal",
           className,
         )}
       >
@@ -87,8 +123,24 @@ const InputWrapper = memo<models.IInputWrapper>(
             {caption}
           </span>
         )}
-        {children}
-        {hint && (
+        <div className="relative w-full">{children}</div>
+        {hasError &&
+          errors &&
+          errors.map((error, id) => (
+            <div className="flex flex-col gap-1" key={id}>
+              <span
+                key={error.text}
+                title={error.text}
+                data-qa="Input__hint"
+                className={clsx(
+                  error.type === "invalid" ? "text-rose-500" : "text-gray-600",
+                )}
+              >
+                {error.text}
+              </span>
+            </div>
+          ))}
+        {hasError && hint && (
           <span
             title={hint?.text}
             data-qa="Input__hint"
@@ -128,9 +180,9 @@ const _BaseInutArea = forwardRef<HTMLTextAreaElement, models.IBaseInputArea>(
         className={clsx(
           "px-3 py-2 sm:px-3.5 sm:py-2.5",
           "rounded-lg border border-gray-300",
-          "resize-none gap-2  bg-white shadow-sm",
+          "w-full resize-none gap-2 bg-white shadow-sm",
           "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
-          "text-base font-normal text-gray-500 placeholder:text-gray-500",
+          "text-base font-normal text-gray-900 placeholder:text-gray-500",
           "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
           "focus:text-gray-900 focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
           className,
@@ -152,6 +204,7 @@ const _BaseInputWeb = forwardRef<HTMLInputElement, models.IBaseInputWeb>(
       <div className="flex" data-qa="InputWeb__block">
         <BaseInput
           readOnly
+          type="text"
           tabIndex={-1}
           value={leftValue}
           onChange={onChange}
@@ -160,6 +213,7 @@ const _BaseInputWeb = forwardRef<HTMLInputElement, models.IBaseInputWeb>(
         />
         <BaseInput
           ref={ref}
+          type="text"
           value={rightValue}
           onChange={onChange}
           placeholder={rightPlaceholder}
@@ -173,11 +227,16 @@ const BaseInputWeb = memo(_BaseInputWeb);
 BaseInputWeb.displayName = "BaseInputWeb";
 
 const _InputWeb = forwardRef<HTMLInputElement, models.IInputWebProps>(
-  ({ caption, hint, leftPlaceholder, rightPlaceholder }, ref) => {
+  (
+    { caption, hint, leftPlaceholder, rightPlaceholder, leftValue, rightValue },
+    ref,
+  ) => {
     return (
       <InputWrapper caption={caption} hint={hint}>
         <BaseInputWeb
           ref={ref}
+          leftValue={leftValue}
+          rightValue={rightValue}
           leftPlaceholder={leftPlaceholder}
           rightPlaceholder={rightPlaceholder}
         />

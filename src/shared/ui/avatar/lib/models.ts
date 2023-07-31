@@ -1,5 +1,5 @@
-import { TUser } from "src/entities/user/lib";
-import { TSizes } from "src/shared/lib";
+import { TUser } from "entities/user/lib";
+import { TSizes } from "shared/lib";
 
 export type TAvatarSizes = TSizes | "2xl";
 

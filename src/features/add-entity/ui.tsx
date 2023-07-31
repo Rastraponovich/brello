@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { Button, CloseXButton } from "src/shared/ui/button";
-import { InputArea } from "src/shared/ui/input";
+import { Button, CloseXButton } from "shared/ui/button";
+import { InputArea } from "shared/ui/input";
 import { IAddEntityProps } from "./lib/models";
 
 export const AddEntity = memo<IAddEntityProps>(
@@ -15,8 +15,8 @@ export const AddEntity = memo<IAddEntityProps>(
           <InputArea
             rows={3}
             value={value}
-            autoFocus={editable}
             onChange={onChange}
+            autoFocus={editable}
           />
         )}
         <div className="flex items-center gap-2">

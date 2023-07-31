@@ -14,9 +14,9 @@ import {
   TSquareVariant,
   BORDER_SIZE,
 } from "../lib";
-import { Sizes } from "src/shared/lib";
+import { Sizes } from "shared/lib";
 
-import { Icon } from "src/shared/ui/icon";
+import { Icon } from "shared/ui/icon";
 
 export const FeaturedIcon = memo<TFeaturedIconProps>(
   ({
@@ -37,13 +37,13 @@ export const FeaturedIcon = memo<TFeaturedIconProps>(
           type === "circle" && variant !== "lightCircle" && BORDER_SIZE[size],
           type === "circle"
             ? CIRCLE_COLORS[variant as TCircleVariant][color]
-            : SQUARE_COLORS[variant as TSquareVariant]
+            : SQUARE_COLORS[variant as TSquareVariant],
         )}
       >
         <Icon name={icon} className={clsx(FEATURED_ICON_SIZE_DICT[size])} />
       </div>
     );
-  }
+  },
 );
 
 FeaturedIcon.displayName = "FeaturedIcon";

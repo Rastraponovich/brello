@@ -3,8 +3,8 @@ import { memo } from "react";
 
 import { type IAddListProps } from "./lib";
 
-import { InputArea } from "src/shared/ui/input";
-import { Button, CloseXButton } from "src/shared/ui/button";
+import { InputArea } from "shared/ui/input";
+import { Button, CloseXButton } from "shared/ui/button";
 
 export const AddList = memo<IAddListProps>(
   ({ editable, onChange, onReset, onSubmit, value, buttonCaption }) => {

@@ -1,18 +1,18 @@
 import { createEffect } from "effector";
 import { client } from "../client";
 import { AuthError } from "@supabase/supabase-js";
-import { SITE_URL } from "src/shared/config/api";
+import { SITE_URL } from "shared/config/api";
 
 interface User {
   email: Email;
   id: UserId;
 }
 
-const checkError = (error: AuthError | null): void => {
+export function checkError(error: AuthError | null): asserts error is null {
   if (error) {
     throw error;
   }
-};
+}
 
 export const signInWithEmailFx = createEffect<
   { email: Email },
@@ -21,6 +21,7 @@ export const signInWithEmailFx = createEffect<
 >(async ({ email }) => {
   const { error } = await client.auth.signInWithOtp({
     email,
+
     options: {
       emailRedirectTo: SITE_URL,
     },

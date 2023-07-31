@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { memo } from "react";
-import { Icon } from "src/shared/ui/icon";
+import { Icon } from "shared/ui/icon";
 import { type models, helpers } from "./lib";
-import { utils } from "src/shared/lib";
+import { utils } from "shared/lib";
 
 export const SocialAuthButton = memo<models.ISocialButtonProps>(
   ({ noCaption, social, theme = "colorWithBrand", className, ...props }) => {
@@ -16,6 +16,7 @@ export const SocialAuthButton = memo<models.ISocialButtonProps>(
             ? helpers.BUTTON_COLORS_DICT[social]
             : helpers.Colors.Default,
           noCaption ? "p-2.5" : "px-4 py-2.5",
+
           className,
         )}
       >

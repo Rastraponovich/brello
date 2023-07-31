@@ -1,4 +1,4 @@
-import { Sizes } from "src/shared/lib";
+import { Sizes } from "shared/lib";
 import { TCircleVariant, TSquareVariant } from ".";
 
 export enum EFeaturedIconType {
@@ -38,7 +38,7 @@ export const BORDER_SIZE: Record<Sizes, string> = {
   [Sizes.SM]: "border-4",
   [Sizes.MD]: "border-6",
   [Sizes.LG]: "border-8",
-  [Sizes.XL]: "border-12",
+  [Sizes.XL]: "border-10",
 };
 
 export const FEATURED_ICON_CONTAINER_SIZE_DICT: Record<Sizes, string> = {
@@ -63,7 +63,7 @@ export const FEATURED_ICON_VARIANT_DICT: Record<EFeaturedIconVariant, string> =
 
 type TColorsConditional<
   T,
-  S extends string = T extends TCircleVariant ? TCircleVariant : TSquareVariant
+  S extends string = T extends TCircleVariant ? TCircleVariant : TSquareVariant,
 > = Record<
   S,
   T extends TCircleVariant ? Record<EFeaturedIconColor, string> : string
