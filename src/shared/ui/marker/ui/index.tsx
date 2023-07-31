@@ -1,4 +1,5 @@
 import { VariantProps, cva } from "class-variance-authority";
+import { forwardRef } from "react";
 
 type TMarkerVariant = "active" | "disabled";
 const markerStyles = cva("h-2.5 w-2.5 rounded-full", {
@@ -20,6 +21,10 @@ interface IMarker extends TMarkerStyles {
   className?: string;
 }
 
-export const Marker = ({ variant = "active", className }: IMarker) => {
-  return <i className={markerStyles({ variant, className })} />;
-};
+export const Marker = forwardRef<HTMLElement, IMarker>(
+  ({ variant = "active", className }, ref) => {
+    return <i ref={ref} className={markerStyles({ variant, className })} />;
+  },
+);
+
+Marker.displayName = "Marker";

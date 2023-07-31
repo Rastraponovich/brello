@@ -1,11 +1,16 @@
 export interface SpritesMap {
+  alerts: "alert-circle";
+  arrows: "arrow-left";
   common:
     | "arrow-left"
     | "attachment"
     | "clock"
     | "dots-vertical"
     | "folder-shield"
+    | "help-circle"
+    | "home-line"
     | "layers-two"
+    | "loading-02"
     | "log-out"
     | "mail"
     | "menu"
@@ -13,43 +18,61 @@ export interface SpritesMap {
     | "plus-square"
     | "plus"
     | "search-lg"
+    | "search-sm"
     | "search"
+    | "settings-01"
     | "settings"
-    | "star"
+    | "trash-01"
     | "upload-cloud"
-    | "x-close"
-    | "users-plus"
+    | "user-circle"
     | "user"
-    | "user-circle";
+    | "users-plus"
+    | "x-close"
+    | "zap";
+  communication: "message-smile-circle";
+  development: "container";
+  shapes: "star-01";
   social:
-    | "apple-color"
     | "apple-brand"
+    | "apple-color"
     | "apple-colorWithBrand"
+    | "dribbble-brand"
+    | "dribbble-color"
+    | "dribbble-colorWithBrand"
     | "facebook-brand"
     | "facebook-color"
     | "facebook-colorWithBrand"
     | "figma-brand"
-    | "dribbble-color"
     | "figma-color"
     | "figma-colorWithBrand"
-    | "google-color"
     | "google-brand"
-    | "twitter-brand"
+    | "google-color"
     | "google-colorWithBrand"
+    | "twitter-brand"
     | "twitter-color"
-    | "dribbble-colorWithBrand"
-    | "twitter-colorWithBrand"
-    | "dribbble-brand";
+    | "twitter-colorWithBrand";
+  users:
+    | "user-01"
+    | "user-circle"
+    | "user-plus-01"
+    | "user"
+    | "users-01"
+    | "users-plus";
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
+  alerts: ["alert-circle"],
+  arrows: ["arrow-left"],
   common: [
     "arrow-left",
     "attachment",
     "clock",
     "dots-vertical",
     "folder-shield",
+    "help-circle",
+    "home-line",
     "layers-two",
+    "loading-02",
     "log-out",
     "mail",
     "menu",
@@ -57,33 +80,47 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "plus-square",
     "plus",
     "search-lg",
+    "search-sm",
     "search",
+    "settings-01",
     "settings",
-    "star",
+    "trash-01",
     "upload-cloud",
-    "x-close",
-    "users-plus",
-    "user",
     "user-circle",
+    "user",
+    "users-plus",
+    "x-close",
+    "zap",
   ],
+  communication: ["message-smile-circle"],
+  development: ["container"],
+  shapes: ["star-01"],
   social: [
-    "apple-color",
     "apple-brand",
+    "apple-color",
     "apple-colorWithBrand",
+    "dribbble-brand",
+    "dribbble-color",
+    "dribbble-colorWithBrand",
     "facebook-brand",
     "facebook-color",
     "facebook-colorWithBrand",
     "figma-brand",
-    "dribbble-color",
     "figma-color",
     "figma-colorWithBrand",
-    "google-color",
     "google-brand",
-    "twitter-brand",
+    "google-color",
     "google-colorWithBrand",
+    "twitter-brand",
     "twitter-color",
-    "dribbble-colorWithBrand",
     "twitter-colorWithBrand",
-    "dribbble-brand",
+  ],
+  users: [
+    "user-01",
+    "user-circle",
+    "user-plus-01",
+    "user",
+    "users-01",
+    "users-plus",
   ],
 };

@@ -1,9 +1,10 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
-import { type IconProps } from "shared/ui/icon";
+import { IconName, type IconProps } from "shared/ui/icon";
 
 export interface IButton extends IButtonBaseProps, IButtonBaseVariant {
   children?: ReactNode;
   visualType?: TButtonType;
+  pending?: boolean;
 }
 
 export interface IButtonBaseProps
@@ -13,6 +14,7 @@ export interface IButtonBaseProps
 
 export interface IButtonBaseVariant {
   variant?: TVariant;
+  destructive?: boolean;
 }
 
 export type TButtonProps = IButton & TConditionalButton;
@@ -20,15 +22,15 @@ export type TButtonProps = IButton & TConditionalButton;
 type TConditionalButton =
   | {
       visualType: "dot";
-      textAlign?: TButtonTextAlign;
       leftIcon: undefined;
       rightIcon: undefined;
+      textAlign?: TButtonTextAlign;
     }
   | {
+      leftIcon?: IconName;
+      rightIcon?: IconName;
       visualType?: "default";
       textAlign?: TButtonTextAlign;
-      leftIcon?: IconProps["name"];
-      rightIcon?: IconProps["name"];
     };
 
 export type TButtonTextAlign = "center" | "left" | "right";

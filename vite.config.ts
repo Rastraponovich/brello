@@ -5,7 +5,11 @@ import svg from "@neodx/svg/vite";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      babel: {
+        babelrc: true,
+      },
+    }),
     svg({
       root: "src/shared/ui/icon/assets",
       group: true,
@@ -19,11 +23,12 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      src: "/src",
-      shared: "/src/shared",
-      entities: "/src/entities",
       app: "/src/app",
       pages: "/src/pages",
+      shared: "/src/shared",
+      widgets: "/src/widgets",
+      entities: "/src/entities",
+      features: "/src/features",
     },
   },
 });

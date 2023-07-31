@@ -1,7 +1,63 @@
 import { cva, cx } from "class-variance-authority";
 import { TButtonSize, TVariant } from "./models";
 
-const buttonBase = cva("", {
+/**
+ * @description destructive color scheme
+ */
+const destructiveButtonColor = cva("", {
+  variants: {
+    variant: {
+      link: "",
+      linkGray: "",
+      primary:
+        "bg-rose-600 border-rose-600 text-white hover:bg-rose-700 disabled:bg-rose-200",
+      tertiary: "",
+      tertiaryGray: "",
+      secondary:
+        "border-rose-50  bg-rose-50 hover:border-rose-100  hover:bg-rose-100  disabled:bg-[#FFFBFA] disabled:border-[#FFFBFA] ",
+      secondaryGray: "bg-white border-rose-300  hover:bg-rose-50 ",
+    },
+  },
+  compoundVariants: [
+    {
+      variant: ["primary", "secondaryGray"],
+      className: "disabled:border-rose-200",
+    },
+    {
+      variant: ["primary", "secondary", "secondaryGray"],
+      className: "focus:ring-4 focus:ring-rose-100",
+    },
+    {
+      variant: ["tertiary", "tertiaryGray", "secondaryGray"],
+      className: "disabled:hover:bg-inherit",
+    },
+    {
+      variant: ["tertiary", "tertiaryGray"],
+      className:
+        "hover:border-rose-50 hover:bg-rose-50 disabled:border-transparent",
+    },
+    {
+      variant: ["link", "linkGray"],
+      className: "focus:outline-none border-none !p-0",
+    },
+    {
+      variant: [
+        "link",
+        "linkGray",
+        "tertiary",
+        "tertiaryGray",
+        "secondary",
+        "secondaryGray",
+      ],
+      className: "text-rose-700 hover:text-rose-800 disabled:text-rose-300",
+    },
+  ],
+});
+
+/**
+ * @description default color scheme
+ */
+const defaultButtonColor = cva("", {
   variants: {
     variant: {
       link: "",
@@ -56,6 +112,9 @@ const buttonBase = cva("", {
   },
 });
 
+/**
+ * @description size of icon-buttons
+ */
 const buttonIconSize = cva("", {
   variants: {
     size: {
@@ -71,6 +130,9 @@ const buttonIconSize = cva("", {
   },
 });
 
+/**
+ * @description size of buttons
+ */
 const buttonSize = cva("", {
   variants: {
     size: {
@@ -119,25 +181,29 @@ export const closeXButton = cva(
       size: "sm",
       variant: "primary",
     },
-  }
+  },
 );
 
 /**
  * @description style generate function for IconButton component
  */
 export const iconButton = ({
-  variant,
   size,
+  variant,
   className,
+  destructive,
 }: {
   variant: TVariant;
   size: TButtonSize;
   className: string | undefined;
+  destructive: boolean;
 }) =>
   cx(
     "flex shrink items-center rounded-lg border font-semibold",
-    buttonBase({ variant, className }),
-    buttonIconSize({ size })
+    destructive
+      ? destructiveButtonColor({ variant, className })
+      : defaultButtonColor({ variant, className }),
+    buttonIconSize({ size }),
   );
 
 /**
@@ -147,13 +213,17 @@ export const button = ({
   variant,
   size,
   className,
+  destructive = false,
 }: {
   variant: TVariant;
   size: TButtonSize;
   className: string | undefined;
+  destructive: boolean;
 }) =>
   cx(
     "flex shrink items-center rounded-lg border font-semibold justify-center",
-    buttonBase({ variant, className }),
-    buttonSize({ size })
+    buttonSize({ size }),
+    destructive
+      ? destructiveButtonColor({ variant, className })
+      : defaultButtonColor({ variant, className }),
   );

@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { forwardRef, memo } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { type models } from "../lib";
@@ -6,13 +6,13 @@ import { type models } from "../lib";
 import { Icon } from "shared/ui/icon";
 import { Marker } from "shared/ui/marker";
 
+type TBaseGroupButton = VariantProps<typeof baseGroupButton>;
+
 interface IBaseGroupButton
   extends Omit<models.TBaseButtonGroupAction, "id">,
     TBaseGroupButton {
   foo?: "bar";
 }
-
-type TBaseGroupButton = VariantProps<typeof baseGroupButton>;
 
 const baseGroupButton = cva(
   "group flex justify-center w-full first:rounded-l-lg last:rounded-r-lg items-center gap-2 disabled:bg-white hover:border-gray-300 py-2.5 text-sm font-semibold hover:bg-gray-50  focus:bg-gray-50 disabled:text-gray-300",
@@ -34,12 +34,14 @@ const baseGroupButton = cva(
     defaultVariants: {
       variant: "text",
     },
-  }
+  },
 );
-const BaseGroupButton = memo<IBaseGroupButton>(
-  ({ variant, text, handler, icon, disabled }) => {
+
+const _BaseGroupButton = forwardRef<HTMLButtonElement, IBaseGroupButton>(
+  ({ variant, text, handler, icon, disabled }, ref) => {
     return (
       <button
+        ref={ref}
         type="button"
         onClick={handler}
         disabled={disabled}
@@ -58,21 +60,23 @@ const BaseGroupButton = memo<IBaseGroupButton>(
         {variant !== "icon" && text && <span>{text}</span>}
       </button>
     );
-  }
+  },
 );
 
-BaseGroupButton.displayName = "__BaseGroupButton__";
+const BaseGroupButton = memo<IBaseGroupButton>(_BaseGroupButton);
+
+BaseGroupButton.displayName = "BaseGroupButton";
 
 const baseButtonGroups = cva(
   "flex divide-x divide-gray-300 self-start rounded-lg border border-gray-300 shadow-sm",
   {
     variants: { fullWidth: { true: "w-full", false: "" } },
     defaultVariants: { fullWidth: false },
-  }
+  },
 );
 
-export const ButtonsGroup = memo<models.IButtonsGroup>(
-  ({ variant = "text", fullWidth = false }) => {
+const _ButtonGroups = forwardRef<HTMLDivElement, models.IButtonsGroup>(
+  ({ variant = "text", fullWidth = false }, ref) => {
     const actions: models.TBaseButtonGroupAction[] = [
       {
         id: 1,
@@ -93,13 +97,15 @@ export const ButtonsGroup = memo<models.IButtonsGroup>(
       },
     ];
     return (
-      <div className={baseButtonGroups({ fullWidth })}>
+      <div ref={ref} className={baseButtonGroups({ fullWidth })}>
         {actions.map(({ id, ...action }) => (
           <BaseGroupButton key={id} variant={variant} {...action} />
         ))}
       </div>
     );
-  }
+  },
 );
 
-ButtonsGroup.displayName = "__ButtonsGroup__";
+export const ButtonsGroup = memo<models.IButtonsGroup>(_ButtonGroups);
+
+ButtonsGroup.displayName = "ButtonsGroup";

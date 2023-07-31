@@ -1,30 +1,43 @@
-import { memo } from "react";
+import { forwardRef, memo } from "react";
 
 import { type models, closeXButton, iconButton, button } from "../lib";
 
 import { Icon } from "shared/ui/icon";
 import { Marker } from "shared/ui/marker";
 
-export const Button = memo<models.TButtonProps>(
-  ({
-    children,
-    className,
-    size = "sm",
-    leftIcon = undefined,
-    rightIcon = undefined,
-    variant = "primary",
-    visualType,
-    ...props
-  }) => {
+const _Button = forwardRef<HTMLButtonElement, models.TButtonProps>(
+  (props, ref) => {
+    const {
+      pending,
+      children,
+      leftIcon,
+      className,
+      rightIcon,
+      size = "sm",
+      destructive = false,
+      variant = "primary",
+      visualType = "default",
+      ...buttonProps
+    } = props;
     return (
       <button
+        ref={ref}
         data-qa={`Button__${variant}`}
-        {...props}
-        className={button({ variant, size, className })}
+        className={button({ variant, size, className, destructive })}
+        {...buttonProps}
       >
-        {leftIcon && visualType !== "dot" && (
+        {!pending ? (
+          leftIcon &&
+          visualType !== "dot" && (
+            <Icon
+              name={leftIcon}
+              data-qa="Button-icon__left"
+              size={size === "xl" ? "large" : "normal"}
+            />
+          )
+        ) : (
           <Icon
-            name={leftIcon}
+            name="common/loading-02"
             data-qa="Button-icon__left"
             size={size === "xl" ? "large" : "normal"}
           />
@@ -42,17 +55,28 @@ export const Button = memo<models.TButtonProps>(
         )}
       </button>
     );
-  }
+  },
 );
+
+export const Button = memo(_Button);
 Button.displayName = "Button";
 
-export const IconButton = memo<models.IIconButton>(
-  ({ className, size = "sm", icon, variant = "primary", ...props }) => {
+const _IconButton = forwardRef<HTMLButtonElement, models.IIconButton>(
+  (props, ref) => {
+    const {
+      icon,
+      className,
+      size = "sm",
+      variant = "primary",
+      destructive = false,
+      ...buttonProps
+    } = props;
     return (
       <button
+        ref={ref}
         data-qa="IconButton"
-        {...props}
-        className={iconButton({ variant, size, className })}
+        className={iconButton({ variant, size, className, destructive })}
+        {...buttonProps}
       >
         <Icon
           name={icon}
@@ -61,14 +85,17 @@ export const IconButton = memo<models.IIconButton>(
         />
       </button>
     );
-  }
+  },
 );
+
+export const IconButton = memo(_IconButton);
 IconButton.displayName = "IconButton";
 
-export const CloseXButton = memo<models.ICloseXButton>(
-  ({ className, size = "sm", variant = "primary", ...props }) => {
+const _CloseXButton = forwardRef<HTMLButtonElement, models.ICloseXButton>(
+  ({ className, size = "sm", variant = "primary", ...props }, ref) => {
     return (
       <button
+        ref={ref}
         data-qa="CloseXButton"
         {...props}
         className={closeXButton({ size, variant, className })}
@@ -80,6 +107,7 @@ export const CloseXButton = memo<models.ICloseXButton>(
         />
       </button>
     );
-  }
+  },
 );
-Button.displayName = "Button";
+export const CloseXButton = memo(_CloseXButton);
+CloseXButton.displayName = "CloseXButton";

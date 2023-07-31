@@ -1,3 +1,4 @@
+import { type TUser } from "src/entities/user/lib";
 import type { TAvatarGroupSize, TAvatarSizes } from "./models";
 
 enum ImageSize {
@@ -47,3 +48,22 @@ export const AVATAR_GROUP_SPACING: Record<TAvatarGroupSize, SpacingSize> = {
   sm: SpacingSize.SM,
   md: SpacingSize.MD,
 };
+
+export function getShortName(user: TUser): string {
+  let result = "";
+  switch (true) {
+    case Boolean(!user.lastName && user.firstName):
+      result = `${user.firstName[0]}${user.firstName[1]}`;
+      break;
+    case user.lastName && !user.firstName:
+      result = `${user.lastName[0]}${user.lastName[1]}`;
+      break;
+    case Boolean(user.lastName && user.firstName):
+      result = `${user.firstName[0]}${user.lastName[0]}`;
+      break;
+    default:
+      break;
+  }
+
+  return result;
+}

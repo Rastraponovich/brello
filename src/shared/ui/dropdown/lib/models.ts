@@ -1,23 +1,26 @@
-import { ReactNode, ReactElement, ForwardRefExoticComponent } from "react";
+import { ReactNode, ReactElement } from "react";
+import { IconName } from "shared/ui/icon";
 
-export type TKey = keyof Omit<TMenuItem, "icon">;
+export type TKey = keyof Omit<TMenuItem, "onClick" | "handler">;
 
 export interface IDropdownProps {
   keyProperty?: TKey;
   items?: TMenuItem[];
   titleProperty?: TKey;
+  groupProperty?: TKey;
+  menuClassName?: string;
   buttonClassName?: string;
-  groupProperty?: keyof TMenuItem;
   menuHead?: ReactNode | ReactElement;
   buttonContent: string | ReactNode | ReactElement;
 }
 
 export type TMenuItem = {
-  id: number;
   text: string;
   hotkey: string;
+  id: number | string;
+  icon?: IconName | null;
   group?: number | string | null;
-  icon?: string | ReactElement | ReactNode | ForwardRefExoticComponent<unknown>;
+  onClick?: React.DOMAttributes<HTMLButtonElement>["onClick"];
 };
 
 export interface IMenuItemProps {
