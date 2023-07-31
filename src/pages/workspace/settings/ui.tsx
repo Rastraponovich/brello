@@ -15,9 +15,8 @@ import {
 
 import { Layout } from "widgets/layout";
 import { Upload } from "shared/ui/upload";
-import { Button } from "shared/ui/button";
 import { PageHeader } from "widgets/page-header";
-import { FormBlock } from "shared/ui/form-layouts";
+import { FormBlock, FormFooterActions } from "shared/ui/form-layouts";
 import { Input, InputArea, InputWeb } from "shared/ui/input";
 
 export const WorkSpaceSettingsPage = () => {
@@ -26,22 +25,9 @@ export const WorkSpaceSettingsPage = () => {
       <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
         <PageHeader divider title="Workspace settings" />
         <WorkSpaceSettingsForm />
-        <WorkSpaceSettingsFooter />
+        <FormFooterActions />
       </section>
     </Layout>
-  );
-};
-
-const WorkSpaceSettingsFooter = () => {
-  return (
-    <footer className="flex items-center justify-end gap-4 border-t border-gray-200 pt-4">
-      <Button form="form" size="md" variant="secondaryGray" type="reset">
-        Cancel
-      </Button>
-      <Button form="form" size="md" variant="primary" type="submit">
-        Save
-      </Button>
-    </footer>
   );
 };
 
