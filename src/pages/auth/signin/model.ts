@@ -1,7 +1,7 @@
 import { attach, createEvent, createStore, sample } from "effector";
 import type { ChangeEvent, FormEvent } from "react";
+import { not, pending } from "patronum";
 import { api } from "shared/api";
-import { not } from "patronum";
 
 import { validateEmail } from "./utils";
 
@@ -9,7 +9,12 @@ export type SignInError = "InvalidEmail" | "RateLimit" | "UnknownError";
 
 export const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
 export const submitted = createEvent<FormEvent<HTMLFormElement>>();
+export const signInWithGoogle = createEvent();
 export const backButtonClicked = createEvent();
+
+const signInWithGoogleFx = attach({
+  effect: api.auth.signInWithGoogleFx,
+});
 
 const signInFx = attach({
   effect: api.auth.signInWithEmailFx,
@@ -27,7 +32,12 @@ export const $email = createStore<Email | null>(null);
 /**
  * pending state when clicked signin
  */
-export const $isPendning = signInFx.pending;
+// export const $isPendning = signInFx.pending;
+
+export const $isPendning = pending({
+  effects: [signInWithGoogleFx, signInFx],
+  of: "some",
+});
 /**
  * validate email state
  */
@@ -88,4 +98,9 @@ sample({
     $isFinished.reinit,
     $invalidEmailText.reinit,
   ],
+});
+
+sample({
+  clock: signInWithGoogle,
+  target: signInWithGoogleFx,
 });

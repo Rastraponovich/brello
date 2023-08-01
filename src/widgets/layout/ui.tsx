@@ -53,7 +53,7 @@ export const OnboardingLayout = ({
       )}
     >
       <section className="container mx-auto my-0 flex w-full grow flex-col overflow-hidden  sm:items-center sm:justify-center">
-        <div className="flex max-w-[512px] flex-col gap-12 overflow-auto px-4 pb-4 pt-16 sm:px-0 sm:pb-0 sm:pt-0">
+        <div className="flex max-w-[512px] flex-col gap-12 px-4 pb-4 pt-16 sm:px-0 sm:pb-0 sm:pt-0">
           <FeaturedIcon
             size="xl"
             icon={icon}

@@ -2,7 +2,7 @@ import { createEvent, createStore } from "effector";
 import { TNavItem } from "shared/ui/nav-item";
 import { helpers } from "./lib";
 
-import { $currentPage, router } from "shared/routing";
+import { $currentPage } from "shared/routing";
 
 export const $menuItems = createStore<TNavItem[]>(helpers.navs);
 export const $selected = createStore<TNavItem["path"]>("/").on(
@@ -11,5 +11,3 @@ export const $selected = createStore<TNavItem["path"]>("/").on(
 );
 
 export const navButtonClicked = createEvent<string>();
-
-router.$path.watch(console.log);

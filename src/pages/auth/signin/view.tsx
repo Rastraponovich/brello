@@ -12,6 +12,7 @@ import {
   type SignInError,
   $invalidEmailText,
   $isValidEmail,
+  signInWithGoogle,
 } from "./model";
 
 import { Input } from "shared/ui/input";
@@ -99,7 +100,11 @@ const LoginForm = () => {
     $invalidEmailText,
     $isValidEmail,
   ]);
-  const [onSubmit, handleChangeEmail] = useUnit([submitted, changedEmail]);
+  const [onSubmit, handleChangeEmail, handleSignInWithGoogle] = useUnit([
+    submitted,
+    changedEmail,
+    signInWithGoogle,
+  ]);
 
   return (
     <>
@@ -129,6 +134,7 @@ const LoginForm = () => {
 
           <SocialAuthButton
             pending={pending}
+            onClick={handleSignInWithGoogle}
             social="google"
             theme="brand"
             type="button"
