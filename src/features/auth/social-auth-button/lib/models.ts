@@ -12,6 +12,7 @@ export interface ISocialButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   social: TAuthServices;
   noCaption?: boolean;
+  pending?: boolean;
   theme?: TButtonTheme;
 }
 

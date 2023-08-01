@@ -12,25 +12,11 @@ const iconNames: Partial<Record<HTMLInputTypeAttribute, IconName>> = {
 
 const _Input = forwardRef<HTMLInputElement, models.IInputProps>(
   (
-    {
-      caption,
-      className,
-      hint,
-      hasError,
-      errors,
-      type = "text",
-      disableIcon,
-      ...props
-    },
+    { caption, className, error, type = "text", disableIcon, ...props },
     ref,
   ) => {
     return (
-      <InputWrapper
-        hasError={hasError}
-        caption={caption}
-        errors={errors}
-        hint={hint}
-      >
+      <InputWrapper caption={caption} error={error}>
         <BaseInput
           ref={ref}
           type={type}
@@ -105,7 +91,10 @@ export const InputSearch = memo(_InputSearch);
 InputSearch.displayName = "InputSearch";
 
 const InputWrapper = memo<models.IInputWrapper>(
-  ({ children, caption, className, hint, hasError, errors }) => {
+  ({ children, caption, className, error }) => {
+    const hasError = Boolean(error);
+    console.log(error, hasError);
+
     return (
       <label
         data-qa="Input__container"
@@ -124,32 +113,12 @@ const InputWrapper = memo<models.IInputWrapper>(
           </span>
         )}
         <div className="relative w-full">{children}</div>
-        {hasError &&
-          errors &&
-          errors.map((error, id) => (
-            <div className="flex flex-col gap-1" key={id}>
-              <span
-                key={error.text}
-                title={error.text}
-                data-qa="Input__hint"
-                className={clsx(
-                  error.type === "invalid" ? "text-rose-500" : "text-gray-600",
-                )}
-              >
-                {error.text}
-              </span>
-            </div>
-          ))}
-        {hasError && hint && (
-          <span
-            title={hint?.text}
-            data-qa="Input__hint"
-            className={clsx(
-              hint.type === "invalid" ? "text-rose-500" : "text-gray-600",
-            )}
-          >
-            {hint?.text}
-          </span>
+        {hasError && (
+          <div className="flex flex-col gap-1">
+            <span data-qa="Input__hint" className="text-rose-500">
+              {error}
+            </span>
+          </div>
         )}
       </label>
     );

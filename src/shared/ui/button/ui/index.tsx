@@ -9,6 +9,7 @@ const _Button = forwardRef<HTMLButtonElement, models.TButtonProps>(
   (props, ref) => {
     const {
       pending,
+      disabled,
       children,
       leftIcon,
       className,
@@ -22,6 +23,8 @@ const _Button = forwardRef<HTMLButtonElement, models.TButtonProps>(
     return (
       <button
         ref={ref}
+        disabled={pending ?? disabled}
+        aria-disabled={pending ?? disabled}
         data-qa={`Button__${variant}`}
         className={button({ variant, size, className, destructive })}
         {...buttonProps}
