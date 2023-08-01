@@ -1,17 +1,13 @@
-type ValidatorError = {
-  text: string;
-  type: string;
-};
+import { EMAIL_PATTERN } from "./constants";
 
-const EMAIL_PATTERN = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-const validateEmail = new RegExp(EMAIL_PATTERN);
-
-export const emailValidator = (email: string): ValidatorError | null => {
-  if (!validateEmail.test(email)) {
-    return {
-      text: "Please enter a valid email address",
-      type: "invalid",
-    };
+/**
+ * validate email address
+ * @param email - String | null
+ * @returns boolean
+ */
+export function validateEmail(email: string | null): boolean {
+  if (email) {
+    return new RegExp(EMAIL_PATTERN).test(email);
   }
-  return null;
-};
+  return false;
+}

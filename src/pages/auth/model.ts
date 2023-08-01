@@ -4,21 +4,9 @@ import { routes } from "shared/routing";
 import { api } from "shared/api";
 import { not } from "patronum";
 
+import { validateEmail } from "./utils";
+
 export type SignInError = "InvalidEmail" | "RateLimit" | "UnknownError";
-
-const EMAIL_PATTERN = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
-
-/**
- * validate email address
- * @param email - String | null
- * @returns boolean
- */
-function validateEmail(email: string | null): boolean {
-  if (email) {
-    return new RegExp(EMAIL_PATTERN).test(email);
-  }
-  return false;
-}
 
 export const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
 export const submitted = createEvent<FormEvent<HTMLFormElement>>();
@@ -29,6 +17,9 @@ const signInFx = attach({
   effect: api.auth.signInWithEmailFx,
 });
 
+/**
+ * @todo Fix
+ */
 submitted.watch((e) => e.preventDefault());
 
 /**
