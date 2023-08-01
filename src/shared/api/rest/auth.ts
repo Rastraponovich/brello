@@ -14,6 +14,17 @@ export function checkError(error: AuthError | null): asserts error is null {
   }
 }
 
+export const signInWithGoogleFx = createEffect(async () => {
+  const { error } = await client.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: SITE_URL + "boards",
+    },
+  });
+
+  checkError(error);
+});
+
 export const signInWithEmailFx = createEffect<
   { email: Email },
   void,

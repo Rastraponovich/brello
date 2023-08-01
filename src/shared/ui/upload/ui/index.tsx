@@ -28,8 +28,8 @@ export const Upload = memo<models.IUploadProps>(({ disabled }) => {
 
   const handleDrop: DragEventHandler = (event) => {
     event.preventDefault();
-    const files = [...event.dataTransfer.files];
-    console.log(files);
+    // const files = [...event.dataTransfer.files];
+    // console.log(files);
     setDragStarting(false);
   };
   return (

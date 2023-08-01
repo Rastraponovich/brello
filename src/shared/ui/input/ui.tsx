@@ -93,7 +93,6 @@ InputSearch.displayName = "InputSearch";
 const InputWrapper = memo<models.IInputWrapper>(
   ({ children, caption, className, error }) => {
     const hasError = Boolean(error);
-    console.log(error, hasError);
 
     return (
       <label

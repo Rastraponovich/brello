@@ -15,14 +15,6 @@ import { OnboardingLayout } from "widgets/layout";
 import { Input, InputArea, InputWeb } from "shared/ui/input";
 
 export const OnboardingPage = () => {
-  const [description, name, url] = useUnit([$description, $name, $url]);
-  const [
-    handleChangeName,
-    handleChangeUrl,
-    handleChangeDescription,
-    handleSubmit,
-  ] = useUnit([nameChanged, urlChanged, descriptionChanged, formSubmitted]);
-
   return (
     <OnboardingLayout
       icon="common/folder-shield"
@@ -38,35 +30,69 @@ export const OnboardingPage = () => {
         </p>
       </div>
       <div className="flex flex-col gap-8">
-        <form
-          id="form"
-          onSubmit={handleSubmit}
-          className=" flex w-full flex-col gap-6 sm:max-w-[512px]"
-        >
-          <Input
-            caption="Workspace name"
-            placeholder="Your Company Co."
-            value={name ?? undefined}
-            onChange={handleChangeName}
-          />
-
-          <InputWeb
-            rightPlaceholder="your-company-co"
-            leftPlaceholder="brello.io/workspaces/"
-            rightValue={url ?? undefined}
-            onChange={handleChangeUrl}
-          />
-          <InputArea
-            caption="Description"
-            placeholder="Our team organizes everything here."
-            value={description ?? undefined}
-            onChange={handleChangeDescription}
-          />
-        </form>
-        <Button type="submit" size="lg" form="form" variant="primary">
-          Get started
-        </Button>
+        <OnboardingForm />
       </div>
     </OnboardingLayout>
+  );
+};
+
+const OnboardingForm = () => {
+  const handleSubmit = useUnit(formSubmitted);
+  return (
+    <>
+      <form
+        id="form"
+        onSubmit={handleSubmit}
+        className=" flex w-full flex-col gap-6"
+      >
+        <WorkspaceName />
+        <WorkspaceURL />
+        <Description />
+      </form>
+      <Button type="submit" size="lg" form="form" variant="primary">
+        Get started
+      </Button>
+    </>
+  );
+};
+
+const Description = () => {
+  const [description, handleChangeDescription] = useUnit([
+    $description,
+    descriptionChanged,
+  ]);
+  return (
+    <InputArea
+      caption="Description"
+      placeholder="Our team organizes everything here."
+      value={description ?? undefined}
+      onChange={handleChangeDescription}
+    />
+  );
+};
+
+const WorkspaceName = () => {
+  const [name, handleChangeName] = useUnit([$name, nameChanged]);
+
+  return (
+    <Input
+      caption="Workspace name"
+      placeholder="Your Company Co."
+      value={name ?? undefined}
+      onChange={handleChangeName}
+    />
+  );
+};
+
+const WorkspaceURL = () => {
+  const [url, handleChangeUrl] = useUnit([$url, urlChanged]);
+
+  return (
+    <InputWeb
+      rightPlaceholder="your-company-co"
+      leftPlaceholder="brello.io/workspaces/"
+      rightValue={url ?? undefined}
+      onChange={handleChangeUrl}
+    />
   );
 };
