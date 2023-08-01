@@ -1,6 +1,5 @@
 import { attach, createEvent, createStore, sample } from "effector";
 import type { ChangeEvent, FormEvent } from "react";
-import { routes } from "shared/routing";
 import { api } from "shared/api";
 import { not } from "patronum";
 
@@ -11,7 +10,6 @@ export type SignInError = "InvalidEmail" | "RateLimit" | "UnknownError";
 export const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
 export const submitted = createEvent<FormEvent<HTMLFormElement>>();
 export const backButtonClicked = createEvent();
-export const skipButtonClicked = createEvent();
 
 const signInFx = attach({
   effect: api.auth.signInWithEmailFx,
@@ -90,9 +88,4 @@ sample({
     $isFinished.reinit,
     $invalidEmailText.reinit,
   ],
-});
-
-sample({
-  clock: skipButtonClicked,
-  target: routes.boards.open,
 });
