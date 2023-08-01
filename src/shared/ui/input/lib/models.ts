@@ -1,10 +1,16 @@
 import { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 
+export type InputSize = "sm" | "md";
+
+interface Error {
+  error?: string | null | ReactNode;
+}
+
 /** TODO: fix */
 export interface IBaseInput
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">,
     IHint {
-  size?: TInputSize;
+  size?: InputSize;
   disableIcon?: boolean;
 }
 export interface IHint {
@@ -19,11 +25,7 @@ interface Validators {
   validators?: Function[];
 }
 
-interface Errors {
-  hasError?: boolean;
-  errors?: { text: string; type: string }[];
-}
-export interface IInputProps extends IBaseInput, Validators, Errors {
+export interface IInputProps extends IBaseInput, Validators, Error {
   caption?: string;
 }
 
@@ -32,24 +34,15 @@ export interface IBaseInputArea
   rows?: number;
 }
 
-export interface IInputAreaProps extends IBaseInputArea, IHint {
+export interface IInputAreaProps extends IBaseInputArea, IHint, Error {
   caption?: string;
 }
 
-export interface IInputWrapper extends IHint, Errors {
+export interface IInputWrapper extends IHint, Error {
   type?: HTMLInputElement["type"];
   children: ReactNode;
   className?: string;
   caption?: string;
-}
-
-// TODO: remove || depricated
-export type TCaptionPosition = "left" | "top" | "right" | "bottom";
-
-export type TInputSize = "sm" | "md";
-
-export interface IInputSize {
-  size: TInputSize;
 }
 
 export interface IBaseInputWeb {
@@ -61,6 +54,6 @@ export interface IBaseInputWeb {
   leftWidth?: number | string;
 }
 
-export interface IInputWebProps extends IHint, IBaseInputWeb {
+export interface IInputWebProps extends IHint, IBaseInputWeb, Error {
   caption?: string;
 }

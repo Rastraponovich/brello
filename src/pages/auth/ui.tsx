@@ -1,53 +1,58 @@
 import { useUnit } from "effector-react";
-import { type FormEventHandler, memo } from "react";
+import { type FormEventHandler, memo, ReactNode } from "react";
 
 import {
-  $errors,
+  $error,
   submitted,
   $isPendning,
-  $emailField,
+  $email,
+  $isFinished,
   changedEmail,
-  $isValidEmail,
   skipButtonClicked,
+  backButtonClicked,
+  type SignInError,
+  $invalidEmailText,
+  $isValidEmail,
 } from "./model";
-
-import { routes } from "shared/routing";
 
 import { Input } from "shared/ui/input";
 import { Button } from "shared/ui/button";
-import { Link } from "atomic-router-react";
 import { Heading } from "shared/ui/heading";
 import { Logo } from "shared/ui/icons/logo";
 import { OnboardingLayout } from "widgets/layout";
 import { Icon, type IconName } from "shared/ui/icon";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
 import { SocialAuthButton } from "features/auth/social-auth-button";
+import { TColors } from "shared/lib";
 
-const statuses: Record<"check" | "error", SendStatusBlockProps> = {
-  check: {
+type StatusConfig = {
+  icon: IconName;
+  text: string;
+  buttonText: string;
+};
+const sendStatusConfig: Record<"finished" | "error", StatusConfig> = {
+  finished: {
     icon: "common/mail",
     text: "Check your email",
-    description: "We sent a login link to olivia@untitledui.com",
     buttonText: "Back to log in",
   },
   error: {
     icon: "alerts/alert-circle",
     text: "Some error happened",
-    description: "With description",
     buttonText: "Try again",
-    type: "error",
   },
 };
 
+const errorText: {
+  [K in SignInError]: ReactNode | null;
+} = {
+  InvalidEmail: "Must be a valid email.",
+  RateLimit: "Too much requests. Please, try again later.",
+  UnknownError: "Something happened. Please, try again later.",
+};
+
 export const AuthPage = () => {
-  const [value, setValue] = useUnit([$emailField, changedEmail]);
-  const onSubmit = useUnit(submitted);
-  const isValidEmail = useUnit($isValidEmail);
-  const pending = useUnit($isPendning);
-
-  const errors = useUnit($errors);
-
-  const linkSending: "error" | "check" | null = null;
+  const [finished, error] = useUnit([$isFinished, $error]);
 
   return (
     <main className="grid h-screen grid-rows-[62.5px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
@@ -56,60 +61,10 @@ export const AuthPage = () => {
           <Logo canHideTitle />
         </header>
 
-        <section className="container mx-auto my-0 flex grow flex-col items-center justify-center px-4 sm:px-8">
-          <section className="flex w-full max-w-[360px] grow flex-col justify-start gap-8 sm:justify-center">
-            {linkSending ? (
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              <SendStatusBlock {...statuses[linkSending]} />
-            ) : (
-              <>
-                <header className="flex flex-col gap-2">
-                  <Heading as="h1">Sign in</Heading>
-                  <span className="text-base font-normal text-gray-600">
-                    Start your 30-day free trial.
-                  </span>
-                </header>
-                <form
-                  noValidate
-                  onSubmit={onSubmit}
-                  className="flex flex-col gap-6"
-                >
-                  <Input
-                    placeholder="Enter your email"
-                    hasError={!isValidEmail}
-                    value={value as string}
-                    onChange={setValue}
-                    disabled={pending}
-                    errors={errors}
-                    caption="Email"
-                    type="email"
-                    disableIcon
-                    required
-                  />
-
-                  <div className="col-start-1 flex flex-col gap-4 md:col-start-2">
-                    <Button
-                      disabled={pending}
-                      pending={pending}
-                      variant="primary"
-                      type="submit"
-                      size="md"
-                    >
-                      Get started
-                    </Button>
-
-                    <SocialAuthButton
-                      disabled={pending}
-                      social="google"
-                      theme="brand"
-                      type="button"
-                    />
-                  </div>
-                </form>
-              </>
-            )}
-          </section>
+        <section className="container mx-auto my-0 flex w-full max-w-[360px] grow flex-col  justify-center gap-8 px-4 sm:px-0">
+          {error && <ErrorSendStatus />}
+          {finished && <FinishedSendStatus />}
+          {!finished && !error && <LoginForm />}
         </section>
 
         <footer className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
@@ -138,6 +93,112 @@ export const AuthPage = () => {
     </main>
   );
 };
+
+const LoginForm = () => {
+  const [email, pending, error] = useUnit([
+    $email,
+    $isPendning,
+    $invalidEmailText,
+    $isValidEmail,
+  ]);
+  const [onSubmit, handleChangeEmail] = useUnit([submitted, changedEmail]);
+
+  return (
+    <>
+      <header className="flex flex-col gap-2">
+        <Heading as="h1">Sign in</Heading>
+        <span className="text-base font-normal text-gray-600">
+          Start your 30-day free trial.
+        </span>
+      </header>
+      <form noValidate onSubmit={onSubmit} className="flex flex-col gap-6">
+        <Input
+          placeholder="Enter your email"
+          onChange={handleChangeEmail}
+          value={email ?? undefined}
+          disabled={pending}
+          caption="Email"
+          error={error ? errorText[error] : null}
+          type="email"
+          disableIcon
+          required
+        />
+
+        <div className="col-start-1 flex flex-col gap-4 md:col-start-2">
+          <Button pending={pending} variant="primary" type="submit" size="md">
+            Get started
+          </Button>
+
+          <SocialAuthButton
+            pending={pending}
+            social="google"
+            theme="brand"
+            type="button"
+          />
+        </div>
+      </form>
+    </>
+  );
+};
+
+const ErrorSendStatus = () => {
+  const error = useUnit($error);
+  return (
+    <SendStatus
+      iconColor="error"
+      description={errorText[error ?? "UnknownError"]}
+      {...sendStatusConfig["error"]}
+    />
+  );
+};
+
+const FinishedSendStatus = () => {
+  const email = useUnit($email);
+  return (
+    <SendStatus
+      {...sendStatusConfig["finished"]}
+      description={`We sent a login link to ${email}`}
+    />
+  );
+};
+
+interface SendStatusProps extends StatusConfig {
+  description: ReactNode | null;
+  iconColor?: TColors;
+}
+const SendStatus = memo<SendStatusProps>(
+  ({ text, description, buttonText, icon, iconColor = "primary" }) => {
+    const handleBackButtonClicked = useUnit(backButtonClicked);
+
+    return (
+      <>
+        <header className="flex flex-col items-start gap-6">
+          <FeaturedIcon
+            icon={icon}
+            variant="outline"
+            color={iconColor}
+            type="circle"
+            size="xl"
+          />
+          <div className="flex flex-col gap-3">
+            <Heading as="h1">{text}</Heading>
+            <p className="text-base text-gray-600">{description}</p>
+          </div>
+        </header>
+        <Button
+          size="sm"
+          type="button"
+          variant="linkGray"
+          className="self-start"
+          leftIcon="arrows/arrow-left"
+          onClick={handleBackButtonClicked}
+        >
+          {buttonText}
+        </Button>
+      </>
+    );
+  },
+);
 
 export const AuthOnboarding = () => {
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
@@ -179,42 +240,3 @@ export const AuthOnboarding = () => {
     </OnboardingLayout>
   );
 };
-
-interface SendStatusBlockProps {
-  text: string;
-  description: string;
-  icon: IconName;
-  buttonText: string;
-  type?: "error";
-}
-const SendStatusBlock = memo<SendStatusBlockProps>(
-  ({ text, description, buttonText, type, icon }) => {
-    return (
-      <>
-        <header className="flex flex-col items-start gap-6">
-          <FeaturedIcon
-            icon={icon}
-            variant="outline"
-            color={type === "error" ? "error" : "primary"}
-            type="circle"
-            size="xl"
-          />
-          <div className="flex flex-col gap-3">
-            <Heading as="h1">{text}</Heading>
-            <p className="text-base text-gray-600">{description}</p>
-          </div>
-        </header>
-        <Link to={routes.auth.login}>
-          <Button
-            size="sm"
-            type="button"
-            variant="linkGray"
-            leftIcon="arrows/arrow-left"
-          >
-            {buttonText}
-          </Button>
-        </Link>
-      </>
-    );
-  },
-);
