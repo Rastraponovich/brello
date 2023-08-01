@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { type FormEventHandler, memo, ReactNode } from "react";
+import { memo, ReactNode } from "react";
 
 import {
   $error,
@@ -8,7 +8,6 @@ import {
   $email,
   $isFinished,
   changedEmail,
-  skipButtonClicked,
   backButtonClicked,
   type SignInError,
   $invalidEmailText,
@@ -19,7 +18,6 @@ import { Input } from "shared/ui/input";
 import { Button } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
 import { Logo } from "shared/ui/icons/logo";
-import { OnboardingLayout } from "widgets/layout";
 import { Icon, type IconName } from "shared/ui/icon";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
 import { SocialAuthButton } from "features/auth/social-auth-button";
@@ -199,44 +197,3 @@ const SendStatus = memo<SendStatusProps>(
     );
   },
 );
-
-export const AuthOnboarding = () => {
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-  };
-
-  const handleSkip = useUnit(skipButtonClicked);
-  return (
-    <OnboardingLayout icon="common/user" backgroundImage="bg-cells-pattern">
-      <header className="flex flex-col gap-4 sm:gap-5">
-        <Heading as="h1" className="text-4xl  tracking-[-0.72px] ">
-          Please, introduce yourself
-        </Heading>
-        <p className="text-xl font-normal text-gray-600">
-          You can do this later on Profile page.{" "}
-          <Button
-            onClick={handleSkip}
-            variant="link"
-            size="sm"
-            className="inline-flex !text-xl !font-normal"
-          >
-            Skip
-          </Button>
-        </p>
-      </header>
-      <section className="flex flex-col gap-8">
-        <form
-          id="form"
-          onSubmit={handleSubmit}
-          className="flex w-full flex-col gap-6 text-sm text-gray-700 sm:max-w-[512px] sm:flex-row sm:gap-8"
-        >
-          <Input placeholder="First name" caption="First name" />
-          <Input placeholder="Last name" caption="Last name" />
-        </form>
-        <Button type="submit" size="lg" form="form" variant="primary">
-          Continue
-        </Button>
-      </section>
-    </OnboardingLayout>
-  );
-};

@@ -4,9 +4,10 @@ import { RouterProvider, Route } from "atomic-router-react";
 import { routes, router } from "shared/routing";
 
 import { NotFoundPage } from "pages/404";
+import { AuthPage } from "pages/auth/signin";
 import { UserPage } from "pages/user/settings";
 import { BoardsPage } from "pages/workspace/boards";
-import { AuthOnboarding, AuthPage } from "pages/auth";
+import { AuthOnboarding } from "pages/auth/onboarding";
 import { BoardPage, BoardSettingsPage } from "pages/board";
 import { OnboardingPage } from "pages/workspace/onboarding";
 import { WorkSpaceSettingsPage } from "pages/workspace/settings";
