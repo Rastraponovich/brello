@@ -1,4 +1,3 @@
-import { ChangeEvent, FormEvent } from "react";
 import { not, and } from "patronum";
 import {
   attach,
@@ -8,6 +7,8 @@ import {
   createStore,
   sample,
 } from "effector";
+
+import type { ChangeEvent, FormEvent } from "react";
 
 import { routes } from "shared/routing";
 import { inputReducer, validateName } from "./utils";

@@ -1,13 +1,27 @@
-import { type FormEventHandler } from "react";
+import { useUnit } from "effector-react";
+
+import {
+  $url,
+  $name,
+  urlChanged,
+  nameChanged,
+  $description,
+  formSubmitted,
+  descriptionChanged,
+} from "./model";
 
 import { Button } from "shared/ui/button";
 import { OnboardingLayout } from "widgets/layout";
 import { Input, InputArea, InputWeb } from "shared/ui/input";
 
 export const OnboardingPage = () => {
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-  };
+  const [description, name, url] = useUnit([$description, $name, $url]);
+  const [
+    handleChangeName,
+    handleChangeUrl,
+    handleChangeDescription,
+    handleSubmit,
+  ] = useUnit([nameChanged, urlChanged, descriptionChanged, formSubmitted]);
 
   return (
     <OnboardingLayout
@@ -29,15 +43,24 @@ export const OnboardingPage = () => {
           onSubmit={handleSubmit}
           className=" flex w-full flex-col gap-6 sm:max-w-[512px]"
         >
-          <Input caption="Workspace name" placeholder="Your Company Co." />
+          <Input
+            caption="Workspace name"
+            placeholder="Your Company Co."
+            value={name ?? undefined}
+            onChange={handleChangeName}
+          />
 
           <InputWeb
             rightPlaceholder="your-company-co"
             leftPlaceholder="brello.io/workspaces/"
+            rightValue={url ?? undefined}
+            onChange={handleChangeUrl}
           />
           <InputArea
             caption="Description"
             placeholder="Our team organizes everything here."
+            value={description ?? undefined}
+            onChange={handleChangeDescription}
           />
         </form>
         <Button type="submit" size="lg" form="form" variant="primary">
