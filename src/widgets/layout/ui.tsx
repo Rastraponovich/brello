@@ -9,7 +9,15 @@ interface ILayoutProps {
   children: ReactNode;
   scrollable?: boolean;
 }
-export const Layout = ({ children, scrollable }: ILayoutProps) => {
+
+/**
+ * Renders the layout component.
+ *
+ * @param {ILayoutProps} children - The child components to render within the layout.
+ * @param {boolean} scrollable - Determines if the layout should have scrollable content.
+ * @return {React.ReactNode} - The rendered layout component.
+ */
+export const Layout = ({ children, scrollable }: ILayoutProps): React.ReactNode => {
   return (
     <>
       <Header />
@@ -17,11 +25,20 @@ export const Layout = ({ children, scrollable }: ILayoutProps) => {
     </>
   );
 };
+
 interface IBaseLayoutProps {
   children: ReactNode;
   scrollable?: boolean;
 }
-export const BaseLayout = ({ children, scrollable }: IBaseLayoutProps) => {
+
+/**
+ * Renders the base layout component.
+ *
+ * @param {IBaseLayoutProps} children - The child components to be rendered within the layout.
+ * @param {boolean} scrollable - Determines if the layout should be scrollable or not.
+ * @return {JSX.Element} The main element representing the base layout.
+ */
+export const BaseLayout = ({ children, scrollable }: IBaseLayoutProps): JSX.Element => {
   return (
     <main
       className={clsx(
@@ -33,17 +50,30 @@ export const BaseLayout = ({ children, scrollable }: IBaseLayoutProps) => {
     </main>
   );
 };
+
 interface IOnboardingLayoutProps extends IBaseLayoutProps {
   icon?: IconName;
   className?: string;
   backgroundImage?: string;
 }
+
+/**
+ * Renders the OnboardingLayout component.
+ *
+ * @param {IOnboardingLayoutProps} {
+ *   children,
+ *   className,
+ *   backgroundImage,
+ *   icon = "common/user",
+ * } - The props for the OnboardingLayout component.
+ * @return {JSX.Element} The rendered OnboardingLayout component.
+ */
 export const OnboardingLayout = ({
   children,
   className,
   backgroundImage,
   icon = "common/user",
-}: IOnboardingLayoutProps) => {
+}: IOnboardingLayoutProps): JSX.Element => {
   return (
     <main
       className={clsx(

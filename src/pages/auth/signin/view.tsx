@@ -54,19 +54,19 @@ export const AuthPage = () => {
   const [finished, error] = useUnit([$isFinished, $error]);
 
   return (
-    <main className="grid h-screen grid-rows-[62.5px_1fr] place-content-stretch overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
-      <section className="order-last flex w-full shrink flex-col items-center sm:order-first sm:px-0">
-        <header className="mb-6 mt-8 flex w-full px-4 sm:my-8 sm:px-8">
+    <main className="grid h-screen grid-rows-[62.5px_1fr] overflow-hidden sm:grid-cols-2 sm:grid-rows-none">
+      <section className="order-last flex flex-col sm:order-first sm:gap-0 sm:px-0">
+        <header className="px-4 pb-6 pt-8 sm:p-8">
           <Logo canHideTitle />
         </header>
 
-        <section className="container mx-auto my-0 flex w-full max-w-[360px] grow flex-col  justify-center gap-8 px-4 sm:px-0">
+        <section className="flex flex-col justify-center gap-8 px-4 sm:container sm:mx-auto sm:max-w-[360px] sm:grow sm:px-0">
           {error && <ErrorSendStatus />}
           {finished && <FinishedSendStatus />}
           {!finished && !error && <LoginForm />}
         </section>
 
-        <footer className="hidden w-full justify-between px-8 py-8 text-sm font-normal text-gray-400 sm:flex">
+        <footer className="hidden justify-between p-8 text-sm font-normal text-gray-400 sm:flex">
           <span>&copy; Brello 2023</span>
           <a href="mailto:help@brello.io" className="flex items-center gap-2">
             <Icon name="common/mail" size="small" />
@@ -74,32 +74,27 @@ export const AuthPage = () => {
           </a>
         </footer>
       </section>
-      <section className="order-first place-self-auto overflow-hidden sm:order-last">
+      <aside className="order-first place-self-auto overflow-hidden sm:order-last">
         <img
           alt="frendly image"
           data-qa="FrendlyImage"
           src="images/geometric-shapes.svg"
-          className="hidden h-full object-cover object-left-top sm:block"
+          className="hidden h-full w-full object-cover object-left-top sm:block"
         />
         <img
           alt="frendly image"
           data-qa="FrendlyImage"
           height={63}
-          className="object-left sm:hidden"
+          className="w-full object-left sm:hidden"
           src="images/geometric-shapes-small.svg"
         />
-      </section>
+      </aside>
     </main>
   );
 };
 
 const LoginForm = () => {
-  const [email, pending, error] = useUnit([
-    $email,
-    $isPendning,
-    $invalidEmailText,
-    $isValidEmail,
-  ]);
+  const [email, pending, error] = useUnit([$email, $isPendning, $invalidEmailText, $isValidEmail]);
   const [onSubmit, handleChangeEmail, handleSignInWithGoogle] = useUnit([
     submitted,
     changedEmail,
@@ -108,11 +103,9 @@ const LoginForm = () => {
 
   return (
     <>
-      <header className="flex flex-col gap-2">
+      <header className="flex flex-col gap-3">
         <Heading as="h1">Sign in</Heading>
-        <span className="text-base font-normal text-gray-600">
-          Start your 30-day free trial.
-        </span>
+        <span className="text-base font-normal text-gray-600">Start your 30-day free trial.</span>
       </header>
       <form noValidate onSubmit={onSubmit} className="flex flex-col gap-6">
         <Input
@@ -127,7 +120,7 @@ const LoginForm = () => {
           required
         />
 
-        <div className="col-start-1 flex flex-col gap-4 md:col-start-2">
+        <div className="flex flex-col gap-4">
           <Button pending={pending} variant="primary" type="submit" size="md">
             Get started
           </Button>
@@ -147,6 +140,7 @@ const LoginForm = () => {
 
 const ErrorSendStatus = () => {
   const error = useUnit($error);
+
   return (
     <SendStatus
       iconColor="error"
@@ -158,6 +152,7 @@ const ErrorSendStatus = () => {
 
 const FinishedSendStatus = () => {
   const email = useUnit($email);
+
   return (
     <SendStatus
       {...sendStatusConfig["finished"]}
@@ -177,13 +172,7 @@ const SendStatus = memo<SendStatusProps>(
     return (
       <>
         <header className="flex flex-col items-start gap-6">
-          <FeaturedIcon
-            icon={icon}
-            variant="outline"
-            color={iconColor}
-            type="circle"
-            size="xl"
-          />
+          <FeaturedIcon icon={icon} variant="outline" color={iconColor} type="circle" size="xl" />
           <div className="flex flex-col gap-3">
             <Heading as="h1">{text}</Heading>
             <p className="text-base text-gray-600">{description}</p>

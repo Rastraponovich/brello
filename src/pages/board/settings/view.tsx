@@ -10,7 +10,7 @@ import {
   addEmailButtonClicked,
   deleteEmailButtonClicked,
   deletedBoardButtonClicked,
-} from "./model/settings";
+} from "./model";
 
 import { Layout } from "widgets/layout";
 import { PageHeader } from "widgets/page-header";
@@ -76,29 +76,17 @@ const BoardName = () => {
   const [boardName, setBoardName] = useUnit([$boardName, boardNameChanged]);
 
   return (
-    <FormBlock
-      title="Name"
-      description="This will be displayed in board header."
-    >
-      <Input
-        value={boardName}
-        onChange={setBoardName}
-        placeholder="enter board name"
-      />
+    <FormBlock title="Name" description="This will be displayed in board header.">
+      <Input value={boardName} onChange={setBoardName} placeholder="enter board name" />
     </FormBlock>
   );
 };
 
 const DeleteBoardButton = () => {
   const deletedButtonClicked = useUnit(deletedBoardButtonClicked);
+
   return (
-    <Button
-      size="sm"
-      destructive
-      type="button"
-      variant="primary"
-      onClick={deletedButtonClicked}
-    >
+    <Button size="sm" destructive type="button" variant="primary" onClick={deletedButtonClicked}>
       Delete this board
     </Button>
   );
@@ -107,6 +95,7 @@ const DeleteBoardButton = () => {
 const AddEmail = () => {
   const [newEmail, emailChanged] = useUnit([$newEmail, changedNewEmail]);
   const handleAddEmailButtonClicked = useUnit(addEmailButtonClicked);
+
   return (
     <div className="flex flex-col gap-2.5">
       <Input
@@ -138,34 +127,33 @@ interface EmailRowProps
   onDelete(id: number): void;
 }
 
-const EmailRow = memo<EmailRowProps>(
-  ({ caption, value, onChange, placeholder, id, onDelete }) => {
-    const handleClick = () => {
-      onDelete(Number(id));
-    };
-    return (
-      <div className="flex items-end gap-2.5">
-        <Input
-          id={id}
-          size="md"
-          type="email"
-          value={value}
-          caption={caption}
-          className="w-full"
-          onChange={onChange}
-          placeholder={placeholder}
-        />
-        <IconButton
-          icon="common/trash-01"
-          variant="secondaryGray"
-          onClick={handleClick}
-          size="md"
-          type="button"
-        />
-      </div>
-    );
-  },
-);
+const EmailRow = memo<EmailRowProps>(({ caption, value, onChange, placeholder, id, onDelete }) => {
+  const handleClick = () => {
+    onDelete(Number(id));
+  };
+
+  return (
+    <div className="flex items-end gap-2.5">
+      <Input
+        id={id}
+        size="md"
+        type="email"
+        value={value}
+        caption={caption}
+        className="w-full"
+        onChange={onChange}
+        placeholder={placeholder}
+      />
+      <IconButton
+        icon="common/trash-01"
+        variant="secondaryGray"
+        onClick={handleClick}
+        size="md"
+        type="button"
+      />
+    </div>
+  );
+});
 
 const DeleteBoard = () => {
   return (

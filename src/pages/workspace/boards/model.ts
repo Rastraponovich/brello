@@ -12,7 +12,7 @@ const getWorkspaceFx = attach({
 });
 
 sample({
-  clock: routes.boards.opened,
+  clock: routes.workspace.boards.opened,
   target: getWorkspaceFx,
 });
 
@@ -32,10 +32,7 @@ export const $search = createStore("")
 
 export const $boards = createStore<TBoard[]>([])
   .on(getWorkspaceFx.doneData, (_, { boards }) => boards)
-  .on(addBoard, (state, _) => [
-    ...state,
-    { id: state.length + 1, title: "newBoard" },
-  ]);
+  .on(addBoard, (state, _) => [...state, { id: state.length + 1, title: "newBoard" }]);
 
 export const $boardsLength = $boards.map((state) => state.length);
 export const $boardsEmpty = $boards.map((state) => state.length === 0);
@@ -73,5 +70,5 @@ export const boardCardClicked = createEvent<TBoard>();
 sample({
   clock: boardCardClicked,
   fn: (card) => ({ id: card.id }),
-  target: routes.board.open,
+  target: routes.board.board.open,
 });

@@ -10,14 +10,15 @@ import { appStarted } from "./config";
 
 export const routes = {
   home: createRoute(),
-  boards: createRoute(),
-  board: createRoute(),
-  boardSettings: createRoute(),
+  board: {
+    board: createRoute(),
+    settings: createRoute(),
+  },
   auth: {
     login: createRoute(),
     onboarding: createRoute(),
   },
-  workspace: { settings: createRoute(), onboarding: createRoute() },
+  workspace: { settings: createRoute(), onboarding: createRoute(), boards: createRoute() },
   user: createRoute(),
   notFountPage: createRoute(),
 };
@@ -33,17 +34,14 @@ const routesMap: UnmappedRouteObject<any>[] = [
     path: "/auth/onboarding",
     route: routes.auth.onboarding,
   },
-  {
-    path: "/boards",
-    route: routes.boards,
-  },
+
   {
     path: "/board/:id",
-    route: routes.board,
+    route: routes.board.board,
   },
   {
     path: "/board/:id/settings",
-    route: routes.boardSettings,
+    route: routes.board.settings,
   },
   {
     path: "/user",
@@ -55,6 +53,7 @@ const routesMap: UnmappedRouteObject<any>[] = [
   },
   { path: "/workspace/settings", route: routes.workspace.settings },
   { path: "/workspace/onboarding", route: routes.workspace.onboarding },
+  { path: "/workspace/boards", route: routes.workspace.boards },
 ];
 
 export const controls = createRouterControls();

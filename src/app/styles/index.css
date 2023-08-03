@@ -7,12 +7,8 @@ html {
 }
 
 @layer base {
-  body {
-    @apply mx-auto my-0 h-screen;
-  }
-
   #root {
-    @apply flex h-full flex-col;
+    @apply grid h-full max-h-screen grid-rows-[minmax(0,_min-content)_1fr_minmax(0,_min-content)];
   }
 }
 
@@ -53,17 +49,9 @@ html {
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
     background:
-      /* Shadow Cover TOP */ linear-gradient(
-          white 30%,
-          rgb(255 255 255 / 0%)
-        )
-        center top,
-      /* Shadow TOP */
-        radial-gradient(
-          farthest-side at 50% 0,
-          rgb(0 0 0 / 20%),
-          rgb(0 0 0 / 0%)
-        )
+      /* Shadow Cover TOP */ linear-gradient(white 30%, rgb(255 255 255 / 0%)) center
+        top,
+      /* Shadow TOP */ radial-gradient(farthest-side at 50% 0, rgb(0 0 0 / 20%), rgb(0 0 0 / 0%))
         center top;
     background-repeat: no-repeat;
     background-size: 100% 40px, 120% 14px, 10% 14px, 10% 14px;

@@ -51,13 +51,7 @@ export interface SpritesMap {
     | "twitter-brand"
     | "twitter-color"
     | "twitter-colorWithBrand";
-  users:
-    | "user-01"
-    | "user-circle"
-    | "user-plus-01"
-    | "user"
-    | "users-01"
-    | "users-plus";
+  users: "user-01" | "user-circle" | "user-plus-01" | "user" | "users-01" | "users-plus";
 }
 
 export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
@@ -115,12 +109,5 @@ export const SPRITES_META: { [K in keyof SpritesMap]: SpritesMap[K][] } = {
     "twitter-color",
     "twitter-colorWithBrand",
   ],
-  users: [
-    "user-01",
-    "user-circle",
-    "user-plus-01",
-    "user",
-    "users-01",
-    "users-plus",
-  ],
+  users: ["user-01", "user-circle", "user-plus-01", "user", "users-01", "users-plus"],
 };

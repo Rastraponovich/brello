@@ -1,4 +1,4 @@
-import { TCard } from "entities/board/lib/models";
+import { TCard } from "entities/stack/model";
 
 export type TBoard = {
   id: number;

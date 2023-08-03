@@ -8,10 +8,14 @@ interface User {
   id: UserId;
 }
 
+/**
+ * Checks if the given error is null and throws an exception if it is not.
+ *
+ * @param {AuthError | null} error - The error to check.
+ * @return {void}
+ */
 export function checkError(error: AuthError | null): asserts error is null {
-  if (error) {
-    throw error;
-  }
+  if (error !== null) throw error;
 }
 
 export const signInWithGoogleFx = createEffect(async () => {
@@ -25,21 +29,19 @@ export const signInWithGoogleFx = createEffect(async () => {
   checkError(error);
 });
 
-export const signInWithEmailFx = createEffect<
-  { email: Email },
-  void,
-  AuthError
->(async ({ email }) => {
-  const { error } = await client.auth.signInWithOtp({
-    email,
+export const signInWithEmailFx = createEffect<{ email: Email }, void, AuthError>(
+  async ({ email }) => {
+    const { error } = await client.auth.signInWithOtp({
+      email,
 
-    options: {
-      emailRedirectTo: SITE_URL,
-    },
-  });
+      options: {
+        emailRedirectTo: SITE_URL,
+      },
+    });
 
-  checkError(error);
-});
+    checkError(error);
+  },
+);
 
 export const getMeFx = createEffect<void, User | null, AuthError>(async () => {
   const {
