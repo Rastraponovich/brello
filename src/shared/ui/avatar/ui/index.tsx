@@ -47,52 +47,51 @@ const _Avatar = forwardRef<HTMLDivElement, models.IAvatarProps>(
     );
   },
 );
+
 export const Avatar = memo(_Avatar);
 Avatar.displayName = "Avatar";
 
-export const AvatarCounter = forwardRef<
-  HTMLDivElement,
-  models.IAvatarCounterProps
->(({ count, size }, ref) => {
-  return (
-    <div
-      ref={ref}
-      title={`more ${count}`}
-      data-qa="Avatar-button__counter"
-      className={clsx(
-        "flex shrink-0 items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
-        helpers.AVATAR_SIZE_DICT[size],
-        size === "md" ? "text-base" : "text-sm",
-      )}
-    >
-      +{count}
-    </div>
-  );
-});
+export const AvatarCounter = forwardRef<HTMLDivElement, models.IAvatarCounterProps>(
+  ({ count, size }, ref) => {
+    return (
+      <div
+        ref={ref}
+        title={`more ${count}`}
+        data-qa="Avatar-button__counter"
+        className={clsx(
+          "flex shrink-0 items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
+          helpers.AVATAR_SIZE_DICT[size],
+          size === "md" ? "text-base" : "text-sm",
+        )}
+      >
+        +{count}
+      </div>
+    );
+  },
+);
 AvatarCounter.displayName = "AvatarCounter";
 
-export const AddAvatarButton = forwardRef<
-  HTMLButtonElement,
-  models.IAddAvatarButtonProps
->(({ size }, ref) => {
-  return (
-    <button
-      ref={ref}
-      type="button"
-      title="add user"
-      data-qa="Avatar-add-button"
-      className={clsx(
-        "flex items-center justify-center rounded-full border border-dashed border-gray-300",
-        size === "md" ? "p-1.5" : "p-1",
-        helpers.AVATAR_SIZE_DICT[size],
-      )}
-    >
-      <div className="rounded text-gray-400">
-        <Icon data-qa="Avatar-add-icon" name="common/plus" size="normal" />
-      </div>
-    </button>
-  );
-});
+export const AddAvatarButton = forwardRef<HTMLButtonElement, models.IAddAvatarButtonProps>(
+  ({ size }, ref) => {
+    return (
+      <button
+        ref={ref}
+        type="button"
+        title="add user"
+        data-qa="Avatar-add-button"
+        className={clsx(
+          "flex items-center justify-center rounded-full border border-dashed border-gray-300",
+          size === "md" ? "p-1.5" : "p-1",
+          helpers.AVATAR_SIZE_DICT[size],
+        )}
+      >
+        <div className="rounded text-gray-400">
+          <Icon data-qa="Avatar-add-icon" name="common/plus" size="normal" />
+        </div>
+      </button>
+    );
+  },
+);
 AddAvatarButton.displayName = "AddAvatarButton";
 
 export const AvatarGroup = memo<models.IAvatarGroup>(

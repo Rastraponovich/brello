@@ -20,6 +20,7 @@ export const ScrollController: React.FC<ScrollControllerProps> = ({
      *
      * @return {void} - No return value.
      */
+
     const handleScroll = (): void => {
 
       // Your optimized scroll event handling logic here

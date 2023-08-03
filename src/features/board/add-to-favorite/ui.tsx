@@ -4,6 +4,7 @@ import { addFavoriteButtonClicked } from "./model";
 
 export const AddToFavorite = () => {
   const handleClick = useUnit(addFavoriteButtonClicked);
+
   return (
     <IconButton
       size="sm"

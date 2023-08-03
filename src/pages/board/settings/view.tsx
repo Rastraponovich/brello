@@ -94,6 +94,7 @@ const DeleteBoardButton = () => {
 
 const AddEmail = () => {
   const [newEmail, emailChanged] = useUnit([$newEmail, changedNewEmail]);
+
   const handleAddEmailButtonClicked = useUnit(addEmailButtonClicked);
 
   return (

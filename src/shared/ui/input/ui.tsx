@@ -11,10 +11,7 @@ const iconNames: Partial<Record<HTMLInputTypeAttribute, IconName>> = {
 };
 
 const _Input = forwardRef<HTMLInputElement, models.IInputProps>(
-  (
-    { caption, className, error, type = "text", disableIcon, ...props },
-    ref,
-  ) => {
+  ({ caption, className, error, type = "text", disableIcon, ...props }, ref) => {
     return (
       <InputWrapper caption={caption} error={error}>
         <BaseInput
@@ -35,6 +32,7 @@ const _Input = forwardRef<HTMLInputElement, models.IInputProps>(
     );
   },
 );
+
 export const Input = memo(_Input);
 Input.displayName = "Input";
 
@@ -62,21 +60,14 @@ const _BaseInput = forwardRef<HTMLInputElement, models.IBaseInput>(
   },
 );
 const BaseInput = memo(_BaseInput);
+
 BaseInput.displayName = "BaseInput";
 
 const _InputSearch = forwardRef<HTMLInputElement, models.IInputProps>(
   ({ caption, hint, ...props }, ref) => {
     return (
-      <InputWrapper
-        hint={hint}
-        caption={caption}
-        className="relative justify-center"
-      >
-        <Icon
-          size="normal"
-          name="common/search-sm"
-          className="absolute left-3.5 h-5 w-5 "
-        />
+      <InputWrapper hint={hint} caption={caption} className="relative justify-center">
+        <Icon size="normal" name="common/search-sm" className="absolute left-3.5 h-5 w-5 " />
         <BaseInput
           ref={ref}
           size="sm"
@@ -87,42 +78,37 @@ const _InputSearch = forwardRef<HTMLInputElement, models.IInputProps>(
     );
   },
 );
+
 export const InputSearch = memo(_InputSearch);
 InputSearch.displayName = "InputSearch";
 
-const InputWrapper = memo<models.IInputWrapper>(
-  ({ children, caption, className, error }) => {
-    const hasError = Boolean(error);
+const InputWrapper = memo<models.IInputWrapper>(({ children, caption, className, error }) => {
+  const hasError = Boolean(error);
 
-    return (
-      <label
-        data-qa="Input__container"
-        className={clsx(
-          "relative flex w-full flex-col gap-1.5 text-left text-sm font-normal",
-          className,
-        )}
-      >
-        {caption && (
-          <span
-            title={caption}
-            data-qa="Input__caption"
-            className="font-medium text-gray-700"
-          >
-            {caption}
+  return (
+    <label
+      data-qa="Input__container"
+      className={clsx(
+        "relative flex w-full flex-col gap-1.5 text-left text-sm font-normal",
+        className,
+      )}
+    >
+      {caption && (
+        <span title={caption} data-qa="Input__caption" className="font-medium text-gray-700">
+          {caption}
+        </span>
+      )}
+      <div className="relative w-full">{children}</div>
+      {hasError && (
+        <div className="flex flex-col gap-1">
+          <span data-qa="Input__hint" className="text-rose-500">
+            {error}
           </span>
-        )}
-        <div className="relative w-full">{children}</div>
-        {hasError && (
-          <div className="flex flex-col gap-1">
-            <span data-qa="Input__hint" className="text-rose-500">
-              {error}
-            </span>
-          </div>
-        )}
-      </label>
-    );
-  },
-);
+        </div>
+      )}
+    </label>
+  );
+});
 
 const _InputArea = forwardRef<HTMLTextAreaElement, models.IInputAreaProps>(
   ({ caption, className, hint, ...props }, ref) => {
@@ -161,13 +147,11 @@ const _BaseInutArea = forwardRef<HTMLTextAreaElement, models.IBaseInputArea>(
 );
 
 const BaseInputArea = memo(_BaseInutArea);
+
 BaseInputArea.displayName = "BaseInputArea";
 
 const _BaseInputWeb = forwardRef<HTMLInputElement, models.IBaseInputWeb>(
-  (
-    { onChange, leftValue, rightValue, leftPlaceholder, rightPlaceholder },
-    ref,
-  ) => {
+  ({ onChange, leftValue, rightValue, leftPlaceholder, rightPlaceholder }, ref) => {
     return (
       <div className="flex" data-qa="InputWeb__block">
         <BaseInput
@@ -192,13 +176,11 @@ const _BaseInputWeb = forwardRef<HTMLInputElement, models.IBaseInputWeb>(
   },
 );
 const BaseInputWeb = memo(_BaseInputWeb);
+
 BaseInputWeb.displayName = "BaseInputWeb";
 
 const _InputWeb = forwardRef<HTMLInputElement, models.IInputWebProps>(
-  (
-    { caption, hint, leftPlaceholder, rightPlaceholder, leftValue, rightValue },
-    ref,
-  ) => {
+  ({ caption, hint, leftPlaceholder, rightPlaceholder, leftValue, rightValue }, ref) => {
     return (
       <InputWrapper caption={caption} hint={hint}>
         <BaseInputWeb
