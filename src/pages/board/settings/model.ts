@@ -3,24 +3,17 @@ import { createEffect, createEvent, createStore, sample } from "effector";
 import { ChangeEvent } from "react";
 import { routes } from "shared/routing";
 
-const getBoardByIdFx = createEffect<void, { name: string; users: string[] }>(
-  () => {
-    return {
-      name: "board",
-      users: [
-        "privet@medved.ru",
-        "eto_to@koko.ru",
-        "foo@bar.mz",
-        "raz@dva.tri",
-      ],
-    };
-  },
-);
+const getBoardByIdFx = createEffect<void, { name: string; users: string[] }>(() => {
+  return {
+    name: "board",
+    users: ["privet@medved.ru", "eto_to@koko.ru", "foo@bar.mz", "raz@dva.tri"],
+  };
+});
 
 const deleteBoardByIdFx = createEffect<void, boolean>(() => true);
 
 export const $pageOpenned = createStore<boolean>(false).on(
-  routes.boardSettings.$isOpened,
+  routes.board.settings.$isOpened,
   (_, isOpened) => isOpened,
 );
 
@@ -30,12 +23,12 @@ sample({
 });
 
 export const $params = createStore<object | null>(null).on(
-  routes.boardSettings.$params,
+  routes.board.settings.$params,
   (_, params) => params,
 );
 
 export const $query = createStore<RouteQuery | null>(null).on(
-  routes.boardSettings.$query,
+  routes.board.settings.$query,
   (_, query) => query,
 );
 
@@ -53,10 +46,8 @@ sample({
 
 export const changedNewEmail = createEvent<ChangeEvent<HTMLInputElement>>();
 const setNewEmail = createEvent<string>();
-export const $newEmail = createStore<string>("").on(
-  setNewEmail,
-  (_, email) => email,
-);
+
+export const $newEmail = createStore<string>("").on(setNewEmail, (_, email) => email);
 
 sample({
   clock: changedNewEmail,

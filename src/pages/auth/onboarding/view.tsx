@@ -42,26 +42,40 @@ export const AuthOnboarding = () => {
   );
 };
 
+/**
+ * OnboardingForm component for capturing first name and last name.
+ *
+ * @returns JSX.Element
+ */
 const OnboardingForm = () => {
+
+  // Destructure the form submission and input change handlers from the useUnit hook
   const [handleSubmit, handleFirstNameChange, handleLastNameChange] = useUnit([
     formSubmitted,
     firstNameChanged,
     lastNameChanged,
   ]);
+
+  // Destructure the first name and last name values from the useUnit hook
   const [firstName, lastName] = useUnit([$firstName, $lastName]);
+
   return (
     <>
+      {/* Form element */}
       <form
         id="form"
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-6 text-sm text-gray-700 sm:max-w-[512px] sm:flex-row sm:gap-8"
       >
+        {/* First name input */}
         <Input
           placeholder="First name"
           caption="First name"
           value={firstName ?? undefined}
           onChange={handleFirstNameChange}
         />
+
+        {/* Last name input */}
         <Input
           placeholder="Last name"
           caption="Last name"
@@ -69,6 +83,8 @@ const OnboardingForm = () => {
           onChange={handleLastNameChange}
         />
       </form>
+
+      {/* Continue button */}
       <Button type="submit" size="lg" form="form" variant="primary">
         Continue
       </Button>

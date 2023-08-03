@@ -10,3 +10,9 @@ export type TCard = {
   timeStamp?: Date;
   attachments?: number;
 };
+
+export type TStack = {
+  id: number;
+  cards: TCard[];
+  title?: string;
+};

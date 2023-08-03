@@ -1,10 +1,10 @@
-import { CARDS } from "entities/board/lib/helpers";
-import { TBoard } from "./models";
+import { _CARDS_ } from "entities/stack/constants";
+import { TBoard } from "./model";
 
-export const BOARDS: TBoard[] = [
-  { id: 1, cards: CARDS, title: "board #1" },
-  { id: 2, cards: CARDS, title: "board #2" },
-  { id: 3, cards: CARDS, title: "board #3" },
+export const _BOARDS_: TBoard[] = [
+  { id: 1, cards: _CARDS_, title: "board #1" },
+  { id: 2, cards: _CARDS_, title: "board #2" },
+  { id: 3, cards: _CARDS_, title: "board #3" },
   { id: 4, cards: [], title: "board #4" },
 ];
 

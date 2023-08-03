@@ -1,6 +1,6 @@
-import { TCard } from "./models";
+import { TCard } from "./model";
 
-export const CARDS: TCard[] = [
+export const _CARDS_: TCard[] = [
   {
     id: 1,
     title: "Product Designer",
@@ -10,15 +10,13 @@ export const CARDS: TCard[] = [
   {
     id: 2,
     title: "Product Designer",
-    subTitle:
-      "We’re looking for a mid-level product designer to join our team.",
+    subTitle: "We’re looking for a mid-level product designer to join our team.",
     users: [],
   },
   {
     id: 3,
     title: "Product Designer",
-    subTitle:
-      "We’re looking for a mid-level product designer to join our team.",
+    subTitle: "We’re looking for a mid-level product designer to join our team.",
     users: [
       { id: 1, firstName: "Харитон", lastName: "Захаров" },
       { id: 2, firstName: "Павел", lastName: "Воля" },
@@ -28,8 +26,7 @@ export const CARDS: TCard[] = [
   {
     id: 4,
     title: "Product Designer",
-    subTitle:
-      "We’re looking for a mid-level product designer to join our team.",
+    subTitle: "We’re looking for a mid-level product designer to join our team.",
     users: [
       { id: 1, firstName: "Mark", lastName: "Twen" },
       { id: 2, firstName: "Leon", lastName: "Kennedy" },

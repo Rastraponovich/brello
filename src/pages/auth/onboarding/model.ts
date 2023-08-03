@@ -1,12 +1,5 @@
 import { not, and } from "patronum";
-import {
-  attach,
-  combine,
-  createEffect,
-  createEvent,
-  createStore,
-  sample,
-} from "effector";
+import { attach, combine, createEffect, createEvent, createStore, sample } from "effector";
 
 import type { ChangeEvent, FormEvent } from "react";
 
@@ -63,5 +56,5 @@ sample({
 
 sample({
   clock: skipButtonClicked,
-  target: routes.boards.open,
+  target: routes.workspace.boards.open,
 });
