@@ -20,6 +20,7 @@ export const UserPage = (): ReactElement => {
   };
 
   const handleResetForm = useUnit(resetButtonClicked);
+
   return (
     <Layout>
       <section className="container mx-auto my-0 flex flex-col gap-8 overflow-hidden px-4 sm:px-8">
@@ -53,15 +54,9 @@ const ProfileSettingsName = () => {
 
 const ProfileSettingsUploadImage = () => {
   return (
-    <FormBlock
-      title="Your photo"
-      description="This will be displayed on your profile."
-    >
+    <FormBlock title="Your photo" description="This will be displayed on your profile.">
       <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8">
-        <Avatar
-          user={{ firstName: "x", lastName: "x", id: 123123 }}
-          size="2xl"
-        />
+        <Avatar user={{ firstName: "x", lastName: "x", id: 123123 }} size="2xl" />
 
         <Upload />
       </div>

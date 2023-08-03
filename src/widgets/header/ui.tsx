@@ -13,6 +13,7 @@ export const Header = memo<models.IHeaderProps>(() => {
   const [opened, setOpened] = useState(false);
 
   const currentPage = useUnit($selected);
+
   return (
     <header className="flex items-center justify-center border-b border-gray-200 py-3 sm:py-4">
       <div className="container mx-auto my-0 flex w-full items-center justify-between gap-4 pl-4 pr-2 sm:px-8 ">
@@ -20,9 +21,7 @@ export const Header = memo<models.IHeaderProps>(() => {
         <div className="hidden grow items-center justify-between sm:flex">
           <nav className="flex gap-1 text-base font-semibold text-gray-500">
             {useList($menuItems, {
-              fn: (nav) => (
-                <NavItem {...nav} selected={nav.path === currentPage} />
-              ),
+              fn: (nav) => <NavItem {...nav} selected={nav.path === currentPage} />,
               keys: [currentPage],
             })}
           </nav>
@@ -36,13 +35,7 @@ export const Header = memo<models.IHeaderProps>(() => {
 
 Header.displayName = "Header";
 
-const NavButton = ({
-  opened,
-  toggle,
-}: {
-  opened: boolean;
-  toggle: () => void;
-}) => {
+const NavButton = ({ opened, toggle }: { opened: boolean; toggle: () => void }) => {
   return (
     <button
       onClick={toggle}

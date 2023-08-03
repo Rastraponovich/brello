@@ -4,6 +4,7 @@ import { $search as mainSearch } from "pages/workspace/boards/model";
 import type { ChangeEvent } from "react";
 
 const setSearch = createEvent<string>();
+
 export const $search = mainSearch.map((searchValue) => searchValue);
 
 export const searchChanged = createEvent<ChangeEvent<HTMLInputElement>>();
