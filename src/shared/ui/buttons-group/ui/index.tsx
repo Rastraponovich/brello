@@ -8,9 +8,7 @@ import { Marker } from "shared/ui/marker";
 
 type TBaseGroupButton = VariantProps<typeof baseGroupButton>;
 
-interface IBaseGroupButton
-  extends Omit<models.TBaseButtonGroupAction, "id">,
-    TBaseGroupButton {
+interface IBaseGroupButton extends Omit<models.TBaseButtonGroupAction, "id">, TBaseGroupButton {
   foo?: "bar";
 }
 
@@ -47,9 +45,7 @@ const _BaseGroupButton = forwardRef<HTMLButtonElement, IBaseGroupButton>(
         disabled={disabled}
         className={baseGroupButton({ variant })}
       >
-        {variant === "dot" && (
-          <Marker variant={disabled ? "disabled" : "active"} />
-        )}
+        {variant === "dot" && <Marker variant={disabled ? "disabled" : "active"} />}
         {(variant === "iconWithText" || variant === "icon") && icon && (
           <Icon
             name={icon}
@@ -96,6 +92,7 @@ const _ButtonGroups = forwardRef<HTMLDivElement, models.IButtonsGroup>(
         disabled: true,
       },
     ];
+
     return (
       <div ref={ref} className={baseButtonGroups({ fullWidth })}>
         {actions.map(({ id, ...action }) => (

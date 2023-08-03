@@ -8,6 +8,7 @@ import { CloseXButton } from "shared/ui/button";
 export const Drawer = forwardRef<HTMLButtonElement, IDrawerProps>(
   ({ children, isOpen, onClose }, ref) => {
     const focusRef = useRef(null);
+
     return (
       <Dialog
         open={isOpen}

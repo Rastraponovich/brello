@@ -73,16 +73,11 @@ const BoardsFilter = () => {
 
 const Boards = () => {
   const [isEmpty, isNotFound] = useUnit([$boardsEmpty, $isNotFound]);
+
   return (
     <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
       <div className="flex w-full flex-col overflow-hidden">
-        {isNotFound ? (
-          <NotFoundState />
-        ) : isEmpty ? (
-          <EmptyState />
-        ) : (
-          <BoardsList />
-        )}
+        {isNotFound ? <NotFoundState /> : isEmpty ? <EmptyState /> : <BoardsList />}
       </div>
     </section>
   );
@@ -99,18 +94,14 @@ const BoardsList = () => {
       >
         <AddBoardCard />
         {useList($boards, {
-          fn: (board) => (
-            <BoardCard {...board} onClick={() => handleCardClick(board)} />
-          ),
+          fn: (board) => <BoardCard {...board} onClick={() => handleCardClick(board)} />,
         })}
       </div>
     </ScrollContainer>
   );
 };
 
-interface IAction
-  extends buttonLib.models.IButtonBaseProps,
-    buttonLib.models.IButtonBaseVariant {
+interface IAction extends buttonLib.models.IButtonBaseProps, buttonLib.models.IButtonBaseVariant {
   caption: string;
 }
 
@@ -122,44 +113,29 @@ interface IBaseEmptyProps {
   actions?: IAction[];
   children?: ReactNode;
 }
-const BaseEmpty = memo<IBaseEmptyProps>(
-  ({ icon, title, subTitle, actions, onClick }) => {
-    return (
-      <div className="flex flex-col items-center">
-        {icon && (
-          <FeaturedIcon
-            size="lg"
-            icon={icon}
-            type="circle"
-            color="primary"
-            variant="outline"
-          />
-        )}
-        <Heading as="h3" className="font-semibold text-gray-900">
-          {title}
-        </Heading>
-        {subTitle && (
-          <p className="text-center text-sm text-gray-600">{subTitle}</p>
-        )}
-        <div className="mt-6 flex gap-3">
-          {actions?.map(({ caption, ...action }, idx) => (
-            <Button key={idx} size="md" variant="secondaryGray" {...action}>
-              {caption}
-            </Button>
-          ))}
-          <Button
-            size="md"
-            variant="primary"
-            onClick={onClick}
-            leftIcon="common/plus"
-          >
-            New board
+const BaseEmpty = memo<IBaseEmptyProps>(({ icon, title, subTitle, actions, onClick }) => {
+  return (
+    <div className="flex flex-col items-center">
+      {icon && (
+        <FeaturedIcon size="lg" icon={icon} type="circle" color="primary" variant="outline" />
+      )}
+      <Heading as="h3" className="font-semibold text-gray-900">
+        {title}
+      </Heading>
+      {subTitle && <p className="text-center text-sm text-gray-600">{subTitle}</p>}
+      <div className="mt-6 flex gap-3">
+        {actions?.map(({ caption, ...action }, idx) => (
+          <Button key={idx} size="md" variant="secondaryGray" {...action}>
+            {caption}
           </Button>
-        </div>
+        ))}
+        <Button size="md" variant="primary" onClick={onClick} leftIcon="common/plus">
+          New board
+        </Button>
       </div>
-    );
-  },
-);
+    </div>
+  );
+});
 
 BaseEmpty.displayName = "BaseEmpty";
 
@@ -182,6 +158,7 @@ const NotFoundState = memo(() => {
   const handleAddBoard = useUnit(addBoard);
 
   const message = `Your search ${searchValue} did not match any boards. Please try again.`;
+
   return (
     <BaseEmpty
       subTitle={message}
@@ -192,6 +169,7 @@ const NotFoundState = memo(() => {
     />
   );
 });
+
 NotFoundState.displayName = "NotFoundState";
 
 const AddBoardCard = memo(() => {
@@ -210,6 +188,7 @@ const AddBoardCard = memo(() => {
     </div>
   );
 });
+
 AddBoardCard.displayName = "AddBoardCard";
 
 const BoardCard = memo<IBoardCard>(({ title, onClick }) => {
@@ -224,4 +203,5 @@ const BoardCard = memo<IBoardCard>(({ title, onClick }) => {
     </figure>
   );
 });
+
 BoardCard.displayName = "BoardCard";

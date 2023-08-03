@@ -29,6 +29,7 @@ submitted.watch((e) => e.preventDefault());
  * email state
  */
 export const $email = createStore<Email | null>(null);
+
 /**
  * pending state when clicked signin
  */
@@ -38,18 +39,22 @@ export const $isPendning = pending({
   effects: [signInWithGoogleFx, signInFx],
   of: "some",
 });
+
 /**
  * validate email state
  */
 export const $isValidEmail = $email.map(validateEmail);
+
 /**
  * when api response ok
  */
 export const $isFinished = createStore<boolean>(false);
+
 /**
  * when api response error
  */
 export const $error = createStore<SignInError | null>(null);
+
 /**
  * stringify error
  */
@@ -77,6 +82,7 @@ sample({
   filter: $isValidEmail,
   target: [$invalidEmailText.reinit],
 });
+
 //
 
 $isFinished.on(signInFx.done, () => true);
@@ -92,12 +98,7 @@ $error.on(signInFx.failData, (_, error) => {
 
 sample({
   clock: backButtonClicked,
-  target: [
-    $email.reinit,
-    $error.reinit,
-    $isFinished.reinit,
-    $invalidEmailText.reinit,
-  ],
+  target: [$email.reinit, $error.reinit, $isFinished.reinit, $invalidEmailText.reinit],
 });
 
 sample({

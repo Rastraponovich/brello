@@ -1,11 +1,5 @@
 import clsx from "clsx";
-import {
-  memo,
-  Fragment,
-  forwardRef,
-  useCallback,
-  type MouseEventHandler,
-} from "react";
+import { memo, Fragment, forwardRef, useCallback, type MouseEventHandler } from "react";
 
 import type { IDropdownProps, IMenuItemProps } from "../lib/models";
 
@@ -48,6 +42,7 @@ const MenuItem = memo<IMenuItemProps>(
     },
   ),
 );
+
 MenuItem.displayName = "MenuItem";
 
 export const Dropdown = memo<IDropdownProps>(
@@ -66,6 +61,7 @@ export const Dropdown = memo<IDropdownProps>(
       : [];
 
     const onClick = useCallback<MouseEventHandler<HTMLButtonElement>>(() => {
+
       // console.log(e);
     }, []);
 
@@ -109,10 +105,7 @@ export const Dropdown = memo<IDropdownProps>(
           >
             <div data-qa="Dropdown-menuItems__header">{menuHead}</div>
             {!groupProperty && (
-              <div
-                className="gap-1 px-1.5 py-1"
-                data-qa="Dropdown-menuItems__container"
-              >
+              <div className="gap-1 px-1.5 py-1" data-qa="Dropdown-menuItems__container">
                 {items.map((item) => (
                   <Menu.Item key={item.id}>
                     {(renderProps) => (
@@ -130,11 +123,7 @@ export const Dropdown = memo<IDropdownProps>(
             )}
             {groupProperty &&
               groups.map((group, id) => (
-                <div
-                  key={id}
-                  className="flex flex-col"
-                  data-qa="Dropdown-menuItems__container"
-                >
+                <div key={id} className="flex flex-col" data-qa="Dropdown-menuItems__container">
                   {items
                     .filter((item) => item[groupProperty] === group)
                     .map((filtered) => (

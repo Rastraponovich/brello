@@ -28,10 +28,12 @@ export const Upload = memo<models.IUploadProps>(({ disabled }) => {
 
   const handleDrop: DragEventHandler = (event) => {
     event.preventDefault();
+
     // const files = [...event.dataTransfer.files];
     // console.log(files);
     setDragStarting(false);
   };
+
   return (
     <div
       className={clsx(
@@ -60,15 +62,8 @@ export const Upload = memo<models.IUploadProps>(({ disabled }) => {
         />
         <div className="flex flex-col gap-1">
           <div className="flex flex-wrap items-center justify-center gap-1">
-            <Button
-              size="md"
-              variant="link"
-              disabled={disabled}
-              onClick={handleClick}
-            >
-              <span className="text-sm">
-                {dragStarting ? "dragging" : "Click to upload"}
-              </span>
+            <Button size="md" variant="link" disabled={disabled} onClick={handleClick}>
+              <span className="text-sm">{dragStarting ? "dragging" : "Click to upload"}</span>
             </Button>
             <span className="hidden truncate sm:inline">or drag and drop</span>
           </div>

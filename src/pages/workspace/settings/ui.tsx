@@ -32,10 +32,10 @@ export const WorkSpaceSettingsPage = () => {
 };
 
 const WorkSpaceSettingsForm = () => {
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) =>
-    e.preventDefault();
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
 
   const handleCancel = useUnit(cancelButtonClicked);
+
   return (
     <form
       id="form"
@@ -55,12 +55,7 @@ const WorkspaceUplad = () => {
     <FormBlock title="Logo" description="Update your logo.">
       <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8">
         <div className="flex w-full max-w-[142px] sm:mt-4">
-          <img
-            height={32}
-            width={142}
-            alt="preview-image"
-            src="/brand-logo.svg"
-          />
+          <img height={32} width={142} alt="preview-image" src="/brand-logo.svg" />
         </div>
         <Upload />
       </div>
@@ -69,25 +64,15 @@ const WorkspaceUplad = () => {
 };
 
 const WorkspaceName = () => {
-  const [name, handleChangeName] = useUnit([
-    $workspaceName,
-    workspaceNameChanged,
-  ]);
+  const [name, handleChangeName] = useUnit([$workspaceName, workspaceNameChanged]);
 
   const [url, setUrl] = useUnit([$workspaceURL, workspaceURLChanged]);
 
   const domain = useUnit($workspaceDomain);
 
   return (
-    <FormBlock
-      title="Name"
-      description="This will be displayed on your profile."
-    >
-      <Input
-        value={name}
-        onChange={handleChangeName}
-        placeholder="Coding in action"
-      />
+    <FormBlock title="Name" description="This will be displayed on your profile.">
+      <Input value={name} onChange={handleChangeName} placeholder="Coding in action" />
       <InputWeb
         rightValue={url}
         onChange={setUrl}
@@ -104,11 +89,9 @@ const WorkspaceDescription = () => {
     $workspaceDescription,
     workspaceDescriptionChanged,
   ]);
+
   return (
-    <FormBlock
-      title="Description"
-      description="A quick snapsot of your workspace."
-    >
+    <FormBlock title="Description" description="A quick snapsot of your workspace.">
       <InputArea
         value={description}
         onChange={setDescribtion}

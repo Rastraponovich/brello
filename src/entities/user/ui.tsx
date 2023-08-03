@@ -10,25 +10,21 @@ import { Dropdown } from "shared/ui/dropdown";
 import { type TMenuItem } from "shared/ui/dropdown/lib";
 
 type IUserCardSmallProps = TUser;
-const UserCardSmall = memo<IUserCardSmallProps>(
-  ({ firstName, lastName, email }) => {
-    return (
-      <div className="flex w-full flex-col px-4 py-3 text-sm text-gray-700">
-        <h3 className="font-semibold">
-          {firstName} {lastName}
-        </h3>
-        <span className="font-normal text-gray-600">{email}</span>
-      </div>
-    );
-  },
-);
+const UserCardSmall = memo<IUserCardSmallProps>(({ firstName, lastName, email }) => {
+  return (
+    <div className="flex w-full flex-col px-4 py-3 text-sm text-gray-700">
+      <h3 className="font-semibold">
+        {firstName} {lastName}
+      </h3>
+      <span className="font-normal text-gray-600">{email}</span>
+    </div>
+  );
+});
+
 UserCardSmall.displayName = "UserCardSmall";
 
 export const UserAvatarWithDropdown = () => {
-  const [openUser, logout] = useUnit([
-    viewProfileButtonClicked,
-    logOutButtonClicked,
-  ]);
+  const [openUser, logout] = useUnit([viewProfileButtonClicked, logOutButtonClicked]);
 
   const user: TUser = {
     firstName: "Vitaliy",
