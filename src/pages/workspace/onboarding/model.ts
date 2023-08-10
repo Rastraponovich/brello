@@ -1,13 +1,12 @@
 import { attach, combine, createEvent, createStore, sample } from "effector";
-import { inputReducer } from "./utils";
-
 import type { ChangeEvent, FormEvent } from "react";
+
+import { inputReducer } from "./utils";
 
 export const formSubmitted = createEvent<FormEvent<HTMLFormElement>>();
 export const nameChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 export const urlChanged = createEvent<ChangeEvent<HTMLInputElement>>();
-export const descriptionChanged =
-  createEvent<ChangeEvent<HTMLTextAreaElement>>();
+export const descriptionChanged = createEvent<ChangeEvent<HTMLTextAreaElement>>();
 
 export const $name = createStore<string | null>(null);
 export const $url = createStore<string | null>(null);
@@ -22,14 +21,9 @@ $name.on(nameChanged, inputReducer);
 $url.on(urlChanged, inputReducer);
 $description.on(descriptionChanged, inputReducer);
 
-const $workspace = combine(
-  $name,
-  $url,
-  $description,
-  (name, url, description) => {
-    return { name, url, description };
-  },
-);
+const $workspace = combine($name, $url, $description, (name, url, description) => {
+  return { name, url, description };
+});
 
 const formSendFx = attach({
   source: $workspace,

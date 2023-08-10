@@ -1,4 +1,5 @@
 import { MouseEventHandler } from "react";
+
 import { type IconProps } from "shared/ui/icon";
 
 export type TBaseButtonGroupVariant = "text" | "icon" | "dot" | "iconWithText";

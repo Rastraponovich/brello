@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { memo } from "react";
+
 import { type IScrollContainer } from "../lib";
 import { ORIENTATION_DICT } from "../lib/helpers";
 

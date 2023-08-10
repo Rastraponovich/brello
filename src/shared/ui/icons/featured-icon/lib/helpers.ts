@@ -1,4 +1,5 @@
 import { Sizes } from "shared/lib";
+
 import { TCircleVariant, TSquareVariant } from ".";
 
 export enum EFeaturedIconType {
@@ -49,25 +50,21 @@ export const FEATURED_ICON_CONTAINER_SIZE_DICT: Record<Sizes, string> = {
   [Sizes.XL]: "p-3.5",
 };
 
-export const FEATURED_ICON_VARIANT_DICT: Record<EFeaturedIconVariant, string> =
-  {
-    [EFeaturedIconVariant.LIGHT]: "rounded-lg",
-    [EFeaturedIconVariant.MID]: "rounded-lg",
-    [EFeaturedIconVariant.DARK]: "rounded-lg",
-    [EFeaturedIconVariant.GLASS]: "rounded-lg",
-    [EFeaturedIconVariant.MODERN]: "rounded-lg border",
-    [EFeaturedIconVariant.LIGHT_CIRCLE]: "rounded-full",
-    [EFeaturedIconVariant.DARK_CIRCLE]: "rounded-full border",
-    [EFeaturedIconVariant.OUTLINE]: "rounded-full border",
-  };
+export const FEATURED_ICON_VARIANT_DICT: Record<EFeaturedIconVariant, string> = {
+  [EFeaturedIconVariant.LIGHT]: "rounded-lg",
+  [EFeaturedIconVariant.MID]: "rounded-lg",
+  [EFeaturedIconVariant.DARK]: "rounded-lg",
+  [EFeaturedIconVariant.GLASS]: "rounded-lg",
+  [EFeaturedIconVariant.MODERN]: "rounded-lg border",
+  [EFeaturedIconVariant.LIGHT_CIRCLE]: "rounded-full",
+  [EFeaturedIconVariant.DARK_CIRCLE]: "rounded-full border",
+  [EFeaturedIconVariant.OUTLINE]: "rounded-full border",
+};
 
 type TColorsConditional<
   T,
   S extends string = T extends TCircleVariant ? TCircleVariant : TSquareVariant,
-> = Record<
-  S,
-  T extends TCircleVariant ? Record<EFeaturedIconColor, string> : string
->;
+> = Record<S, T extends TCircleVariant ? Record<EFeaturedIconColor, string> : string>;
 
 export const SQUARE_COLORS: TColorsConditional<TSquareVariant> = {
   [EFeaturedIconVariant.MODERN]: "border-gray-200 text-gray-700 bg-white",
@@ -97,7 +94,6 @@ export const CIRCLE_COLORS: TColorsConditional<TCircleVariant> = {
     [EFeaturedIconColor.SUCCESS]: "text-green-600 bg-green-100 border-green-50",
     [EFeaturedIconColor.ERROR]: "text-rose-600 bg-rose-100 border-rose-50",
     [EFeaturedIconColor.GRAY]: "text-gray-600 bg-gray-100 border-gray-50",
-    [EFeaturedIconColor.WARNING]:
-      "text-orange-600 bg-orange-100 border-orange-50",
+    [EFeaturedIconColor.WARNING]: "text-orange-600 bg-orange-100 border-orange-50",
   },
 };

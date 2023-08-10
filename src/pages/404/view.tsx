@@ -1,9 +1,9 @@
 import { useUnit } from "effector-react";
 
-import { goBackButtonClicked, goHomeButtonClicked } from "./model";
-
 import { Button } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
+
+import { goBackButtonClicked, goHomeButtonClicked } from "./model";
 
 export const NotFoundPage = () => {
   const [backButtonClicked, homeButtonClicked] = useUnit([

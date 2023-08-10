@@ -1,5 +1,7 @@
 import { useUnit } from "effector-react";
+
 import { IconButton } from "shared/ui/button";
+
 import { addFavoriteButtonClicked } from "./model";
 
 export const AddToFavorite = () => {

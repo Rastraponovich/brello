@@ -49,12 +49,16 @@ html {
     border-top-right-radius: 1rem;
     border-top-left-radius: 1rem;
     background:
-      /* Shadow Cover TOP */ linear-gradient(white 30%, rgb(255 255 255 / 0%)) center
-        top,
+      /* Shadow Cover TOP */
+      linear-gradient(white 30%, rgb(255 255 255 / 0%)) center top,
       /* Shadow TOP */ radial-gradient(farthest-side at 50% 0, rgb(0 0 0 / 20%), rgb(0 0 0 / 0%))
         center top;
     background-repeat: no-repeat;
-    background-size: 100% 40px, 120% 14px, 10% 14px, 10% 14px;
+    background-size:
+      100% 40px,
+      120% 14px,
+      10% 14px,
+      10% 14px;
     background-attachment: local, scroll, scroll, scroll;
   }
 }

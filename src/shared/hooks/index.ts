@@ -1,4 +1,4 @@
-import { MutableRefObject, useRef, useEffect, WheelEvent } from "react";
+import { MutableRefObject, WheelEvent, useEffect, useRef } from "react";
 
 export const useHorizontalScroll = (): MutableRefObject<HTMLDivElement> => {
   const elRef = useRef<HTMLDivElement>();

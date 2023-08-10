@@ -1,9 +1,9 @@
 import { forwardRef, memo } from "react";
 
-import { type models, closeXButton, iconButton, button } from "../lib";
-
 import { Icon } from "shared/ui/icon";
 import { Marker } from "shared/ui/marker";
+
+import { button, closeXButton, iconButton, type models } from "../lib";
 
 const _Button = forwardRef<HTMLButtonElement, models.TButtonProps>((props, ref) => {
   const {

@@ -1,4 +1,5 @@
 import { createEvent, sample } from "effector";
+
 import { controls, routes } from "shared/routing";
 
 export const goBackButtonClicked = createEvent();

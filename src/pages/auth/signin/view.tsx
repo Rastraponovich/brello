@@ -1,28 +1,29 @@
 import { useUnit } from "effector-react";
-import { memo, ReactNode } from "react";
+import { ReactNode, memo } from "react";
 
-import {
-  $error,
-  submitted,
-  $isPendning,
-  $email,
-  $isFinished,
-  changedEmail,
-  backButtonClicked,
-  type SignInError,
-  $invalidEmailText,
-  $isValidEmail,
-  signInWithGoogle,
-} from "./model";
+import { SocialAuthButton } from "features/auth/social-auth-button";
 
-import { Input } from "shared/ui/input";
+import { TColors } from "shared/lib";
 import { Button } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
-import { Logo } from "shared/ui/icons/logo";
 import { Icon, type IconName } from "shared/ui/icon";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
-import { SocialAuthButton } from "features/auth/social-auth-button";
-import { TColors } from "shared/lib";
+import { Logo } from "shared/ui/icons/logo";
+import { Input } from "shared/ui/input";
+
+import {
+  $email,
+  $error,
+  $invalidEmailText,
+  $isFinished,
+  $isPendning,
+  $isValidEmail,
+  type SignInError,
+  backButtonClicked,
+  changedEmail,
+  signInWithGoogle,
+  submitted,
+} from "./model";
 
 type StatusConfig = {
   icon: IconName;

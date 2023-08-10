@@ -1,22 +1,23 @@
 import { useUnit } from "effector-react";
 import { type ChangeEventHandler, memo } from "react";
 
+import { Layout } from "widgets/layout";
+import { PageHeader } from "widgets/page-header";
+
+import { Button, IconButton } from "shared/ui/button";
+import { FormBlock, FormFooterActions } from "shared/ui/form-layouts";
+import { Input, inputLib } from "shared/ui/input";
+
 import {
-  $newEmail,
-  $boardName,
   $boardInvites,
-  changedNewEmail,
-  boardNameChanged,
+  $boardName,
+  $newEmail,
   addEmailButtonClicked,
+  boardNameChanged,
+  changedNewEmail,
   deleteEmailButtonClicked,
   deletedBoardButtonClicked,
 } from "./model";
-
-import { Layout } from "widgets/layout";
-import { PageHeader } from "widgets/page-header";
-import { Input, inputLib } from "shared/ui/input";
-import { FormBlock, FormFooterActions } from "shared/ui/form-layouts";
-import { Button, IconButton } from "shared/ui/button";
 
 export const BoardSettingsPage = () => {
   return (

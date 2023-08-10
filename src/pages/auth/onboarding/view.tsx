@@ -1,5 +1,11 @@
 import { useUnit } from "effector-react";
 
+import { OnboardingLayout } from "widgets/layout";
+
+import { Button } from "shared/ui/button";
+import { Heading } from "shared/ui/heading";
+import { Input } from "shared/ui/input";
+
 import {
   $firstName,
   $lastName,
@@ -8,11 +14,6 @@ import {
   lastNameChanged,
   skipButtonClicked,
 } from "./model";
-
-import { Input } from "shared/ui/input";
-import { Button } from "shared/ui/button";
-import { Heading } from "shared/ui/heading";
-import { OnboardingLayout } from "widgets/layout";
 
 export const AuthOnboarding = () => {
   const handleSkip = useUnit(skipButtonClicked);

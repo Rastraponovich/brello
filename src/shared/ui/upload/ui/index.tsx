@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { DragEventHandler, memo, useCallback, useRef, useState } from "react";
 
-import { type models } from "../lib";
-
 import { Button } from "shared/ui/button";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
+
+import { type models } from "../lib";
 
 export const Upload = memo<models.IUploadProps>(({ disabled }) => {
   const fileRef = useRef<HTMLInputElement>(null);

@@ -1,4 +1,5 @@
 import { TUser } from "entities/user/lib";
+
 import { bageLib } from "shared/ui/bage";
 
 export type TCard = {

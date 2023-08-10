@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import { memo } from "react";
 
-import { type IAddListProps } from "./lib";
-
-import { InputArea } from "shared/ui/input";
 import { Button, CloseXButton } from "shared/ui/button";
+import { InputArea } from "shared/ui/input";
+
+import { type IAddListProps } from "./lib";
 
 export const AddList = memo<IAddListProps>(
   ({ editable, onChange, onReset, onSubmit, value, buttonCaption }) => {
@@ -17,14 +17,7 @@ export const AddList = memo<IAddListProps>(
           editable && "px-4 py-5 shadow-sm",
         )}
       >
-        {editable && (
-          <InputArea
-            rows={3}
-            value={value}
-            onChange={onChange}
-            autoFocus={editable}
-          />
-        )}
+        {editable && <InputArea rows={3} value={value} onChange={onChange} autoFocus={editable} />}
         <div className="flex items-center gap-2">
           <Button
             size="lg"
@@ -36,9 +29,7 @@ export const AddList = memo<IAddListProps>(
             {buttonCaption}
           </Button>
 
-          {editable && (
-            <CloseXButton size="lg" variant="primary" type="reset" />
-          )}
+          {editable && <CloseXButton size="lg" variant="primary" type="reset" />}
         </div>
       </form>
     );

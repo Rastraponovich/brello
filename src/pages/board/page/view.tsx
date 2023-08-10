@@ -1,24 +1,27 @@
 import {
   type ChangeEventHandler,
-  type FormEventHandler,
   type DragEvent,
+  type FormEventHandler,
   type ReactNode,
+  memo,
   useCallback,
   useEffect,
   useState,
-  memo,
 } from "react";
 
-import { type TBoard } from "./model";
-import { _BOARDS_, _AVATARS_ } from "./constants";
+import { Layout } from "widgets/layout";
+
+import { AddList } from "features/add-list";
+import { AddToFavorite } from "features/board/add-to-favorite";
 
 import { Stack } from "entities/stack";
-import { Layout } from "widgets/layout";
-import { AddList } from "features/add-list";
-import { Heading } from "shared/ui/heading";
-import { AvatarGroup } from "shared/ui/avatar";
-import { AddToFavorite } from "features/board/add-to-favorite";
+
 import { useDragAndDrop } from "shared/hooks/dnd";
+import { AvatarGroup } from "shared/ui/avatar";
+import { Heading } from "shared/ui/heading";
+
+import { _AVATARS_, _BOARDS_ } from "./constants";
+import { type TBoard } from "./model";
 
 /**
  * Render the BoardPage component.

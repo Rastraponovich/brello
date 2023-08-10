@@ -1,23 +1,23 @@
 import { useUnit } from "effector-react";
-
 import { type FormEventHandler } from "react";
 
-import {
-  $workspaceURL,
-  $workspaceName,
-  $workspaceDomain,
-  workspaceURLChanged,
-  cancelButtonClicked,
-  workspaceNameChanged,
-  $workspaceDescription,
-  workspaceDescriptionChanged,
-} from "./model";
-
 import { Layout } from "widgets/layout";
-import { Upload } from "shared/ui/upload";
 import { PageHeader } from "widgets/page-header";
+
 import { FormBlock, FormFooterActions } from "shared/ui/form-layouts";
 import { Input, InputArea, InputWeb } from "shared/ui/input";
+import { Upload } from "shared/ui/upload";
+
+import {
+  $workspaceDescription,
+  $workspaceDomain,
+  $workspaceName,
+  $workspaceURL,
+  cancelButtonClicked,
+  workspaceDescriptionChanged,
+  workspaceNameChanged,
+  workspaceURLChanged,
+} from "./model";
 
 export const WorkSpaceSettingsPage = () => {
   return (

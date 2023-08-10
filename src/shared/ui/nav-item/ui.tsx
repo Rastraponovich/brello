@@ -1,10 +1,10 @@
-import { forwardRef, memo } from "react";
+import { Link } from "atomic-router-react";
 import { cva } from "class-variance-authority";
-
-import type { INavItemProps } from ".";
+import { forwardRef, memo } from "react";
 
 import { Icon } from "shared/ui/icon";
-import { Link } from "atomic-router-react";
+
+import type { INavItemProps } from ".";
 
 const navItem = cva(
   "flex cursor-pointer items-center  gap-3 rounded-md px-3 py-2 text-gray-700 hover:bg-gray-50",

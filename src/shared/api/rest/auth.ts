@@ -1,7 +1,9 @@
-import { createEffect } from "effector";
-import { client } from "../client";
 import { AuthError } from "@supabase/supabase-js";
+import { createEffect } from "effector";
+
 import { SITE_URL } from "shared/config/api";
+
+import { client } from "../client";
 
 interface User {
   email: Email;

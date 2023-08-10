@@ -1,22 +1,23 @@
 import clsx from "clsx";
 import { memo } from "react";
+
+import { Sizes } from "shared/lib";
+import { Icon } from "shared/ui/icon";
+
 import {
-  SQUARE_COLORS,
+  BORDER_SIZE,
   CIRCLE_COLORS,
   EFeaturedIconColor,
+  EFeaturedIconType,
   EFeaturedIconVariant,
   FEATURED_ICON_CONTAINER_SIZE_DICT,
   FEATURED_ICON_SIZE_DICT,
   FEATURED_ICON_VARIANT_DICT,
-  TFeaturedIconProps,
-  EFeaturedIconType,
+  SQUARE_COLORS,
   TCircleVariant,
+  TFeaturedIconProps,
   TSquareVariant,
-  BORDER_SIZE,
 } from "../lib";
-import { Sizes } from "shared/lib";
-
-import { Icon } from "shared/ui/icon";
 
 export const FeaturedIcon = memo<TFeaturedIconProps>(
   ({

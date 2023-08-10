@@ -1,4 +1,5 @@
 import { type TUser } from "entities/user/lib";
+
 import type { TAvatarGroupSize, TAvatarSizes } from "./models";
 
 enum ImageSize {

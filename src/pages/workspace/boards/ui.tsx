@@ -1,28 +1,29 @@
-import { type ReactNode, memo } from "react";
 import { useList, useUnit } from "effector-react";
-import {
-  $search,
-  $boards,
-  $isNotFound,
-  $boardsEmpty,
-  addBoard,
-  resetSearch,
-  settingsButtonClicked,
-  boardCardClicked,
-} from "./model";
-
-import type { IBoardCard } from "./lib";
-import { type IconName } from "shared/ui/icon";
-
-import { buttonLib } from "shared/ui/button";
+import { type ReactNode, memo } from "react";
 
 import { Layout } from "widgets/layout";
+import { type IPageHeaderAction, PageHeader } from "widgets/page-header";
+
+import { BoardsSearch } from "features/boards/search";
+
+import { buttonLib } from "shared/ui/button";
 import { Button } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
-import { type IPageHeaderAction, PageHeader } from "widgets/page-header";
-import { ScrollContainer } from "shared/ui/scroll-container";
+import { type IconName } from "shared/ui/icon";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
-import { BoardsSearch } from "features/boards/search";
+import { ScrollContainer } from "shared/ui/scroll-container";
+
+import type { IBoardCard } from "./lib";
+import {
+  $boards,
+  $boardsEmpty,
+  $isNotFound,
+  $search,
+  addBoard,
+  boardCardClicked,
+  resetSearch,
+  settingsButtonClicked,
+} from "./model";
 
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
