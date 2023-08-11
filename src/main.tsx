@@ -1,16 +1,19 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
+import { allSettled, fork } from "effector";
+import { Provider } from "effector-react";
+import { createRoot } from "react-dom/client";
 
 import "app/styles/index.css";
 
-import { App } from "./app";
-import { appStarted } from "./shared/config";
+import { Application, appStarted } from "./app";
 
 const root = document.getElementById("root") as HTMLElement;
 
-appStarted();
-ReactDOM.createRoot(root).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+const scope = fork();
+
+allSettled(appStarted, { scope });
+
+createRoot(root).render(
+  <Provider value={scope}>
+    <Application />
+  </Provider>,
 );
