@@ -3,7 +3,7 @@ import { debounce } from "patronum";
 import { type ChangeEvent } from "react";
 
 import { api } from "~/shared/api";
-import { routes } from "~/shared/routing";
+import { routes } from "~/shared/routing/routing";
 
 import { TBoard } from "./lib";
 

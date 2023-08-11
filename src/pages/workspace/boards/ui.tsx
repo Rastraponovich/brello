@@ -2,7 +2,7 @@ import { useList, useUnit } from "effector-react";
 import { type ReactNode, memo } from "react";
 
 import { Layout } from "~/widgets/layout";
-import { type IPageHeaderAction, PageHeader } from "~/widgets/page-header";
+import { PageHeader, type PageHeaderAction } from "~/widgets/page-header";
 
 import { BoardsSearch } from "~/features/boards/search";
 
@@ -27,7 +27,7 @@ import {
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
 
-  const actions: IPageHeaderAction[] = [
+  const actions: PageHeaderAction[] = [
     {
       id: "settings",
       title: "Settings",

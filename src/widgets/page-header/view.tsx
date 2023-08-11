@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { memo } from "react";
 
-import { Avatar } from "shared/ui/avatar";
-import { Button } from "shared/ui/button";
-import { Heading } from "shared/ui/heading";
-import { Input } from "shared/ui/input";
+import { Avatar } from "~/shared/ui/avatar";
+import { Button } from "~/shared/ui/button";
+import { Heading } from "~/shared/ui/heading";
+import { Input } from "~/shared/ui/input";
 
-import type { IPageHeader } from "./models";
+import type { PageHeaderProps } from "./model";
 
-export const PageHeader = memo<IPageHeader>(
+export const PageHeader = memo<PageHeaderProps>(
   ({
     title,
     avatar,

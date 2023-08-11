@@ -1,5 +1,6 @@
-import "app/styles/index.css";
 import { Route, RouterProvider } from "atomic-router-react";
+
+import "~/app/styles/index.css";
 
 import { AuthOnboarding } from "~/pages/auth/onboarding";
 import { AuthPage } from "~/pages/auth/signin";
@@ -19,7 +20,7 @@ export const Application = () => {
       <Route route={routes.home} view={AuthPage} />
       <Route route={routes.board.board} view={BoardPage} />
       <Route route={routes.board.settings} view={BoardSettingsPage} />
-      <Route route={routes.auth.signin} view={AuthPage} />
+      <Route route={routes.auth.signIn} view={AuthPage} />
       <Route route={routes.onboarding.user} view={AuthOnboarding} />
       <Route route={routes.workspace.boards} view={BoardsPage} />
       <Route route={routes.workspace.settings} view={WorkSpaceSettingsPage} />

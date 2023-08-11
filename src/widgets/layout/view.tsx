@@ -1,12 +1,12 @@
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
-import { Header } from "widgets/header";
+import { Header } from "~/widgets/header";
 
-import { IconName } from "shared/ui/icon";
-import { FeaturedIcon } from "shared/ui/icons/featured-icon";
+import { FeaturedIcon } from "~/shared/ui/featured-icon";
+import { IconName } from "~/shared/ui/icon";
 
-interface ILayoutProps {
+interface LayoutProps {
   children: ReactNode;
   scrollable?: boolean;
 }
@@ -14,11 +14,11 @@ interface ILayoutProps {
 /**
  * Renders the layout component.
  *
- * @param {ILayoutProps} children - The child components to render within the layout.
+ * @param {LayoutProps} children - The child components to render within the layout.
  * @param {boolean} scrollable - Determines if the layout should have scrollable content.
  * @return {React.ReactNode} - The rendered layout component.
  */
-export const Layout = ({ children, scrollable }: ILayoutProps): React.ReactNode => {
+export const Layout = ({ children, scrollable }: LayoutProps): ReactNode => {
   return (
     <>
       <Header />

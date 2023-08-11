@@ -1,8 +1,9 @@
-import "app/styles/index.css";
 import { RouterProvider } from "atomic-router-react";
 import { allSettled, fork } from "effector";
 import { Provider } from "effector-react";
 import { createRoot } from "react-dom/client";
+
+import "~/app/styles/index.css";
 
 import { appStarted } from "~/shared/init";
 import { router } from "~/shared/routing";

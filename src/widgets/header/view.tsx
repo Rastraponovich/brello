@@ -2,16 +2,20 @@ import clsx from "clsx";
 import { useList, useUnit } from "effector-react";
 import { memo, useState } from "react";
 
-import { UserAvatarWithDropdown } from "entities/user";
+import { UserAvatarWithDropdown } from "~/entities/user";
 
-import { Icon } from "shared/ui/icon";
-import { Logo } from "shared/ui/icons/logo";
-import { NavItem } from "shared/ui/nav-item";
+import { Icon } from "~/shared/ui/icon";
+import { Logo } from "~/shared/ui/logo";
+import { NavItem } from "~/shared/ui/nav-item";
 
-import { models } from "./lib";
 import { $menuItems, $selected } from "./model";
 
-export const Header = memo<models.IHeaderProps>(() => {
+export interface HeaderProps {
+  className?: string;
+  useUser?: boolean;
+}
+
+export const Header = memo<HeaderProps>(() => {
   const [opened, setOpened] = useState(false);
 
   const currentPage = useUnit($selected);

@@ -2,7 +2,7 @@ import { attach, combine, createEffect, createEvent, createStore, sample } from 
 import { and, not } from "patronum";
 import type { ChangeEvent, FormEvent } from "react";
 
-import { routes } from "~/shared/routing";
+import { routes } from "~/shared/routing/routing";
 
 import { inputReducer, validateName } from "./utils";
 

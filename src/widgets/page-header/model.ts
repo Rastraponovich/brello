@@ -5,13 +5,13 @@ import type { TUser } from "~/entities/user/lib";
 import type { TButtonProps } from "~/shared/ui/button";
 import type { HeadingProps } from "~/shared/ui/heading";
 
-export interface IPageHeaderAction
+export interface PageHeaderAction
   extends Pick<TButtonProps, "variant" | "size" | "leftIcon" | "rightIcon" | "onClick" | "title"> {
   id: string;
   text?: string;
 }
 
-export interface IPageHeader {
+export interface PageHeaderProps {
   title: string;
   avatar?: TUser;
   divider?: boolean;
@@ -20,7 +20,7 @@ export interface IPageHeader {
   description?: string;
   placeholder?: string;
   headingAs?: HeadingProps["as"];
-  actions?: IPageHeaderAction[];
+  actions?: PageHeaderAction[];
   heandingClassName?: HeadingProps["className"];
   onSearch?: ChangeEventHandler<HTMLInputElement>;
 }
