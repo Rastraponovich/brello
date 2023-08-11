@@ -1,2 +1,2 @@
-export * from "./ui";
-export * as socialAuthButtonLib from "./lib";
+export * from "./view";
+export * from "./model";

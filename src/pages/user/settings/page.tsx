@@ -1,7 +1,8 @@
 import { useUnit } from "effector-react";
 import type { FormEventHandler, ReactElement } from "react";
 
-import { Layout } from "~/widgets/layout";
+import { MainLayout } from "~/layouts/main-layout";
+
 import { PageHeader } from "~/widgets/page-header";
 
 import { Avatar } from "~/shared/ui/avatar";
@@ -23,7 +24,7 @@ export const UserPage = (): ReactElement => {
   const handleResetForm = useUnit(resetButtonClicked);
 
   return (
-    <Layout>
+    <MainLayout>
       <section className="container mx-auto my-0 flex flex-col gap-8 overflow-hidden px-4 sm:px-8">
         <PageHeader title="Profile settings" divider />
 
@@ -38,7 +39,7 @@ export const UserPage = (): ReactElement => {
         </form>
         <FormFooterActions />
       </section>
-    </Layout>
+    </MainLayout>
   );
 };
 

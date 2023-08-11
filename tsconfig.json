@@ -22,10 +22,11 @@
     "paths": {
       "~/app/*": ["./src/app/*"],
       "~/pages/*": ["./src/pages/*"],
-      "~/shared/*": ["./src/shared/*"],
+      "~/layouts/*": ["./src/layouts/*"],
       "~/widgets/*": ["./src/widgets/*"],
+      "~/features/*": ["./src/features/*"],
       "~/entities/*": ["./src/entities/*"],
-      "~/features/*": ["./src/features/*"]
+      "~/shared/*": ["./src/shared/*"]
     }
   },
   "include": ["src"],

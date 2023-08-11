@@ -1,12 +1,20 @@
 import clsx from "clsx";
 import { memo } from "react";
+import { ChangeEventHandler, FormEventHandler } from "react";
 
 import { Button, CloseXButton } from "~/shared/ui/button";
 import { InputArea } from "~/shared/ui/input";
 
-import { type IAddListProps } from "./lib";
+export interface AddListProps {
+  editable: boolean;
+  onChange: ChangeEventHandler<HTMLTextAreaElement>;
+  onReset: FormEventHandler<HTMLFormElement>;
+  onSubmit: FormEventHandler<HTMLFormElement>;
+  value: string;
+  buttonCaption: string;
+}
 
-export const AddList = memo<IAddListProps>(
+export const AddList = memo<AddListProps>(
   ({ editable, onChange, onReset, onSubmit, value, buttonCaption }) => {
     return (
       <form

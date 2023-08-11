@@ -1,7 +1,8 @@
 import { useUnit } from "effector-react";
 import { type ChangeEventHandler, memo } from "react";
 
-import { Layout } from "~/widgets/layout";
+import { MainLayout } from "~/layouts/main-layout";
+
 import { PageHeader } from "~/widgets/page-header";
 
 import { Button, IconButton } from "~/shared/ui/button";
@@ -21,13 +22,13 @@ import {
 
 export const BoardSettingsPage = () => {
   return (
-    <Layout scrollable>
+    <MainLayout scrollable>
       <section className="container mx-auto my-0 flex flex-col gap-5 px-8 ">
         <PageHeader divider title="Board settings" />
         <PageForm />
         <FormFooterActions />
       </section>
-    </Layout>
+    </MainLayout>
   );
 };
 

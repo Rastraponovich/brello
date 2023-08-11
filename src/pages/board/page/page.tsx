@@ -9,7 +9,7 @@ import {
   useState,
 } from "react";
 
-import { Layout } from "~/widgets/layout";
+import { MainLayout } from "~/layouts/main-layout";
 
 import { AddList } from "~/features/add-list";
 import { AddToFavorite } from "~/features/board/add-to-favorite";
@@ -30,10 +30,10 @@ import { type TBoard } from "./model";
  */
 export const BoardPage = () => {
   return (
-    <Layout>
+    <MainLayout>
       <PageHeaderContent />
       <List />
-    </Layout>
+    </MainLayout>
   );
 };
 

@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import {
   type ChangeEventHandler,
-  DragEvent,
+  type DragEvent,
   type FormEventHandler,
   memo,
   useCallback,

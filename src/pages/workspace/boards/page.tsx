@@ -1,7 +1,8 @@
 import { useList, useUnit } from "effector-react";
 import { type ReactNode, memo } from "react";
 
-import { Layout } from "~/widgets/layout";
+import { MainLayout } from "~/layouts/main-layout";
+
 import { PageHeader, type PageHeaderAction } from "~/widgets/page-header";
 
 import { BoardsSearch } from "~/features/boards/search";
@@ -44,7 +45,7 @@ export const BoardsPage = () => {
   ];
 
   return (
-    <Layout>
+    <MainLayout>
       <section className="container mx-auto my-0 px-6 sm:px-8">
         <PageHeader
           divider
@@ -59,7 +60,7 @@ export const BoardsPage = () => {
       <BoardsFilter />
 
       <Boards />
-    </Layout>
+    </MainLayout>
   );
 };
 

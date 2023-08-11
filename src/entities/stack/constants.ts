@@ -1,4 +1,4 @@
-import { TCard } from "./model";
+import type { TCard } from "./model";
 
 export const _CARDS_: TCard[] = [
   {

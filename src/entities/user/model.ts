@@ -2,7 +2,14 @@ import { createEvent, createStore, sample } from "effector";
 
 import { controls, routes } from "~/shared/routing";
 
-import { type TUser } from "./lib";
+export type TUser = {
+  firstName: string;
+  lastName: string;
+  image?: string;
+  photo?: string;
+  email?: string;
+  id: number;
+};
 
 export const $user = createStore<TUser | null>(null);
 
