@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { forwardRef, memo } from "react";
 
-import { type models, helpers } from "../lib";
-
 import { Icon } from "shared/ui/icon";
+
+import { helpers, type models } from "../lib";
 
 const _Avatar = forwardRef<HTMLDivElement, models.IAvatarProps>(
   ({ className, size = "md", user }, ref) => {

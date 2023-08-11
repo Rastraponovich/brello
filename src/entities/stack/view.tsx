@@ -1,24 +1,25 @@
 import clsx from "clsx";
 import {
-  memo,
-  useState,
-  useEffect,
-  useCallback,
-  type FormEventHandler,
   type ChangeEventHandler,
-  useRef,
   DragEvent,
+  type FormEventHandler,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
 } from "react";
 
-import type { TCard, TStack } from "./model";
-
-import { Bage } from "shared/ui/bage";
-import { Icon } from "shared/ui/icon";
-import { Heading } from "shared/ui/heading";
-import { Dropdown } from "shared/ui/dropdown";
-import { AvatarGroup } from "shared/ui/avatar";
 import { AddEntity } from "features/add-entity";
+
+import { AvatarGroup } from "shared/ui/avatar";
+import { Bage } from "shared/ui/bage";
+import { Dropdown } from "shared/ui/dropdown";
+import { Heading } from "shared/ui/heading";
+import { Icon } from "shared/ui/icon";
 import { ScrollContainer } from "shared/ui/scroll-container";
+
+import type { TCard, TStack } from "./model";
 
 const StackActions = memo(() => {
   return (

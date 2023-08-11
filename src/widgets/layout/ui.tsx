@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 
 import { Header } from "widgets/header";
+
 import { IconName } from "shared/ui/icon";
 import { FeaturedIcon } from "shared/ui/icons/featured-icon";
 

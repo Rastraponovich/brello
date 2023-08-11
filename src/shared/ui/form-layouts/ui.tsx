@@ -1,4 +1,5 @@
 import { type ReactNode, memo } from "react";
+
 import { Button } from "shared/ui/button";
 
 interface FormBlockProps {
@@ -8,12 +9,7 @@ interface FormBlockProps {
   bodyClassName?: string;
 }
 
-export const FormBlock = ({
-  title,
-  description,
-  children,
-  bodyClassName,
-}: FormBlockProps) => {
+export const FormBlock = ({ title, description, children, bodyClassName }: FormBlockProps) => {
   return (
     <div className="grid gap-5 border-b border-gray-200 pb-5 text-sm font-normal text-gray-600 sm:grid-cols-[280px_1fr]">
       {title && <FormBlockHeader title={title} description={description} />}
@@ -40,19 +36,13 @@ interface FormBlockBodyProps {
   className?: string;
 }
 const FormBlockBody = ({ children, className }: FormBlockBodyProps) => {
-  return (
-    <div className={className ?? "flex w-full max-w-[512px] flex-col gap-4"}>
-      {children}
-    </div>
-  );
+  return <div className={className ?? "flex w-full max-w-[512px] flex-col gap-4"}>{children}</div>;
 };
 
 interface FormFooterActionsProps {
   form?: string;
 }
-export const FormFooterActions = ({
-  form = "form",
-}: FormFooterActionsProps) => {
+export const FormFooterActions = ({ form = "form" }: FormFooterActionsProps) => {
   return (
     <footer className="flex items-center justify-end gap-4 ">
       <Button form={form} size="md" variant="secondaryGray" type="reset">

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, ReactElement } from "react";
+import { ReactElement, ReactNode, useEffect } from "react";
 
 interface ScrollControllerProps {
   children: ReactNode;

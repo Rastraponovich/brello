@@ -1,13 +1,12 @@
-import { memo, useMemo } from "react";
 import { useUnit } from "effector-react";
-
-import { logOutButtonClicked, viewProfileButtonClicked } from "./model";
-
-import { type TUser } from "./lib";
+import { memo, useMemo } from "react";
 
 import { Avatar } from "shared/ui/avatar";
 import { Dropdown } from "shared/ui/dropdown";
 import { type TMenuItem } from "shared/ui/dropdown/lib";
+
+import { type TUser } from "./lib";
+import { logOutButtonClicked, viewProfileButtonClicked } from "./model";
 
 type IUserCardSmallProps = TUser;
 const UserCardSmall = memo<IUserCardSmallProps>(({ firstName, lastName, email }) => {

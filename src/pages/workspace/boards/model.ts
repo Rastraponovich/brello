@@ -1,10 +1,10 @@
-import { debounce } from "patronum";
 import { attach, createEvent, createStore, sample } from "effector";
+import { debounce } from "patronum";
+import { type ChangeEvent } from "react";
 
+import { api } from "shared/api";
 import { routes } from "shared/routing";
 
-import { type ChangeEvent } from "react";
-import { api } from "shared/api";
 import { TBoard } from "./lib";
 
 const getWorkspaceFx = attach({

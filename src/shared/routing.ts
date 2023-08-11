@@ -6,6 +6,7 @@ import {
 } from "atomic-router";
 import { sample } from "effector";
 import { createBrowserHistory } from "history";
+
 import { appStarted } from "./config";
 
 export const routes = {

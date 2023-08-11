@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { forwardRef, memo } from "react";
+
 import { helpers, type models } from "../lib";
 
 const _Bage = forwardRef<HTMLDivElement, models.IBageProps>(
@@ -19,10 +20,7 @@ const _Bage = forwardRef<HTMLDivElement, models.IBageProps>(
         {variant && variant === "dot" && (
           <i
             data-qa="Bage-dotIcon"
-            className={clsx(
-              "h-2 w-2 rounded-full",
-              helpers.BAGE_DOT_DICT[color],
-            )}
+            className={clsx("h-2 w-2 rounded-full", helpers.BAGE_DOT_DICT[color])}
           />
         )}
         <span className="font-medium" title={caption} data-qa="Bage-text">

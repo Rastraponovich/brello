@@ -1,4 +1,5 @@
 import { createEvent, sample } from "effector";
+
 import { controls } from "shared/routing";
 
 export const resetButtonClicked = createEvent();

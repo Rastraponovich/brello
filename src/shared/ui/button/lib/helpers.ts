@@ -1,4 +1,5 @@
 import { cva, cx } from "class-variance-authority";
+
 import { TButtonSize, TVariant } from "./models";
 
 /**
@@ -9,8 +10,7 @@ const destructiveButtonColor = cva("", {
     variant: {
       link: "",
       linkGray: "",
-      primary:
-        "bg-rose-600 border-rose-600 text-white hover:bg-rose-700 disabled:bg-rose-200",
+      primary: "bg-rose-600 border-rose-600 text-white hover:bg-rose-700 disabled:bg-rose-200",
       tertiary: "",
       tertiaryGray: "",
       secondary:
@@ -33,22 +33,14 @@ const destructiveButtonColor = cva("", {
     },
     {
       variant: ["tertiary", "tertiaryGray"],
-      className:
-        "hover:border-rose-50 hover:bg-rose-50 disabled:border-transparent",
+      className: "hover:border-rose-50 hover:bg-rose-50 disabled:border-transparent",
     },
     {
       variant: ["link", "linkGray"],
       className: "focus:outline-none border-none !p-0",
     },
     {
-      variant: [
-        "link",
-        "linkGray",
-        "tertiary",
-        "tertiaryGray",
-        "secondary",
-        "secondaryGray",
-      ],
+      variant: ["link", "linkGray", "tertiary", "tertiaryGray", "secondary", "secondaryGray"],
       className: "text-rose-700 hover:text-rose-800 disabled:text-rose-300",
     },
   ],
@@ -63,8 +55,7 @@ const defaultButtonColor = cva("", {
       link: "",
       linkGray: "",
       primary: "bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-200",
-      tertiary:
-        " hover:border-blue-50 hover:bg-blue-50 disabled:border-transparent",
+      tertiary: " hover:border-blue-50 hover:bg-blue-50 disabled:border-transparent",
       tertiaryGray: "",
       secondary:
         "border-blue-50 hover:border-blue-100 bg-blue-50 hover:bg-blue-100  disabled:bg-[#F5F8FF] disabled:text-blue-300 disabled:border-[#F5F8FF] focus:outline-blue-100",
@@ -97,13 +88,7 @@ const defaultButtonColor = cva("", {
       className: "text-blue-700 hover:text-blue-800",
     },
     {
-      variant: [
-        "secondaryGray",
-        "tertiaryGray",
-        "link",
-        "linkGray",
-        "tertiary",
-      ],
+      variant: ["secondaryGray", "tertiaryGray", "link", "linkGray", "tertiary"],
       className: "disabled:text-gray-300",
     },
   ],
@@ -166,8 +151,7 @@ export const closeXButton = cva(
         lg: "",
       },
       variant: {
-        primary:
-          "text-blue-500 hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50",
+        primary: "text-blue-500 hover:bg-blue-50 hover:text-blue-600 focus:bg-blue-50",
         gray: "text-gray-500 hover:bg-gray-50 hover:text-gray-600 focus:bg-gray-50",
       },
     },

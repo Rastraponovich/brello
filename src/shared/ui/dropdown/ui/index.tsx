@@ -1,12 +1,11 @@
+import { Menu, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import { memo, Fragment, forwardRef, useCallback, type MouseEventHandler } from "react";
-
-import type { IDropdownProps, IMenuItemProps } from "../lib/models";
-
-import { ITEMS } from "../lib";
+import { Fragment, type MouseEventHandler, forwardRef, memo, useCallback } from "react";
 
 import { Icon } from "shared/ui/icon";
-import { Menu, Transition } from "@headlessui/react";
+
+import { ITEMS } from "../lib";
+import type { IDropdownProps, IMenuItemProps } from "../lib/models";
 
 const MenuItem = memo<IMenuItemProps>(
   forwardRef<null, IMenuItemProps>(

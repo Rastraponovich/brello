@@ -1,9 +1,9 @@
+import { Dialog } from "@headlessui/react";
 import { forwardRef, useRef } from "react";
 
-import { type IDrawerProps } from "../lib";
-
-import { Dialog } from "@headlessui/react";
 import { CloseXButton } from "shared/ui/button";
+
+import { type IDrawerProps } from "../lib";
 
 export const Drawer = forwardRef<HTMLButtonElement, IDrawerProps>(
   ({ children, isOpen, onClose }, ref) => {

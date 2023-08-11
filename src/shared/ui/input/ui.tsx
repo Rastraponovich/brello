@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { HTMLInputTypeAttribute, forwardRef, memo } from "react";
 
-import { type models, helpers } from "./lib";
-
 import { Icon, IconName } from "shared/ui/icon";
+
+import { helpers, type models } from "./lib";
 
 const iconNames: Partial<Record<HTMLInputTypeAttribute, IconName>> = {
   email: "common/mail",

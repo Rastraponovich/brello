@@ -7,9 +7,7 @@ interface Error {
 }
 
 /** TODO: fix */
-export interface IBaseInput
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">,
-    IHint {
+export interface IBaseInput extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">, IHint {
   size?: InputSize;
   disableIcon?: boolean;
 }
@@ -29,8 +27,7 @@ export interface IInputProps extends IBaseInput, Validators, Error {
   caption?: string;
 }
 
-export interface IBaseInputArea
-  extends TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface IBaseInputArea extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   rows?: number;
 }
 

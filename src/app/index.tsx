@@ -1,17 +1,18 @@
-import "app/styles/index.css";
-import { RouterProvider, Route } from "atomic-router-react";
+import { Route, RouterProvider } from "atomic-router-react";
 
-import { routes, router } from "shared/routing";
+import "app/styles/index.css";
 
 import { NotFoundPage } from "pages/404";
+import { AuthOnboarding } from "pages/auth/onboarding";
 import { AuthPage } from "pages/auth/signin";
+import { BoardPage } from "pages/board/page";
+import { BoardSettingsPage } from "pages/board/settings";
 import { UserPage } from "pages/user/settings";
 import { BoardsPage } from "pages/workspace/boards";
-import { AuthOnboarding } from "pages/auth/onboarding";
-import { BoardPage } from "pages/board/page";
 import { OnboardingPage } from "pages/workspace/onboarding";
 import { WorkSpaceSettingsPage } from "pages/workspace/settings";
-import { BoardSettingsPage } from "pages/board/settings";
+
+import { router, routes } from "shared/routing";
 
 export const App = () => {
   return (

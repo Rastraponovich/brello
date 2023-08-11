@@ -1,9 +1,4 @@
-import {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  ElementType,
-  ReactNode,
-} from "react";
+import { DetailedHTMLProps, ElementType, HTMLAttributes, ReactNode } from "react";
 
 export type THeadingElement = DetailedHTMLProps<
   HTMLAttributes<HTMLHeadingElement>,
@@ -16,8 +11,6 @@ export interface IHeadingProps extends THeadingElement {
   children?: never | ReactNode;
 }
 
-type TConditionalHeadingProps =
-  | { children: ReactNode }
-  | { caption: string | number };
+type TConditionalHeadingProps = { children: ReactNode } | { caption: string | number };
 
 export type IHeanding = TConditionalHeadingProps & IHeadingProps;

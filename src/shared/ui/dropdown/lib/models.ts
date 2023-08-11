@@ -1,4 +1,5 @@
-import { ReactNode, ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
+
 import { IconName } from "shared/ui/icon";
 
 export type TKey = keyof Omit<TMenuItem, "onClick" | "handler">;

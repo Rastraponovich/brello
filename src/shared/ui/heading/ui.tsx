@@ -1,7 +1,7 @@
+import { cva } from "class-variance-authority";
 import { forwardRef, memo } from "react";
 
 import { type models } from "./lib";
-import { cva } from "class-variance-authority";
 
 const heading = cva("", {
   variants: {
@@ -14,9 +14,7 @@ const heading = cva("", {
       h6: "",
     },
   },
-  compoundVariants: [
-    { as: ["h1", "h2", "h3", "h4"], className: "font-semibold text-gray-900" },
-  ],
+  compoundVariants: [{ as: ["h1", "h2", "h3", "h4"], className: "font-semibold text-gray-900" }],
 });
 
 export const Heading = memo(

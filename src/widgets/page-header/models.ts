@@ -1,13 +1,12 @@
 import type { ChangeEventHandler } from "react";
+
 import type { TUser } from "entities/user/lib";
-import type { IHeanding } from "shared/ui/heading";
+
 import type { TButtonProps } from "shared/ui/button/lib/models";
+import type { IHeanding } from "shared/ui/heading";
 
 export interface IPageHeaderAction
-  extends Pick<
-    TButtonProps,
-    "variant" | "size" | "leftIcon" | "rightIcon" | "onClick" | "title"
-  > {
+  extends Pick<TButtonProps, "variant" | "size" | "leftIcon" | "rightIcon" | "onClick" | "title"> {
   id: string;
   text?: string;
 }

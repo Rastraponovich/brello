@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, ReactNode } from "react";
+
 import { IconName, type IconProps } from "shared/ui/icon";
 
 export interface IButton extends IButtonBaseProps, IButtonBaseVariant {
@@ -7,8 +8,7 @@ export interface IButton extends IButtonBaseProps, IButtonBaseVariant {
   pending?: boolean;
 }
 
-export interface IButtonBaseProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface IButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: TButtonSize;
 }
 

@@ -1,4 +1,5 @@
 import { _CARDS_ } from "entities/stack/constants";
+
 import { TBoard } from "./model";
 
 export const _BOARDS_: TBoard[] = [

@@ -1,9 +1,8 @@
+import { Link } from "atomic-router-react";
 import clsx from "clsx";
 import { memo } from "react";
 
 import { type ILogoProps } from "./lib";
-
-import { Link } from "atomic-router-react";
 
 export const Logo = memo<ILogoProps>(({ short, className, canHideTitle }) => {
   return (

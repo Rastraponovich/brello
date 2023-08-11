@@ -1,10 +1,10 @@
+import { type VariantProps, cva } from "class-variance-authority";
 import { forwardRef, memo } from "react";
-import { cva, type VariantProps } from "class-variance-authority";
-
-import { type models } from "../lib";
 
 import { Icon } from "shared/ui/icon";
 import { Marker } from "shared/ui/marker";
+
+import { type models } from "../lib";
 
 type TBaseGroupButton = VariantProps<typeof baseGroupButton>;
 

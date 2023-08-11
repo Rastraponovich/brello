@@ -1,9 +1,9 @@
-import { not, and } from "patronum";
 import { attach, combine, createEffect, createEvent, createStore, sample } from "effector";
-
+import { and, not } from "patronum";
 import type { ChangeEvent, FormEvent } from "react";
 
 import { routes } from "shared/routing";
+
 import { inputReducer, validateName } from "./utils";
 
 type UserName = {

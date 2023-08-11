@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import { memo } from "react";
 
-import type { IPageHeader } from "./models";
-
-import { Input } from "shared/ui/input";
 import { Avatar } from "shared/ui/avatar";
 import { Button } from "shared/ui/button";
 import { Heading } from "shared/ui/heading";
+import { Input } from "shared/ui/input";
+
+import type { IPageHeader } from "./models";
 
 export const PageHeader = memo<IPageHeader>(
   ({
@@ -37,9 +37,7 @@ export const PageHeader = memo<IPageHeader>(
               {title}
             </Heading>
             {description && (
-              <span className="text-base font-normal text-gray-600">
-                {description}
-              </span>
+              <span className="text-base font-normal text-gray-600">{description}</span>
             )}
           </div>
         </div>

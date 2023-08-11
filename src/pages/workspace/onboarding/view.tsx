@@ -1,18 +1,19 @@
 import { useUnit } from "effector-react";
 
-import {
-  $url,
-  $name,
-  urlChanged,
-  nameChanged,
-  $description,
-  formSubmitted,
-  descriptionChanged,
-} from "./model";
+import { OnboardingLayout } from "widgets/layout";
 
 import { Button } from "shared/ui/button";
-import { OnboardingLayout } from "widgets/layout";
 import { Input, InputArea, InputWeb } from "shared/ui/input";
+
+import {
+  $description,
+  $name,
+  $url,
+  descriptionChanged,
+  formSubmitted,
+  nameChanged,
+  urlChanged,
+} from "./model";
 
 export const OnboardingPage = () => {
   return (

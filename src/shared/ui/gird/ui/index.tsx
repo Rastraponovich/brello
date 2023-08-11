@@ -1,12 +1,12 @@
 import { memo } from "react";
+
 import { models } from "../lib";
 
 const genericMemo: <T>(component: T) => T = memo;
 const DEFAULT_CLASS =
   "grid snap-x snap-mandatory  scroll-px-4 auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden p-4 sm:scroll-px-8 sm:p-8 ";
 
-const DEFAULT_COL_CLASS =
-  "flex  snap-center snap-normal flex-col justify-start overflow-hidden";
+const DEFAULT_COL_CLASS = "flex  snap-center snap-normal flex-col justify-start overflow-hidden";
 
 const _Grid = <T,>({
   items,
@@ -41,11 +41,7 @@ const _GridColumn = <T,>({
   return (
     <div className={DEFAULT_COL_CLASS}>
       {ItemTemplate ? (
-        <ItemTemplate
-          item={item}
-          {...templateOptions}
-          keyProperty={keyProperty}
-        />
+        <ItemTemplate item={item} {...templateOptions} keyProperty={keyProperty} />
       ) : (
         <BaseGridItemTemplate
           item={item}

@@ -1,13 +1,15 @@
-import { memo, useState } from "react";
+import clsx from "clsx";
 import { useList, useUnit } from "effector-react";
+import { memo, useState } from "react";
 
-import { models } from "./lib";
-import { $selected, $menuItems } from "./model";
+import { UserAvatarWithDropdown } from "entities/user";
+
 import { Icon } from "shared/ui/icon";
 import { Logo } from "shared/ui/icons/logo";
 import { NavItem } from "shared/ui/nav-item";
-import { UserAvatarWithDropdown } from "entities/user";
-import clsx from "clsx";
+
+import { models } from "./lib";
+import { $menuItems, $selected } from "./model";
 
 export const Header = memo<models.IHeaderProps>(() => {
   const [opened, setOpened] = useState(false);
