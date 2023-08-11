@@ -1,7 +1,7 @@
 import { createEvent, sample } from "effector";
 import type { ChangeEvent } from "react";
 
-import { $search as mainSearch } from "pages/workspace/boards/model";
+import { $search as mainSearch } from "~/pages/workspace/boards/model";
 
 const setSearch = createEvent<string>();
 

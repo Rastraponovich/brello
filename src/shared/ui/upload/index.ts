@@ -1,2 +1,2 @@
-export * from "./ui";
-export * as uploadLib from "./lib";
+export * from "./view";
+export * as uploadLib from "./model";

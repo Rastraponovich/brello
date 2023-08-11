@@ -2,9 +2,12 @@ import { attach, createEvent, createStore, sample } from "effector";
 import { not, pending } from "patronum";
 import type { ChangeEvent, FormEvent } from "react";
 
-import { api } from "shared/api";
+import { api } from "~/shared/api";
+import { routes } from "~/shared/routing";
 
 import { validateEmail } from "./utils";
+
+export const currentRoute = routes.auth.signIn;
 
 export type SignInError = "InvalidEmail" | "RateLimit" | "UnknownError";
 

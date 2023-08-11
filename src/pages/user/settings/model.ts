@@ -1,7 +1,8 @@
 import { createEvent, sample } from "effector";
 
-import { controls } from "shared/routing";
+import { controls, routes } from "~/shared/routing";
 
+export const currentRoute = routes.user;
 export const resetButtonClicked = createEvent();
 
 sample({

@@ -3,7 +3,7 @@
  */
 import { useUnit } from "effector-react";
 
-import { PageHeader } from "widgets/page-header";
+import { PageHeader } from "~/widgets/page-header";
 
 import { $search, searchChanged } from "./model";
 

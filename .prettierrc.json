@@ -1,4 +1,3 @@
-
 {
   "tabWidth": 2,
   "semi": true,
@@ -15,14 +14,13 @@
   "importOrderSeparation": true,
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "@/(.*)$",
-    "^app(.*)$",
-    "^pages(.*)$",
-    "^layouts(.*)$",
-    "^widgets(.*)$",
-    "^features(.*)$",
-    "^entities(.*)$",
-    "^shared(.*)$",
+    "^~/app(.*)$",
+    "^~/pages(.*)$",
+    "^~/layouts(.*)$",
+    "^~/widgets(.*)$",
+    "^~/features(.*)$",
+    "^~/entities(.*)$",
+    "^~/shared(.*)$",
     "^[./]"
   ]
 }

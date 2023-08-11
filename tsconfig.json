@@ -20,12 +20,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "app/*": ["./src/app/*"],
-      "pages/*": ["./src/pages/*"],
-      "shared/*": ["./src/shared/*"],
-      "widgets/*": ["./src/widgets/*"],
-      "entities/*": ["./src/entities/*"],
-      "features/*": ["./src/features/*"]
+      "~/app/*": ["./src/app/*"],
+      "~/pages/*": ["./src/pages/*"],
+      "~/shared/*": ["./src/shared/*"],
+      "~/widgets/*": ["./src/widgets/*"],
+      "~/entities/*": ["./src/entities/*"],
+      "~/features/*": ["./src/features/*"]
     }
   },
   "include": ["src"],

@@ -1,4 +1,4 @@
-import { _CARDS_ } from "entities/stack/constants";
+import { _CARDS_ } from "~/entities/stack/constants";
 
 import { TBoard } from "./model";
 
