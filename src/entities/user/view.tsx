@@ -4,11 +4,14 @@ import { memo, useMemo } from "react";
 import { Avatar } from "~/shared/ui/avatar";
 import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 
-import { type TUser } from "./lib";
-import { logOutButtonClicked, viewProfileButtonClicked } from "./model";
+import { type TUser, logOutButtonClicked, viewProfileButtonClicked } from "./model";
 
-type IUserCardSmallProps = TUser;
-const UserCardSmall = memo<IUserCardSmallProps>(({ firstName, lastName, email }) => {
+type UserCardSmallProps = TUser;
+
+export interface UserProps {
+  item: TUser;
+}
+const UserCardSmall = memo<UserCardSmallProps>(({ firstName, lastName, email }) => {
   return (
     <div className="flex w-full flex-col px-4 py-3 text-sm text-gray-700">
       <h3 className="font-semibold">

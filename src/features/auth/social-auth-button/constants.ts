@@ -1,4 +1,4 @@
-import { TAuthServices } from "./models";
+import type { SocialButtonAuthServices } from "./model";
 
 export enum Colors {
   Default = "border-gray-300 bg-white text-gray-700 hover:bg-gray-50 disabled:hover:bg-white  disabled:opacity-50",
@@ -9,7 +9,7 @@ export enum Colors {
   Dribbble = "bg-dribbble-600 border-dribbble-600 text-white hover:bg-dribbble-700 hover:dribbble-facebook-700",
 }
 
-export const BUTTON_COLORS_DICT: Record<TAuthServices, Colors> = {
+export const BUTTON_COLORS_DICT: Record<SocialButtonAuthServices, Colors> = {
   google: Colors.Default,
   facebook: Colors.Facebook,
   apple: Colors.Apple,

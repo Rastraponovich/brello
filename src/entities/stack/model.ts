@@ -1,4 +1,4 @@
-import type { TUser } from "~/entities/user/lib";
+import type { TUser } from "~/entities/user";
 
 import type { TBage } from "~/shared/ui/bage";
 

@@ -25,10 +25,11 @@ export default defineConfig({
     alias: {
       "~/app": "/src/app",
       "~/pages": "/src/pages",
-      "~/shared": "/src/shared",
+      "~/layouts": "/src/layouts",
       "~/widgets": "/src/widgets",
-      "~/entities": "/src/entities",
       "~/features": "/src/features",
+      "~/entities": "/src/entities",
+      "~/shared": "/src/shared",
     },
   },
 });

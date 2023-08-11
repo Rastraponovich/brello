@@ -1,4 +1,4 @@
-import { TBoard } from "~/pages/workspace/boards/lib";
+import type { TBoard } from "~/pages/board/page/model";
 
 export type WorkSpace = {
   name: string;
