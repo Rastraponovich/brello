@@ -1,12 +1,12 @@
 import { useUnit } from "effector-react";
 import { type FormEventHandler } from "react";
 
-import { Layout } from "widgets/layout";
-import { PageHeader } from "widgets/page-header";
+import { Layout } from "~/widgets/layout";
+import { PageHeader } from "~/widgets/page-header";
 
-import { FormBlock, FormFooterActions } from "shared/ui/form-layouts";
-import { Input, InputArea, InputWeb } from "shared/ui/input";
-import { Upload } from "shared/ui/upload";
+import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
+import { Input, InputArea, InputWeb } from "~/shared/ui/input";
+import { Upload } from "~/shared/ui/upload";
 
 import {
   $workspaceDescription,

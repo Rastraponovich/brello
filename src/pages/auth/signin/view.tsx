@@ -1,15 +1,15 @@
 import { useUnit } from "effector-react";
 import { ReactNode, memo } from "react";
 
-import { SocialAuthButton } from "features/auth/social-auth-button";
+import { SocialAuthButton } from "~/features/auth/social-auth-button";
 
-import { TColors } from "shared/lib";
-import { Button } from "shared/ui/button";
-import { Heading } from "shared/ui/heading";
-import { Icon, type IconName } from "shared/ui/icon";
-import { FeaturedIcon } from "shared/ui/icons/featured-icon";
-import { Logo } from "shared/ui/icons/logo";
-import { Input } from "shared/ui/input";
+import { TColors } from "~/shared/lib";
+import { Button } from "~/shared/ui/button";
+import { FeaturedIcon } from "~/shared/ui/featured-icon";
+import { Heading } from "~/shared/ui/heading";
+import { Icon, type IconName } from "~/shared/ui/icon";
+import { Input } from "~/shared/ui/input";
+import { Logo } from "~/shared/ui/logo";
 
 import {
   $email,

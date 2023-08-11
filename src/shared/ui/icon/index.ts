@@ -1,5 +1,5 @@
-export * from "./ui";
-export * as iconLib from "./lib";
+export * from "./view";
+export * from "./constants";
 
 // временный костыль что бы импорты не сломались
-export * from "./lib";
+export * from "./model";

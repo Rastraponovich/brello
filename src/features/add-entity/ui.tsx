@@ -1,7 +1,7 @@
 import { memo } from "react";
 
-import { Button, CloseXButton } from "shared/ui/button";
-import { InputArea } from "shared/ui/input";
+import { Button, CloseXButton } from "~/shared/ui/button";
+import { InputArea } from "~/shared/ui/input";
 
 import { IAddEntityProps } from "./lib/models";
 

@@ -10,14 +10,14 @@ import {
   useState,
 } from "react";
 
-import { AddEntity } from "features/add-entity";
+import { AddEntity } from "~/features/add-entity";
 
-import { AvatarGroup } from "shared/ui/avatar";
-import { Bage } from "shared/ui/bage";
-import { Dropdown } from "shared/ui/dropdown";
-import { Heading } from "shared/ui/heading";
-import { Icon } from "shared/ui/icon";
-import { ScrollContainer } from "shared/ui/scroll-container";
+import { AvatarGroup } from "~/shared/ui/avatar";
+import { Bage } from "~/shared/ui/bage";
+import { Dropdown } from "~/shared/ui/dropdown";
+import { Heading } from "~/shared/ui/heading";
+import { Icon } from "~/shared/ui/icon";
+import { ScrollContainer } from "~/shared/ui/scroll-container";
 
 import type { TCard, TStack } from "./model";
 

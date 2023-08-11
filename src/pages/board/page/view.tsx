@@ -9,16 +9,16 @@ import {
   useState,
 } from "react";
 
-import { Layout } from "widgets/layout";
+import { Layout } from "~/widgets/layout";
 
-import { AddList } from "features/add-list";
-import { AddToFavorite } from "features/board/add-to-favorite";
+import { AddList } from "~/features/add-list";
+import { AddToFavorite } from "~/features/board/add-to-favorite";
 
-import { Stack } from "entities/stack";
+import { Stack } from "~/entities/stack";
 
-import { useDragAndDrop } from "shared/hooks/dnd";
-import { AvatarGroup } from "shared/ui/avatar";
-import { Heading } from "shared/ui/heading";
+import { useDragAndDrop } from "~/shared/hooks/dnd";
+import { AvatarGroup } from "~/shared/ui/avatar";
+import { Heading } from "~/shared/ui/heading";
 
 import { _AVATARS_, _BOARDS_ } from "./constants";
 import { type TBoard } from "./model";

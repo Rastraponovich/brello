@@ -1,6 +1,6 @@
 import { createEvent, createStore, sample } from "effector";
 
-import { controls, routes } from "shared/routing";
+import { controls, routes } from "~/shared/routing";
 
 import { type TUser } from "./lib";
 

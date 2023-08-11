@@ -1,8 +1,8 @@
 import { attach, combine, createEvent, createStore, sample } from "effector";
 import { ChangeEvent } from "react";
 
-import { api } from "shared/api";
-import { controls, routes } from "shared/routing";
+import { api } from "~/shared/api";
+import { controls, routes } from "~/shared/routing";
 
 const getWorkspaceSettingFx = attach({
   effect: api.workspace.getWorkspaceFx,

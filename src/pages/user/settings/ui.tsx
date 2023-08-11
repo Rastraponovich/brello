@@ -1,13 +1,13 @@
 import { useUnit } from "effector-react";
 import type { FormEventHandler, ReactElement } from "react";
 
-import { Layout } from "widgets/layout";
-import { PageHeader } from "widgets/page-header";
+import { Layout } from "~/widgets/layout";
+import { PageHeader } from "~/widgets/page-header";
 
-import { Avatar } from "shared/ui/avatar";
-import { FormBlock, FormFooterActions } from "shared/ui/form-layouts";
-import { Input } from "shared/ui/input";
-import { Upload } from "shared/ui/upload";
+import { Avatar } from "~/shared/ui/avatar";
+import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
+import { Input } from "~/shared/ui/input";
+import { Upload } from "~/shared/ui/upload";
 
 import { resetButtonClicked } from "./model";
 

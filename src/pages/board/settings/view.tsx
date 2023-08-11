@@ -1,12 +1,12 @@
 import { useUnit } from "effector-react";
 import { type ChangeEventHandler, memo } from "react";
 
-import { Layout } from "widgets/layout";
-import { PageHeader } from "widgets/page-header";
+import { Layout } from "~/widgets/layout";
+import { PageHeader } from "~/widgets/page-header";
 
-import { Button, IconButton } from "shared/ui/button";
-import { FormBlock, FormFooterActions } from "shared/ui/form-layouts";
-import { Input, inputLib } from "shared/ui/input";
+import { Button, IconButton } from "~/shared/ui/button";
+import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
+import { Input, type InputProps } from "~/shared/ui/input";
 
 import {
   $boardInvites,
@@ -121,10 +121,7 @@ const AddEmail = () => {
 };
 
 interface EmailRowProps
-  extends Pick<
-    inputLib.models.IInputProps,
-    "caption" | "placeholder" | "value" | "onChange" | "id"
-  > {
+  extends Pick<InputProps, "caption" | "placeholder" | "value" | "onChange" | "id"> {
   caption?: string;
   onDelete(id: number): void;
 }

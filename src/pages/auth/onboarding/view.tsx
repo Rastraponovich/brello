@@ -1,10 +1,10 @@
 import { useUnit } from "effector-react";
 
-import { OnboardingLayout } from "widgets/layout";
+import { OnboardingLayout } from "~/widgets/layout";
 
-import { Button } from "shared/ui/button";
-import { Heading } from "shared/ui/heading";
-import { Input } from "shared/ui/input";
+import { Button } from "~/shared/ui/button";
+import { Heading } from "~/shared/ui/heading";
+import { Input } from "~/shared/ui/input";
 
 import {
   $firstName,
@@ -49,26 +49,21 @@ export const AuthOnboarding = () => {
  * @returns JSX.Element
  */
 const OnboardingForm = () => {
-
-  // Destructure the form submission and input change handlers from the useUnit hook
   const [handleSubmit, handleFirstNameChange, handleLastNameChange] = useUnit([
     formSubmitted,
     firstNameChanged,
     lastNameChanged,
   ]);
 
-  // Destructure the first name and last name values from the useUnit hook
   const [firstName, lastName] = useUnit([$firstName, $lastName]);
 
   return (
     <>
-      {/* Form element */}
       <form
         id="form"
         onSubmit={handleSubmit}
         className="flex w-full flex-col gap-6 text-sm text-gray-700 sm:max-w-[512px] sm:flex-row sm:gap-8"
       >
-        {/* First name input */}
         <Input
           placeholder="First name"
           caption="First name"
@@ -76,7 +71,6 @@ const OnboardingForm = () => {
           onChange={handleFirstNameChange}
         />
 
-        {/* Last name input */}
         <Input
           placeholder="Last name"
           caption="Last name"

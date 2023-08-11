@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { memo } from "react";
 
-import { utils } from "shared/lib";
-import { Icon } from "shared/ui/icon";
+import { utils } from "~/shared/lib";
+import { Icon } from "~/shared/ui/icon";
 
 import { helpers, type models } from "./lib";
 

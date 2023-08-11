@@ -1,17 +1,16 @@
 import { useList, useUnit } from "effector-react";
 import { type ReactNode, memo } from "react";
 
-import { Layout } from "widgets/layout";
-import { type IPageHeaderAction, PageHeader } from "widgets/page-header";
+import { Layout } from "~/widgets/layout";
+import { type IPageHeaderAction, PageHeader } from "~/widgets/page-header";
 
-import { BoardsSearch } from "features/boards/search";
+import { BoardsSearch } from "~/features/boards/search";
 
-import { buttonLib } from "shared/ui/button";
-import { Button } from "shared/ui/button";
-import { Heading } from "shared/ui/heading";
-import { type IconName } from "shared/ui/icon";
-import { FeaturedIcon } from "shared/ui/icons/featured-icon";
-import { ScrollContainer } from "shared/ui/scroll-container";
+import { Button, type ButtonBaseProps, type ButtonBaseVariant } from "~/shared/ui/button";
+import { FeaturedIcon } from "~/shared/ui/featured-icon";
+import { Heading } from "~/shared/ui/heading";
+import { type IconName } from "~/shared/ui/icon";
+import { ScrollContainer } from "~/shared/ui/scroll-container";
 
 import type { IBoardCard } from "./lib";
 import {
@@ -102,7 +101,7 @@ const BoardsList = () => {
   );
 };
 
-interface IAction extends buttonLib.models.IButtonBaseProps, buttonLib.models.IButtonBaseVariant {
+interface IAction extends ButtonBaseProps, ButtonBaseVariant {
   caption: string;
 }
 

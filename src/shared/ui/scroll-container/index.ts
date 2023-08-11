@@ -1,2 +1,2 @@
-export * from "./ui";
-export * as scrollContainerLib from "./lib";
+export * from "./view";
+export * from "./model";

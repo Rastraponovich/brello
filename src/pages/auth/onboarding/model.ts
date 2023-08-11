@@ -2,7 +2,7 @@ import { attach, combine, createEffect, createEvent, createStore, sample } from 
 import { and, not } from "patronum";
 import type { ChangeEvent, FormEvent } from "react";
 
-import { routes } from "shared/routing";
+import { routes } from "~/shared/routing";
 
 import { inputReducer, validateName } from "./utils";
 
@@ -14,7 +14,7 @@ type UserName = {
 /**
  * mock api
  */
-const updateUserFx = createEffect<UserName, boolean>(() => true);
+const profileUpdateFx = createEffect<UserName, boolean>(() => true);
 
 export const skipButtonClicked = createEvent();
 export const formSubmitted = createEvent<FormEvent<HTMLFormElement>>();
@@ -28,13 +28,13 @@ export const $lastName = createStore<string | null>(null);
 export const $isEmptyFirstName = $firstName.map(validateName);
 export const $isEmptyLastName = $lastName.map(validateName);
 
-const $user = combine($firstName, $lastName, (firstName, lastName) => {
+const $profile = combine($firstName, $lastName, (firstName, lastName) => {
   return { firstName, lastName };
 });
 
-const attachedUserUpdateFx = attach({
-  effect: updateUserFx,
-  source: $user,
+const attachedProfileUpdateFx = attach({
+  effect: profileUpdateFx,
+  source: $profile,
   mapParams(_, { firstName, lastName }) {
     return { firstName: firstName ?? "", lastName: lastName ?? "" };
   },
@@ -51,7 +51,7 @@ $lastName.on(lastNameChanged, inputReducer);
 sample({
   clock: formSubmitted,
   filter: not(and($isEmptyFirstName, $isEmptyLastName)),
-  target: attachedUserUpdateFx,
+  target: attachedProfileUpdateFx,
 });
 
 sample({
