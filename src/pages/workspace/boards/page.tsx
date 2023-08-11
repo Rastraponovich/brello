@@ -12,12 +12,12 @@ import { Heading } from "~/shared/ui/heading";
 import { type IconName } from "~/shared/ui/icon";
 import { ScrollContainer } from "~/shared/ui/scroll-container";
 
-import type { IBoardCard } from "./lib";
 import {
   $boards,
   $boardsEmpty,
   $isNotFound,
   $search,
+  type TBoard,
   addBoard,
   boardCardClicked,
   resetSearch,
@@ -105,7 +105,7 @@ interface IAction extends ButtonBaseProps, ButtonBaseVariant {
   caption: string;
 }
 
-interface IBaseEmptyProps {
+interface BaseEmptyProps {
   title: string;
   icon?: IconName;
   onClick?(): void;
@@ -113,7 +113,7 @@ interface IBaseEmptyProps {
   actions?: IAction[];
   children?: ReactNode;
 }
-const BaseEmpty = memo<IBaseEmptyProps>(({ icon, title, subTitle, actions, onClick }) => {
+const BaseEmpty = memo<BaseEmptyProps>(({ icon, title, subTitle, actions, onClick }) => {
   return (
     <div className="flex flex-col items-center">
       {icon && (
@@ -191,7 +191,11 @@ const AddBoardCard = memo(() => {
 
 AddBoardCard.displayName = "AddBoardCard";
 
-const BoardCard = memo<IBoardCard>(({ title, onClick }) => {
+interface BoardCardProps extends TBoard {
+  onClick?(): void;
+}
+
+const BoardCard = memo<BoardCardProps>(({ title, onClick }) => {
   return (
     <figure
       onClick={onClick}

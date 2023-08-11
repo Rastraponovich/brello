@@ -51,7 +51,7 @@ const errorText: {
   UnknownError: "Something happened. Please, try again later.",
 };
 
-export const AuthPage = () => {
+export const SignInPage = () => {
   const [finished, error] = useUnit([$isFinished, $error]);
 
   return (

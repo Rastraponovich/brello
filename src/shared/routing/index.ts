@@ -4,9 +4,9 @@ import { createBrowserHistory } from "history";
 
 import { appStarted } from "~/shared/init";
 
-import { notFoundRoute, routesMap } from "./routing";
+import { notFoundRoute, routesMap } from "./routes";
 
-export { routes } from "./routing";
+export { routes } from "./routes";
 
 export const controls = createRouterControls();
 

@@ -15,7 +15,7 @@ import {
   urlChanged,
 } from "./model";
 
-export const OnboardingPage = () => {
+export const OnboardingWorkspacePage = () => {
   return (
     <OnboardingLayout icon="common/folder-shield" backgroundImage="bg-geometric-square">
       <div className="flex flex-col gap-4 sm:gap-5">

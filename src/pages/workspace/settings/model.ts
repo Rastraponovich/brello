@@ -4,6 +4,8 @@ import { ChangeEvent } from "react";
 import { api } from "~/shared/api";
 import { controls, routes } from "~/shared/routing";
 
+export const currentRoute = routes.workspace.settings;
+
 const getWorkspaceSettingFx = attach({
   effect: api.workspace.getWorkspaceFx,
 });

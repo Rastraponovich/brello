@@ -3,9 +3,15 @@ import { debounce } from "patronum";
 import { type ChangeEvent } from "react";
 
 import { api } from "~/shared/api";
-import { routes } from "~/shared/routing/routing";
+import { routes } from "~/shared/routing/routes";
 
-import { TBoard } from "./lib";
+export type TBoard = {
+  title: string;
+  id: number;
+  image?: string;
+};
+
+export const currentRoute = routes.workspace.boards;
 
 const getWorkspaceFx = attach({
   effect: api.workspace.getWorkspaceFx,

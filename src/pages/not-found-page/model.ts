@@ -1,6 +1,9 @@
 import { createEvent, sample } from "effector";
 
 import { controls, routes } from "~/shared/routing";
+import { notFoundRoute } from "~/shared/routing/routes";
+
+export const currentRoute = notFoundRoute;
 
 export const goBackButtonClicked = createEvent();
 

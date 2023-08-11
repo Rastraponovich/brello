@@ -15,7 +15,7 @@ import {
   skipButtonClicked,
 } from "./model";
 
-export const AuthOnboarding = () => {
+export const OnboardingAuthPage = () => {
   const handleSkip = useUnit(skipButtonClicked);
 
   return (

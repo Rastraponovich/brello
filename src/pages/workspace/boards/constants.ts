@@ -1,4 +1,4 @@
-import { TBoard } from ".";
+import { TBoard } from "./model";
 
 export const BOARDS: TBoard[] = [
   { id: 1, title: "Sprint #3 (03.04.2023 - 10.04.2023)" },

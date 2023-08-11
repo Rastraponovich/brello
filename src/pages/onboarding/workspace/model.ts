@@ -1,7 +1,11 @@
 import { attach, combine, createEvent, createStore, sample } from "effector";
 import type { ChangeEvent, FormEvent } from "react";
 
+import { routes } from "~/shared/routing";
+
 import { inputReducer } from "./utils";
+
+export const currentRoute = routes.onboarding.workspace;
 
 export const formSubmitted = createEvent<FormEvent<HTMLFormElement>>();
 export const nameChanged = createEvent<ChangeEvent<HTMLInputElement>>();

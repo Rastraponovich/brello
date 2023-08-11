@@ -2,7 +2,9 @@ import { RouteQuery } from "atomic-router";
 import { createEffect, createEvent, createStore, sample } from "effector";
 import { ChangeEvent } from "react";
 
-import { routes } from "~/shared/routing/routing";
+import { routes } from "~/shared/routing";
+
+export const currentRoute = routes.board.settings;
 
 const getBoardByIdFx = createEffect<void, { name: string; users: string[] }>(() => {
   return {

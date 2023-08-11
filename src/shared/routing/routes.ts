@@ -32,7 +32,10 @@ export const routesMap: UnmappedRouteObject<object>[] = [
     path: "/onboarding/user",
     route: routes.onboarding.user,
   },
-
+  {
+    path: "/onboarding/workspace",
+    route: routes.onboarding.workspace,
+  },
   {
     path: "/board/:id",
     route: routes.board.board,
@@ -53,10 +56,7 @@ export const routesMap: UnmappedRouteObject<object>[] = [
     path: "/workspace/settings",
     route: routes.workspace.settings,
   },
-  {
-    path: "/onboarding/workspace",
-    route: routes.onboarding.workspace,
-  },
+
   {
     path: "/workspace/boards",
     route: routes.workspace.boards,
