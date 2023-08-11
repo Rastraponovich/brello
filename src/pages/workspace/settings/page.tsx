@@ -1,7 +1,8 @@
 import { useUnit } from "effector-react";
 import { type FormEventHandler } from "react";
 
-import { Layout } from "~/widgets/layout";
+import { MainLayout } from "~/layouts/main-layout";
+
 import { PageHeader } from "~/widgets/page-header";
 
 import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
@@ -21,13 +22,13 @@ import {
 
 export const WorkSpaceSettingsPage = () => {
   return (
-    <Layout>
+    <MainLayout>
       <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
         <PageHeader divider title="Workspace settings" />
         <WorkSpaceSettingsForm />
         <FormFooterActions />
       </section>
-    </Layout>
+    </MainLayout>
   );
 };
 
