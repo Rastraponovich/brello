@@ -1,8 +1,6 @@
 import { AuthError } from "@supabase/supabase-js";
 import { createEffect } from "effector";
 
-import { SITE_URL } from "~/shared/config/api";
-
 import { client } from "../client";
 
 interface User {
@@ -10,22 +8,16 @@ interface User {
   id: UserId;
 }
 
-/**
- * Checks if the given error is null and throws an exception if it is not.
- *
- * @param {AuthError | null} error - The error to check.
- * @return {void}
- */
 export function checkError(error: AuthError | null): asserts error is null {
   if (error !== null) throw error;
 }
 
 export const signInWithGoogleFx = createEffect(async () => {
+  const baseUrl = document.location.toString();
+  const redirectTo = new URL("/boards", baseUrl).toString();
   const { error } = await client.auth.signInWithOAuth({
     provider: "google",
-    options: {
-      redirectTo: SITE_URL + "boards",
-    },
+    options: { redirectTo },
   });
 
   checkError(error);
@@ -33,12 +25,11 @@ export const signInWithGoogleFx = createEffect(async () => {
 
 export const signInWithEmailFx = createEffect<{ email: Email }, void, AuthError>(
   async ({ email }) => {
+    const baseUrl = document.location.toString();
+    const emailRedirectTo = new URL("/auth/finish", baseUrl).toString();
     const { error } = await client.auth.signInWithOtp({
       email,
-
-      options: {
-        emailRedirectTo: SITE_URL,
-      },
+      options: { emailRedirectTo },
     });
 
     checkError(error);
@@ -55,6 +46,7 @@ export const getMeFx = createEffect<void, User | null, AuthError>(async () => {
 
   if (user) {
     return {
+      ...user,
       id: user.id as string,
       email: user.email as string,
     };

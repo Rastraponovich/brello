@@ -1,7 +1,7 @@
 import { currentRoute } from "./model";
 import { BoardPage } from "./page";
 
-export const BoardPageRoute = {
+export default {
   view: BoardPage,
   route: currentRoute,
 };

@@ -2,13 +2,14 @@ import { attach, combine, createEffect, createEvent, createStore, sample } from 
 import { and, not } from "patronum";
 import type { ChangeEvent, FormEvent } from "react";
 
+import { Database } from "~/shared/api/supabase";
 import { routes } from "~/shared/routing";
 
 import { inputReducer, validateName } from "./utils";
 
 type UserName = {
-  firstName: string;
-  lastName: string;
+  firstName: Database["public"]["Tables"]["profiles"]["Update"]["fisrt_name"];
+  lastName: Database["public"]["Tables"]["profiles"]["Update"]["last_name"];
 };
 
 export const currentRoute = routes.onboarding.user;
@@ -58,5 +59,5 @@ sample({
 
 sample({
   clock: skipButtonClicked,
-  target: routes.workspace.boards.open,
+  target: routes.onboarding.workspace.open,
 });

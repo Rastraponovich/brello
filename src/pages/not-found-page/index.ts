@@ -1,7 +1,7 @@
 import { currentRoute } from "./model";
 import { NotFoundPage } from "./page";
 
-export const NotFoundRoute = {
+export default {
   view: NotFoundPage,
   route: currentRoute,
 };

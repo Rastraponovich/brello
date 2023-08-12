@@ -1,7 +1,7 @@
 import { currentRoute } from "./model";
-import { SignInPage } from "./page";
+import { FinishSignInPage } from "./view";
 
 export default {
-  view: SignInPage,
+  view: FinishSignInPage,
   route: currentRoute,
 };
