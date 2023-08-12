@@ -1,5 +1,6 @@
 import { createRoutesView } from "atomic-router-react";
 
+import { FinishRoute } from "./auth/finish";
 import { AuthSignInRoute } from "./auth/signin";
 import { BoardPageRoute } from "./board/page";
 import { BoardSettingsRoute } from "./board/settings";
@@ -23,5 +24,6 @@ export const RoutesView = createRoutesView({
     UserPageRoute,
     NotFoundRoute,
     HomeRoute,
+    FinishRoute,
   ],
 });

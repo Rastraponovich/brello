@@ -12,6 +12,7 @@ export const routes = {
   },
   auth: {
     signIn: createRoute(),
+    finish: createRoute(),
   },
   workspace: {
     settings: createRoute(),
@@ -24,8 +25,12 @@ export const notFoundRoute = createRoute();
 
 export const routesMap: UnmappedRouteObject<object>[] = [
   {
-    path: "/sign-in",
+    path: "/auth/sign-in",
     route: routes.auth.signIn,
+  },
+  {
+    path: "/auth/finished",
+    route: routes.auth.finish,
   },
 
   {

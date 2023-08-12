@@ -1,6 +1,6 @@
 import { useUnit } from "effector-react";
 
-import { OnboardingLayout } from "~/layouts/main-layout";
+import { OnboardingLayout } from "~/layouts/onboarding-layout";
 
 import { Button } from "~/shared/ui/button";
 import { Input, InputArea, InputWeb } from "~/shared/ui/input";
