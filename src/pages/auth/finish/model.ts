@@ -31,12 +31,12 @@ sample({
 
 $successfuly.on(authFinished, () => true);
 
-debug(getMeFx, $successfuly, $pending);
+debug(getMeFx, currentRoute.opened, currentRoute.$query, currentRoute.$params);
 
 sample({
-  clock: delay({ source: authFinished, timeout: 3000 }),
+  clock: delay({ source: authFinished, timeout: 1000 }),
   filter: currentRoute.$isOpened,
-  target: routes.home.open,
+  target: routes.onboarding.user.open,
 });
 
 // fail path

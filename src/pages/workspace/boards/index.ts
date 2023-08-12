@@ -1,7 +1,7 @@
 import { currentRoute } from "./model";
 import { BoardsPage } from "./page";
 
-export const WorkspaceBoardsRoute = {
+export default {
   view: BoardsPage,
   route: currentRoute,
 };

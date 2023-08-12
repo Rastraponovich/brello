@@ -1,7 +1,7 @@
 import { currentRoute } from "./model";
 import { OnboardingWorkspacePage } from "./page";
 
-export const OnboardingWorkspaceRoute = {
+export default {
   view: OnboardingWorkspacePage,
   route: currentRoute,
 };
