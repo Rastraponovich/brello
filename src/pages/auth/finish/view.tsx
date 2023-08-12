@@ -8,8 +8,8 @@ import { Button } from "~/shared/ui/button";
 import { FeaturedIcon } from "~/shared/ui/featured-icon";
 import { Heading } from "~/shared/ui/heading";
 import type { IconName } from "~/shared/ui/icon";
+import { Loader } from "~/shared/ui/loader";
 
-import { $email, $error, SignInError } from "../signin/model";
 import { $pending, $successfuly, goBackButtonClicked } from "./model";
 
 type StatusConfig = {
@@ -21,7 +21,7 @@ type StatusConfig = {
 const sendStatusConfig: Record<"finished" | "error", StatusConfig> = {
   finished: {
     icon: "common/mail",
-    text: "Check your email",
+    text: "Collect your private information and keys",
     buttonText: "Back to log in",
   },
   error: {
@@ -31,21 +31,21 @@ const sendStatusConfig: Record<"finished" | "error", StatusConfig> = {
   },
 };
 
-const errorText: {
-  [K in SignInError]: ReactNode | null;
-} = {
-  InvalidEmail: "Must be a valid email.",
-  RateLimit: "Too much requests. Please, try again later.",
-  UnknownError: "Something happened. Please, try again later.",
-};
-
 export const FinishSignInPage = () => {
   const [pending, successfuly] = useUnit([$pending, $successfuly]);
 
   return (
     <LayoutAuthn>
-      {pending && <div>pendos</div>}
-      {!pending && successfuly ? <ErrorSendStatus /> : <FinishedSendStatus />}
+      {pending ? (
+        <div className="flex p-2 animate-pulse">
+          <Loader />
+          место сдается под рекламу
+        </div>
+      ) : !successfuly ? (
+        <ErrorSendStatus />
+      ) : (
+        <FinishedSendStatus />
+      )}
     </LayoutAuthn>
   );
 };
@@ -83,24 +83,15 @@ const SendStatus = memo<SendStatusProps>(
 );
 
 const ErrorSendStatus = () => {
-  const error = useUnit($error);
-
   return (
     <SendStatus
       iconColor="error"
-      description={errorText[error ?? "UnknownError"]}
+      description={"Где-то залажало, но попробуйте еще раз"}
       {...sendStatusConfig["error"]}
     />
   );
 };
 
 const FinishedSendStatus = () => {
-  const email = useUnit($email);
-
-  return (
-    <SendStatus
-      {...sendStatusConfig["finished"]}
-      description={`We sent a login link to ${email}`}
-    />
-  );
+  return <SendStatus {...sendStatusConfig["finished"]} description={`Братан, ща все будет `} />;
 };

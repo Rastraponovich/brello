@@ -8,12 +8,6 @@ interface User {
   id: UserId;
 }
 
-/**
- * Checks if the given error is null and throws an exception if it is not.
- *
- * @param {AuthError | null} error - The error to check.
- * @return {void}
- */
 export function checkError(error: AuthError | null): asserts error is null {
   if (error !== null) throw error;
 }
@@ -52,6 +46,7 @@ export const getMeFx = createEffect<void, User | null, AuthError>(async () => {
 
   if (user) {
     return {
+      ...user,
       id: user.id as string,
       email: user.email as string,
     };
