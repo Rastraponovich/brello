@@ -10,7 +10,7 @@ import { Heading } from "~/shared/ui/heading";
 import type { IconName } from "~/shared/ui/icon";
 
 import { $email, $error, SignInError } from "../signin/model";
-import { goBackButtonClicked } from "./model";
+import { $pending, $successfuly, goBackButtonClicked } from "./model";
 
 type StatusConfig = {
   icon: IconName;
@@ -40,9 +40,14 @@ const errorText: {
 };
 
 export const FinishSignInPage = () => {
-  const error = false;
+  const [pending, successfuly] = useUnit([$pending, $successfuly]);
 
-  return <LayoutAuthn>{error ? <ErrorSendStatus /> : <FinishedSendStatus />}</LayoutAuthn>;
+  return (
+    <LayoutAuthn>
+      {pending && <div>pendos</div>}
+      {!pending && successfuly ? <ErrorSendStatus /> : <FinishedSendStatus />}
+    </LayoutAuthn>
+  );
 };
 
 interface SendStatusProps extends StatusConfig {

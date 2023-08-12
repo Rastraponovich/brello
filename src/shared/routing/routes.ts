@@ -29,7 +29,7 @@ export const routesMap: UnmappedRouteObject<object>[] = [
     route: routes.auth.signIn,
   },
   {
-    path: "/auth/finished",
+    path: "/auth/finish",
     route: routes.auth.finish,
   },
 
