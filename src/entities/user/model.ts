@@ -11,9 +11,8 @@ export type TUser = {
   id: number;
 };
 
-export const $user = createStore<TUser | null>(null);
-
 export const viewProfileButtonClicked = createEvent();
+export const $user = createStore<TUser | null>(null);
 
 sample({
   clock: viewProfileButtonClicked,
