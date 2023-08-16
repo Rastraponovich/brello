@@ -1,9 +1,9 @@
-import { AuthError } from "@supabase/supabase-js";
+import { AuthError, User } from "@supabase/supabase-js";
 import { createEffect } from "effector";
 
 import { client } from "../client";
 
-interface User {
+interface BaseUser extends User {
   email: Email;
   id: UserId;
 }
@@ -36,7 +36,7 @@ export const signInWithEmailFx = createEffect<{ email: Email }, void, AuthError>
   },
 );
 
-export const getMeFx = createEffect<void, User | null, AuthError>(async () => {
+export const getMeFx = createEffect<void, BaseUser | null, AuthError>(async () => {
   const {
     error,
     data: { user },
@@ -49,7 +49,7 @@ export const getMeFx = createEffect<void, User | null, AuthError>(async () => {
       ...user,
       id: user.id as string,
       email: user.email as string,
-    };
+    } as BaseUser;
   }
 
   return null;

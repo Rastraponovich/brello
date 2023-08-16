@@ -1,4 +1,17 @@
 import { createEffect } from "effector";
 
-export const getUserFx = createEffect(() => true);
-export const updateUserFx = createEffect(() => true);
+import { checkError, client } from "../client";
+
+export const userGetFx = createEffect(() => true);
+export const userUpdateFx = createEffect<{ email: string; password: string }, object>(
+  async ({ email, password }) => {
+    const { data, error } = await client.auth.updateUser({
+      email,
+      password,
+    });
+
+    checkError(error);
+
+    return data.user;
+  },
+);
