@@ -1,6 +1,6 @@
 import type { TBoard } from "~/pages/board/page/model";
 
-export type WorkSpace = {
+export type WorkspaceMock = {
   name: string;
   url?: string;
   description?: string;
