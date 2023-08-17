@@ -1,5 +1,5 @@
 import { attach, createEvent, createStore, sample } from "effector";
-import { debug, not } from "patronum";
+import { not } from "patronum";
 import type { ChangeEvent, FormEvent } from "react";
 
 import { api } from "~/shared/api";
@@ -11,9 +11,6 @@ import { inputReducer, validateName } from "./utils";
 
 export const currentRoute = routes.onboarding.user;
 
-/**
- * mock api
- */
 const profileUpdateFx = attach({
   effect: api.user.updateProfileFx,
   mapParams({ firstName, lastName, id }) {
@@ -25,7 +22,8 @@ const profileCreateFx = attach({
   effect: api.user.profileCreateFx,
   source: $viewer,
   mapParams({ firstName, lastName }, user) {
-    return { id: user?.id, firstName: firstName ?? "", lastName: lastName ?? "" };
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return { id: user!.id, firstName: firstName ?? "", lastName: lastName ?? "" };
   },
 });
 
@@ -38,7 +36,9 @@ const profileExistsFx = attach({
   },
 });
 
-const authenticatedRoute = chainAunthenticated(currentRoute);
+export const authenticatedRoute = chainAunthenticated(currentRoute, {
+  otherwise: routes.auth.signIn.open,
+});
 
 export const skipButtonClicked = createEvent();
 export const formSubmitted = createEvent<FormEvent<HTMLFormElement>>();
@@ -56,8 +56,6 @@ const $profile = createStore<Tables<"profiles"> | null>(null);
 export const $isEmptyFirstName = $firstName.map(validateName);
 export const $isEmptyLastName = $lastName.map(validateName);
 
-debug(profileUpdateFx, formSubmitted);
-
 /**
  * @todo Fix dirty
  */
@@ -66,10 +64,13 @@ formSubmitted.watch((event) => event.preventDefault());
 $firstName.on(firstNameChanged, inputReducer);
 $lastName.on(lastNameChanged, inputReducer);
 
+// write profile to store when data is available
 $profile.on(profileExistsFx.doneData, (_, profile) => profile);
 
+// set existing profile flag
 $profileExists.on(profileExistsFx.doneData, (_, profile) => !!profile);
 
+// route opened -> profile exists -> profileFx
 sample({
   clock: authenticatedRoute.opened,
   source: $viewer,
@@ -77,44 +78,30 @@ sample({
   target: profileExistsFx,
 });
 
+// profile exists set inputs fields
 $firstName.on(profileExistsFx.doneData, (firstName, profile) => {
-  if (profile) {
-    return profile.first_name;
-  }
-
-  return firstName;
+  return profile ? profile.first_name : firstName;
 });
 
+// profile exists set inputs fields
 $lastName.on(profileExistsFx.doneData, (lastName, profile) => {
-  if (profile) {
-    return profile.last_name;
-  }
-
-  return lastName;
+  return profile ? profile.last_name : lastName;
 });
 
-//profile exist
+// submit form if profile exist
 sample({
   clock: formSubmitted,
   source: { firstName: $firstName, lastName: $lastName, profile: $profile },
   filter: $profileExists,
-  fn: ({ firstName, lastName, profile }) => {
-    return {
-      firstName,
-      lastName,
-      id: profile?.id,
-    };
-  },
+  fn: ({ firstName, lastName, profile }) => ({ firstName, lastName, id: profile?.id }),
   target: profileUpdateFx,
 });
 
-//profile not exist
-
+// submit if profile not exist
 sample({
   clock: formSubmitted,
   source: { firstName: $firstName, lastName: $lastName },
   filter: not($profileExists),
-  fn: (profile) => profile,
   target: profileCreateFx,
 });
 

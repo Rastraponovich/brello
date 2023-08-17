@@ -15,6 +15,19 @@ import {
   skipButtonClicked,
 } from "./model";
 
+export const PageLoader = () => {
+  return (
+    <OnboardingLayout icon="common/user" backgroundImage="bg-cells-pattern">
+      <header className="flex flex-col gap-4 sm:gap-5">
+        <Heading as="h1" className="text-4xl tracking-[-0.72px]">
+          Loading..
+        </Heading>
+        <p className="text-xl font-normal text-gray-600 animate-pulse">Please wait</p>
+      </header>
+    </OnboardingLayout>
+  );
+};
+
 export const OnboardingAuthPage = () => {
   const handleSkip = useUnit(skipButtonClicked);
 
@@ -43,11 +56,6 @@ export const OnboardingAuthPage = () => {
   );
 };
 
-/**
- * OnboardingForm component for capturing first name and last name.
- *
- * @returns JSX.Element
- */
 const OnboardingForm = () => {
   const [handleSubmit, handleFirstNameChange, handleLastNameChange] = useUnit([
     formSubmitted,
@@ -67,14 +75,14 @@ const OnboardingForm = () => {
         <Input
           placeholder="First name"
           caption="First name"
-          value={firstName ?? undefined}
+          value={firstName ?? ""}
           onChange={handleFirstNameChange}
         />
 
         <Input
           placeholder="Last name"
           caption="Last name"
-          value={lastName ?? undefined}
+          value={lastName ?? ""}
           onChange={handleLastNameChange}
         />
       </form>
