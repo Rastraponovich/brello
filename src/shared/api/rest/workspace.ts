@@ -3,8 +3,6 @@ import { createEffect } from "effector";
 
 import type { TBoard } from "~/pages/board/page/model";
 
-import type { WorkspaceMock } from "~/entities/workspace/model";
-
 import { DbResultOk, Tables, client } from "../client";
 
 export interface Workspace {
@@ -17,6 +15,7 @@ export interface Workspace {
   createdAt?: string | null;
   updatedAt?: string | null;
   deletedAt?: string | null;
+  boards?: TBoard[];
 }
 
 export const __BOARDS__: Partial<TBoard>[] = [
@@ -27,31 +26,9 @@ export const __BOARDS__: Partial<TBoard>[] = [
   { id: 5, title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
 ];
 
-const __WORKSPACE__: WorkspaceMock = {
-  boards: __BOARDS__ as TBoard[],
-  name: "Coding in Action",
-  description:
-    "Coding in action is the ultimate intensive to kickstart any project, startup, or freelance.",
-  domain: "brello.io/workspaces/",
-  url: "coding-in-action",
-};
-
 export function checkError(error: PostgrestError | null): asserts error is null {
   if (error !== null) throw error;
 }
-
-// MOCK
-export const getWorkspaceFx = createEffect<void, WorkspaceMock>(() => {
-  return __WORKSPACE__;
-});
-
-// export const inviteUserByEmailFx = createEffect<{ email: string }, void>(async ({ email }) => {
-//   const { data, error } = await client.auth.api.inviteUserByEmail(email);
-
-//   checkError(error);
-
-//   return data;
-// });
 
 export const workspacesGetFx = createEffect<{ name: string }, Workspace[]>(async ({ name }) => {
   const { data, error } = await client.from("workspaces").select("*").ilike("name", name);
