@@ -6,14 +6,13 @@ import { MainLayout } from "~/layouts/main-layout";
 import { PageHeader } from "~/widgets/page-header";
 
 import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
-import { Input, InputArea, InputWeb } from "~/shared/ui/input";
+import { Input, InputArea } from "~/shared/ui/input";
 import { Upload } from "~/shared/ui/upload";
 
 import {
-  $workspaceDescription,
-  $workspaceDomain,
-  $workspaceName,
-  $workspaceURL,
+  $description,
+  $name,
+  $slug,
   cancelButtonClicked,
   workspaceDescriptionChanged,
   workspaceNameChanged,
@@ -65,31 +64,20 @@ const WorkspaceUplad = () => {
 };
 
 const WorkspaceName = () => {
-  const [name, handleChangeName] = useUnit([$workspaceName, workspaceNameChanged]);
+  const [name, handleChangeName] = useUnit([$name, workspaceNameChanged]);
 
-  const [url, setUrl] = useUnit([$workspaceURL, workspaceURLChanged]);
-
-  const domain = useUnit($workspaceDomain);
+  const [slug, handleChangeSlug] = useUnit([$slug, workspaceURLChanged]);
 
   return (
     <FormBlock title="Name" description="This will be displayed on your profile.">
       <Input value={name} onChange={handleChangeName} placeholder="Coding in action" />
-      <InputWeb
-        rightValue={url}
-        onChange={setUrl}
-        leftValue={domain}
-        leftPlaceholder="brello.io/.../"
-        rightPlaceholder="coding-in-action"
-      />
+      <Input value={slug} onChange={handleChangeSlug} placeholder="https://brello.io/workspaces/" />
     </FormBlock>
   );
 };
 
 const WorkspaceDescription = () => {
-  const [description, setDescribtion] = useUnit([
-    $workspaceDescription,
-    workspaceDescriptionChanged,
-  ]);
+  const [description, setDescribtion] = useUnit([$description, workspaceDescriptionChanged]);
 
   return (
     <FormBlock title="Description" description="A quick snapsot of your workspace.">

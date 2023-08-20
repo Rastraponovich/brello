@@ -1,6 +1,6 @@
 import type { ChangeEventHandler } from "react";
 
-import type { TUser } from "~/entities/user/lib";
+import { TUser } from "~/entities/user";
 
 import type { TButtonProps } from "~/shared/ui/button";
 import type { HeadingProps } from "~/shared/ui/heading";

@@ -1,5 +1,5 @@
 import { attach, createEvent, createStore, sample } from "effector";
-import { debug, delay, not, reset } from "patronum";
+import { delay, not, reset } from "patronum";
 
 import { api } from "~/shared/api";
 import { routes } from "~/shared/routing";
@@ -30,8 +30,6 @@ sample({
 });
 
 $successfuly.on(authFinished, () => true);
-
-debug(getMeFx, currentRoute.opened, currentRoute.$query, currentRoute.$params);
 
 sample({
   clock: delay({ source: authFinished, timeout: 1000 }),

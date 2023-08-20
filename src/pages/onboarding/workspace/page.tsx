@@ -3,16 +3,16 @@ import { useUnit } from "effector-react";
 import { OnboardingLayout } from "~/layouts/onboarding-layout";
 
 import { Button } from "~/shared/ui/button";
-import { Input, InputArea, InputWeb } from "~/shared/ui/input";
+import { Input, InputArea } from "~/shared/ui/input";
 
 import {
   $description,
   $name,
-  $url,
+  $slug,
   descriptionChanged,
   formSubmitted,
   nameChanged,
-  urlChanged,
+  slugChanged,
 } from "./model";
 
 export const OnboardingWorkspacePage = () => {
@@ -40,7 +40,7 @@ const OnboardingForm = () => {
     <>
       <form id="form" onSubmit={handleSubmit} className=" flex w-full flex-col gap-6">
         <WorkspaceName />
-        <WorkspaceURL />
+        <WorkspaceSlug />
         <Description />
       </form>
       <Button type="submit" size="lg" form="form" variant="primary">
@@ -76,15 +76,15 @@ const WorkspaceName = () => {
   );
 };
 
-const WorkspaceURL = () => {
-  const [url, handleChangeUrl] = useUnit([$url, urlChanged]);
+const WorkspaceSlug = () => {
+  const [slug, handleChangeSlug] = useUnit([$slug, slugChanged]);
 
   return (
-    <InputWeb
-      rightPlaceholder="your-company-co"
-      leftPlaceholder="brello.io/workspaces/"
-      rightValue={url ?? undefined}
-      onChange={handleChangeUrl}
+    <Input
+      placeholder="your-company-co"
+      caption="brello.io/workspaces/"
+      value={slug ?? ""}
+      onChange={handleChangeSlug}
     />
   );
 };

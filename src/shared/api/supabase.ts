@@ -6,7 +6,7 @@ export interface Database {
       profiles: {
         Row: {
           avatar_url: string | null;
-          fisrt_name: string;
+          first_name: string;
           id: string;
           last_name: string | null;
           updated_at: string | null;
@@ -14,7 +14,7 @@ export interface Database {
         };
         Insert: {
           avatar_url?: string | null;
-          fisrt_name: string;
+          first_name: string;
           id?: string;
           last_name?: string | null;
           updated_at?: string | null;
@@ -22,7 +22,7 @@ export interface Database {
         };
         Update: {
           avatar_url?: string | null;
-          fisrt_name?: string;
+          first_name?: string;
           id?: string;
           last_name?: string | null;
           updated_at?: string | null;
@@ -30,18 +30,42 @@ export interface Database {
         };
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey";
-            columns: ["id"];
-            referencedRelation: "users";
-            referencedColumns: ["id"];
-          },
-          {
             foreignKeyName: "profiles_userId_fkey";
             columns: ["userId"];
             referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];
+      };
+      workspaces: {
+        Row: {
+          data: Json | null;
+          description: string | null;
+          domain: string | null;
+          id: number;
+          inserted_at: string;
+          name: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          data?: Json | null;
+          description?: string | null;
+          domain?: string | null;
+          id?: number;
+          inserted_at?: string;
+          name?: string | null;
+          updated_at?: string;
+        };
+        Update: {
+          data?: Json | null;
+          description?: string | null;
+          domain?: string | null;
+          id?: number;
+          inserted_at?: string;
+          name?: string | null;
+          updated_at?: string;
+        };
+        Relationships: [];
       };
     };
     Views: {

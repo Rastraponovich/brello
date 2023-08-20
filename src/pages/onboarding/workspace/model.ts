@@ -9,11 +9,11 @@ export const currentRoute = routes.onboarding.workspace;
 
 export const formSubmitted = createEvent<FormEvent<HTMLFormElement>>();
 export const nameChanged = createEvent<ChangeEvent<HTMLInputElement>>();
-export const urlChanged = createEvent<ChangeEvent<HTMLInputElement>>();
+export const slugChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 export const descriptionChanged = createEvent<ChangeEvent<HTMLTextAreaElement>>();
 
 export const $name = createStore<string | null>(null);
-export const $url = createStore<string | null>(null);
+export const $slug = createStore<string | null>(null);
 export const $description = createStore<string | null>(null);
 
 /**
@@ -22,14 +22,14 @@ export const $description = createStore<string | null>(null);
 formSubmitted.watch((event) => event.preventDefault);
 
 $name.on(nameChanged, inputReducer);
-$url.on(urlChanged, inputReducer);
+$slug.on(slugChanged, inputReducer);
 $description.on(descriptionChanged, inputReducer);
 
-const $workspace = combine($name, $url, $description, (name, url, description) => {
+const $workspace = combine($name, $slug, $description, (name, url, description) => {
   return { name, url, description };
 });
 
-const formSendFx = attach({
+const workspaceUpdateFx = attach({
   source: $workspace,
   async effect() {
     return true;
@@ -38,5 +38,5 @@ const formSendFx = attach({
 
 sample({
   clock: formSubmitted,
-  target: formSendFx,
+  target: workspaceUpdateFx,
 });

@@ -6,14 +6,16 @@ import { controls, routes } from "~/shared/routing";
 
 export const currentRoute = routes.workspace.settings;
 
-const getWorkspaceSettingFx = attach({
-  effect: api.workspace.getWorkspaceFx,
+const workspaceGetFx = attach({
+  effect: api.workspace.workspaceGetFx,
+  mapParams() {
+    return { userId: 123123 };
+  },
 });
 
-const setWorkspaceURL = createEvent<string>();
-const setWorkspaceName = createEvent<string>();
-const setWorkspaceDomain = createEvent<string>();
-const setWorkspaceDescription = createEvent<string>();
+const setSlug = createEvent<string>();
+const setName = createEvent<string>();
+const setDescription = createEvent<string>();
 
 export const workspaceURLChanged = createEvent<ChangeEvent<HTMLInputElement>>();
 export const workspaceNameChanged = createEvent<ChangeEvent<HTMLInputElement>>();
@@ -22,25 +24,23 @@ export const workspaceDescriptionChanged = createEvent<ChangeEvent<HTMLTextAreaE
 
 export const cancelButtonClicked = createEvent();
 
-export const $workspaceName = createStore<string>("")
-  .on(getWorkspaceSettingFx.doneData, (_, workspace) => workspace.name)
-  .on(setWorkspaceName, (_, name) => name);
+export const $name = createStore<string>("");
+export const $description = createStore<string>("");
+export const $slug = createStore<string>("");
 
-export const $workspaceDescription = createStore<string>("")
-  .on(setWorkspaceDescription, (_, description) => description)
-  .on(getWorkspaceSettingFx.doneData, (_, workspace) => workspace.description);
+$name.on(workspaceGetFx.doneData, (_, workspace) => workspace?.name);
+$name.on(setName, (_, name) => name);
 
-export const $workspaceURL = createStore<string>("")
-  .on(setWorkspaceURL, (_, url) => url)
-  .on(getWorkspaceSettingFx.doneData, (_, workspace) => workspace.url);
+$description.on(setDescription, (_, description) => description);
 
-export const $workspaceDomain = createStore<string>("")
-  .on(setWorkspaceDomain, (_, domain) => domain)
-  .on(getWorkspaceSettingFx.doneData, (_, workspace) => workspace.domain);
+$description.on(workspaceGetFx.doneData, (_, workspace) => workspace?.description ?? "");
+
+$slug.on(setSlug, (_, slug) => slug);
+$slug.on(workspaceGetFx.doneData, (_, workspace) => workspace?.slug ?? "");
 
 sample({
   clock: routes.workspace.settings.opened,
-  target: getWorkspaceSettingFx,
+  target: workspaceGetFx,
 });
 
 sample({
@@ -51,35 +51,28 @@ sample({
 sample({
   clock: workspaceNameChanged,
   fn: (event) => event.target.value,
-  target: setWorkspaceName,
+  target: setName,
 });
 
 sample({
   clock: workspaceDescriptionChanged,
   fn: (event) => event.target.value,
-  target: setWorkspaceDescription,
-});
-
-sample({
-  clock: workspaceDomainChanged,
-  fn: (event) => event.target.value,
-  target: setWorkspaceDomain,
+  target: setDescription,
 });
 
 sample({
   clock: workspaceURLChanged,
   fn: (event) => event.target.value,
-  target: setWorkspaceURL,
+  target: setSlug,
 });
 
 export const $workspace = combine(
   {
-    url: $workspaceURL,
-    name: $workspaceName,
-    domain: $workspaceDomain,
-    description: $workspaceDescription,
+    slug: $slug,
+    name: $name,
+    description: $description,
   },
-  ({ description, domain, url, name }) => {
-    return { description, domain, url, name };
+  ({ description, slug, name }) => {
+    return { description, slug, name };
   },
 );

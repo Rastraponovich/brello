@@ -13,39 +13,36 @@ export type TBoard = {
 
 export const currentRoute = routes.workspace.boards;
 
-const getWorkspaceFx = attach({
-  effect: api.workspace.getWorkspaceFx,
-});
-
-sample({
-  clock: routes.workspace.boards.opened,
-  target: getWorkspaceFx,
-});
-
 export const addBoard = createEvent();
-
 export const resetSearch = createEvent();
+export const boardCardClicked = createEvent<TBoard>();
+export const settingsButtonClicked = createEvent();
+
+export const searched = createEvent<ChangeEvent<HTMLInputElement>>();
+
+const getWorkspaceFx = attach({
+  effect: api.workspace.workspaceGetFx,
+
+  mapParams: () => ({ userId: 123123 }),
+});
 
 sample({
   clock: resetSearch,
   target: getWorkspaceFx,
 });
 
-export const searched = createEvent<ChangeEvent<HTMLInputElement>>();
-export const $search = createStore("")
-  .on(searched, (_, event) => event.target.value)
-  .reset([resetSearch, addBoard]);
+export const $search = createStore("");
+export const $isNotFound = createStore(false);
+export const $boards = createStore<TBoard[]>([]);
 
-export const $boards = createStore<TBoard[]>([])
-  .on(getWorkspaceFx.doneData, (_, { boards }) => boards)
-  .on(addBoard, (state, _) => [...state, { id: state.length + 1, title: "newBoard" }]);
+const debouncedSearch = debounce({ source: $search, timeout: 300 });
 
 export const $boardsLength = $boards.map((state) => state.length);
 export const $boardsEmpty = $boards.map((state) => state.length === 0);
 
-export const $isNotFound = createStore(false);
-
-const debouncedSearch = debounce({ source: $search, timeout: 300 });
+$boards.on(addBoard, (state) => [...state, { id: state.length + 1, title: "newBoard" }]);
+$search.on(searched, (_, event) => event.target.value);
+$search.reset([resetSearch, addBoard]);
 
 sample({
   clock: debouncedSearch,
@@ -55,24 +52,22 @@ sample({
 });
 
 sample({
+  clock: routes.workspace.boards.opened,
+  target: getWorkspaceFx,
+});
+
+sample({
   clock: $boards,
   source: $search,
   fn: (search, items) => search.length > 0 && items.length === 0,
   target: $isNotFound,
 });
 
-export const settingsButtonClicked = createEvent();
-
 sample({
   clock: settingsButtonClicked,
   target: routes.workspace.settings.open,
 });
 
-/**
- * click event on board card
- * @param {TBoard}
- */
-export const boardCardClicked = createEvent<TBoard>();
 sample({
   clock: boardCardClicked,
   fn: (card) => ({ id: card.id }),
