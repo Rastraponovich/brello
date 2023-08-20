@@ -29,7 +29,7 @@ const $workspace = combine($name, $slug, $description, (name, url, description) 
   return { name, url, description };
 });
 
-const formSendFx = attach({
+const workspaceUpdateFx = attach({
   source: $workspace,
   async effect() {
     return true;
@@ -38,5 +38,5 @@ const formSendFx = attach({
 
 sample({
   clock: formSubmitted,
-  target: formSendFx,
+  target: workspaceUpdateFx,
 });
