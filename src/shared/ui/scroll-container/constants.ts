@@ -1,4 +1,4 @@
-import { type ScrollOrientation } from "./lib";
+import { type ScrollOrientation } from "./model";
 
 export const ORIENTATION_DICT: Record<ScrollOrientation, string> = {
   vertical: "pl-4 pr-1 mr-1",
