@@ -9,11 +9,10 @@ import { Input, InputArea } from "~/shared/ui/input";
 // TODO: create onChangeValue method in input;
 import {
   $description,
-  $error,
   $name,
-  $nameValid,
+  $nameError,
   $slug,
-  $slugValid,
+  $slugError,
   descriptionChanged,
   formSubmitted,
   nameChanged,
@@ -74,38 +73,28 @@ const Description = () => {
 };
 
 const WorkspaceName = () => {
-  const [name, handleChangeName, valid, errorCode] = useUnit([
-    $name,
-    nameChanged,
-    $nameValid,
-    $error,
-  ]);
+  const [name, handleChangeName, error] = useUnit([$name, nameChanged, $nameError]);
 
   return (
     <Input
       value={name}
       caption="Workspace name"
       placeholder="Your Company Co."
-      error={!valid && errorCode}
+      error={error}
       onChange={(e) => handleChangeName(e.target.value)}
     />
   );
 };
 
 const WorkspaceSlug = () => {
-  const [slug, handleChangeSlug, valid, errorCode] = useUnit([
-    $slug,
-    slugChanged,
-    $slugValid,
-    $error,
-  ]);
+  const [slug, handleChangeSlug, error] = useUnit([$slug, slugChanged, $slugError]);
 
   return (
     <Input
       placeholder="your-company-co"
       caption="brello.io/workspaces/"
       value={slug}
-      error={!valid && errorCode}
+      error={error}
       onChange={(e) => handleChangeSlug(e.target.value)}
     />
   );

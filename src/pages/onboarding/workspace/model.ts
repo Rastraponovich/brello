@@ -8,27 +8,20 @@ import { $viewer, chainAunthenticated } from "~/shared/viewer/model";
 
 // TODO clean ui events goto native;
 
-type OnboardingWorkspaceError = "UnknownError" | "SlugInvalid" | "NameInvalid" | "SlugTaken";
+const enum ErrorDict {
+  UnknownError = "Unknown error, please try again later",
+  SlugInvalid = "Slug name is invalid, corrent slug and try again",
+  NameInvalid = "Name should be not empty",
+  SlugTaken = "That slug is already taken",
+}
+
+// type OnboardingWorkspaceError = "UnknownError" | "SlugInvalid" | "NameInvalid" | "SlugTaken";
 
 export const currentRoute = routes.onboarding.workspace;
 
 export const authenticatedRoute = chainAunthenticated(currentRoute, {
   otherwise: routes.auth.signIn.open,
 });
-
-/**
- * 1. chainAuthenticated -> authenticatedRoute.opened;
- *
- * 1.1 authenticatedRoute.opened -> workspaceExistFx
- * 2. workspaceExistFx.doneData -> true ->  open home route;
- * 2.1 workspaceExistFx.doneData -> false -> create new workspace;
- *
- * 2.2. validation requeries stores -> not valid show error;
- * 2.3. if valid all requeries stores -> enabled submit button;
- *
- * 3. workspaceCreateFx.doneData -> go to createad workspace page;
- * 3.1 workspaceCreateFx.failData -> show informer with error;
- */
 
 const workspaceExistFx = attach({
   effect: api.workspace.workspaceExistsFx,
@@ -49,7 +42,9 @@ export const $name = createStore<string>("");
 export const $slug = createStore<string>("");
 export const $description = createStore<string>("");
 
-export const $error = createStore<OnboardingWorkspaceError | null>(null);
+export const $error = createStore<ErrorDict | null>(null);
+export const $nameError = createStore<ErrorDict.NameInvalid | null>(null);
+export const $slugError = createStore<ErrorDict.SlugInvalid | ErrorDict.SlugTaken | null>(null);
 
 const $workspace = combine({
   name: $name,
@@ -59,6 +54,11 @@ const $workspace = combine({
   userId: $viewer.map((viewer) => viewer?.id ?? ""),
 });
 
+$slugError.on($error, (_, error) => {
+  if (error === ErrorDict.SlugTaken) return ErrorDict.SlugTaken;
+  return null;
+});
+
 $name.on(nameChanged, (_, name) => name);
 $slug.on(slugChanged, (_, slug) => slug);
 $description.on(descriptionChanged, (_, description) => description);
@@ -66,7 +66,7 @@ $description.on(descriptionChanged, (_, description) => description);
 // reset error when data is changed
 reset({
   clock: $workspace,
-  target: $error,
+  target: [$error, $slugError, $nameError],
 });
 
 const workspaceCreateFx = attach({
@@ -110,13 +110,13 @@ sample({
 // unhappy path
 sample({
   clock: workspaceCreateFx.failData,
-  fn: (error: InternalError | Error): OnboardingWorkspaceError => {
+  fn: (error: InternalError | Error): ErrorDict => {
     if (error instanceof Error) {
-      return "UnknownError";
+      return ErrorDict.UnknownError;
     }
 
-    if (error?.code === "unique constraint") return "SlugTaken";
-    return "UnknownError";
+    if (error?.code === "unique constraint") return ErrorDict.SlugTaken;
+    return ErrorDict.UnknownError;
   },
   target: $error,
 });
@@ -128,19 +128,19 @@ debug(workspaceCreateFx);
 sample({
   clock: formSubmitted,
   filter: not($nameValid),
-  fn: (): OnboardingWorkspaceError => "NameInvalid",
-  target: $error,
+  fn: (): ErrorDict => ErrorDict.NameInvalid,
+  target: [$error, $nameError],
 });
 
 sample({
   clock: formSubmitted,
   filter: not($slugValid),
-  fn: (): OnboardingWorkspaceError => "SlugInvalid",
-  target: $error,
+  fn: (): ErrorDict => ErrorDict.SlugInvalid,
+  target: [$error, $slugError],
 });
 
 // clear stores when workspace created
 reset({
   clock: currentRoute.closed,
-  target: [$description, $name, $slug, $error],
+  target: [$description, $name, $slug, $error, $nameError, $slugError],
 });
