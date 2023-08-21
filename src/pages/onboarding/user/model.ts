@@ -106,7 +106,7 @@ sample({
 });
 
 sample({
-  clock: skipButtonClicked,
+  clock: [skipButtonClicked, profileUpdateFx.doneData],
   target: routes.onboarding.workspace.open,
 });
 
