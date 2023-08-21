@@ -32,7 +32,7 @@ const profileExistsFx = attach({
   source: $viewer,
   mapParams(_, user) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return { id: user!.id };
+    return { userId: user!.id };
   },
 });
 
