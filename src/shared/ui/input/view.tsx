@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { type HTMLInputTypeAttribute, forwardRef, memo } from "react";
+import { ChangeEvent, type HTMLInputTypeAttribute, forwardRef, memo, useCallback } from "react";
 
 import { Icon, type IconName } from "~/shared/ui/icon";
 
@@ -20,14 +20,31 @@ const iconNames: Partial<Record<HTMLInputTypeAttribute, IconName>> = {
 };
 
 const _Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ caption, className, error, type = "text", disableIcon, ...props }, ref) => {
+  (
+    { caption, className, error, type = "text", disableIcon, onChange, onValueChange, ...props },
+    ref,
+  ) => {
+    const handleChange = useCallback(
+      (event: ChangeEvent<HTMLInputElement>) => {
+        if (onValueChange) {
+          return onValueChange(event.target.value);
+        }
+
+        if (onChange) {
+          onChange(event);
+        }
+      },
+      [onChange, onValueChange],
+    );
+
     return (
       <InputWrapper caption={caption} error={error}>
         <BaseInput
           ref={ref}
           type={type}
-          disableIcon={disableIcon}
           className={className}
+          onChange={handleChange}
+          disableIcon={disableIcon}
           {...props}
         />
         {!disableIcon && type && type !== "text" && (
@@ -120,10 +137,23 @@ const InputWrapper = memo<InputWrapperProps>(({ children, caption, className, er
 });
 
 const _InputArea = forwardRef<HTMLTextAreaElement, IInputAreaProps>(
-  ({ caption, className, hint, ...props }, ref) => {
+  ({ caption, className, hint, onChange, onValueChange, ...props }, ref) => {
+    const handleChange = useCallback(
+      (event: ChangeEvent<HTMLTextAreaElement>) => {
+        if (onValueChange) {
+          return onValueChange(event.target.value);
+        }
+
+        if (onChange) {
+          return onChange(event);
+        }
+      },
+      [onChange, onValueChange],
+    );
+
     return (
       <InputWrapper caption={caption} hint={hint}>
-        <BaseInputArea {...props} className={clsx(className)} ref={ref} />
+        <BaseInputArea {...props} onChange={handleChange} className={clsx(className)} ref={ref} />
       </InputWrapper>
     );
   },

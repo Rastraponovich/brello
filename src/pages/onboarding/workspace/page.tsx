@@ -81,7 +81,7 @@ const WorkspaceName = () => {
       caption="Workspace name"
       placeholder="Your Company Co."
       error={error}
-      onChange={(e) => handleChangeName(e.target.value)}
+      onValueChange={handleChangeName}
     />
   );
 };
@@ -95,7 +95,7 @@ const WorkspaceSlug = () => {
       caption="brello.io/workspaces/"
       value={slug}
       error={error}
-      onChange={(e) => handleChangeSlug(e.target.value)}
+      onValueChange={handleChangeSlug}
     />
   );
 };
