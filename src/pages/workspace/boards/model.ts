@@ -15,7 +15,7 @@ export type TBoard = {
 
 export const currentRoute = routes.workspace.boards;
 
-const authenticatedRoute = chainAuthenticated(currentRoute, {
+export const authenticatedRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.auth.signIn.open,
 });
 

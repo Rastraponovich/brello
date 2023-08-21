@@ -26,6 +26,16 @@ import {
   settingsButtonClicked,
 } from "./model";
 
+export const PageLoader = () => {
+  return (
+    <MainLayout>
+      <section className="container mx-auto my-0 px-6 sm:px-8">
+        <h1>Loading, please wait</h1>
+      </section>
+    </MainLayout>
+  );
+};
+
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
 

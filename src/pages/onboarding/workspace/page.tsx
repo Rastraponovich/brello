@@ -19,6 +19,17 @@ import {
   slugChanged,
 } from "./model";
 
+export const PageLoader = () => {
+  return (
+    <OnboardingLayout icon="common/folder-shield" backgroundImage="bg-geometric-square">
+      <div className="flex flex-col gap-4 sm:gap-5">
+        <h1 className="text-3xl font-semibold text-gray-900 md:text-4xl">Loading, please wait</h1>
+      </div>
+      <div className="flex flex-col gap-8"></div>
+    </OnboardingLayout>
+  );
+};
+
 export const OnboardingWorkspacePage = () => {
   return (
     <OnboardingLayout icon="common/folder-shield" backgroundImage="bg-geometric-square">
