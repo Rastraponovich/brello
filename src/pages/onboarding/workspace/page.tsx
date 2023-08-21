@@ -1,14 +1,19 @@
 import { useUnit } from "effector-react";
+import { FormEventHandler } from "react";
 
 import { OnboardingLayout } from "~/layouts/onboarding-layout";
 
 import { Button } from "~/shared/ui/button";
 import { Input, InputArea } from "~/shared/ui/input";
 
+// TODO: create onChangeValue method in input;
 import {
   $description,
+  $error,
   $name,
+  $nameValid,
   $slug,
+  $slugValid,
   descriptionChanged,
   formSubmitted,
   nameChanged,
@@ -34,7 +39,12 @@ export const OnboardingWorkspacePage = () => {
 };
 
 const OnboardingForm = () => {
-  const handleSubmit = useUnit(formSubmitted);
+  const submitClicked = useUnit(formSubmitted);
+
+  const handleSubmit: FormEventHandler = (event) => {
+    event.preventDefault();
+    submitClicked();
+  };
 
   return (
     <>
@@ -55,36 +65,48 @@ const Description = () => {
 
   return (
     <InputArea
+      value={description}
       caption="Description"
       placeholder="Our team organizes everything here."
-      value={description ?? undefined}
-      onChange={handleChangeDescription}
+      onChange={(e) => handleChangeDescription(e.target.value)}
     />
   );
 };
 
 const WorkspaceName = () => {
-  const [name, handleChangeName] = useUnit([$name, nameChanged]);
+  const [name, handleChangeName, valid, errorCode] = useUnit([
+    $name,
+    nameChanged,
+    $nameValid,
+    $error,
+  ]);
 
   return (
     <Input
+      value={name}
       caption="Workspace name"
       placeholder="Your Company Co."
-      value={name ?? undefined}
-      onChange={handleChangeName}
+      error={!valid && errorCode}
+      onChange={(e) => handleChangeName(e.target.value)}
     />
   );
 };
 
 const WorkspaceSlug = () => {
-  const [slug, handleChangeSlug] = useUnit([$slug, slugChanged]);
+  const [slug, handleChangeSlug, valid, errorCode] = useUnit([
+    $slug,
+    slugChanged,
+    $slugValid,
+    $error,
+  ]);
 
   return (
     <Input
       placeholder="your-company-co"
       caption="brello.io/workspaces/"
-      value={slug ?? ""}
-      onChange={handleChangeSlug}
+      value={slug}
+      error={!valid && errorCode}
+      onChange={(e) => handleChangeSlug(e.target.value)}
     />
   );
 };

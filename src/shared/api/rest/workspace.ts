@@ -26,8 +26,24 @@ export const __BOARDS__: Partial<TBoard>[] = [
   { id: 5, title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
 ];
 
+type ErrorCode = keyof typeof ErrorDict;
+type ErrorMessage = (typeof ErrorDict)[ErrorCode];
+
+export type InternalError = {
+  error: PostgrestError;
+  code: ErrorMessage;
+};
+
+const ErrorDict = {
+  "23505": "unique constraint",
+};
+
 export function checkError(error: PostgrestError | null): asserts error is null {
-  if (error !== null) throw error;
+  if (error !== null) {
+    const code = ErrorDict[error.code as ErrorCode] ?? "unknown";
+
+    throw { error, code };
+  }
 }
 
 export const workspacesGetFx = createEffect<{ name: string }, Workspace[]>(async ({ name }) => {
@@ -77,37 +93,35 @@ export const workspacesCreateFx = createEffect<
 
 // supabase not MOCK
 
-export const workspaceExistsFx = createEffect<{ userId: UserId }, boolean, PostgrestError>(
+export const workspaceExistsFx = createEffect<{ userId: UserId }, boolean, InternalError>(
   async ({ userId }) => {
-    const { data: workspaces, error } = await client
+    const { count, error } = await client
       .from("workspaces")
-      .select()
+      .select("*", { count: "exact", head: true })
       .eq("user_id", userId);
 
     checkError(error);
-
-    if (workspaces === null || workspaces.length === 0) return false;
-    return true;
+    return Boolean(count);
   },
 );
 
 export const workspaceCreateFx = createEffect<
   { workspace: Omit<Workspace, "id"> },
-  void,
-  PostgrestError
+  Workspace | null,
+  InternalError
 >(async ({ workspace }) => {
-  const { userId, name, slug, description } = workspace;
-  const { error } = await client.from("workspaces").insert({
-    name,
-    slug,
-    description,
-    user_id: userId,
-  });
+  const { userId, avatarUrl, ...rest } = workspace;
+  const { error, data } = await client
+    .from("workspaces")
+    .insert({ ...rest, user_id: userId, avatar_url: avatarUrl })
+    .select();
 
   checkError(error);
+
+  return data[0] ?? null;
 });
 
-export const workspaceGetFx = createEffect<{ userId: number }, Workspace | null, PostgrestError>(
+export const workspaceGetFx = createEffect<{ userId: number }, Workspace | null, InternalError>(
   async ({ userId }) => {
     const { data, error } = await client.from("workspaces").select().eq("user_id", userId);
 
@@ -131,7 +145,7 @@ export const workspaceGetFx = createEffect<{ userId: number }, Workspace | null,
   },
 );
 
-export const workspaceUpdateFx = createEffect<{ workspace: Workspace }, void, PostgrestError>(
+export const workspaceUpdateFx = createEffect<{ workspace: Workspace }, void, InternalError>(
   async ({ workspace }) => {
     const { userId, avatarUrl, ...rest } = workspace;
     const { error } = await client
