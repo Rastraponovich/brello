@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { ReactNode, memo } from "react";
+import { FormEvent, ReactNode, memo } from "react";
 
 import { LayoutAuthn } from "~/layouts/authn/view";
 
@@ -73,17 +73,22 @@ const LoginForm = () => {
     signInWithGoogle,
   ]);
 
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit();
+  };
+
   return (
     <>
       <header className="flex flex-col gap-3">
         <Heading as="h1">Sign in</Heading>
         <span className="text-base font-normal text-gray-600">Start your 30-day free trial.</span>
       </header>
-      <form noValidate onSubmit={onSubmit} className="flex flex-col gap-6">
+      <form noValidate onSubmit={handleSubmit} className="flex flex-col gap-6">
         <Input
           placeholder="Enter your email"
-          onChange={handleChangeEmail}
-          value={email ?? undefined}
+          onValueChange={handleChangeEmail}
+          value={email}
           disabled={pending}
           caption="Email"
           error={error ? errorText[error] : null}
