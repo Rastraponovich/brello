@@ -1,5 +1,3 @@
-import type { ChangeEventHandler } from "react";
-
 import { TUser } from "~/entities/user";
 
 import type { TButtonProps } from "~/shared/ui/button";
@@ -22,5 +20,5 @@ export interface PageHeaderProps {
   headingAs?: HeadingProps["as"];
   actions?: PageHeaderAction[];
   heandingClassName?: HeadingProps["className"];
-  onSearch?: ChangeEventHandler<HTMLInputElement>;
+  onSearch?: (searchValue: string) => void;
 }

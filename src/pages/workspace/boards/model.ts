@@ -1,6 +1,5 @@
 import { attach, createEvent, createStore, sample } from "effector";
 import { debounce } from "patronum";
-import { type ChangeEvent } from "react";
 
 import { api } from "~/shared/api";
 import { Workspace } from "~/shared/api/rest/workspace";
@@ -24,7 +23,7 @@ export const resetSearch = createEvent();
 export const boardCardClicked = createEvent<TBoard>();
 export const settingsButtonClicked = createEvent();
 
-export const searched = createEvent<ChangeEvent<HTMLInputElement>>();
+export const searched = createEvent<string>();
 
 export const $workspace = createStore<Workspace | null>(null);
 
@@ -61,7 +60,7 @@ export const $boardsLength = $boards.map((state) => state.length);
 export const $boardsEmpty = $boards.map((state) => state.length === 0);
 
 $boards.on(addBoard, (state) => [...state, { id: state.length + 1, title: "newBoard" }]);
-$search.on(searched, (_, event) => event.target.value);
+$search.on(searched, (_, search) => search);
 $search.reset([resetSearch, addBoard]);
 
 sample({
