@@ -1,6 +1,5 @@
 import { attach, createEvent, createStore, sample } from "effector";
 import { not, pending } from "patronum";
-import type { ChangeEvent, FormEvent } from "react";
 
 import { api } from "~/shared/api";
 import { routes } from "~/shared/routing";
@@ -11,8 +10,8 @@ export const currentRoute = routes.auth.signIn;
 
 export type SignInError = "InvalidEmail" | "RateLimit" | "UnknownError";
 
-export const changedEmail = createEvent<ChangeEvent<HTMLInputElement>>();
-export const submitted = createEvent<FormEvent<HTMLFormElement>>();
+export const changedEmail = createEvent<string>();
+export const submitted = createEvent();
 export const signInWithGoogle = createEvent();
 export const backButtonClicked = createEvent();
 
@@ -25,14 +24,9 @@ const signInFx = attach({
 });
 
 /**
- * @todo Fix
- */
-submitted.watch((e) => e.preventDefault());
-
-/**
  * email state
  */
-export const $email = createStore<Email | null>(null);
+export const $email = createStore<Email>("");
 
 /**
  * pending state when clicked signin
@@ -64,7 +58,7 @@ export const $error = createStore<SignInError | null>(null);
  */
 export const $invalidEmailText = createStore<SignInError | null>(null);
 
-$email.on(changedEmail, (_, event) => event.target.value);
+$email.on(changedEmail, (_, email) => email);
 
 sample({
   clock: submitted,

@@ -1,5 +1,6 @@
 import { createEvent, createStore, sample } from "effector";
 
+import { Tables } from "~/shared/api/client";
 import { controls, routes } from "~/shared/routing";
 
 export type TUser = {
@@ -12,21 +13,21 @@ export type TUser = {
 };
 
 export const viewProfileButtonClicked = createEvent();
-export const $user = createStore<TUser | null>(null);
+export const cancelButtonClicked = createEvent();
+export const logOutButtonClicked = createEvent();
+
+export const $profile = createStore<Tables<"profiles"> | null>(null);
 
 sample({
   clock: viewProfileButtonClicked,
   target: routes.user.open,
 });
 
-export const logOutButtonClicked = createEvent();
-
 sample({
   clock: logOutButtonClicked,
   target: routes.home.open,
 });
 
-export const cancelButtonClicked = createEvent();
 sample({
   clock: cancelButtonClicked,
   target: controls.back,

@@ -10,7 +10,7 @@ export interface Database {
           id: string;
           last_name: string | null;
           updated_at: string | null;
-          userId: string | null;
+          user_id: string | null;
         };
         Insert: {
           avatar_url?: string | null;
@@ -18,7 +18,7 @@ export interface Database {
           id?: string;
           last_name?: string | null;
           updated_at?: string | null;
-          userId?: string | null;
+          user_id?: string | null;
         };
         Update: {
           avatar_url?: string | null;
@@ -26,12 +26,12 @@ export interface Database {
           id?: string;
           last_name?: string | null;
           updated_at?: string | null;
-          userId?: string | null;
+          user_id?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: "profiles_userId_fkey";
-            columns: ["userId"];
+            foreignKeyName: "profiles_user_id_fkey";
+            columns: ["user_id"];
             referencedRelation: "users";
             referencedColumns: ["id"];
           },

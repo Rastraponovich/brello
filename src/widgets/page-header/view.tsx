@@ -57,7 +57,7 @@ export const PageHeader = memo<PageHeaderProps>(
               size="sm"
               type="search"
               value={searchValue}
-              onChange={onSearch}
+              onValueChange={onSearch}
               placeholder={placeholder}
             />
           </div>

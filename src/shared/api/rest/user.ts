@@ -1,8 +1,25 @@
+import { AuthError, PostgrestError } from "@supabase/supabase-js";
 import { createEffect } from "effector";
+import { debug } from "patronum";
 
-import { Tables, checkError, client } from "../client";
+import { Tables, client } from "../client";
 
-export const userGetFx = createEffect(() => true);
+const checkError = (error: PostgrestError | null | AuthError) => {
+  if (error !== null) throw error;
+};
+
+export const profileGetFx = createEffect<{ userId: string }, Tables<"profiles">>(
+  async ({ userId }) => {
+    const { data, error } = await client.from("profiles").select().eq("user_id", userId).single();
+
+    checkError(error);
+
+    return data;
+  },
+);
+
+debug(profileGetFx);
+
 export const userUpdateFx = createEffect<{ email: string; password: string }, object>(
   async ({ email, password }) => {
     const { data, error } = await client.auth.updateUser({
@@ -33,15 +50,17 @@ export const updateProfileFx = createEffect<
   return data;
 });
 
-export const profileExistsFx = createEffect<{ id: string }, Tables<"profiles">>(async ({ id }) => {
-  const { error, data } = await client.from("profiles").select().eq("userId", id).single();
+export const profileExistsFx = createEffect<{ userId: string }, Tables<"profiles">>(
+  async ({ userId }) => {
+    const { error, data } = await client.from("profiles").select().eq("user_id", userId).single();
 
-  if (error) {
-    console.log(error, "profile checks");
-  }
+    if (error) {
+      console.log(error, "profile checks");
+    }
 
-  return data;
-});
+    return data;
+  },
+);
 
 export const profileCreateFx = createEffect<
   { id: string; firstName: string; lastName: string },
@@ -49,7 +68,7 @@ export const profileCreateFx = createEffect<
 >(async ({ id, firstName, lastName }) => {
   const { error, data } = await client
     .from("profiles")
-    .insert({ userId: id, first_name: firstName, last_name: lastName })
+    .insert({ user_id: id, first_name: firstName, last_name: lastName })
     .select()
     .single();
 
