@@ -1,10 +1,11 @@
+import { NavigateParams } from "atomic-router";
 import { attach, combine, createEvent, createStore, sample } from "effector";
 import { and, debug, not, pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
 import { InternalError } from "~/shared/api/rest/workspace";
 import { routes } from "~/shared/routing";
-import { $viewer, chainAunthenticated } from "~/shared/viewer/model";
+import { $viewer, chainAuthenticated } from "~/shared/viewer/model";
 
 // TODO clean ui events goto native;
 
@@ -19,7 +20,7 @@ const enum ErrorDict {
 
 export const currentRoute = routes.onboarding.workspace;
 
-export const authenticatedRoute = chainAunthenticated(currentRoute, {
+export const authenticatedRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.auth.signIn.open,
 });
 
@@ -93,7 +94,10 @@ sample({
 sample({
   clock: workspaceExistFx.doneData,
   filter: (workspaceExist) => !!workspaceExist,
-  target: routes.home.open,
+  fn: () => {
+    return { id: 123 } as unknown as NavigateParams<{ id: string }>;
+  },
+  target: routes.workspace.boards.open,
 });
 
 sample({
@@ -104,7 +108,10 @@ sample({
 
 sample({
   clock: workspaceCreateFx.doneData,
-  target: routes.home.open,
+  fn: (data) => {
+    return { id: data?.slug ?? "" };
+  },
+  target: routes.workspace.boards.open,
 });
 
 // unhappy path

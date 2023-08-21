@@ -67,7 +67,7 @@ const Description = () => {
       value={description}
       caption="Description"
       placeholder="Our team organizes everything here."
-      onChange={(e) => handleChangeDescription(e.target.value)}
+      onValueChange={handleChangeDescription}
     />
   );
 };

@@ -3,13 +3,20 @@ import { ChangeEvent } from "react";
 
 import { api } from "~/shared/api";
 import { controls, routes } from "~/shared/routing";
+import { $viewer, chainAuthenticated } from "~/shared/viewer/model";
 
 export const currentRoute = routes.workspace.settings;
 
+const authenticatedRoute = chainAuthenticated(currentRoute, {
+  otherwise: routes.auth.signIn.open,
+});
+
 const workspaceGetFx = attach({
   effect: api.workspace.workspaceGetFx,
-  mapParams() {
-    return { userId: 123123 };
+  source: $viewer,
+  mapParams(_, viewer) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return { userId: viewer!.id };
   },
 });
 
@@ -39,7 +46,7 @@ $slug.on(setSlug, (_, slug) => slug);
 $slug.on(workspaceGetFx.doneData, (_, workspace) => workspace?.slug ?? "");
 
 sample({
-  clock: routes.workspace.settings.opened,
+  clock: authenticatedRoute.opened,
   target: workspaceGetFx,
 });
 

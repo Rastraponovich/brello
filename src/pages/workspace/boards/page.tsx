@@ -18,6 +18,7 @@ import {
   $boardsEmpty,
   $isNotFound,
   $search,
+  $workspace,
   type TBoard,
   addBoard,
   boardCardClicked,
@@ -27,6 +28,8 @@ import {
 
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
+
+  const workspace = useUnit($workspace);
 
   const actions: PageHeaderAction[] = [
     {
@@ -52,7 +55,7 @@ export const BoardsPage = () => {
           actions={actions}
           headingAs="h1"
           description="Private"
-          title="Coding in action"
+          title={workspace?.name ?? "Coding in action"}
           className="!items-start"
           avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
         />

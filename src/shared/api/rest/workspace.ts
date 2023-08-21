@@ -121,7 +121,7 @@ export const workspaceCreateFx = createEffect<
   return data[0] ?? null;
 });
 
-export const workspaceGetFx = createEffect<{ userId: number }, Workspace | null, InternalError>(
+export const workspaceGetFx = createEffect<{ userId: string }, Workspace | null, InternalError>(
   async ({ userId }) => {
     const { data, error } = await client.from("workspaces").select().eq("user_id", userId);
 
@@ -132,13 +132,10 @@ export const workspaceGetFx = createEffect<{ userId: number }, Workspace | null,
     }
 
     // we need convert names to expected type
-    const { name, slug, description, avatar_url, id, user_id } = data[0];
+    const { avatar_url, user_id, ...rest } = data[0];
 
     return {
-      id,
-      name,
-      slug,
-      description,
+      ...rest,
       userId: user_id,
       avatarUrl: avatar_url,
     };

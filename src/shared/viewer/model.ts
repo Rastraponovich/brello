@@ -42,7 +42,7 @@ $viewerStatus.on(viewerGetFx.failData, (status, error) => {
   return status;
 });
 
-export function chainAunthenticated<Params extends RouteParams>(
+export function chainAuthenticated<Params extends RouteParams>(
   route: RouteInstance<Params>,
   { otherwise }: ChainParams = {},
 ) {
