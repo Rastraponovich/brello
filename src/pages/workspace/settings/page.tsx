@@ -14,9 +14,9 @@ import {
   $name,
   $slug,
   cancelButtonClicked,
-  workspaceDescriptionChanged,
-  workspaceNameChanged,
-  workspaceURLChanged,
+  descriptionChanged,
+  nameChanged,
+  slugChanged,
 } from "./model";
 
 export const WorkSpaceSettingsPage = () => {
@@ -32,7 +32,9 @@ export const WorkSpaceSettingsPage = () => {
 };
 
 const WorkSpaceSettingsForm = () => {
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+  };
 
   const handleCancel = useUnit(cancelButtonClicked);
 
@@ -64,26 +66,31 @@ const WorkspaceUplad = () => {
 };
 
 const WorkspaceName = () => {
-  const [name, handleChangeName] = useUnit([$name, workspaceNameChanged]);
+  const [name, handleChangeName] = useUnit([$name, nameChanged]);
 
-  const [slug, handleChangeSlug] = useUnit([$slug, workspaceURLChanged]);
+  const [slug, handleChangeSlug] = useUnit([$slug, slugChanged]);
 
   return (
     <FormBlock title="Name" description="This will be displayed on your profile.">
-      <Input value={name} onChange={handleChangeName} placeholder="Coding in action" />
-      <Input value={slug} onChange={handleChangeSlug} placeholder="https://brello.io/workspaces/" />
+      <Input value={name} onValueChange={handleChangeName} placeholder="Coding in action" />
+      <Input
+        value={slug}
+        onValueChange={handleChangeSlug}
+        placeholder="https://brello.io/workspaces/"
+        caption="https://brello.io/workspaces/"
+      />
     </FormBlock>
   );
 };
 
 const WorkspaceDescription = () => {
-  const [description, setDescribtion] = useUnit([$description, workspaceDescriptionChanged]);
+  const [description, setDescribtion] = useUnit([$description, descriptionChanged]);
 
   return (
     <FormBlock title="Description" description="A quick snapsot of your workspace.">
       <InputArea
         value={description}
-        onChange={setDescribtion}
+        onValueChange={setDescribtion}
         placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance."
       />
     </FormBlock>

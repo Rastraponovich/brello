@@ -1,5 +1,4 @@
 import { attach, combine, createEvent, createStore, sample } from "effector";
-import { ChangeEvent } from "react";
 
 import { api } from "~/shared/api";
 import { controls, routes } from "~/shared/routing";
@@ -20,14 +19,9 @@ const workspaceGetFx = attach({
   },
 });
 
-const setSlug = createEvent<string>();
-const setName = createEvent<string>();
-const setDescription = createEvent<string>();
-
-export const workspaceURLChanged = createEvent<ChangeEvent<HTMLInputElement>>();
-export const workspaceNameChanged = createEvent<ChangeEvent<HTMLInputElement>>();
-export const workspaceDomainChanged = createEvent<ChangeEvent<HTMLInputElement>>();
-export const workspaceDescriptionChanged = createEvent<ChangeEvent<HTMLTextAreaElement>>();
+export const slugChanged = createEvent<string>();
+export const nameChanged = createEvent<string>();
+export const descriptionChanged = createEvent<string>();
 
 export const cancelButtonClicked = createEvent();
 
@@ -36,13 +30,13 @@ export const $description = createStore<string>("");
 export const $slug = createStore<string>("");
 
 $name.on(workspaceGetFx.doneData, (_, workspace) => workspace?.name);
-$name.on(setName, (_, name) => name);
+$name.on(nameChanged, (_, name) => name);
 
-$description.on(setDescription, (_, description) => description);
+$description.on(descriptionChanged, (_, description) => description);
 
 $description.on(workspaceGetFx.doneData, (_, workspace) => workspace?.description ?? "");
 
-$slug.on(setSlug, (_, slug) => slug);
+$slug.on(slugChanged, (_, slug) => slug);
 $slug.on(workspaceGetFx.doneData, (_, workspace) => workspace?.slug ?? "");
 
 sample({
@@ -53,24 +47,6 @@ sample({
 sample({
   clock: cancelButtonClicked,
   target: controls.back,
-});
-
-sample({
-  clock: workspaceNameChanged,
-  fn: (event) => event.target.value,
-  target: setName,
-});
-
-sample({
-  clock: workspaceDescriptionChanged,
-  fn: (event) => event.target.value,
-  target: setDescription,
-});
-
-sample({
-  clock: workspaceURLChanged,
-  fn: (event) => event.target.value,
-  target: setSlug,
 });
 
 export const $workspace = combine(
