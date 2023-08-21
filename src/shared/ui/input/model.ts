@@ -10,6 +10,7 @@ interface Error {
 export interface BaseInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size">, IHint {
   size?: InputSize;
   disableIcon?: boolean;
+  onValueChange?: (value: string) => void;
 }
 export interface IHint {
   hint?: {
@@ -33,6 +34,7 @@ export interface BaseInputAreaProps extends TextareaHTMLAttributes<HTMLTextAreaE
 
 export interface IInputAreaProps extends BaseInputAreaProps, IHint, Error {
   caption?: string;
+  onValueChange?: (value: string) => void;
 }
 
 export interface InputWrapperProps extends IHint, Error {

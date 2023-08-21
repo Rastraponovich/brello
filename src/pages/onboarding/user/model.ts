@@ -5,7 +5,7 @@ import type { ChangeEvent, FormEvent } from "react";
 import { api } from "~/shared/api";
 import { Tables } from "~/shared/api/client";
 import { routes } from "~/shared/routing";
-import { $viewer, chainAunthenticated } from "~/shared/viewer/model";
+import { $viewer, chainAuthenticated } from "~/shared/viewer/model";
 
 import { inputReducer, validateName } from "./utils";
 
@@ -36,7 +36,7 @@ const profileExistsFx = attach({
   },
 });
 
-export const authenticatedRoute = chainAunthenticated(currentRoute, {
+export const authenticatedRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.auth.signIn.open,
 });
 

@@ -12,12 +12,25 @@ import { Upload } from "~/shared/ui/upload";
 import {
   $description,
   $name,
+  $pending,
   $slug,
   cancelButtonClicked,
-  workspaceDescriptionChanged,
-  workspaceNameChanged,
-  workspaceURLChanged,
+  descriptionChanged,
+  formSubmitted,
+  nameChanged,
+  slugChanged,
 } from "./model";
+
+export const PageLoader = () => {
+  return (
+    <MainLayout>
+      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
+        <PageHeader divider title="Workspace settings" />
+        <div>...Loading, please wait</div>
+      </section>
+    </MainLayout>
+  );
+};
 
 export const WorkSpaceSettingsPage = () => {
   return (
@@ -32,7 +45,11 @@ export const WorkSpaceSettingsPage = () => {
 };
 
 const WorkSpaceSettingsForm = () => {
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => e.preventDefault();
+  const handleSubmit = useUnit(formSubmitted);
+  const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    handleSubmit();
+  };
 
   const handleCancel = useUnit(cancelButtonClicked);
 
@@ -40,7 +57,7 @@ const WorkSpaceSettingsForm = () => {
     <form
       id="form"
       onReset={handleCancel}
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       className="scroll-shadows -mx-4 flex flex-col gap-5 overflow-auto px-4"
     >
       <WorkspaceName />
@@ -64,26 +81,39 @@ const WorkspaceUplad = () => {
 };
 
 const WorkspaceName = () => {
-  const [name, handleChangeName] = useUnit([$name, workspaceNameChanged]);
-
-  const [slug, handleChangeSlug] = useUnit([$slug, workspaceURLChanged]);
+  const pending = useUnit($pending);
+  const [name, handleChangeName] = useUnit([$name, nameChanged]);
+  const [slug, handleChangeSlug] = useUnit([$slug, slugChanged]);
 
   return (
     <FormBlock title="Name" description="This will be displayed on your profile.">
-      <Input value={name} onChange={handleChangeName} placeholder="Coding in action" />
-      <Input value={slug} onChange={handleChangeSlug} placeholder="https://brello.io/workspaces/" />
+      <Input
+        value={name}
+        onValueChange={handleChangeName}
+        placeholder="Coding in action"
+        disabled={pending}
+      />
+      <Input
+        value={slug}
+        disabled={pending}
+        onValueChange={handleChangeSlug}
+        placeholder="https://brello.io/workspaces/"
+        caption="https://brello.io/workspaces/"
+      />
     </FormBlock>
   );
 };
 
 const WorkspaceDescription = () => {
-  const [description, setDescribtion] = useUnit([$description, workspaceDescriptionChanged]);
+  const pending = useUnit($pending);
+  const [description, setDescribtion] = useUnit([$description, descriptionChanged]);
 
   return (
     <FormBlock title="Description" description="A quick snapsot of your workspace.">
       <InputArea
         value={description}
-        onChange={setDescribtion}
+        disabled={pending}
+        onValueChange={setDescribtion}
         placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance."
       />
     </FormBlock>

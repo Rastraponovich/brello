@@ -1,19 +1,34 @@
 import { useUnit } from "effector-react";
+import { FormEventHandler } from "react";
 
 import { OnboardingLayout } from "~/layouts/onboarding-layout";
 
 import { Button } from "~/shared/ui/button";
 import { Input, InputArea } from "~/shared/ui/input";
 
+// TODO: create onChangeValue method in input;
 import {
   $description,
   $name,
+  $nameError,
   $slug,
+  $slugError,
   descriptionChanged,
   formSubmitted,
   nameChanged,
   slugChanged,
 } from "./model";
+
+export const PageLoader = () => {
+  return (
+    <OnboardingLayout icon="common/folder-shield" backgroundImage="bg-geometric-square">
+      <div className="flex flex-col gap-4 sm:gap-5">
+        <h1 className="text-3xl font-semibold text-gray-900 md:text-4xl">Loading, please wait</h1>
+      </div>
+      <div className="flex flex-col gap-8"></div>
+    </OnboardingLayout>
+  );
+};
 
 export const OnboardingWorkspacePage = () => {
   return (
@@ -34,7 +49,12 @@ export const OnboardingWorkspacePage = () => {
 };
 
 const OnboardingForm = () => {
-  const handleSubmit = useUnit(formSubmitted);
+  const submitClicked = useUnit(formSubmitted);
+
+  const handleSubmit: FormEventHandler = (event) => {
+    event.preventDefault();
+    submitClicked();
+  };
 
   return (
     <>
@@ -55,36 +75,38 @@ const Description = () => {
 
   return (
     <InputArea
+      value={description}
       caption="Description"
       placeholder="Our team organizes everything here."
-      value={description ?? undefined}
-      onChange={handleChangeDescription}
+      onValueChange={handleChangeDescription}
     />
   );
 };
 
 const WorkspaceName = () => {
-  const [name, handleChangeName] = useUnit([$name, nameChanged]);
+  const [name, handleChangeName, error] = useUnit([$name, nameChanged, $nameError]);
 
   return (
     <Input
+      value={name}
       caption="Workspace name"
       placeholder="Your Company Co."
-      value={name ?? undefined}
-      onChange={handleChangeName}
+      error={error}
+      onValueChange={handleChangeName}
     />
   );
 };
 
 const WorkspaceSlug = () => {
-  const [slug, handleChangeSlug] = useUnit([$slug, slugChanged]);
+  const [slug, handleChangeSlug, error] = useUnit([$slug, slugChanged, $slugError]);
 
   return (
     <Input
       placeholder="your-company-co"
       caption="brello.io/workspaces/"
-      value={slug ?? ""}
-      onChange={handleChangeSlug}
+      value={slug}
+      error={error}
+      onValueChange={handleChangeSlug}
     />
   );
 };

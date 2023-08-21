@@ -3,7 +3,9 @@ import { debounce } from "patronum";
 import { type ChangeEvent } from "react";
 
 import { api } from "~/shared/api";
+import { Workspace } from "~/shared/api/rest/workspace";
 import { routes } from "~/shared/routing";
+import { $viewer, chainAuthenticated } from "~/shared/viewer/model";
 
 export type TBoard = {
   title: string;
@@ -13,6 +15,10 @@ export type TBoard = {
 
 export const currentRoute = routes.workspace.boards;
 
+export const authenticatedRoute = chainAuthenticated(currentRoute, {
+  otherwise: routes.auth.signIn.open,
+});
+
 export const addBoard = createEvent();
 export const resetSearch = createEvent();
 export const boardCardClicked = createEvent<TBoard>();
@@ -20,15 +26,29 @@ export const settingsButtonClicked = createEvent();
 
 export const searched = createEvent<ChangeEvent<HTMLInputElement>>();
 
-const getWorkspaceFx = attach({
-  effect: api.workspace.workspaceGetFx,
+export const $workspace = createStore<Workspace | null>(null);
 
-  mapParams: () => ({ userId: 123123 }),
+const workspaceGetFx = attach({
+  effect: api.workspace.workspaceGetFx,
+  source: $viewer,
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  mapParams: (_, viewer) => ({ userId: viewer!.id }),
+});
+
+sample({
+  clock: authenticatedRoute.opened,
+  target: workspaceGetFx,
+});
+
+sample({
+  clock: workspaceGetFx.doneData,
+  target: $workspace,
 });
 
 sample({
   clock: resetSearch,
-  target: getWorkspaceFx,
+  target: workspaceGetFx,
 });
 
 export const $search = createStore("");
@@ -49,11 +69,6 @@ sample({
   source: $boards,
   fn: (items, search) => items.filter((item) => item.title.startsWith(search)),
   target: $boards,
-});
-
-sample({
-  clock: routes.workspace.boards.opened,
-  target: getWorkspaceFx,
 });
 
 sample({

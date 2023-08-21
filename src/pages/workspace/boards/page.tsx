@@ -18,6 +18,7 @@ import {
   $boardsEmpty,
   $isNotFound,
   $search,
+  $workspace,
   type TBoard,
   addBoard,
   boardCardClicked,
@@ -25,8 +26,20 @@ import {
   settingsButtonClicked,
 } from "./model";
 
+export const PageLoader = () => {
+  return (
+    <MainLayout>
+      <section className="container mx-auto my-0 px-6 sm:px-8">
+        <h1>Loading, please wait</h1>
+      </section>
+    </MainLayout>
+  );
+};
+
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
+
+  const workspace = useUnit($workspace);
 
   const actions: PageHeaderAction[] = [
     {
@@ -52,7 +65,7 @@ export const BoardsPage = () => {
           actions={actions}
           headingAs="h1"
           description="Private"
-          title="Coding in action"
+          title={workspace?.name ?? "Coding in action"}
           className="!items-start"
           avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
         />
