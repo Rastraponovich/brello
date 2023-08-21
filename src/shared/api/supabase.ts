@@ -39,33 +39,40 @@ export interface Database {
       };
       workspaces: {
         Row: {
-          data: Json | null;
+          avatar_url: string | null;
+          created_at: string;
           description: string | null;
-          domain: string | null;
-          id: number;
-          inserted_at: string;
-          name: string | null;
-          updated_at: string;
+          id: string;
+          name: string;
+          slug: string | null;
+          user_id: string;
         };
         Insert: {
-          data?: Json | null;
+          avatar_url?: string | null;
+          created_at?: string;
           description?: string | null;
-          domain?: string | null;
-          id?: number;
-          inserted_at?: string;
-          name?: string | null;
-          updated_at?: string;
+          id?: string;
+          name: string;
+          slug?: string | null;
+          user_id: string;
         };
         Update: {
-          data?: Json | null;
+          avatar_url?: string | null;
+          created_at?: string;
           description?: string | null;
-          domain?: string | null;
-          id?: number;
-          inserted_at?: string;
-          name?: string | null;
-          updated_at?: string;
+          id?: string;
+          name?: string;
+          slug?: string | null;
+          user_id?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "workspaces_user_id_fkey";
+            columns: ["user_id"];
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
     };
     Views: {

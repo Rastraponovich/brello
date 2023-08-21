@@ -12,6 +12,7 @@
     "lint:css": "stylelint \"**/*.css\"",
     "generate": "yarn hygen generate",
     "new:component": "yarn hygen new component",
+    "update-types": "npx supabase gen types typescript --project-id ddjirrggtysituolvxws > src/shared/api/supabase.ts",
     "gen:sprite": "yarn sprite --group --root src/shared/ui/icon/assets -o public/sprites -d src/shared/ui/icon/sprite.h.ts --reset-unknown-colors",
     "lint:js": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
@@ -56,6 +57,7 @@
     "stylelint": "^15.7.0",
     "stylelint-config-prettier": "^9.0.5",
     "stylelint-config-standard": "^33.0.0",
+    "supabase": "^1.86.2",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.1"
