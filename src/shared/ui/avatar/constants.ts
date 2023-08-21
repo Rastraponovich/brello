@@ -1,4 +1,4 @@
-import { type TUser } from "~/entities/user";
+import { type TUser } from "~/entities/user/lib";
 
 import type { AvatarGroupSize, AvatarSize } from "./model";
 

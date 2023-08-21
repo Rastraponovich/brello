@@ -1,4 +1,4 @@
-import { TUser } from "~/entities/user";
+import { TUser } from "~/entities/user/lib";
 
 import { TSizes } from "~/shared/lib";
 
