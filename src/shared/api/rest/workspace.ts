@@ -153,7 +153,7 @@ export const workspaceUpdateFx = createEffect<{ workspace: Workspace }, void, In
         avatar_url: avatarUrl,
       })
       .eq("id", workspace.id)
-      .eq("uer_id", userId);
+      .eq("user_id", userId);
 
     checkError(error);
 

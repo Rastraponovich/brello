@@ -178,6 +178,8 @@ const _BaseInutArea = forwardRef<HTMLTextAreaElement, BaseInputAreaProps>(
           "text-base font-normal text-gray-900 placeholder:text-gray-500",
           "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
           "focus:text-gray-900 focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
+          "disabled:bg-gray-50",
+
           className,
         )}
       />
