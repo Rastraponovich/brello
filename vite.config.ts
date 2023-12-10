@@ -14,10 +14,13 @@ export default defineConfig({
       root: "src/shared/ui/icon/assets",
       group: true,
       output: "public/sprites",
-      definitions: "src/shared/ui/icon/sprite.h.ts",
+      metadata: {
+        path: "src/shared/ui/icon/sprite.h.ts",
+      },
       resetColors: {
         replaceUnknown: "currentColor",
         properties: "stroke",
+        exclude: [/[a-z]*-colored\.svg$/],
       },
     }),
   ],

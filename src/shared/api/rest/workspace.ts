@@ -142,10 +142,10 @@ export const workspaceGetFx = createEffect<{ userId: string }, Workspace | null,
   },
 );
 
-export const workspaceUpdateFx = createEffect<{ workspace: Workspace }, void, InternalError>(
+export const workspaceUpdateFx = createEffect<{ workspace: Workspace }, Workspace, InternalError>(
   async ({ workspace }) => {
     const { userId, avatarUrl, ...rest } = workspace;
-    const { error } = await client
+    const { error, data } = await client
       .from("workspaces")
       .update({
         ...rest,
@@ -153,10 +153,19 @@ export const workspaceUpdateFx = createEffect<{ workspace: Workspace }, void, In
         avatar_url: avatarUrl,
       })
       .eq("id", workspace.id)
-      .eq("user_id", userId);
+      .eq("user_id", userId)
+      .select()
+      .single();
 
     checkError(error);
 
-    return;
+    const { user_id, avatar_url, created_at, ...restResponse } = data as Tables<"workspaces">;
+
+    return {
+      ...restResponse,
+      userId: user_id,
+      avatarUrl: avatar_url,
+      createdAt: created_at,
+    };
   },
 );

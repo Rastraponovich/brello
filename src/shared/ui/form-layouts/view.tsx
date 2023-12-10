@@ -41,14 +41,15 @@ const FormBlockBody = ({ children, className }: FormBlockBodyProps) => {
 
 interface FormFooterActionsProps {
   form?: string;
+  pending?: boolean;
 }
-export const FormFooterActions = ({ form = "form" }: FormFooterActionsProps) => {
+export const FormFooterActions = ({ form = "form", pending }: FormFooterActionsProps) => {
   return (
     <footer className="flex items-center justify-end gap-4 ">
-      <Button form={form} size="md" variant="secondaryGray" type="reset">
+      <Button form={form} size="md" variant="secondaryGray" type="reset" pending={pending}>
         Cancel
       </Button>
-      <Button form={form} size="md" variant="primary" type="submit">
+      <Button form={form} size="md" variant="primary" type="submit" pending={pending}>
         Save
       </Button>
     </footer>
