@@ -1,5 +1,5 @@
 import { attach, combine, createEvent, createStore, sample } from "effector";
-import { pending } from "patronum";
+import { pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
 import { controls, routes } from "~/shared/routing";
@@ -43,6 +43,12 @@ $description.on(workspaceGetFx.doneData, (_, workspace) => workspace?.descriptio
 
 $slug.on(slugChanged, (_, slug) => slug);
 $slug.on(workspaceGetFx.doneData, (_, workspace) => workspace?.slug ?? "");
+
+//reset stores
+reset({
+  target: [$slug, $description, $id, $name],
+  clock: currentRoute.closed,
+});
 
 export const $workspace = combine({
   slug: $slug,

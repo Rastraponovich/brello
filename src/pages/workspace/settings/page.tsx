@@ -33,12 +33,14 @@ export const PageLoader = () => {
 };
 
 export const WorkSpaceSettingsPage = () => {
+  const pending = useUnit($pending);
+
   return (
     <MainLayout>
       <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
         <PageHeader divider title="Workspace settings" />
         <WorkSpaceSettingsForm />
-        <FormFooterActions />
+        <FormFooterActions pending={pending} />
       </section>
     </MainLayout>
   );
