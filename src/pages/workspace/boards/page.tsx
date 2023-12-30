@@ -7,6 +7,7 @@ import { PageHeader, type PageHeaderAction } from "~/widgets/page-header";
 
 import { BoardsSearch } from "~/features/boards/search";
 
+import { TBoard } from "~/shared/api/rest/board";
 import { Button, type ButtonBaseProps, type ButtonBaseVariant } from "~/shared/ui/button";
 import { FeaturedIcon } from "~/shared/ui/featured-icon";
 import { Heading } from "~/shared/ui/heading";
@@ -16,10 +17,10 @@ import { ScrollContainer } from "~/shared/ui/scroll-container";
 import {
   $boards,
   $boardsEmpty,
+  $boardsListPending,
   $isNotFound,
   $search,
   $workspace,
-  type TBoard,
   addBoard,
   boardCardClicked,
   resetSearch,
@@ -62,11 +63,11 @@ export const BoardsPage = () => {
       <section className="container mx-auto my-0 px-6 sm:px-8">
         <PageHeader
           divider
-          actions={actions}
           headingAs="h1"
+          actions={actions}
           description="Private"
-          title={workspace?.name ?? "Coding in action"}
           className="!items-start"
+          title={workspace?.name || ""}
           avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
         />
       </section>
@@ -87,11 +88,20 @@ const BoardsFilter = () => {
 
 const Boards = () => {
   const [isEmpty, isNotFound] = useUnit([$boardsEmpty, $isNotFound]);
+  const pending = useUnit($boardsListPending);
 
   return (
     <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
       <div className="flex w-full flex-col overflow-hidden">
-        {isNotFound ? <NotFoundState /> : isEmpty ? <EmptyState /> : <BoardsList />}
+        {isNotFound ? (
+          <NotFoundState />
+        ) : isEmpty ? (
+          <EmptyState />
+        ) : pending ? (
+          <div>loading...</div>
+        ) : (
+          <BoardsList />
+        )}
       </div>
     </section>
   );
@@ -133,16 +143,20 @@ const BaseEmpty = memo<BaseEmptyProps>(({ icon, title, subTitle, actions, onClic
       {icon && (
         <FeaturedIcon size="lg" icon={icon} type="circle" color="primary" variant="outline" />
       )}
+
       <Heading as="h3" className="font-semibold text-gray-900">
         {title}
       </Heading>
+
       {subTitle && <p className="text-center text-sm text-gray-600">{subTitle}</p>}
+
       <div className="mt-6 flex gap-3">
         {actions?.map(({ caption, ...action }, idx) => (
           <Button key={idx} size="md" variant="secondaryGray" {...action}>
             {caption}
           </Button>
         ))}
+
         <Button size="md" variant="primary" onClick={onClick} leftIcon="common/plus">
           New board
         </Button>
@@ -213,7 +227,7 @@ const BoardCard = memo<BoardCardProps>(({ title, onClick }) => {
   return (
     <figure
       onClick={onClick}
-      className="flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 bg-gray-900 px-5 py-6 pt-5 text-lg font-medium text-white"
+      className="flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-lg font-medium text-white"
     >
       <figcaption>
         <Heading as="h4">{title}</Heading>

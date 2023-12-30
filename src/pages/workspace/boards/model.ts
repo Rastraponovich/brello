@@ -1,16 +1,11 @@
 import { attach, createEvent, createStore, sample } from "effector";
-import { debounce } from "patronum";
+import { debounce, debug, pending } from "patronum";
 
 import { api } from "~/shared/api";
+import type { TBoard } from "~/shared/api/rest/board";
 import { Workspace } from "~/shared/api/rest/workspace";
 import { routes } from "~/shared/routing";
 import { $viewer, chainAuthenticated } from "~/shared/viewer/model";
-
-export type TBoard = {
-  title: string;
-  id: number;
-  image?: string;
-};
 
 export const currentRoute = routes.workspace.boards;
 
@@ -59,7 +54,7 @@ const debouncedSearch = debounce({ source: $search, timeout: 300 });
 export const $boardsLength = $boards.map((state) => state.length);
 export const $boardsEmpty = $boards.map((state) => state.length === 0);
 
-$boards.on(addBoard, (state) => [...state, { id: state.length + 1, title: "newBoard" }]);
+// $boards.on(addBoard, (state) => [...state, { id: state.length + 1, title: "newBoard" }]);
 $search.on(searched, (_, search) => search);
 $search.reset([resetSearch, addBoard]);
 
@@ -87,3 +82,44 @@ sample({
   fn: (card) => ({ id: card.id }),
   target: routes.board.board.open,
 });
+
+const boardCreateFx = attach({
+  effect: api.board.createBoardFx,
+  source: { workspace: $workspace, viewer: $viewer },
+  mapParams: (_, { workspace, viewer }) => {
+    return {
+      title: "test",
+      user_id: viewer?.id,
+      workspace_id: workspace?.id,
+    };
+  },
+});
+
+sample({
+  clock: addBoard,
+  target: boardCreateFx,
+});
+
+const boardsGetFx = attach({
+  effect: api.board.getBoardsFx,
+  source: { workspace: $workspace, viewer: $viewer },
+  mapParams: (_, { workspace, viewer }) => {
+    return {
+      workspace_id: workspace?.id ?? null,
+      user_id: viewer?.id ?? null,
+    };
+  },
+});
+
+export const $boardsListPending = pending({
+  effects: [workspaceGetFx, boardCreateFx, boardsGetFx],
+});
+
+sample({
+  clock: [workspaceGetFx.doneData, boardCreateFx.doneData],
+  target: boardsGetFx,
+});
+
+$boards.on(boardsGetFx.doneData, (_, response) => response);
+
+debug({ trace: true }, boardCreateFx, boardsGetFx);
