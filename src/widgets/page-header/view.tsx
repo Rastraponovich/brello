@@ -66,3 +66,33 @@ export const PageHeader = memo<PageHeaderProps>(
     );
   },
 );
+
+export const PageHeaderSkeleton = ({ divider, className, actions }: Partial<PageHeaderProps>) => {
+  return (
+    <header
+      className={clsx(
+        "flex w-full flex-col items-center  justify-between gap-4 sm:flex-row",
+        divider ? "border-b border-gray-200 pb-5" : "border-transparent",
+        className,
+      )}
+    >
+      <div className="flex w-full shrink items-center gap-5 overflow-hidden">
+        <div className="h-16 w-16 animate-pulse rounded-full bg-gray-200" />
+        <div className="flex w-full shrink flex-col gap-1">
+          <div className="h-9 w-80 animate-pulse rounded-lg bg-gray-200" />
+          <div className="h-6 w-40 animate-pulse rounded-lg bg-gray-200" />
+        </div>
+      </div>
+
+      {actions && (
+        <div className="flex shrink-0 gap-3">
+          {actions.map((action) => (
+            <Button key={action.id} {...action}>
+              {action.title}
+            </Button>
+          ))}
+        </div>
+      )}
+    </header>
+  );
+};

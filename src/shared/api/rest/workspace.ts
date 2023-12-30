@@ -1,29 +1,28 @@
-import { PostgrestError } from "@supabase/supabase-js";
+import type { PostgrestError } from "@supabase/supabase-js";
 import { createEffect } from "effector";
 
-import type { TBoard } from "~/pages/board/page/model";
-
-import { DbResultOk, Tables, client } from "../client";
+import { type DbResultOk, type Tables, client } from "../client";
+import type { TBoard } from "./board";
 
 export interface Workspace {
   id: string;
-  userId: UserId;
   name: string;
+  userId: UserId;
   slug: string | null;
-  description: string | null;
+  boards?: number | null;
   avatarUrl: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;
   deletedAt?: string | null;
-  boards?: TBoard[];
+  description: string | null;
 }
 
 export const __BOARDS__: Partial<TBoard>[] = [
-  { id: 1, title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
-  { id: 2, title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
-  { id: 3, title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
-  { id: 4, title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
-  { id: 5, title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
+  { id: "1", title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
+  { id: "2", title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
+  { id: "3", title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
+  { id: "4", title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
+  { id: "5", title: "Sprint #3 (03.04.2023 - 10.04.2023)" },
 ];
 
 type ErrorCode = keyof typeof ErrorDict;
