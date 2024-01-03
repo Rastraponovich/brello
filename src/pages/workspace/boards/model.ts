@@ -54,7 +54,6 @@ const debouncedSearch = debounce({ source: $search, timeout: 300 });
 export const $boardsLength = $boards.map((state) => state.length);
 export const $boardsEmpty = $boards.map((state) => state.length === 0);
 
-// $boards.on(addBoard, (state) => [...state, { id: state.length + 1, title: "newBoard" }]);
 $search.on(searched, (_, search) => search);
 $search.reset([resetSearch, addBoard]);
 
@@ -79,7 +78,7 @@ sample({
 
 sample({
   clock: boardCardClicked,
-  fn: (card) => ({ id: card.id }),
+  fn: (card) => ({ id: card.id, workspace: card.workspace_id }),
   target: routes.board.board.open,
 });
 
@@ -116,8 +115,15 @@ export const $boardsListPending = pending({
 });
 
 sample({
-  clock: [workspaceGetFx.doneData, boardCreateFx.doneData],
+  clock: [boardCreateFx.doneData],
   target: boardsGetFx,
+});
+
+$boards.on(workspaceGetFx.doneData, (_, response) => {
+  if (response?.boards) {
+    return response.boards;
+  }
+  return [];
 });
 
 $boards.on(boardsGetFx.doneData, (_, response) => response);

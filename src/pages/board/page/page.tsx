@@ -1,13 +1,5 @@
-import {
-  type ChangeEventHandler,
-  type DragEvent,
-  type FormEventHandler,
-  type ReactNode,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useList, useUnit } from "effector-react";
+import { type DragEvent, type ReactNode, memo } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -16,12 +8,12 @@ import { AddToFavorite } from "~/features/board/add-to-favorite";
 
 import { Stack } from "~/entities/stack";
 
-import { useDragAndDrop } from "~/shared/hooks/dnd";
+// import { useDragAndDrop } from "~/shared/hooks/dnd";
 import { AvatarGroup } from "~/shared/ui/avatar";
 import { Heading } from "~/shared/ui/heading";
 
-import { _AVATARS_, _BOARDS_ } from "./constants";
-import { type TBoard } from "./model";
+import { _AVATARS_ } from "./constants";
+import { $board, $stacks } from "./model";
 
 /**
  * Render the BoardPage component.
@@ -40,7 +32,6 @@ export const BoardPage = () => {
 /**
  * Renders the content for the page header.
  *
- * @return {JSX.Element} The rendered JSX element.
  */
 const PageHeaderContent = () => {
   return (
@@ -59,48 +50,9 @@ const PageHeaderContent = () => {
 /**
  * Renders a list of boards and provides functionality to add new boards.
  *
- * @return {JSX.Element} The rendered list component.
  */
 const List = () => {
-  const [editable, setEditable] = useState(false);
-  const [stacks, setBoards] = useState<TBoard[]>(_BOARDS_);
-  const [value, setValue] = useState("");
-
-  const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
-    (event) => setValue(event.target.value),
-    [],
-  );
-
-  const handleReset = useCallback<FormEventHandler<HTMLFormElement>>((event) => {
-    event.preventDefault();
-    setEditable(false);
-  }, []);
-
-  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
-    (event) => {
-      event.preventDefault();
-      setEditable((prev) => !prev);
-
-      if (value.length > 0) {
-        const newState = [...stacks];
-
-        newState.push({
-          id: stacks.length + 1,
-          title: value,
-          cards: [],
-        });
-
-        setBoards(newState);
-      }
-    },
-    [stacks, value],
-  );
-
-  useEffect(() => {
-    if (!editable) {
-      setValue("");
-    }
-  }, [editable]);
+  const board = useUnit($board);
 
   const handleDragLeave = (event: DragEvent) => {
     if (event.target instanceof HTMLElement) {
@@ -111,6 +63,7 @@ const List = () => {
       }
     }
   };
+
   const handleDragOver = (event: DragEvent) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
@@ -127,56 +80,44 @@ const List = () => {
       }
     }
   };
-  const handleDragDrop = (event: DragEvent, _: TBoard) => {
-    event.preventDefault();
 
-    if (event.target instanceof HTMLElement) {
-      const container = event.target.closest(".GRID_COL");
+  // const handleDragDrop = (event: DragEvent, _: TStack) => {
+  //   event.preventDefault();
 
-      if (container) {
-        container.classList.remove("border-2", "border-black");
-      }
-    }
-  };
+  //   if (event.target instanceof HTMLElement) {
+  //     const container = event.target.closest(".GRID_COL");
 
-  const { handleDragEnd, handleDragStart } = useDragAndDrop<TBoard>();
+  //     if (container) {
+  //       container.classList.remove("border-2", "border-black");
+  //     }
+  //   }
+  // };
+
+  // const { handleDragEnd, handleDragStart } = useDragAndDrop<Board>();
 
   return (
     <section className="container mx-auto my-0 flex grow flex-col overflow-hidden">
       <Grid>
-        {stacks.map((stack) => (
-          <GridColumn key={stack.id}>
-            <Stack
-              stack={stack}
-              onDragDrop={(e) => handleDragDrop(e, stack)}
-              onDragEnd={handleDragEnd}
-              onDragLeave={handleDragLeave}
-              onDragOver={handleDragOver}
-              onDragStart={(e) => handleDragStart(e, stack)}
-            />
-          </GridColumn>
-        ))}
-        <GridColumn>
-          <AddList
-            value={value}
-            editable={editable}
-            onReset={handleReset}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            buttonCaption="Add List"
-          />
-        </GridColumn>
+        {useList($stacks, {
+          fn: (stack) => (
+            <GridColumn key={stack.id}>
+              <Stack
+                stack={stack}
+                board={board}
+                onDragOver={handleDragOver}
+                onDragLeave={handleDragLeave}
 
-        {editable && (
+                // onDragDrop={(e) => handleDragDrop(e, stack)}
+                // onDragStart={(e) => handleDragStart(e, stack)}
+              />
+            </GridColumn>
+          ),
+          getKey: (stack) => stack.id,
+        })}
+
+        {board?.id && board?.user_id && (
           <GridColumn>
-            <AddList
-              value={value}
-              editable={false}
-              onReset={handleReset}
-              onChange={handleChange}
-              onSubmit={handleSubmit}
-              buttonCaption="Add List"
-            />
+            <AddList board_id={board?.id} user_id={board?.user_id} buttonCaption="Add List" />
           </GridColumn>
         )}
       </Grid>
@@ -196,12 +137,13 @@ const Grid = memo<IGrid>(({ children }) => {
   );
 });
 
-interface IGridColumn {
+interface GridColumnProps {
   children: ReactNode;
 }
-const GridColumn = memo<IGridColumn>(({ children }) => {
+
+const GridColumn = memo<GridColumnProps>(({ children }) => {
   return (
-    <div className="GRID_COL flex  snap-start snap-normal flex-col justify-start overflow-hidden">
+    <div className="GRID_COL flex snap-start snap-normal flex-col justify-start overflow-hidden">
       {children}
     </div>
   );

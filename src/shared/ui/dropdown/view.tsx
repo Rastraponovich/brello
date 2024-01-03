@@ -9,14 +9,24 @@ import type { DropdownProps, MenuItemProps } from "./model";
 
 const MenuItem = memo<MenuItemProps>(
   forwardRef<null, MenuItemProps>(
-    ({ item, active, disabled, titleProperty, type = "menu" }, ref) => {
+    ({ item, active, disabled, onClick, titleProperty, type = "menu" }, ref) => {
       const { icon, hotkey } = item;
+
+      const handleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
+        if (onClick) {
+          onClick(event);
+        }
+
+        if (item.onClick) {
+          item.onClick(event);
+        }
+      };
 
       return (
         <button
           ref={ref}
-          onClick={item.onClick}
           disabled={disabled}
+          onClick={handleClick}
           data-qa="Dropdown__menuItem"
           title={item[titleProperty] as string}
           className="flex w-full items-center p-2.5 text-left text-sm font-medium  text-gray-700 hover:bg-gray-50 disabled:text-gray-300"
@@ -58,11 +68,6 @@ export const Dropdown = memo<DropdownProps>(
     const groups = groupProperty
       ? Array.from(new Set([...items.map((item) => item[groupProperty])]))
       : [];
-
-    const onClick = useCallback<MouseEventHandler<HTMLButtonElement>>(() => {
-
-      // console.log(e);
-    }, []);
 
     const menuButtonGetClasses = useCallback(
       ({ open }: { open: boolean }) =>
@@ -107,11 +112,12 @@ export const Dropdown = memo<DropdownProps>(
               <div className="gap-1 px-1.5 py-1" data-qa="Dropdown-menuItems__container">
                 {items.map((item) => (
                   <Menu.Item key={item.id}>
-                    {(renderProps) => (
+                    {({ active, disabled, close }) => (
                       <MenuItem
-                        {...renderProps}
                         item={item}
-                        onClick={onClick}
+                        onClick={close}
+                        active={active}
+                        disabled={disabled}
                         keyProperty={keyProperty}
                         titleProperty={titleProperty}
                       />
@@ -127,11 +133,12 @@ export const Dropdown = memo<DropdownProps>(
                     .filter((item) => item[groupProperty] === group)
                     .map((filtered) => (
                       <Menu.Item key={filtered.id}>
-                        {(renderProps) => (
+                        {({ active, disabled, close }) => (
                           <MenuItem
-                            {...renderProps}
+                            onClick={close}
+                            active={active}
                             item={filtered}
-                            onClick={onClick}
+                            disabled={disabled}
                             keyProperty={keyProperty}
                             titleProperty={titleProperty}
                           />

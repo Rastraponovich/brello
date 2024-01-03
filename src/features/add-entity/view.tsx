@@ -5,12 +5,12 @@ import { Button, CloseXButton } from "~/shared/ui/button";
 import { InputArea } from "~/shared/ui/input";
 
 interface AddEntityProps {
+  value: string;
   editable: boolean;
-  onChange: ChangeEventHandler<HTMLTextAreaElement>;
+  buttonCaption: string;
   onReset: FormEventHandler<HTMLFormElement>;
   onSubmit: FormEventHandler<HTMLFormElement>;
-  value: string;
-  buttonCaption: string;
+  onChange: ChangeEventHandler<HTMLTextAreaElement>;
 }
 
 export const AddEntity = memo<AddEntityProps>(

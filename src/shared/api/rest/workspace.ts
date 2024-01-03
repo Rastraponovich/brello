@@ -9,7 +9,7 @@ export interface Workspace {
   name: string;
   userId: UserId;
   slug: string | null;
-  boards?: number | null;
+  boards?: TBoard[] | null;
   avatarUrl: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;
@@ -54,7 +54,10 @@ export const workspacesGetFx = createEffect<{ name: string }, Workspace[]>(async
 });
 
 export const workspacesGetByIdFx = createEffect<{ id: number }, object>(async ({ id }) => {
-  const { data, error } = await client.from("workspaces").select("*").eq("id", id);
+  const { data, error } = await client
+    .from("workspaces")
+    .select("* , boards (id, title)")
+    .eq("id", id);
 
   checkError(error);
 
@@ -122,7 +125,10 @@ export const workspaceCreateFx = createEffect<
 
 export const workspaceGetFx = createEffect<{ userId: string }, Workspace | null, InternalError>(
   async ({ userId }) => {
-    const { data, error } = await client.from("workspaces").select().eq("user_id", userId);
+    const { data, error } = await client
+      .from("workspaces")
+      .select("*, boards (*)")
+      .eq("user_id", userId);
 
     checkError(error);
 

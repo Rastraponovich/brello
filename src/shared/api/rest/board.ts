@@ -1,12 +1,18 @@
 import { PostgrestError } from "@supabase/supabase-js";
 import { createEffect } from "effector";
 
+import { Board } from "~/pages/board/page/model";
+
+import type { TTask } from "~/entities/stack";
+
 import { client } from "../client";
 
 export type TBoard = {
   id: string;
   title: string;
   image?: string;
+  user_id: string;
+  stacks?: TTask[];
   workspace_id: string;
 };
 
@@ -44,9 +50,21 @@ export const getBoardsFx = createEffect<
   return data;
 });
 
-export const getBoardByIdFx = createEffect(() => {
-  return true;
-});
+export const getBoardByIdFx = createEffect<{ id: string; workspace: string; user: string }, Board>(
+  async ({ id, workspace, user }) => {
+    const { data, error } = await client
+      .from("boards")
+      .select("*, stacks(*, tasks(*))")
+      .eq("id", id)
+      .eq("user_id", user)
+      .eq("workspace_id", workspace)
+      .single();
+
+    checkError(error);
+
+    return data ?? null;
+  },
+);
 
 export const updateBoardFx = createEffect(() => {
   return true;

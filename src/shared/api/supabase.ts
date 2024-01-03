@@ -80,10 +80,99 @@ export interface Database {
           },
         ];
       };
+      stacks: {
+        Row: {
+          board_id: string | null;
+          created_at: string;
+          id: string;
+          title: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          board_id?: string | null;
+          created_at?: string;
+          id?: string;
+          title?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          board_id?: string | null;
+          created_at?: string;
+          id?: string;
+          title?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "stacks_board_id_fkey";
+            columns: ["board_id"];
+            isOneToOne: false;
+            referencedRelation: "boards";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "stacks_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      tasks: {
+        Row: {
+          attachments: number | null;
+          bages: number[] | null;
+          created_at: string;
+          description: string | null;
+          id: string;
+          list_id: string | null;
+          title: string | null;
+          user_id: string | null;
+          users: number[] | null;
+        };
+        Insert: {
+          attachments?: number | null;
+          bages?: number[] | null;
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          list_id?: string | null;
+          title?: string | null;
+          user_id?: string | null;
+          users?: number[] | null;
+        };
+        Update: {
+          attachments?: number | null;
+          bages?: number[] | null;
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          list_id?: string | null;
+          title?: string | null;
+          user_id?: string | null;
+          users?: number[] | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "tasks_list_id_fkey";
+            columns: ["list_id"];
+            isOneToOne: false;
+            referencedRelation: "stacks";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "tasks_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       workspaces: {
         Row: {
           avatar_url: string | null;
-          boards: number | null;
           created_at: string;
           description: string | null;
           id: string;
@@ -93,7 +182,6 @@ export interface Database {
         };
         Insert: {
           avatar_url?: string | null;
-          boards?: number | null;
           created_at?: string;
           description?: string | null;
           id?: string;
@@ -103,7 +191,6 @@ export interface Database {
         };
         Update: {
           avatar_url?: string | null;
-          boards?: number | null;
           created_at?: string;
           description?: string | null;
           id?: string;

@@ -1,6 +1,6 @@
-import type { TCard } from "./model";
+import type { TTask } from "./model";
 
-export const _CARDS_: TCard[] = [
+export const _CARDS_: TTask[] = [
   {
     id: 1,
     title: "Product Designer",

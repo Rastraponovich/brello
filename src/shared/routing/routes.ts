@@ -42,7 +42,7 @@ export const routesMap: UnmappedRouteObject<object>[] = [
     route: routes.onboarding.workspace,
   },
   {
-    path: "/board/:id",
+    path: "/workspace/:workspace/board/:id",
     route: routes.board.board,
   },
   {
