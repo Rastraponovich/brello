@@ -82,25 +82,25 @@ export interface Database {
       };
       stacks: {
         Row: {
-          board_id: string | null;
+          board_id: string;
           created_at: string;
           id: string;
-          title: string | null;
-          user_id: string | null;
+          title: string;
+          user_id: string;
         };
         Insert: {
-          board_id?: string | null;
+          board_id: string;
           created_at?: string;
           id?: string;
-          title?: string | null;
-          user_id?: string | null;
+          title: string;
+          user_id: string;
         };
         Update: {
-          board_id?: string | null;
+          board_id?: string;
           created_at?: string;
           id?: string;
-          title?: string | null;
-          user_id?: string | null;
+          title?: string;
+          user_id?: string;
         };
         Relationships: [
           {
@@ -114,7 +114,7 @@ export interface Database {
             foreignKeyName: "stacks_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "profiles";
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];
@@ -126,7 +126,7 @@ export interface Database {
           created_at: string;
           description: string | null;
           id: string;
-          list_id: string | null;
+          stack_id: string | null;
           title: string | null;
           user_id: string | null;
           users: number[] | null;
@@ -137,7 +137,7 @@ export interface Database {
           created_at?: string;
           description?: string | null;
           id?: string;
-          list_id?: string | null;
+          stack_id?: string | null;
           title?: string | null;
           user_id?: string | null;
           users?: number[] | null;
@@ -148,15 +148,15 @@ export interface Database {
           created_at?: string;
           description?: string | null;
           id?: string;
-          list_id?: string | null;
+          stack_id?: string | null;
           title?: string | null;
           user_id?: string | null;
           users?: number[] | null;
         };
         Relationships: [
           {
-            foreignKeyName: "tasks_list_id_fkey";
-            columns: ["list_id"];
+            foreignKeyName: "tasks_stack_id_fkey";
+            columns: ["stack_id"];
             isOneToOne: false;
             referencedRelation: "stacks";
             referencedColumns: ["id"];
@@ -165,7 +165,7 @@ export interface Database {
             foreignKeyName: "tasks_user_id_fkey";
             columns: ["user_id"];
             isOneToOne: false;
-            referencedRelation: "profiles";
+            referencedRelation: "users";
             referencedColumns: ["id"];
           },
         ];

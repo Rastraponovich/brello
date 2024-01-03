@@ -1,12 +1,12 @@
 import { useList, useUnit } from "effector-react";
-import { type DragEvent, type ReactNode, memo } from "react";
+import { type ReactNode, memo } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
 import { AddList } from "~/features/add-list";
 import { AddToFavorite } from "~/features/board/add-to-favorite";
 
-import { Stack } from "~/entities/stack";
+import { StackColumn } from "~/entities/stack";
 
 // import { useDragAndDrop } from "~/shared/hooks/dnd";
 import { AvatarGroup } from "~/shared/ui/avatar";
@@ -17,8 +17,6 @@ import { $board, $stacks } from "./model";
 
 /**
  * Render the BoardPage component.
- *
- * @return {JSX.Element} The rendered BoardPage component.
  */
 export const BoardPage = () => {
   return (
@@ -34,11 +32,14 @@ export const BoardPage = () => {
  *
  */
 const PageHeaderContent = () => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const board = useUnit($board)!;
+
   return (
     <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
       <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-start gap-4 sm:flex-row sm:items-center">
-          <Heading as="h1">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
+          <Heading as="h1">{board?.title}</Heading>
           <AddToFavorite />
         </div>
         <AvatarGroup size="md" counter={5} canAddedUser items={_AVATARS_} />
@@ -54,62 +55,13 @@ const PageHeaderContent = () => {
 const List = () => {
   const board = useUnit($board);
 
-  const handleDragLeave = (event: DragEvent) => {
-    if (event.target instanceof HTMLElement) {
-      const container = event.target.closest(".GRID_COL");
-
-      if (container) {
-        container.classList.remove("border-2", "border-black");
-      }
-    }
-  };
-
-  const handleDragOver = (event: DragEvent) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
-    const img = new Image();
-
-    img.src = "/Brello.svg";
-    event.dataTransfer.setDragImage(img, 0, 0);
-
-    if (event.target instanceof HTMLElement) {
-      const container = event.target.closest(".GRID_COL");
-
-      if (container) {
-        container.classList.add("border-2", "border-black");
-      }
-    }
-  };
-
-  // const handleDragDrop = (event: DragEvent, _: TStack) => {
-  //   event.preventDefault();
-
-  //   if (event.target instanceof HTMLElement) {
-  //     const container = event.target.closest(".GRID_COL");
-
-  //     if (container) {
-  //       container.classList.remove("border-2", "border-black");
-  //     }
-  //   }
-  // };
-
-  // const { handleDragEnd, handleDragStart } = useDragAndDrop<Board>();
-
   return (
     <section className="container mx-auto my-0 flex grow flex-col overflow-hidden">
       <Grid>
         {useList($stacks, {
           fn: (stack) => (
             <GridColumn key={stack.id}>
-              <Stack
-                stack={stack}
-                board={board}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-
-                // onDragDrop={(e) => handleDragDrop(e, stack)}
-                // onDragStart={(e) => handleDragStart(e, stack)}
-              />
+              <StackColumn stack={stack} />
             </GridColumn>
           ),
           getKey: (stack) => stack.id,
@@ -117,7 +69,7 @@ const List = () => {
 
         {board?.id && board?.user_id && (
           <GridColumn>
-            <AddList board_id={board?.id} user_id={board?.user_id} buttonCaption="Add List" />
+            <AddList board_id={board.id} user_id={board.user_id} buttonCaption="Add List" />
           </GridColumn>
         )}
       </Grid>

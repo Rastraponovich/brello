@@ -1,38 +1,12 @@
-import { PostgrestError } from "@supabase/supabase-js";
 import { createEffect } from "effector";
 
-import { Board } from "~/pages/board/page/model";
+import { type Tables, checkCrudError, client } from "../client";
 
-import type { TTask } from "~/entities/stack";
-
-import { client } from "../client";
-
-export type TBoard = {
-  id: string;
-  title: string;
+export interface TBoard extends Tables<"boards"> {
   image?: string;
   user_id: string;
-  stacks?: TTask[];
+  stacks?: Tables<"stacks">[];
   workspace_id: string;
-};
-
-type ErrorCode = keyof typeof ErrorDict;
-type ErrorMessage = (typeof ErrorDict)[ErrorCode];
-export type InternalError = {
-  error: PostgrestError;
-  code: ErrorMessage;
-};
-
-const ErrorDict = {
-  "23505": "unique constraint",
-};
-
-export function checkError(error: PostgrestError | null): asserts error is null {
-  if (error !== null) {
-    const code = ErrorDict[error.code as ErrorCode] ?? "unknown";
-
-    throw { error, code };
-  }
 }
 
 export const getBoardsFx = createEffect<
@@ -46,11 +20,11 @@ export const getBoardsFx = createEffect<
     .eq("user_id", user_id)
     .select();
 
-  checkError(error);
+  checkCrudError(error);
   return data;
 });
 
-export const getBoardByIdFx = createEffect<{ id: string; workspace: string; user: string }, Board>(
+export const getBoardByIdFx = createEffect<{ id: string; workspace: string; user: string }, TBoard>(
   async ({ id, workspace, user }) => {
     const { data, error } = await client
       .from("boards")
@@ -60,7 +34,7 @@ export const getBoardByIdFx = createEffect<{ id: string; workspace: string; user
       .eq("workspace_id", workspace)
       .single();
 
-    checkError(error);
+    checkCrudError(error);
 
     return data ?? null;
   },
@@ -74,8 +48,10 @@ export const deleteBoardFx = createEffect(() => {
   return true;
 });
 
-export const createBoardFx = createEffect<Partial<TBoard>, unknown>(async (board) => {
-  const { data } = await client.from("boards").insert(board).select();
+export const createBoardFx = createEffect<Partial<TBoard>, TBoard>(async (board) => {
+  const { data, error } = await client.from("boards").insert(board).select().single();
+
+  checkCrudError(error);
 
   return data;
 });

@@ -1,22 +1,15 @@
 import { attach, createStore, sample } from "effector";
-import { debug } from "patronum";
 
+import { taskAddedFx } from "~/features/add-entity";
 import { stackAddedFx } from "~/features/add-list";
 
-import { type TTask, stackDeletedFx } from "~/entities/stack";
+import { stackDeletedFx } from "~/entities/stack";
 
 import { api } from "~/shared/api";
-import type { Tables } from "~/shared/api/client";
-import type { TStack } from "~/shared/api/rest/stack";
+import type { TBoard } from "~/shared/api/rest/board";
+import type { Stack } from "~/shared/api/rest/stack";
 import { routes } from "~/shared/routing";
 import { $viewer, chainAuthenticated } from "~/shared/viewer";
-
-export interface Board extends Tables<"boards"> {
-  cards?: TTask[];
-  user_id: string;
-  stacks?: TStack[];
-  workspace_id: string;
-}
 
 export const currentRoute = routes.board.board;
 
@@ -29,13 +22,13 @@ const boardGetFx = attach({
   mapParams: (params) => params,
 });
 
-export const $board = createStore<Board | null>(null);
+export const $board = createStore<TBoard | null>(null);
 
-export const $stacks = createStore<TStack[]>([]);
+export const $stacks = createStore<Stack[]>([]);
 
 $stacks.on($board, (_, board) => {
   if (board) {
-    return board.stacks ?? [];
+    return board.stacks;
   }
   return [];
 });
@@ -61,8 +54,9 @@ sample({
 });
 
 sample({
-  clock: [stackAddedFx.done, stackDeletedFx.done],
+  clock: [stackAddedFx.done, stackDeletedFx.done, taskAddedFx.done],
   source: $board,
+  filter: (board) => !!board,
   fn: (board) => ({
     id: board?.id,
     user: board?.user_id,
@@ -70,5 +64,3 @@ sample({
   }),
   target: boardGetFx,
 });
-
-debug({ trace: true }, boardGetFx, $board);
