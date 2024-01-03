@@ -8,7 +8,7 @@ html {
 
 @layer base {
   #root {
-    @apply grid h-full max-h-screen grid-rows-[minmax(0,_min-content)_1fr_minmax(0,_min-content)];
+    @apply grid h-screen max-h-screen grid-rows-[minmax(0,_min-content)_1fr_minmax(0,_min-content)];
   }
 }
 

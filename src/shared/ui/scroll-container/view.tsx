@@ -10,7 +10,7 @@ export const ScrollContainer = memo<ScrollContainerProps>(
       <div className="flex grow flex-col overflow-hidden">
         <div
           className={clsx(
-            "scroll-bar scroll-shadows hover:scroll-bar-visible scroll-bar-invisible overflow-y-auto",
+            "scroll-bar scroll-shadows  overflow-y-auto",
             ORIENTATION_DICT[scrollOrientation],
           )}
         >

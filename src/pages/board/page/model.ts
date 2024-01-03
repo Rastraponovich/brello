@@ -2,6 +2,7 @@ import { attach, createStore, sample } from "effector";
 
 import { taskAddedFx } from "~/features/add-entity";
 import { stackAddedFx } from "~/features/add-list";
+import { taskDeleteFx, taskUpdateFx } from "~/features/task/task-edit";
 
 import { stackDeletedFx } from "~/entities/stack";
 
@@ -54,7 +55,13 @@ sample({
 });
 
 sample({
-  clock: [stackAddedFx.done, stackDeletedFx.done, taskAddedFx.done],
+  clock: [
+    stackAddedFx.done,
+    stackDeletedFx.done,
+    taskAddedFx.done,
+    taskDeleteFx.done,
+    taskUpdateFx.done,
+  ],
   source: $board,
   filter: (board) => !!board,
   fn: (board) => ({

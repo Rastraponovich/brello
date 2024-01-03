@@ -1,5 +1,4 @@
 {
   "**/*.{js,ts,tsx,css}": "prettier --write",
-  "**/*.{ts,tsx}": ["yarn run lint:js"],
-  "**/*.{css}": ["yarn run lint:css"]
+  "**/*.{ts,tsx}": ["yarn run lint:js"]
 }

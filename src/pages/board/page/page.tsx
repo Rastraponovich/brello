@@ -1,14 +1,14 @@
 import { useList, useUnit } from "effector-react";
-import { type ReactNode, memo } from "react";
+import { type ReactNode, memo, useCallback } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
 import { AddList } from "~/features/add-list";
 import { AddToFavorite } from "~/features/board/add-to-favorite";
+import { TaskModal, taskOpened } from "~/features/task/task-edit";
 
 import { StackColumn } from "~/entities/stack";
 
-// import { useDragAndDrop } from "~/shared/hooks/dnd";
 import { AvatarGroup } from "~/shared/ui/avatar";
 import { Heading } from "~/shared/ui/heading";
 
@@ -23,6 +23,7 @@ export const BoardPage = () => {
     <MainLayout>
       <PageHeaderContent />
       <List />
+      <TaskModal />
     </MainLayout>
   );
 };
@@ -55,16 +56,21 @@ const PageHeaderContent = () => {
 const List = () => {
   const board = useUnit($board);
 
+  const taskCardClicked = useUnit(taskOpened);
+
+  const onTaskClicked = useCallback(taskCardClicked, [taskCardClicked]);
+
   return (
-    <section className="container mx-auto my-0 flex grow flex-col overflow-hidden">
+    <section className="container mx-auto my-0 flex grow flex-col overflow-hidden h-full">
       <Grid>
         {useList($stacks, {
+          getKey: (stack) => stack.id,
+
           fn: (stack) => (
             <GridColumn key={stack.id}>
-              <StackColumn stack={stack} />
+              <StackColumn stack={stack} onTaskClicked={onTaskClicked} />
             </GridColumn>
           ),
-          getKey: (stack) => stack.id,
         })}
 
         {board?.id && board?.user_id && (
@@ -77,17 +83,19 @@ const List = () => {
   );
 };
 
-interface IGrid {
+interface GridProps {
   children?: ReactNode;
 }
 
-const Grid = memo<IGrid>(({ children }) => {
+const Grid = memo<GridProps>(({ children }) => {
   return (
-    <div className="grid snap-x snap-mandatory  scroll-px-4 auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden px-8 py-4 sm:scroll-px-8 ">
+    <div className="h-full grid snap-x snap-mandatory scroll-px-4 auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden px-8 py-4 sm:scroll-px-8 scroll-bar">
       {children}
     </div>
   );
 });
+
+Grid.displayName = "Grid";
 
 interface GridColumnProps {
   children: ReactNode;

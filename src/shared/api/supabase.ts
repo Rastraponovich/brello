@@ -128,6 +128,7 @@ export interface Database {
           id: string;
           stack_id: string | null;
           title: string | null;
+          updated_at: string | null;
           user_id: string | null;
           users: number[] | null;
         };
@@ -139,6 +140,7 @@ export interface Database {
           id?: string;
           stack_id?: string | null;
           title?: string | null;
+          updated_at?: string | null;
           user_id?: string | null;
           users?: number[] | null;
         };
@@ -150,6 +152,7 @@ export interface Database {
           id?: string;
           stack_id?: string | null;
           title?: string | null;
+          updated_at?: string | null;
           user_id?: string | null;
           users?: number[] | null;
         };
