@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { memo, useRef } from "react";
 
-import { AddEntity } from "~/features/add-entity";
+import { TaskAdd } from "~/features/task/add-task";
 
 // import { AvatarGroup } from "~/shared/ui/avatar";
 // import { Bage } from "~/shared/ui/bage";
@@ -74,7 +74,7 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
         </div>
       </div>
 
-      <AddEntity buttonCaption="Add Card" user_id={stack.user_id} stack_id={stack.id} />
+      <TaskAdd user_id={stack.user_id} stack_id={stack.id} />
     </div>
   );
 });

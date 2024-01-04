@@ -1,7 +1,7 @@
 import { attach, createStore, sample } from "effector";
 
-import { taskAddedFx } from "~/features/add-entity";
 import { stackAddedFx } from "~/features/add-list";
+import { taskAddedFx } from "~/features/task/add-task";
 import { taskDeleteFx, taskUpdateFx } from "~/features/task/task-edit";
 
 import { stackDeletedFx } from "~/entities/stack";

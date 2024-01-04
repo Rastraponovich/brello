@@ -5,7 +5,7 @@
       {
         "addLoc": true,
         "debugSids": true,
-        "factories": ["patronum", "./src/features/add-entity", "src/features/add-entity/model"]
+        "factories": ["patronum", "src/features/add-entity", "./src/features/add-entity/model"]
       }
     ]
   ]
