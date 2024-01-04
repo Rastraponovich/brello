@@ -1,7 +1,7 @@
 import { Menu, Transition } from "@headlessui/react";
-import clsx from "clsx";
 import { Fragment, type MouseEventHandler, forwardRef, memo, useCallback } from "react";
 
+import { cx } from "~/shared/lib";
 import { Icon } from "~/shared/ui/icon";
 
 import { ITEMS } from "./constants";
@@ -71,7 +71,7 @@ export const Dropdown = memo<DropdownProps>(
 
     const menuButtonGetClasses = useCallback(
       ({ open }: { open: boolean }) =>
-        clsx(
+        cx(
           "flex w-full justify-center rounded-md text-sm  focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75",
           open ? "text-gray-700" : "text-gray-400",
           buttonClassName,
@@ -83,7 +83,7 @@ export const Dropdown = memo<DropdownProps>(
       <Menu
         as="div"
         data-qa="Dropdown"
-        className={clsx("relative inline-block text-left", menuClassName)}
+        className={cx("relative inline-block text-left", menuClassName)}
       >
         <div>
           <Menu.Button

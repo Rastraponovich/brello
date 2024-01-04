@@ -1,5 +1,6 @@
-import clsx from "clsx";
 import { forwardRef } from "react";
+
+import { cx } from "~/shared/lib";
 
 import { BaseIconSize } from "./constants";
 import { type IconProps } from "./model";
@@ -14,7 +15,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(
         aria-hidden
         focusable="false"
         viewBox="0 0 24 24"
-        className={clsx(
+        className={cx(
           "inline-block select-none fill-current text-inherit",
           size ? BaseIconSize[size] : "h-[1em] w-[1em]",
           className,

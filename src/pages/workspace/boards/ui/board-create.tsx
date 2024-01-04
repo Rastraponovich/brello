@@ -1,8 +1,8 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { cx } from "class-variance-authority";
 import { useUnit } from "effector-react";
 import { Fragment } from "react";
 
+import { cx } from "~/shared/lib";
 import { Button, IconButton } from "~/shared/ui/button";
 import { FeaturedIcon } from "~/shared/ui/featured-icon";
 import { Input } from "~/shared/ui/input";

@@ -1,7 +1,8 @@
-import clsx from "clsx";
 import { type ReactNode } from "react";
 
 import { Header } from "~/widgets/header";
+
+import { cx } from "~/shared/lib";
 
 interface LayoutProps {
   children: ReactNode;
@@ -25,7 +26,7 @@ interface IBaseLayoutProps {
 export const BaseLayout = ({ children, scrollable }: IBaseLayoutProps) => {
   return (
     <main
-      className={clsx(
+      className={cx(
         "flex grow flex-col gap-8 pb-12 pt-8  sm:pb-12 sm:pt-12",
         scrollable ? "overflow-auto" : "overflow-hidden",
       )}

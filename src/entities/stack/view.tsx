@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { useUnit } from "effector-react";
 import { memo, useRef } from "react";
 
@@ -8,6 +7,7 @@ import { TaskAdd } from "~/features/task/add-task";
 // import { Bage } from "~/shared/ui/bage";
 import type { Stack } from "~/shared/api/rest/stack";
 import type { TTask } from "~/shared/api/rest/task";
+import { cx } from "~/shared/lib";
 import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
 import { Icon } from "~/shared/ui/icon";
@@ -54,7 +54,7 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
     <div
       draggable
       ref={dragRef}
-      className={clsx(
+      className={cx(
         "flex w-full flex-col py-4",
         "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
         "overflow-hidden",

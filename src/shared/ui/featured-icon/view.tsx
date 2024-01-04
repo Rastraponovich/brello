@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { memo } from "react";
 
+import { cx } from "~/shared/lib";
 import { Sizes } from "~/shared/lib";
 import { Icon } from "~/shared/ui/icon";
 
@@ -32,7 +32,7 @@ export const FeaturedIcon = memo<FeaturedIconProps>(
   }) => {
     return (
       <div
-        className={clsx(
+        className={cx(
           "block",
           className,
           FEATURED_ICON_CONTAINER_SIZE_DICT[size],
@@ -43,7 +43,7 @@ export const FeaturedIcon = memo<FeaturedIconProps>(
             : SQUARE_COLORS[variant as FeaturedIconSquareVariant],
         )}
       >
-        <Icon name={icon} className={clsx(FEATURED_ICON_SIZE_DICT[size])} />
+        <Icon name={icon} className={cx(FEATURED_ICON_SIZE_DICT[size])} />
       </div>
     );
   },

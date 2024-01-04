@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { type DragEventHandler, memo, useCallback, useRef, useState } from "react";
 
+import { cx } from "~/shared/lib";
 import { Button } from "~/shared/ui/button";
 import { FeaturedIcon } from "~/shared/ui/featured-icon";
 
@@ -36,7 +36,7 @@ export const Upload = memo<UploadProps>(({ disabled }) => {
 
   return (
     <div
-      className={clsx(
+      className={cx(
         "flex w-full flex-col items-center gap-2 rounded-xl border border-dashed border-gray-200 px-6 py-4 ",
         disabled ? "bg-gray-50" : "hover:ring-2 hover:ring-blue-600",
       )}

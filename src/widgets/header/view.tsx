@@ -1,9 +1,9 @@
-import clsx from "clsx";
 import { useList, useUnit } from "effector-react";
 import { memo, useState } from "react";
 
 import { UserAvatarWithDropdown } from "~/entities/user";
 
+import { cx } from "~/shared/lib";
 import { Icon } from "~/shared/ui/icon";
 import { Logo } from "~/shared/ui/logo";
 import { NavItem } from "~/shared/ui/nav-item";
@@ -45,7 +45,7 @@ const NavButton = ({ opened, toggle }: { opened: boolean; toggle: () => void }) 
   return (
     <button
       onClick={toggle}
-      className={clsx(
+      className={cx(
         "rounded-lg p-2 sm:hidden",
         opened
           ? "hover:bg-white/15 text-white"

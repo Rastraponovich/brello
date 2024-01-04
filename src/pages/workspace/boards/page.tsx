@@ -1,4 +1,3 @@
-import { cx } from "class-variance-authority";
 import { useList, useUnit } from "effector-react";
 import { memo } from "react";
 
@@ -9,6 +8,7 @@ import { PageHeader, type PageHeaderAction } from "~/widgets/page-header";
 import { BoardsSearch } from "~/features/boards/search";
 
 import type { Board } from "~/shared/api/rest/board";
+import { cx } from "~/shared/lib";
 import { Icon } from "~/shared/ui/icon";
 import { ScrollContainer } from "~/shared/ui/scroll-container";
 

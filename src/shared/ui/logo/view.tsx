@@ -1,6 +1,7 @@
 import { Link } from "atomic-router-react";
-import clsx from "clsx";
 import { memo } from "react";
+
+import { cx } from "~/shared/lib";
 
 import { type LogoProps } from "./model";
 
@@ -8,7 +9,7 @@ export const Logo = memo<LogoProps>(({ short, className, canHideTitle }) => {
   return (
     <Link
       to="/"
-      className={clsx(
+      className={cx(
         "relative flex items-center gap-2.5",
         className,
         "after:content-[' '] after:absolute after:bottom-0 after:flex after:h-4 after:w-8 after:rounded-b-lg  after:backdrop-blur-[2px]",
@@ -21,7 +22,7 @@ export const Logo = memo<LogoProps>(({ short, className, canHideTitle }) => {
           alt="title"
           height={32}
           src="/Brello.svg"
-          className={clsx(canHideTitle && "hidden sm:flex")}
+          className={cx(canHideTitle && "hidden sm:flex")}
         />
       )}
     </Link>

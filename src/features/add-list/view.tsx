@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import cx from "clsx";
 import { useUnit } from "effector-react";
 import { type FormEvent, memo, useCallback } from "react";
 import type { ChangeEventHandler } from "react";
@@ -43,7 +43,7 @@ export const AddList = memo<AddListProps>(({ buttonCaption, user_id, board_id })
   return (
     <form
       onSubmit={formSubmitted}
-      className={clsx(
+      className={cx(
         "flex w-full  flex-col justify-start gap-4 rounded-2xl border border-gray-200 bg-[#FCFCFD]",
         editable && "px-4 py-5 shadow-sm",
       )}

@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { ChangeEvent, type HTMLInputTypeAttribute, forwardRef, memo, useCallback } from "react";
 
+import { cx } from "~/shared/lib";
 import { Icon, type IconName } from "~/shared/ui/icon";
 
 import { EInputSize, INPUT_SIZE_DICT } from "./constants";
@@ -69,7 +69,7 @@ const _BaseInput = forwardRef<HTMLInputElement, BaseInputProps>(
         ref={ref}
         {...props}
         data-qa="Input__value"
-        className={clsx(
+        className={cx(
           "text-base text-gray-900 placeholder:text-gray-500",
           "w-full gap-2 bg-white shadow-sm",
           "border-gray-300, rounded-lg border",
@@ -94,12 +94,7 @@ const _InputSearch = forwardRef<HTMLInputElement, InputProps>(
     return (
       <InputWrapper hint={hint} caption={caption} className="relative justify-center">
         <Icon size="normal" name="common/search-sm" className="absolute left-3.5 h-5 w-5 " />
-        <BaseInput
-          ref={ref}
-          size="sm"
-          className={clsx(props.className, "pl-10 pr-3.5")}
-          {...props}
-        />
+        <BaseInput ref={ref} size="sm" className={cx(props.className, "pl-10 pr-3.5")} {...props} />
       </InputWrapper>
     );
   },
@@ -114,7 +109,7 @@ const InputWrapper = memo<InputWrapperProps>(({ children, caption, className, er
   return (
     <label
       data-qa="Input__container"
-      className={clsx(
+      className={cx(
         "relative flex w-full flex-col gap-1.5 text-left text-sm font-normal",
         className,
       )}
@@ -153,7 +148,7 @@ const _InputArea = forwardRef<HTMLTextAreaElement, IInputAreaProps>(
 
     return (
       <InputWrapper caption={caption} hint={hint}>
-        <BaseInputArea {...props} onChange={handleChange} className={clsx(className)} ref={ref} />
+        <BaseInputArea {...props} onChange={handleChange} className={cx(className)} ref={ref} />
       </InputWrapper>
     );
   },
@@ -170,7 +165,7 @@ const _BaseInutArea = forwardRef<HTMLTextAreaElement, BaseInputAreaProps>(
         {...props}
         data-qa="Textarea__value"
         rows={rows}
-        className={clsx(
+        className={cx(
           "px-3 py-2 sm:px-3.5 sm:py-2.5",
           "rounded-lg border border-gray-300",
           "w-full resize-none gap-2 bg-white shadow-sm",

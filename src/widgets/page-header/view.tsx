@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { memo } from "react";
 
+import { cx } from "~/shared/lib";
 import { Avatar } from "~/shared/ui/avatar";
 import { Button } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
@@ -24,7 +24,7 @@ export const PageHeader = memo<PageHeaderProps>(
   }) => {
     return (
       <header
-        className={clsx(
+        className={cx(
           "flex w-full flex-col items-center  justify-between gap-4 sm:flex-row",
           divider ? "border-b border-gray-200 pb-5" : "border-transparent",
           className,
@@ -73,7 +73,7 @@ export const PageHeader = memo<PageHeaderProps>(
 export const PageHeaderSkeleton = ({ divider, className, actions }: Partial<PageHeaderProps>) => {
   return (
     <header
-      className={clsx(
+      className={cx(
         "flex w-full flex-col items-center  justify-between gap-4 sm:flex-row",
         divider ? "border-b border-gray-200 pb-5" : "border-transparent",
         className,
