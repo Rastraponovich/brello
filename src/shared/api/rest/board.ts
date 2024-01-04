@@ -9,19 +9,21 @@ export interface Board extends Tables<"boards"> {
   workspace_id: string;
 }
 
-export const getBoardsFx = createEffect<{ workspace_id: string; user_id: string }, Board[]>(
-  async ({ workspace_id, user_id }) => {
-    const { data, error } = await client
-      .from("boards")
-      .select("*")
-      .eq("workspace_id", workspace_id)
-      .eq("user_id", user_id)
-      .select();
+export const getBoardsFx = createEffect<
+  { workspace_id: string; user_id: string; params?: { search?: string } },
+  Board[]
+>(async ({ workspace_id, user_id, params }) => {
+  const { data, error } = await client
+    .from("boards")
+    .select("*")
+    .eq("workspace_id", workspace_id)
+    .eq("user_id", user_id)
+    .ilike("title", `%${params?.search ?? ""}%`)
+    .select();
 
-    checkCrudError(error);
-    return data;
-  },
-);
+  checkCrudError(error);
+  return data;
+});
 
 export const getBoardByIdFx = createEffect<{ id: string; workspace: string; user: string }, Board>(
   async ({ id, workspace, user }) => {
@@ -47,10 +49,7 @@ export const deleteBoardFx = createEffect(() => {
   return true;
 });
 
-export const createBoardFx = createEffect<
-  { workspace_id: string; user_id: string; title: string },
-  Board
->(async (board) => {
+export const createBoardFx = createEffect<Partial<Board>, Board>(async (board) => {
   const { data, error } = await client.from("boards").insert(board).select().single();
 
   checkCrudError(error);

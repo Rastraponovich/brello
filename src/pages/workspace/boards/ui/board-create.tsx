@@ -1,22 +1,25 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { cx } from "class-variance-authority";
 import { useUnit } from "effector-react";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 
 import { Button, IconButton } from "~/shared/ui/button";
 import { FeaturedIcon } from "~/shared/ui/featured-icon";
 import { Input } from "~/shared/ui/input";
 
 import {
+  $boardBackgroundColor,
   $boardName,
+  $boardsListPending,
   $modalOpened,
   boardAddSubmitted,
+  boardBackgroundColorChanged,
   boardModalClosed,
   boardNameChanged,
 } from "../model";
 
 export const BoardAddModal = () => {
-  const [opened, name] = useUnit([$modalOpened, $boardName]);
+  const [opened, name, pending] = useUnit([$modalOpened, $boardName, $boardsListPending]);
   const [onTitleChange, onClose, onSubmit] = useUnit([
     boardNameChanged,
     boardModalClosed,
@@ -59,9 +62,11 @@ export const BoardAddModal = () => {
                       className="self-center"
                       icon="common/plus-circle"
                     />
+
                     <IconButton
                       size="lg"
                       onClick={onClose}
+                      disabled={pending}
                       variant="linkGray"
                       icon="common/x-close"
                     />
@@ -69,12 +74,15 @@ export const BoardAddModal = () => {
 
                   <h4 className="text-gray-900 text-lg font-semibold">Create a new board</h4>
                 </div>
+
                 <div className="flex flex-col gap-5 p-6">
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-gray-700">Name</span>
+
                     <span className="text-sm text-gray-600">
                       This will be displayed in board header.
                     </span>
+
                     <Input
                       size="md"
                       value={name}
@@ -83,25 +91,14 @@ export const BoardAddModal = () => {
                       placeholder="enter the title of your board"
                     />
                   </div>
+
                   <hr className="border-t border-t-gray-200" />
 
                   <div className="flex flex-col gap-3">
                     <span>Choose background image or color</span>
+
                     <div className="flex flex-col gap-4">
-                      <div className="grid grid-cols-4">
-                        <div className="p-1.5 rounded-3xl h-44 flex flex-col">
-                          <div className="bg-gray-400 grow rounded-3xl"></div>
-                        </div>
-                        <div className="p-1.5 rounded-3xl h-44 flex flex-col">
-                          <div className="bg-gray-400 grow rounded-3xl"></div>
-                        </div>
-                        <div className="p-1.5 rounded-3xl h-44 flex flex-col">
-                          <div className="bg-gray-400 grow rounded-3xl"></div>
-                        </div>
-                        <div className="p-1.5 rounded-3xl h-44 flex flex-col">
-                          <div className="bg-gray-400 grow rounded-3xl"></div>
-                        </div>
-                      </div>
+                      <ImagePicker />
 
                       <ColorPicker />
                     </div>
@@ -109,15 +106,22 @@ export const BoardAddModal = () => {
                 </div>
 
                 <div className="flex items-center gap-3 justify-end pt-8 border-t border-t-gray-200 px-6 pb-6">
-                  <Button onClick={onClose} variant="secondaryGray" size="md" type="button">
+                  <Button
+                    onClick={onClose}
+                    variant="secondaryGray"
+                    size="md"
+                    type="button"
+                    disabled={pending}
+                  >
                     Close
                   </Button>
+
                   <Button
                     size="md"
                     type="button"
                     variant="primary"
                     onClick={onSubmit}
-                    disabled={name.length === 0}
+                    disabled={pending || name.length === 0}
                   >
                     Save
                   </Button>
@@ -132,26 +136,61 @@ export const BoardAddModal = () => {
 };
 
 const ColorPicker = () => {
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, onColorChange] = useUnit([$boardBackgroundColor, boardBackgroundColorChanged]);
   const colors = [
-    "text-yellow-600 hover:outline-yellow-600",
-    "text-red-600 hover:outline-red-600",
-    "text-pink-600 hover:outline-pink-600",
-    "text-zinc-600 hover:outline-zinc-600",
-    "text-rose-600 hover:outline-rose-600",
-    "text-blue-600 hover:outline-blue-600",
-    "text-orange-600 hover:outline-orange-600",
-    "text-indigo-600 hover:outline-indigo-600",
+    {
+      title: "yellow",
+      id: 1,
+      value: "bg-yellow-500",
+      className: "text-yellow-500 hover:outline-yellow-500",
+    },
+    { title: "red", id: 2, value: "bg-red-500", className: "text-red-500 hover:outline-red-500" },
+    {
+      title: "pink",
+      id: 3,
+      value: "bg-pink-500",
+      className: "text-pink-500 hover:outline-pink-500",
+    },
+    {
+      title: "zinc",
+      id: 4,
+      value: "bg-zinc-500",
+      className: "text-zinc-500 hover:outline-zinc-500",
+    },
+    {
+      title: "rose",
+      id: 5,
+      value: "bg-rose-500",
+      className: "text-rose-500 hover:outline-rose-500",
+    },
+    {
+      title: "blue",
+      id: 6,
+      value: "bg-blue-500",
+      className: "text-blue-500 hover:outline-blue-500",
+    },
+    {
+      title: "orange",
+      id: 7,
+      value: "bg-orange-500",
+      className: "text-orange-500 hover:outline-orange-500",
+    },
+    {
+      title: "indigo",
+      id: 8,
+      value: "bg-indigo-500",
+      className: "text-indigo-500 hover:outline-indigo-500",
+    },
   ];
 
   return (
     <div className="flex items-center">
-      {colors.map((item, idx) => (
+      {colors.map((item) => (
         <ColorPickerItem
-          key={item}
-          className={item}
-          selected={idx === selected}
-          onClick={() => setSelected(idx)}
+          key={item.id}
+          className={item.className}
+          selected={item.value === selected}
+          onClick={() => onColorChange(item.value)}
         />
       ))}
     </div>
@@ -177,6 +216,25 @@ const ColorPickerItem = ({
           className,
         )}
       ></div>
+    </div>
+  );
+};
+
+const ImagePicker = () => {
+  return (
+    <div className="grid grid-cols-4">
+      <ImagePickerItem />
+      <ImagePickerItem />
+      <ImagePickerItem />
+      <ImagePickerItem />
+    </div>
+  );
+};
+
+const ImagePickerItem = () => {
+  return (
+    <div className="p-1.5 rounded-3xl h-44 flex flex-col">
+      <div className="bg-gray-400 grow rounded-3xl"></div>
     </div>
   );
 };

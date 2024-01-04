@@ -22,6 +22,7 @@ export const boardAddButtonClicked = createEvent();
 export const settingsButtonClicked = createEvent();
 export const boardCardClicked = createEvent<Board>();
 export const boardNameChanged = createEvent<string>();
+export const boardBackgroundColorChanged = createEvent<string>();
 
 export const $workspace = createStore<Workspace | null>(null);
 
@@ -35,8 +36,9 @@ const workspaceGetFx = attach({
 const boardsGetFx = attach({
   effect: api.board.getBoardsFx,
   source: $workspace,
-  mapParams: (_, workspace) => {
+  mapParams: (params: { search?: string }, workspace) => {
     return {
+      params,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       user_id: workspace!.userId,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -48,9 +50,10 @@ const boardsGetFx = attach({
 const boardCreateFx = attach({
   effect: api.board.createBoardFx,
   source: $workspace,
-  mapParams: (title: string, workspace) => {
+  mapParams: ({ title, background_color }, workspace) => {
     return {
       title,
+      background_color,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       user_id: workspace!.userId,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -66,8 +69,9 @@ export const $boards = createStore<Board[]>([]);
 // create a new board
 export const $boardName = createStore("");
 export const $modalOpened = createStore(false);
+export const $boardBackgroundColor = createStore("bg-white");
 
-const debouncedSearch = debounce({ source: $search, timeout: 300 });
+const debouncedSearch = debounce({ source: $search, timeout: 500 });
 
 export const $boardsLength = $boards.map((boards) => boards.length);
 export const $boardsEmpty = $boards.map((boards) => boards.length === 0);
@@ -79,6 +83,7 @@ export const $boardsListPending = pending({
 $search.on(searched, (_, search) => search);
 
 $boardName.on(boardNameChanged, (_, name) => name);
+$boardBackgroundColor.on(boardBackgroundColorChanged, (_, color) => color);
 $modalOpened.on(boardModalOpened, () => true);
 $modalOpened.on(boardModalClosed, () => false);
 
@@ -115,9 +120,9 @@ sample({
 
 sample({
   clock: debouncedSearch,
-  source: $boards,
-  fn: (items, search) => items.filter((item) => item.title && item.title.startsWith(search)),
-  target: $boards,
+  source: $search,
+  fn: (search) => ({ search }),
+  target: boardsGetFx,
 });
 
 sample({
@@ -140,7 +145,7 @@ sample({
 
 sample({
   clock: boardAddSubmitted,
-  source: $boardName,
+  source: { title: $boardName, background_color: $boardBackgroundColor },
   target: boardCreateFx,
 });
 
@@ -151,6 +156,7 @@ sample({
 
 sample({
   clock: [boardCreateFx.doneData],
+  fn: () => ({}),
   target: boardsGetFx,
 });
 
@@ -161,5 +167,5 @@ reset({
 
 reset({
   clock: boardCreateFx.done,
-  target: [$boardName, $modalOpened, $search],
+  target: [$boardName, $modalOpened, $search, $boardBackgroundColor],
 });

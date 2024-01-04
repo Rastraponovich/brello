@@ -5,6 +5,8 @@ export interface Database {
     Tables: {
       boards: {
         Row: {
+          background_color: string | null;
+          background_image: string | null;
           created_at: string;
           id: string;
           title: string | null;
@@ -12,6 +14,8 @@ export interface Database {
           workspace_id: string | null;
         };
         Insert: {
+          background_color?: string | null;
+          background_image?: string | null;
           created_at?: string;
           id?: string;
           title?: string | null;
@@ -19,6 +23,8 @@ export interface Database {
           workspace_id?: string | null;
         };
         Update: {
+          background_color?: string | null;
+          background_image?: string | null;
           created_at?: string;
           id?: string;
           title?: string | null;

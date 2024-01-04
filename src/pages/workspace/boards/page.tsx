@@ -1,3 +1,4 @@
+import { cx } from "class-variance-authority";
 import { useList, useUnit } from "effector-react";
 import { memo } from "react";
 
@@ -8,8 +9,7 @@ import { PageHeader, type PageHeaderAction } from "~/widgets/page-header";
 import { BoardsSearch } from "~/features/boards/search";
 
 import type { Board } from "~/shared/api/rest/board";
-import { Button } from "~/shared/ui/button";
-import { Heading } from "~/shared/ui/heading";
+import { Icon } from "~/shared/ui/icon";
 import { ScrollContainer } from "~/shared/ui/scroll-container";
 
 import {
@@ -24,7 +24,8 @@ import {
   resetSearch,
   settingsButtonClicked,
 } from "./model";
-import { BaseEmpty, BoardAddModal } from "./ui";
+import { BaseEmpty } from "./ui/base";
+import { BoardAddModal } from "./ui/board-create";
 
 /**
  * Renders a page loader component.
@@ -124,15 +125,12 @@ const Boards = () => {
  * Renders the list of boards.
  */
 const BoardsList = () => {
-  const handleCardClick = useUnit(boardCardClicked);
+  const [handleCardClick, search] = useUnit([boardCardClicked, $search]);
 
   return (
     <ScrollContainer>
-      <div
-        draggable
-        className=" grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
-      >
-        <AddBoardCard />
+      <div className="grid place-items-stretch content-stretch gap-6 overflow-y-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+        {search.length === 0 && <AddBoardCard />}
         {useList($boards, {
           fn: (board) => <BoardCard {...board} onClick={() => handleCardClick(board)} />,
         })}
@@ -181,15 +179,11 @@ const AddBoardCard = memo(() => {
   const handleAddBoard = useUnit(boardAddButtonClicked);
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
-      <Button
-        size="md"
-        variant="tertiaryGray"
-        onClick={handleAddBoard}
-        leftIcon="common/plus-circle"
-      >
-        Create new board
-      </Button>
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-5 ">
+      <button onClick={handleAddBoard} className="flex items-center gap-2 h-14">
+        <Icon name="common/plus-circle" className="h-5 w-5" />
+        <span className="line-clamp-1 text-gray-600 text-lg font-medium">Create new board</span>
+      </button>
     </div>
   );
 });
@@ -200,14 +194,17 @@ interface BoardCardProps extends Board {
   onClick?(): void;
 }
 
-const BoardCard = memo<BoardCardProps>(({ title, onClick }) => {
+const BoardCard = memo<BoardCardProps>(({ title, onClick, background_color }) => {
   return (
     <figure
       onClick={onClick}
-      className="flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-lg font-medium text-white"
+      className={cx(
+        "flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-lg font-medium text-white",
+        background_color,
+      )}
     >
       <figcaption>
-        <Heading as="h4">{title}</Heading>
+        <h4 className="line-clamp-2 text-gray-600 h-14 mix-blend-plus-lighter">{title}</h4>
       </figcaption>
     </figure>
   );
