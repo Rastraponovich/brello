@@ -12,15 +12,15 @@ export const PageHeader = memo<PageHeaderProps>(
   ({
     title,
     avatar,
-    searchValue,
-    placeholder = "search",
-    onSearch,
     divider,
     actions,
-    headingAs = "h1",
-    description,
+    onSearch,
     className,
+    description,
+    searchValue,
+    headingAs = "h1",
     heandingClassName,
+    placeholder = "search",
   }) => {
     return (
       <header
@@ -32,10 +32,12 @@ export const PageHeader = memo<PageHeaderProps>(
       >
         <div className="flex w-full shrink items-center gap-5 overflow-hidden">
           {avatar && <Avatar size="2xl" user={avatar} />}
+
           <div className="flex w-full shrink flex-col  gap-1">
             <Heading as={headingAs} className={heandingClassName}>
               {title}
             </Heading>
+
             {description && (
               <span className="text-base font-normal text-gray-600">{description}</span>
             )}
@@ -51,6 +53,7 @@ export const PageHeader = memo<PageHeaderProps>(
             ))}
           </div>
         )}
+
         {onSearch && (
           <div className="w-full max-w-[320px] shrink-0 text-gray-500">
             <Input

@@ -17,8 +17,9 @@ export interface PageHeaderProps {
   searchValue?: string;
   description?: string;
   placeholder?: string;
-  headingAs?: HeadingProps["as"];
+  onReset?: () => void;
   actions?: PageHeaderAction[];
-  heandingClassName?: HeadingProps["className"];
+  headingAs?: HeadingProps["as"];
   onSearch?: (searchValue: string) => void;
+  heandingClassName?: HeadingProps["className"];
 }

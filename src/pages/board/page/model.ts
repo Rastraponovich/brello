@@ -7,7 +7,7 @@ import { taskDeleteFx, taskUpdateFx } from "~/features/task/task-edit";
 import { stackDeletedFx } from "~/entities/stack";
 
 import { api } from "~/shared/api";
-import type { TBoard } from "~/shared/api/rest/board";
+import type { Board } from "~/shared/api/rest/board";
 import type { Stack } from "~/shared/api/rest/stack";
 import { routes } from "~/shared/routing";
 import { $viewer, chainAuthenticated } from "~/shared/viewer";
@@ -23,7 +23,7 @@ const boardGetFx = attach({
   mapParams: (params) => params,
 });
 
-export const $board = createStore<TBoard | null>(null);
+export const $board = createStore<Board | null>(null);
 
 export const $stacks = createStore<Stack[]>([]);
 

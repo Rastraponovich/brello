@@ -7,14 +7,14 @@ import {
   checkCrudError,
   client,
 } from "../client";
-import type { TBoard } from "./board";
+import type { Board } from "./board";
 
 export interface Workspace {
   id: string;
   name: string;
   userId: UserId;
   slug: string | null;
-  boards?: TBoard[] | null;
+  boards?: Board[] | null;
   avatarUrl: string | null;
   createdAt?: string | null;
   updatedAt?: string | null;

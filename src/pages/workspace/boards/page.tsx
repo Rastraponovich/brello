@@ -1,5 +1,5 @@
 import { useList, useUnit } from "effector-react";
-import { type ReactNode, memo } from "react";
+import { memo } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -7,11 +7,9 @@ import { PageHeader, type PageHeaderAction } from "~/widgets/page-header";
 
 import { BoardsSearch } from "~/features/boards/search";
 
-import { TBoard } from "~/shared/api/rest/board";
-import { Button, type ButtonBaseProps, type ButtonBaseVariant } from "~/shared/ui/button";
-import { FeaturedIcon } from "~/shared/ui/featured-icon";
+import type { Board } from "~/shared/api/rest/board";
+import { Button } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
-import { type IconName } from "~/shared/ui/icon";
 import { ScrollContainer } from "~/shared/ui/scroll-container";
 
 import {
@@ -21,12 +19,16 @@ import {
   $isNotFound,
   $search,
   $workspace,
-  addBoard,
+  boardAddButtonClicked,
   boardCardClicked,
   resetSearch,
   settingsButtonClicked,
 } from "./model";
+import { BaseEmpty, BoardAddModal } from "./ui";
 
+/**
+ * Renders a page loader component.
+ */
 export const PageLoader = () => {
   return (
     <MainLayout>
@@ -37,10 +39,14 @@ export const PageLoader = () => {
   );
 };
 
+/**
+ * Renders the Boards Page component.
+ */
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
 
-  const workspace = useUnit($workspace);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const workspace = useUnit($workspace)!;
 
   const actions: PageHeaderAction[] = [
     {
@@ -74,10 +80,14 @@ export const BoardsPage = () => {
       <BoardsFilter />
 
       <Boards />
+      <BoardAddModal />
     </MainLayout>
   );
 };
 
+/**
+ * Renders the BoardsFilter component.
+ */
 const BoardsFilter = () => {
   return (
     <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
@@ -86,6 +96,9 @@ const BoardsFilter = () => {
   );
 };
 
+/**
+ * Renders the Boards component.
+ */
 const Boards = () => {
   const [isEmpty, isNotFound] = useUnit([$boardsEmpty, $isNotFound]);
   const pending = useUnit($boardsListPending);
@@ -107,6 +120,9 @@ const Boards = () => {
   );
 };
 
+/**
+ * Renders the list of boards.
+ */
 const BoardsList = () => {
   const handleCardClick = useUnit(boardCardClicked);
 
@@ -125,50 +141,11 @@ const BoardsList = () => {
   );
 };
 
-interface IAction extends ButtonBaseProps, ButtonBaseVariant {
-  caption: string;
-}
-
-interface BaseEmptyProps {
-  title: string;
-  icon?: IconName;
-  onClick?(): void;
-  subTitle?: string;
-  actions?: IAction[];
-  children?: ReactNode;
-}
-const BaseEmpty = memo<BaseEmptyProps>(({ icon, title, subTitle, actions, onClick }) => {
-  return (
-    <div className="flex flex-col items-center">
-      {icon && (
-        <FeaturedIcon size="lg" icon={icon} type="circle" color="primary" variant="outline" />
-      )}
-
-      <Heading as="h3" className="font-semibold text-gray-900">
-        {title}
-      </Heading>
-
-      {subTitle && <p className="text-center text-sm text-gray-600">{subTitle}</p>}
-
-      <div className="mt-6 flex gap-3">
-        {actions?.map(({ caption, ...action }, idx) => (
-          <Button key={idx} size="md" variant="secondaryGray" {...action}>
-            {caption}
-          </Button>
-        ))}
-
-        <Button size="md" variant="primary" onClick={onClick} leftIcon="common/plus">
-          New board
-        </Button>
-      </div>
-    </div>
-  );
-});
-
-BaseEmpty.displayName = "BaseEmpty";
-
+/**
+ * Renders an empty state component.
+ */
 const EmptyState = () => {
-  const handleAddBoard = useUnit(addBoard);
+  const handleAddBoard = useUnit(boardAddButtonClicked);
 
   return (
     <BaseEmpty
@@ -183,7 +160,7 @@ const EmptyState = () => {
 
 const NotFoundState = memo(() => {
   const [searchValue, onClear] = useUnit([$search, resetSearch]);
-  const handleAddBoard = useUnit(addBoard);
+  const handleAddBoard = useUnit(boardAddButtonClicked);
 
   const message = `Your search ${searchValue} did not match any boards. Please try again.`;
 
@@ -201,7 +178,7 @@ const NotFoundState = memo(() => {
 NotFoundState.displayName = "NotFoundState";
 
 const AddBoardCard = memo(() => {
-  const handleAddBoard = useUnit(addBoard);
+  const handleAddBoard = useUnit(boardAddButtonClicked);
 
   return (
     <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
@@ -219,7 +196,7 @@ const AddBoardCard = memo(() => {
 
 AddBoardCard.displayName = "AddBoardCard";
 
-interface BoardCardProps extends TBoard {
+interface BoardCardProps extends Board {
   onClick?(): void;
 }
 
