@@ -4,7 +4,7 @@ import { SUPABASE_ANON_KEY, SUPABASE_URL } from "~/shared/config/api";
 
 import { Database } from "./supabase";
 
-export const client = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const client = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /**
  * Checks if the provided error is null and throws an exception if it is not.

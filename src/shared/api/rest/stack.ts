@@ -7,7 +7,7 @@ export interface Stack extends Tables<"stacks"> {
   tasks?: Tables<"tasks">[];
 }
 
-export const stackCreateFx = createEffect<Partial<Stack>, Stack>(async (stack) => {
+export const stackCreateFx = createEffect<Stack, Stack>(async (stack) => {
   const { data, error } = await client.from("stacks").insert(stack).select().single();
 
   checkCrudError(error);

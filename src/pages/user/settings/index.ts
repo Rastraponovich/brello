@@ -1,7 +1,13 @@
-import { currentRoute } from "./model";
+import { createRouteView } from "atomic-router-react";
+
+import { authenticatedRoute, currentRoute } from "./model";
 import { UserPage } from "./page";
 
 export default {
-  view: UserPage,
+  view: createRouteView({
+    route: authenticatedRoute,
+    view: UserPage,
+    otherwise: UserPage,
+  }),
   route: currentRoute,
 };

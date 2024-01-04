@@ -1,4 +1,5 @@
 import { useUnit } from "effector-react";
+import { FormEvent, useCallback } from "react";
 
 import { OnboardingLayout } from "~/layouts/onboarding-layout";
 
@@ -65,25 +66,33 @@ const OnboardingForm = () => {
 
   const [firstName, lastName] = useUnit([$firstName, $lastName]);
 
+  const onSubmit = useCallback(
+    (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      handleSubmit();
+    },
+    [handleSubmit],
+  );
+
   return (
     <>
       <form
         id="form"
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         className="flex w-full flex-col gap-6 text-sm text-gray-700 sm:max-w-[512px] sm:flex-row sm:gap-8"
       >
         <Input
           placeholder="First name"
           caption="First name"
           value={firstName ?? ""}
-          onChange={handleFirstNameChange}
+          onValueChange={handleFirstNameChange}
         />
 
         <Input
           placeholder="Last name"
           caption="Last name"
           value={lastName ?? ""}
-          onChange={handleLastNameChange}
+          onValueChange={handleLastNameChange}
         />
       </form>
 
