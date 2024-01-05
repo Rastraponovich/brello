@@ -27,7 +27,7 @@ export const workspacesGetFx = createEffect<{ name: string }, Workspace[]>(async
 
   checkCrudError(error);
 
-  return data;
+  return (data as unknown as Workspace[]) ?? [];
 });
 
 export const workspacesGetByIdFx = createEffect<{ id: number }, object>(async ({ id }) => {
@@ -94,11 +94,12 @@ export const workspaceCreateFx = createEffect<
   const { error, data } = await client
     .from("workspaces")
     .insert({ ...rest, user_id: userId, avatar_url: avatarUrl })
-    .select();
+    .select()
+    .single();
 
   checkCrudError(error);
 
-  return data[0] ?? null;
+  return (data as unknown as Workspace) ?? null;
 });
 
 export const workspaceGetFx = createEffect<{ userId: string }, Workspace | null, InternalError>(

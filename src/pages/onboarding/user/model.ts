@@ -36,24 +36,24 @@ export const authenticatedRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.auth.signIn.open,
 });
 
-export const skipButtonClicked = createEvent();
 export const formSubmitted = createEvent();
+export const skipButtonClicked = createEvent();
 
-export const firstNameChanged = createEvent<string>();
 export const lastNameChanged = createEvent<string>();
+export const firstNameChanged = createEvent<string>();
 
-export const $firstName = createStore("");
 export const $lastName = createStore("");
+export const $firstName = createStore("");
 
 const $profileExists = createStore(false);
 
 const $profile = createStore<Tables<"profiles"> | null>(null);
 
-export const $isEmptyFirstName = $firstName.map(validateName);
 export const $isEmptyLastName = $lastName.map(validateName);
+export const $isEmptyFirstName = $firstName.map(validateName);
 
-$firstName.on(firstNameChanged, (_, firstName) => firstName);
 $lastName.on(lastNameChanged, (_, lastName) => lastName);
+$firstName.on(firstNameChanged, (_, firstName) => firstName);
 
 // write profile to store when data is available
 $profile.on(profileExistsFx.doneData, (_, profile) => profile);

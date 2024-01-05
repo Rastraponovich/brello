@@ -4,7 +4,7 @@ export const routes = {
   home: createRoute(),
   board: {
     board: createRoute(),
-    settings: createRoute(),
+    settings: createRoute<{ id: string }>(),
   },
   onboarding: {
     user: createRoute(),
@@ -23,7 +23,7 @@ export const routes = {
 
 export const notFoundRoute = createRoute();
 
-export const routesMap: UnmappedRouteObject<object>[] = [
+export const routesMap: UnmappedRouteObject<object | { id: string }>[] = [
   {
     path: "/auth/sign-in",
     route: routes.auth.signIn,
@@ -48,7 +48,7 @@ export const routesMap: UnmappedRouteObject<object>[] = [
   {
     path: "/board/:id/settings",
     route: routes.board.settings,
-  },
+  } as UnmappedRouteObject<object | { id: string }>,
   {
     path: "/user",
     route: routes.user,

@@ -5,9 +5,9 @@ import { MainLayout } from "~/layouts/main-layout";
 
 import { PageHeader } from "~/widgets/page-header";
 
-import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
+import { Button } from "~/shared/ui/button";
+import { FormBlock, FormFooterActions as FormFooterActionsBase } from "~/shared/ui/form-layouts";
 import { Input, InputArea } from "~/shared/ui/input";
-import { Upload } from "~/shared/ui/upload";
 
 import {
   $description,
@@ -26,21 +26,24 @@ export const PageLoader = () => {
     <MainLayout>
       <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
         <PageHeader divider title="Workspace settings" />
-        <div>...Loading, please wait</div>
+        <section className="flex flex-col gap-8 relative">
+          <Loader />
+        </section>
       </section>
     </MainLayout>
   );
 };
 
 export const WorkSpaceSettingsPage = () => {
-  const pending = useUnit($pending);
-
   return (
     <MainLayout>
-      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
+      <section className="container mx-auto flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
         <PageHeader divider title="Workspace settings" />
-        <WorkSpaceSettingsForm />
-        <FormFooterActions pending={pending} />
+        <section className="flex flex-col gap-8 relative">
+          <Loader />
+          <WorkSpaceSettingsForm />
+          <FormFooterActions />
+        </section>
       </section>
     </MainLayout>
   );
@@ -58,25 +61,51 @@ const WorkSpaceSettingsForm = () => {
   return (
     <form
       id="form"
-      onReset={handleCancel}
       onSubmit={onSubmit}
+      onReset={handleCancel}
       className="scroll-shadows -mx-4 flex flex-col gap-5 overflow-auto px-4"
     >
+      <WorkspaceUplad />
       <WorkspaceName />
       <WorkspaceDescription />
-      <WorkspaceUplad />
     </form>
   );
 };
 
+function genTitle(title: string): string {
+  const arr = title.split(" ");
+
+  if (arr.length > 1) {
+    return `${arr[0].charAt(0).toUpperCase()}${arr[1].charAt(0).toUpperCase()}`;
+  }
+
+  if (title.length > 1) {
+    return `${title.charAt(0).toUpperCase()}${title.charAt(1).toUpperCase()}`;
+  }
+
+  return title.charAt(0).toUpperCase();
+}
+
 const WorkspaceUplad = () => {
+  const title = useUnit($name);
+
   return (
     <FormBlock title="Logo" description="Update your logo.">
-      <div className="flex flex-col items-start gap-5 sm:flex-row sm:gap-8">
-        <div className="flex w-full max-w-[142px] sm:mt-4">
-          <img height={32} width={142} alt="preview-image" src="/brand-logo.svg" />
+      <div className="flex sm:items-center gap-5 sm:gap-8">
+        <div className="rounded-full bg-gray-100 text-gray-600 h-16 w-16 shrink-0 flex items-center justify-center">
+          <span className="text-2xl font-medium">{genTitle(title)}</span>
         </div>
-        <Upload />
+
+        <div className="flex items-start sm:items-center flex-col sm:flex-row gap-3">
+          <div className="flex flex-col text-sm font-normal gap-1">
+            <span className="text-gray-600 font-medium">Upload image</span>
+            <span className="text-gray-700">SVG, PNG, JPG or GIF (max. 500×500px)</span>
+          </div>
+
+          <Button size="sm" variant="secondaryGray">
+            Upload
+          </Button>
+        </div>
       </div>
     </FormBlock>
   );
@@ -91,16 +120,17 @@ const WorkspaceName = () => {
     <FormBlock title="Name" description="This will be displayed on your profile.">
       <Input
         value={name}
-        onValueChange={handleChangeName}
-        placeholder="Coding in action"
         disabled={pending}
+        placeholder="Coding in action"
+        onValueChange={handleChangeName}
       />
+
       <Input
         value={slug}
         disabled={pending}
         onValueChange={handleChangeSlug}
+        caption={`brello.io/workspaces/${slug}`}
         placeholder="https://brello.io/workspaces/"
-        caption="https://brello.io/workspaces/"
       />
     </FormBlock>
   );
@@ -113,11 +143,59 @@ const WorkspaceDescription = () => {
   return (
     <FormBlock title="Description" description="A quick snapsot of your workspace.">
       <InputArea
-        value={description}
         disabled={pending}
+        value={description}
         onValueChange={setDescribtion}
         placeholder="Coding in action is the ultimate intensive to kickstart any project, startup, or freelance."
       />
     </FormBlock>
   );
+};
+
+const Loader = () => {
+  const pending = useUnit($pending);
+
+  if (!pending) {
+    return null;
+  }
+
+  return (
+    <div className="bg-white/90 absolute inset-0 z-10 flex items-center justify-center flex-col gap-4">
+      <Circle />
+      <span className="text-sm text-gray-700 font-medium">...loading</span>
+    </div>
+  );
+};
+
+const Circle = () => {
+  return (
+    <svg width="32" height="32" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="40" stroke-width="12" fill="none" className="stroke-blue-600">
+        <animate
+          dur="2s"
+          begin="0s"
+          to="251.2, 0"
+          from="0, 251.2"
+          attributeType="XML"
+          repeatCount="indefinite"
+          attributeName="stroke-dasharray"
+        />
+        <animate
+          dur="2s"
+          from="0"
+          begin="0s"
+          to="-251.2"
+          attributeType="XML"
+          repeatCount="indefinite"
+          attributeName="stroke-dashoffset"
+        />
+      </circle>
+    </svg>
+  );
+};
+
+const FormFooterActions = () => {
+  const pending = useUnit($pending);
+
+  return <FormFooterActionsBase pending={pending} />;
 };

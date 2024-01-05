@@ -20,29 +20,25 @@ const workspaceGetFx = attach({
   },
 });
 
+export const formSubmitted = createEvent();
+export const cancelButtonClicked = createEvent();
 export const slugChanged = createEvent<string>();
 export const nameChanged = createEvent<string>();
 export const descriptionChanged = createEvent<string>();
-export const formSubmitted = createEvent();
 
-export const cancelButtonClicked = createEvent();
-
-export const $name = createStore<string>("");
-export const $description = createStore<string>("");
-export const $slug = createStore<string>("");
 const $id = createStore("");
 
-$name.on(workspaceGetFx.doneData, (_, workspace) => workspace?.name);
+export const $name = createStore("");
+export const $slug = createStore("");
+export const $description = createStore("");
+
 $name.on(nameChanged, (_, name) => name);
-
-$id.on(workspaceGetFx.doneData, (_, workspace) => workspace?.id);
-
-$description.on(descriptionChanged, (_, description) => description);
-
-$description.on(workspaceGetFx.doneData, (_, workspace) => workspace?.description ?? "");
-
 $slug.on(slugChanged, (_, slug) => slug);
+$id.on(workspaceGetFx.doneData, (_, workspace) => workspace?.id);
+$name.on(workspaceGetFx.doneData, (_, workspace) => workspace?.name);
+$description.on(descriptionChanged, (_, description) => description);
 $slug.on(workspaceGetFx.doneData, (_, workspace) => workspace?.slug ?? "");
+$description.on(workspaceGetFx.doneData, (_, workspace) => workspace?.description ?? "");
 
 //reset stores
 reset({
@@ -51,11 +47,11 @@ reset({
 });
 
 export const $workspace = combine({
-  slug: $slug,
   id: $id,
+  slug: $slug,
   name: $name,
-  description: $description,
   avatarUrl: null,
+  description: $description,
   userId: $viewer.map((viewer) => viewer?.id ?? ""),
 });
 
@@ -69,7 +65,6 @@ const workspaceUpdateFx = attach({
 
 export const $pending = pending({
   effects: [workspaceUpdateFx, workspaceGetFx],
-  of: "some",
 });
 
 sample({

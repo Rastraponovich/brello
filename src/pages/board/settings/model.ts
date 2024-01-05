@@ -19,11 +19,7 @@ const boardGetFx = attach({
 const boardDeleteFx = attach({
   effect: api.board.deleteBoardFx,
   source: authenticatedRoute.$params,
-  mapParams(_, params) {
-    // eslint-disable-next-line  @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    return { id: params.id };
-  },
+  mapParams: (_, params) => params,
 });
 
 export const nameChanged = createEvent<string>();
@@ -83,11 +79,7 @@ sample({
 
 sample({
   clock: authenticatedRoute.opened,
-  fn: ({ params }): { id: string } => ({
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    id: params.id,
-  }),
+  fn: ({ params }) => params,
   target: boardGetFx,
 });
 
