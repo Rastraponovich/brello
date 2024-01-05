@@ -9,6 +9,7 @@ import { TaskModal, taskOpened } from "~/features/task/task-edit";
 
 import { StackColumn } from "~/entities/stack";
 
+import { cx } from "~/shared/lib";
 import { AvatarGroup } from "~/shared/ui/avatar";
 import { Heading } from "~/shared/ui/heading";
 
@@ -20,7 +21,7 @@ import { $board, $stacks } from "./model";
  */
 export const BoardPage = () => {
   return (
-    <MainLayout>
+    <MainLayout className="gap-0 pb-0 sm:pb-0">
       <PageHeaderContent />
       <List />
       <TaskModal />
@@ -61,24 +62,26 @@ const List = () => {
   const onTaskClicked = useCallback(taskCardClicked, [taskCardClicked]);
 
   return (
-    <section className="container mx-auto my-0 flex grow flex-col overflow-hidden h-full">
-      <Grid>
-        {useList($stacks, {
-          getKey: (stack) => stack.id,
+    <section className={cx("flex grow flex-col pt-8 pb-24 items-center", board?.background_color)}>
+      <section className="container flex grow flex-col h-full">
+        <Grid>
+          {useList($stacks, {
+            getKey: (stack) => stack.id,
 
-          fn: (stack) => (
-            <GridColumn key={stack.id}>
-              <StackColumn stack={stack} onTaskClicked={onTaskClicked} />
+            fn: (stack) => (
+              <GridColumn key={stack.id}>
+                <StackColumn stack={stack} onTaskClicked={onTaskClicked} />
+              </GridColumn>
+            ),
+          })}
+
+          {board?.id && board?.user_id && (
+            <GridColumn>
+              <AddList board_id={board.id} user_id={board.user_id} buttonCaption="Add List" />
             </GridColumn>
-          ),
-        })}
-
-        {board?.id && board?.user_id && (
-          <GridColumn>
-            <AddList board_id={board.id} user_id={board.user_id} buttonCaption="Add List" />
-          </GridColumn>
-        )}
-      </Grid>
+          )}
+        </Grid>
+      </section>
     </section>
   );
 };
@@ -89,7 +92,7 @@ interface GridProps {
 
 const Grid = memo<GridProps>(({ children }) => {
   return (
-    <div className="h-full grid snap-x snap-mandatory scroll-px-4 auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden px-8 py-4 sm:scroll-px-8 scroll-bar">
+    <div className="h-full grid snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] sm:auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden px-8 py-4 sm:scroll-px-8 scroll-bar">
       {children}
     </div>
   );
