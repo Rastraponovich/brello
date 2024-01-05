@@ -1,5 +1,5 @@
 import { attach, combine, createEvent, createStore, sample } from "effector";
-import { and, debug, not, pending, reset } from "patronum";
+import { and, not, pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
 import { InternalError } from "~/shared/api/client";
@@ -122,8 +122,6 @@ sample({
   },
   target: $error,
 });
-
-debug(workspaceCreateFx);
 
 //errors handlers
 

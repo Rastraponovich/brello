@@ -1,7 +1,30 @@
-import { createEvent, createStore, sample } from "effector";
+import { attach, createEvent, createStore, sample } from "effector";
 
+import { api } from "~/shared/api";
 import { Tables } from "~/shared/api/client";
+import { appStarted } from "~/shared/init";
 import { controls, routes } from "~/shared/routing";
+
+const getProfileFx = attach({
+  effect: api.user.profileGetFx,
+});
+
+const getMeFx = attach({
+  effect: api.auth.getMeFx,
+});
+
+sample({
+  clock: appStarted,
+  target: getMeFx,
+});
+
+sample({
+  clock: getMeFx.doneData,
+  filter: (profile) => !!profile,
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  fn: (profile) => ({ user_id: profile!.id }),
+  target: getProfileFx,
+});
 
 export type TUser = {
   firstName: string;
@@ -9,14 +32,16 @@ export type TUser = {
   image?: string;
   photo?: string;
   email?: string;
-  id: number;
+  id: number | string;
 };
 
-export const viewProfileButtonClicked = createEvent();
 export const cancelButtonClicked = createEvent();
 export const logOutButtonClicked = createEvent();
+export const viewProfileButtonClicked = createEvent();
 
 export const $profile = createStore<Tables<"profiles"> | null>(null);
+
+$profile.on(getProfileFx.doneData, (_, profile) => profile);
 
 sample({
   clock: viewProfileButtonClicked,

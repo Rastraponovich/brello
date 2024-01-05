@@ -1,6 +1,5 @@
 import type { User } from "@supabase/supabase-js";
 import { createEffect } from "effector";
-import { debug } from "patronum";
 
 import { Tables, checkAuthError, checkCrudError, client } from "../client";
 
@@ -19,8 +18,6 @@ export const profileGetFx = createEffect<{ user_id: string }, Profile>(async ({ 
 
   return data;
 });
-
-debug(profileGetFx);
 
 export const userUpdateFx = createEffect<{ email: string; password: string }, User>(
   async ({ email, password }) => {

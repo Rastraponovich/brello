@@ -22,9 +22,8 @@ export const boardAddButtonClicked = createEvent();
 export const settingsButtonClicked = createEvent();
 export const boardCardClicked = createEvent<Board>();
 export const boardNameChanged = createEvent<string>();
-export const boardBackgroundColorChanged = createEvent<string>();
-
 export const $workspace = createStore<Workspace | null>(null);
+export const boardBackgroundColorChanged = createEvent<string>();
 
 const workspaceGetFx = attach({
   effect: api.workspace.workspaceGetFx,
@@ -63,12 +62,10 @@ const boardCreateFx = attach({
 });
 
 export const $search = createStore("");
-export const $isNotFound = createStore(false);
-export const $boards = createStore<Board[]>([]);
-
-// create a new board
 export const $boardName = createStore("");
+export const $isNotFound = createStore(false);
 export const $modalOpened = createStore(false);
+export const $boards = createStore<Board[]>([]);
 export const $boardBackgroundColor = createStore("bg-white");
 
 const debouncedSearch = debounce({ source: $search, timeout: 500 });
@@ -81,11 +78,11 @@ export const $boardsListPending = pending({
 });
 
 $search.on(searched, (_, search) => search);
-
-$boardName.on(boardNameChanged, (_, name) => name);
-$boardBackgroundColor.on(boardBackgroundColorChanged, (_, color) => color);
 $modalOpened.on(boardModalOpened, () => true);
 $modalOpened.on(boardModalClosed, () => false);
+$boardName.on(boardNameChanged, (_, name) => name);
+$boards.on(boardsGetFx.doneData, (_, boards) => boards);
+$boardBackgroundColor.on(boardBackgroundColorChanged, (_, color) => color);
 
 $boards.on(workspaceGetFx.doneData, (_, response) => {
   if (response?.boards) {
@@ -93,8 +90,6 @@ $boards.on(workspaceGetFx.doneData, (_, response) => {
   }
   return [];
 });
-
-$boards.on(boardsGetFx.doneData, (_, response) => response);
 
 sample({
   clock: authenticatedRoute.opened,
