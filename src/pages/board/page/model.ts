@@ -1,4 +1,4 @@
-import { attach, createStore, sample } from "effector";
+import { attach, createEvent, createStore, sample } from "effector";
 
 import { stackAddedFx } from "~/features/add-list";
 import { taskAddedFx } from "~/features/task/add-task";
@@ -17,6 +17,8 @@ export const currentRoute = routes.board.board;
 export const authenticatedRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.auth.signIn.open,
 });
+
+export const settingsButtonClicked = createEvent();
 
 const boardGetFx = attach({
   effect: api.board.getBoardByIdFx,
@@ -40,7 +42,7 @@ sample({
   clock: authenticatedRoute.opened,
   source: { viewer: $viewer },
   fn: ({ viewer }, { params }) => ({
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    // eslint-disable-next-line
     user: viewer!.id,
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -70,4 +72,17 @@ sample({
     workspace: board?.workspace_id,
   }),
   target: boardGetFx,
+});
+
+sample({
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  clock: settingsButtonClicked,
+  source: $board,
+  filter: $board,
+  fn: (board: Board): { id: string } => ({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    id: board!.id,
+  }),
+  target: routes.board.settings.open,
 });

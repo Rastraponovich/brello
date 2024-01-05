@@ -25,7 +25,7 @@ export const getBoardsFx = createEffect<
 });
 
 export const getBoardByIdFx = createEffect<
-  { id: string; workspace: string; user: string },
+  { id: string; workspace?: string; user: string },
   Board | null
 >(async ({ id, workspace, user }) => {
   const { data, error } = await client
@@ -41,12 +41,26 @@ export const getBoardByIdFx = createEffect<
   return data ?? null;
 });
 
+/**
+ * get board for settings page without relations
+ */
+export const getBoardSettingsFx = createEffect<{ id: string }, Board | null>(async ({ id }) => {
+  const { data, error } = await client.from("boards").select().eq("id", id).single();
+
+  checkCrudError(error);
+
+  return data ?? null;
+});
+
 export const updateBoardFx = createEffect(() => {
   return true;
 });
 
-export const deleteBoardFx = createEffect(() => {
-  return true;
+export const deleteBoardFx = createEffect<{ id: string }, null>(async ({ id }) => {
+  const { data, error } = await client.from("boards").delete().eq("id", id);
+
+  checkCrudError(error);
+  return data;
 });
 
 export const createBoardFx = createEffect<Partial<Board>, Board | null>(async (board) => {

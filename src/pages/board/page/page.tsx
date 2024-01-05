@@ -11,10 +11,11 @@ import { StackColumn } from "~/entities/stack";
 
 import { cx } from "~/shared/lib";
 import { AvatarGroup } from "~/shared/ui/avatar";
+import { IconButton } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
 
 import { _AVATARS_ } from "./constants";
-import { $board, $stacks } from "./model";
+import { $board, $stacks, settingsButtonClicked } from "./model";
 
 /**
  * Render the BoardPage component.
@@ -37,6 +38,8 @@ const PageHeaderContent = () => {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const board = useUnit($board)!;
 
+  const handleClick = useUnit(settingsButtonClicked);
+
   return (
     <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
       <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
@@ -44,7 +47,15 @@ const PageHeaderContent = () => {
           <Heading as="h1">{board?.title}</Heading>
           <AddToFavorite />
         </div>
-        <AvatarGroup size="md" counter={5} canAddedUser items={_AVATARS_} />
+        <div className="gap-5 flex items-center">
+          <AvatarGroup size="md" counter={5} canAddedUser items={_AVATARS_} />
+          <IconButton
+            size="sm"
+            onClick={handleClick}
+            icon="common/settings-01"
+            variant="tertiaryGray"
+          />
+        </div>
       </header>
     </section>
   );

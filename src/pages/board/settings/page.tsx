@@ -6,18 +6,21 @@ import { MainLayout } from "~/layouts/main-layout";
 import { PageHeader } from "~/widgets/page-header";
 
 import { Button, IconButton } from "~/shared/ui/button";
+import { ColorPickerBase } from "~/shared/ui/color-picker";
 import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
 import { Input, type InputProps } from "~/shared/ui/input";
 
 import {
-  $boardInvites,
-  $boardName,
-  $newEmail,
+  $background,
+  $email,
+  $invites,
+  $title,
   addEmailButtonClicked,
-  boardNameChanged,
-  changedNewEmail,
+  backgroundColorChanged,
   deleteEmailButtonClicked,
   deletedBoardButtonClicked,
+  emailChanged,
+  nameChanged,
 } from "./model";
 
 export const BoardSettingsPage = () => {
@@ -36,6 +39,7 @@ const PageForm = () => {
   return (
     <form id="form" className="flex flex-col gap-5">
       <BoardName />
+      <BoardColors />
       <InvitedList />
       <DeleteBoard />
     </form>
@@ -43,7 +47,7 @@ const PageForm = () => {
 };
 
 const InvitedList = () => {
-  const emails = useUnit($boardInvites);
+  const emails = useUnit($invites);
 
   const handleDeleteInviteButtonClicked = useUnit(deleteEmailButtonClicked);
 
@@ -75,11 +79,11 @@ const InvitedList = () => {
 };
 
 const BoardName = () => {
-  const [boardName, setBoardName] = useUnit([$boardName, boardNameChanged]);
+  const [name, onChange] = useUnit([$title, nameChanged]);
 
   return (
     <FormBlock title="Name" description="This will be displayed in board header.">
-      <Input value={boardName} onChange={setBoardName} placeholder="enter board name" />
+      <Input value={name} onValueChange={onChange} placeholder="enter board name" />
     </FormBlock>
   );
 };
@@ -95,19 +99,20 @@ const DeleteBoardButton = () => {
 };
 
 const AddEmail = () => {
-  const [newEmail, emailChanged] = useUnit([$newEmail, changedNewEmail]);
+  const [email, onChange] = useUnit([$email, emailChanged]);
 
   const handleAddEmailButtonClicked = useUnit(addEmailButtonClicked);
 
   return (
     <div className="flex flex-col gap-2.5">
       <Input
-        className="w-full"
-        placeholder="you@yourcompany.io"
         type="email"
-        value={newEmail}
-        onChange={emailChanged}
+        value={email}
+        className="w-full"
+        onValueChange={onChange}
+        placeholder="you@yourcompany.io"
       />
+
       <Button
         type="button"
         variant="link"
@@ -166,4 +171,18 @@ const DeleteBoard = () => {
       <DeleteBoardButton />
     </FormBlock>
   );
+};
+
+const BoardColors = () => {
+  return (
+    <FormBlock title="Choose background image or color">
+      <ColorPicker />
+    </FormBlock>
+  );
+};
+
+const ColorPicker = () => {
+  const [selected, onColorChange] = useUnit([$background, backgroundColorChanged]);
+
+  return <ColorPickerBase selected={selected} onColorChange={onColorChange} />;
 };
