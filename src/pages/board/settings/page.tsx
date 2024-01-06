@@ -5,17 +5,19 @@ import { MainLayout } from "~/layouts/main-layout";
 
 import { PageHeader } from "~/widgets/page-header";
 
-import { cx } from "~/shared/lib";
 import { Button, IconButton } from "~/shared/ui/button";
 import { ColorPickerBase } from "~/shared/ui/color-picker";
-import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
+import { FormBlock, FormFooterActions as FormFooterActionsBase } from "~/shared/ui/form-layouts";
+import { ImagePickerBase } from "~/shared/ui/image-selector";
 import { Input, type InputProps } from "~/shared/ui/input";
+import { LoaderCircle } from "~/shared/ui/loader-circle";
 
 import {
   $background,
   $bgImage,
   $email,
   $invites,
+  $pending,
   $title,
   addEmailButtonClicked,
   backgroundColorChanged,
@@ -30,10 +32,13 @@ import {
 export const BoardSettingsPage = () => {
   return (
     <MainLayout scrollable>
-      <section className="container mx-auto my-0 flex flex-col gap-5 px-8 ">
+      <section className="container mx-auto flex flex-col gap-5 px-8 ">
         <PageHeader divider title="Board settings" />
-        <PageForm />
-        <FormFooterActions />
+        <section className="relative flex flex-col gap-5">
+          <Loader />
+          <PageForm />
+          <FormFooterActions />
+        </section>
       </section>
     </MainLayout>
   );
@@ -186,63 +191,50 @@ const DeleteBoard = () => {
   );
 };
 
-interface ImageButtonProps {
-  image: string;
-  onClick(): void;
-  selected: boolean;
-}
-const ImageButton = ({ image, onClick, selected }: ImageButtonProps) => {
+const BoardColors = () => {
   return (
-    <div
-      className={cx(
-        "p-1 rounded-3xl flex border-[3px] border-transparent box-content",
-        selected && "border-blue-600",
-      )}
-      onClick={onClick}
-    >
-      <img
-        width={168}
-        src={image}
-        height={168}
-        alt="background inage"
-        className="rounded-[18px] shrink-0"
-      />
-    </div>
+    <FormBlock title="Choose background image or color" bodyClassName="max-w-full overflow-hidden">
+      <div className="flex flex-col gap-4">
+        <ImagePicker />
+        <ColorPicker />
+      </div>
+    </FormBlock>
   );
 };
 
-const BoardColors = () => {
+const ImagePicker = () => {
   const [image, setImage] = useUnit([$bgImage, bgImageChanged]);
 
-  const imageStr = (id: number) => {
-    return `https://source.unsplash.com/random/168x168?${id}&background`;
-  };
-
-  return (
-    <FormBlock title="Choose background image or color">
-      <div className="grid grid-cols-4">
-        {Array.from({ length: 4 }).map((_, id) => {
-          const convertedImageToString = imageStr(id);
-          const selected = convertedImageToString === image;
-          const handleClick = () => setImage(convertedImageToString);
-
-          return (
-            <ImageButton
-              key={id}
-              selected={selected}
-              onClick={handleClick}
-              image={convertedImageToString}
-            />
-          );
-        })}
-      </div>
-      <ColorPicker />
-    </FormBlock>
-  );
+  return <ImagePickerBase selectedImage={image} onImageChange={setImage} />;
 };
 
 const ColorPicker = () => {
   const [selected, onColorChange] = useUnit([$background, backgroundColorChanged]);
 
   return <ColorPickerBase selected={selected} onColorChange={onColorChange} />;
+};
+
+const FormFooterActions = () => {
+  const pending = useUnit($pending);
+
+  return <FormFooterActionsBase pending={pending} />;
+};
+
+const Loader = () => {
+  const pending = useUnit($pending);
+
+  return <LoaderCircle pending={pending} />;
+};
+
+export const PageLoader = () => {
+  return (
+    <MainLayout scrollable>
+      <section className="container mx-auto flex flex-col gap-5 px-8 ">
+        <PageHeader divider title="Board settings" />
+        <section className="relative flex flex-col gap-5">
+          <Loader />
+        </section>
+      </section>
+    </MainLayout>
+  );
 };

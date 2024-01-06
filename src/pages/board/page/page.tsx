@@ -73,7 +73,17 @@ const List = () => {
   const onTaskClicked = useCallback(taskCardClicked, [taskCardClicked]);
 
   return (
-    <section className={cx("flex grow flex-col pt-8 pb-24 items-center", board?.background_color)}>
+    <section
+      className={cx(
+        "flex grow flex-col pt-8 pb-24 items-center bg-cover bg-no-repeat",
+        board?.background_color,
+      )}
+      style={{
+        backgroundImage: board?.background_image
+          ? `url(${board?.background_image?.replace("168x168", "")})`
+          : "revert-layer",
+      }}
+    >
       <section className="container flex grow flex-col h-full">
         <Grid>
           {useList($stacks, {

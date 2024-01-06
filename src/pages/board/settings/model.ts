@@ -1,6 +1,6 @@
 import type { RouteQuery } from "atomic-router";
 import { attach, combine, createEvent, createStore, sample } from "effector";
-import { debug, reset } from "patronum";
+import { debug, pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
 import { Board } from "~/shared/api/rest/board";
@@ -52,13 +52,22 @@ export const $query = createStore<RouteQuery | null>(null);
 
 $title.on(nameChanged, (_, name) => name);
 $email.on(emailChanged, (_, email) => email);
-$bgImage.on(bgImageChanged, (_, image) => image);
+$bgImage.on(bgImageChanged, (current, image) => {
+  if (current === image) {
+    return "";
+  }
+  return image;
+});
 $query.on(authenticatedRoute.$query, (_, query) => query);
 $background.on(backgroundColorChanged, (_, color) => color);
 $params.on(authenticatedRoute.$params, (_, params) => params);
 $title.on(boardGetFx.doneData, (_, board) => board?.title ?? "");
 $pageOpenned.on(routes.board.settings.$isOpened, (_, isOpened) => isOpened);
 $background.on(boardGetFx.doneData, (_, board) => board?.background_color ?? "bg-white");
+
+export const $pending = pending({
+  effects: [boardDeleteFx, boardUpdateFx, boardGetFx],
+});
 
 const $board = combine({
   title: $title,
@@ -108,7 +117,7 @@ reset({
 });
 
 sample({
-  clock: boardDeleteFx.done,
+  clock: [boardDeleteFx.done, boardUpdateFx.done],
   target: routes.workspace.boards.open,
 });
 

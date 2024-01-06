@@ -194,14 +194,20 @@ interface BoardCardProps extends Board {
   onClick?(): void;
 }
 
-const BoardCard = memo<BoardCardProps>(({ title, onClick, background_color }) => {
+const BoardCard = memo<BoardCardProps>(({ title, onClick, background_color, background_image }) => {
   return (
     <figure
       onClick={onClick}
       className={cx(
         "flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-lg font-medium text-white",
         background_color,
+        "bg-no-repeat bg-cover",
       )}
+      style={{
+        background: background_image
+          ? `url(${background_image?.replace("168x168", "280x120")}), lightgray 50%`
+          : "revert-layer",
+      }}
     >
       <figcaption>
         <h4 className="line-clamp-2 text-gray-600 h-14 mix-blend-plus-lighter">{title}</h4>
