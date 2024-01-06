@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { memo, useRef } from "react";
+import { memo, useReducer, useRef, useState } from "react";
 
 import { TaskAdd } from "~/features/task/add-task";
 
@@ -12,7 +12,7 @@ import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
 import { Icon } from "~/shared/ui/icon";
 
-import { stackDeleted } from "./model";
+import { stackDeleted, stackUpdated } from "./model";
 
 const StackActions = memo(({ user_id, stack_id }: { user_id: string; stack_id: string }) => {
   const [stackDeletedAction] = useUnit([stackDeleted]);
@@ -47,12 +47,21 @@ interface StackColumnProps {
 
 export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => {
   const dragRef = useRef<HTMLDivElement>(null);
+  const [editableTitle, setEditableTitle] = useReducer((state) => !state, false);
+
+  const handleStackUpdate = useUnit(stackUpdated);
+
+  const [title, setTitle] = useState(stack.title || "enter new title");
+
+  const onBlur = () => {
+    handleStackUpdate({ id: stack.id, title });
+    setEditableTitle();
+  };
 
   if (!stack) return null;
 
   return (
     <div
-      draggable
       ref={dragRef}
       className={cx(
         "flex w-full flex-col py-4",
@@ -61,9 +70,19 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
       )}
     >
       <div className="flex items-center gap-2 py-1 px-4 text-lg font-bold text-gray-900">
-        <Heading as="h3" className="grow px-4">
-          {stack.title || "To Do"}
-        </Heading>
+        {editableTitle ? (
+          <input
+            type="text"
+            value={title}
+            onBlur={onBlur}
+            className="px-4 pb-px grow border-b outline-none"
+            onChange={(event) => setTitle(event.target.value)}
+          />
+        ) : (
+          <Heading as="h3" className="grow px-4" onClick={setEditableTitle}>
+            {title}
+          </Heading>
+        )}
 
         <StackActions stack_id={stack.id} user_id={stack.user_id} />
       </div>

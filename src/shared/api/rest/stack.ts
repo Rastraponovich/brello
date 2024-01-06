@@ -15,6 +15,19 @@ export const stackCreateFx = createEffect<Stack, Stack>(async (stack) => {
   return data;
 });
 
+export const stackUpdateFx = createEffect<Partial<Stack>, Stack>(async (stack) => {
+  const { data, error } = await client
+    .from("stacks")
+    .update(stack)
+    .eq("id", stack.id)
+    .select()
+    .single();
+
+  checkCrudError(error);
+
+  return data;
+});
+
 export const stackDeletedFx = createEffect<{ id: string; user_id: string }, null>(
   async ({ id, user_id }) => {
     const { data, error } = await client
