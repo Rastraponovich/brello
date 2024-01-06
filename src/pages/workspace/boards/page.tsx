@@ -34,7 +34,25 @@ export const PageLoader = () => {
   return (
     <MainLayout>
       <section className="container mx-auto my-0 px-6 sm:px-8">
-        <h1>Loading, please wait</h1>
+        <div className="flex w-full items-start justify-between">
+          <div className="flex items-start gap-5">
+            <div className="h-16 w-16 shrink-0 rounded-full bg-gray-200"></div>
+
+            <div className="flex w-full max-w-xs shrink-0 grow flex-col gap-1">
+              <div className="h-9 max-w-xs shrink-0 rounded-lg bg-gray-200"></div>
+
+              <div className="h-6 w-full max-w-xs shrink-0 rounded-lg bg-gray-200"></div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="h-[42px] w-[120px] rounded-lg bg-gray-200"></div>
+
+            <div className="h-[42px] w-[120px] rounded-lg bg-gray-200"></div>
+          </div>
+        </div>
+
+        {/* <LoaderCircle pending={true} /> */}
       </section>
     </MainLayout>
   );
@@ -105,7 +123,7 @@ const Boards = () => {
   const [pending, isEmpty, isNotFound] = useUnit([$boardsListPending, $boardsEmpty, $isNotFound]);
 
   return (
-    <section className="relative container mx-auto flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
+    <section className="container relative mx-auto flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
       <div className="flex w-full flex-col overflow-hidden">
         {isNotFound ? <NotFoundState /> : isEmpty ? <EmptyState /> : <BoardsList />}
       </div>
@@ -174,9 +192,9 @@ const AddBoardCard = memo(() => {
 
   return (
     <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-5 ">
-      <button onClick={handleAddBoard} className="flex items-center gap-2 h-14">
+      <button onClick={handleAddBoard} className="flex h-14 items-center gap-2">
         <Icon name="common/plus-circle" className="h-5 w-5" />
-        <span className="line-clamp-1 text-gray-600 text-lg font-medium">Create new board</span>
+        <span className="line-clamp-1 text-lg font-medium text-gray-600">Create new board</span>
       </button>
     </div>
   );
@@ -214,11 +232,11 @@ const BoardCard = memo<BoardCardProps>(({ id }) => {
       style={{ background }}
       className={cx(
         background_color,
-        "cursor-pointer bg-no-repeat bg-cover flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-lg font-medium text-white",
+        "flex cursor-pointer flex-col justify-start self-stretch rounded-2xl border border-gray-200 bg-cover bg-no-repeat px-5 py-6 pt-5 text-lg font-medium text-white",
       )}
     >
       <figcaption>
-        <h4 className="line-clamp-2 text-gray-600 h-14 mix-blend-plus-lighter">{title}</h4>
+        <h4 className="line-clamp-2 h-14 text-gray-600 mix-blend-plus-lighter">{title}</h4>
       </figcaption>
     </figure>
   );

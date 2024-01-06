@@ -13,18 +13,14 @@ export const Logo = memo<LogoProps>(({ short, className, canHideTitle }) => {
     <Link
       to={routes.home}
       className={cx(
-        "relative flex items-center gap-2.5 shrink-0",
+        "relative flex shrink-0 items-center gap-2.5",
         className,
         "after:content-[' '] after:absolute after:bottom-0 after:flex after:h-4 after:w-8 after:rounded-b-lg after:backdrop-blur-[2px]",
       )}
     >
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
-      <LogoImage className="shrink-0 h-8 w-8" />
+      <LogoImage className="h-8 w-8 shrink-0" />
 
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
-      {!short && <TitleImage className={cx(canHideTitle && "hidden sm:flex shrink-0 h-8 w-16")} />}
+      {!short && <TitleImage className={cx(canHideTitle && "hidden h-8 w-16 shrink-0 sm:flex")} />}
     </Link>
   );
 });
