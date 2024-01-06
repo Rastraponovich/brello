@@ -1,5 +1,5 @@
-import { useList, useUnit } from "effector-react";
-import { memo } from "react";
+import { useList, useStoreMap, useUnit } from "effector-react";
+import { memo, useCallback } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -7,9 +7,9 @@ import { PageHeader, type PageHeaderAction } from "~/widgets/page-header";
 
 import { BoardsSearch } from "~/features/boards/search";
 
-import type { Board } from "~/shared/api/rest/board";
 import { cx } from "~/shared/lib";
 import { Icon } from "~/shared/ui/icon";
+import { LoaderCircle } from "~/shared/ui/loader-circle";
 import { ScrollContainer } from "~/shared/ui/scroll-container";
 
 import {
@@ -75,6 +75,7 @@ export const BoardsPage = () => {
           description="Private"
           className="!items-start"
           title={workspace?.name || ""}
+          avatarImage={workspace?.avatarUrl ?? undefined}
           avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
         />
       </section>
@@ -101,22 +102,14 @@ const BoardsFilter = () => {
  * Renders the Boards component.
  */
 const Boards = () => {
-  const [isEmpty, isNotFound] = useUnit([$boardsEmpty, $isNotFound]);
-  const pending = useUnit($boardsListPending);
+  const [pending, isEmpty, isNotFound] = useUnit([$boardsListPending, $boardsEmpty, $isNotFound]);
 
   return (
-    <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
+    <section className="relative container mx-auto flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
       <div className="flex w-full flex-col overflow-hidden">
-        {isNotFound ? (
-          <NotFoundState />
-        ) : isEmpty ? (
-          <EmptyState />
-        ) : pending ? (
-          <div>loading...</div>
-        ) : (
-          <BoardsList />
-        )}
+        {isNotFound ? <NotFoundState /> : isEmpty ? <EmptyState /> : <BoardsList />}
       </div>
+      <LoaderCircle pending={pending} />
     </section>
   );
 };
@@ -125,14 +118,15 @@ const Boards = () => {
  * Renders the list of boards.
  */
 const BoardsList = () => {
-  const [handleCardClick, search] = useUnit([boardCardClicked, $search]);
+  const search = useUnit($search);
 
   return (
     <ScrollContainer>
       <div className="grid place-items-stretch content-stretch gap-6 overflow-y-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
         {search.length === 0 && <AddBoardCard />}
+
         {useList($boards, {
-          fn: (board) => <BoardCard {...board} onClick={() => handleCardClick(board)} />,
+          fn: (board) => <BoardCard id={board.id} />,
         })}
       </div>
     </ScrollContainer>
@@ -190,24 +184,38 @@ const AddBoardCard = memo(() => {
 
 AddBoardCard.displayName = "AddBoardCard";
 
-interface BoardCardProps extends Board {
-  onClick?(): void;
+interface BoardCardProps {
+  id: string;
 }
 
-const BoardCard = memo<BoardCardProps>(({ title, onClick, background_color, background_image }) => {
+const BoardCard = memo<BoardCardProps>(({ id }) => {
+  const board = useStoreMap({
+    keys: [id],
+    store: $boards,
+    fn(boards) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return boards.find((board) => board.id === id)!;
+    },
+  });
+
+  const onCardClicked = useUnit(boardCardClicked);
+
+  const { background_color, background_image, title } = board;
+
+  const handleClick = useCallback(() => onCardClicked(board), [board, onCardClicked]);
+
+  const background = background_image
+    ? `url(${background_image?.replace("168x168", "280x120")}), lightgray 50%`
+    : "revert-layer";
+
   return (
     <figure
-      onClick={onClick}
+      onClick={handleClick}
+      style={{ background }}
       className={cx(
-        "flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-lg font-medium text-white",
         background_color,
-        "bg-no-repeat bg-cover",
+        "cursor-pointer bg-no-repeat bg-cover flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-lg font-medium text-white",
       )}
-      style={{
-        background: background_image
-          ? `url(${background_image?.replace("168x168", "280x120")}), lightgray 50%`
-          : "revert-layer",
-      }}
     >
       <figcaption>
         <h4 className="line-clamp-2 text-gray-600 h-14 mix-blend-plus-lighter">{title}</h4>

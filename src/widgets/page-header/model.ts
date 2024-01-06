@@ -18,6 +18,7 @@ export interface PageHeaderProps {
   description?: string;
   placeholder?: string;
   onReset?: () => void;
+  avatarImage?: string;
   actions?: PageHeaderAction[];
   headingAs?: HeadingProps["as"];
   onSearch?: (searchValue: string) => void;
