@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { type FormEventHandler } from "react";
+import { type FormEventHandler, useRef } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -12,12 +12,14 @@ import { LoaderCircle } from "~/shared/ui/loader-circle";
 
 import {
   $description,
+  $imageUrl,
   $name,
   $pending,
   $slug,
   cancelButtonClicked,
   descriptionChanged,
   formSubmitted,
+  imageChanged,
   nameChanged,
   slugChanged,
 } from "./model";
@@ -88,22 +90,53 @@ function genTitle(title: string): string {
 }
 
 const WorkspaceUplad = () => {
-  const title = useUnit($name);
+  const uploadRef = useRef<HTMLInputElement>(null);
+  const upload = useUnit(imageChanged);
+  const [title, image] = useUnit([$name, $imageUrl]);
+
+  const handleUpload: FormEventHandler<HTMLInputElement> = (event) => {
+    const target = event.target as HTMLInputElement;
+
+    if (target.files) {
+      upload(target.files[0]);
+    }
+  };
+
+  const handleUploadClick = () => {
+    uploadRef.current?.click();
+  };
 
   return (
     <FormBlock title="Logo" description="Update your logo.">
       <div className="flex sm:items-center gap-5 sm:gap-8">
         <div className="rounded-full bg-gray-100 text-gray-600 h-16 w-16 shrink-0 flex items-center justify-center">
-          <span className="text-2xl font-medium">{genTitle(title)}</span>
+          {!image ? (
+            <span className="text-2xl font-medium">{genTitle(title)}</span>
+          ) : (
+            <img
+              width={64}
+              height={64}
+              alt={title}
+              className="rounded-full object-cover"
+              src={`https://ddjirrggtysituolvxws.supabase.co/storage/v1/object/public/avatars/${image}`}
+            />
+          )}
         </div>
 
-        <div className="flex items-start sm:items-center flex-col sm:flex-row gap-3">
+        <div className="relative flex items-start sm:items-center flex-col sm:flex-row gap-3">
           <div className="flex flex-col text-sm font-normal gap-1">
             <span className="text-gray-600 font-medium">Upload image</span>
             <span className="text-gray-700">SVG, PNG, JPG or GIF (max. 500×500px)</span>
           </div>
 
-          <Button size="sm" variant="secondaryGray">
+          <input
+            type="file"
+            ref={uploadRef}
+            accept="image/*"
+            className="hidden"
+            onChange={handleUpload}
+          />
+          <Button size="sm" variant="secondaryGray" onClick={handleUploadClick} type="button">
             Upload
           </Button>
         </div>

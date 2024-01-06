@@ -20,7 +20,12 @@ const workspaceGetFx = attach({
   },
 });
 
+const workspaceUploadImageFx = attach({
+  effect: api.upload.uploadFileFx,
+});
+
 export const formSubmitted = createEvent();
+export const imageChanged = createEvent<File>();
 export const cancelButtonClicked = createEvent();
 export const slugChanged = createEvent<string>();
 export const nameChanged = createEvent<string>();
@@ -31,13 +36,16 @@ const $id = createStore("");
 export const $name = createStore("");
 export const $slug = createStore("");
 export const $description = createStore("");
+export const $imageUrl = createStore("");
 
 $name.on(nameChanged, (_, name) => name);
 $slug.on(slugChanged, (_, slug) => slug);
 $id.on(workspaceGetFx.doneData, (_, workspace) => workspace?.id);
 $name.on(workspaceGetFx.doneData, (_, workspace) => workspace?.name);
 $description.on(descriptionChanged, (_, description) => description);
+$imageUrl.on(workspaceUploadImageFx.doneData, (_, url) => url ?? "");
 $slug.on(workspaceGetFx.doneData, (_, workspace) => workspace?.slug ?? "");
+$imageUrl.on(workspaceGetFx.doneData, (_, workspace) => workspace?.avatarUrl ?? "");
 $description.on(workspaceGetFx.doneData, (_, workspace) => workspace?.description ?? "");
 
 //reset stores
@@ -50,7 +58,7 @@ export const $workspace = combine({
   id: $id,
   slug: $slug,
   name: $name,
-  avatarUrl: null,
+  avatarUrl: $imageUrl,
   description: $description,
   userId: $viewer.map((viewer) => viewer?.id ?? ""),
 });
@@ -58,13 +66,15 @@ export const $workspace = combine({
 const workspaceUpdateFx = attach({
   effect: api.workspace.workspaceUpdateFx,
   source: $workspace,
+  // eslint-disable-next-line
+  //@ts-ignore
   mapParams(_, workspace) {
     return { workspace };
   },
 });
 
 export const $pending = pending({
-  effects: [workspaceUpdateFx, workspaceGetFx],
+  effects: [workspaceUpdateFx, workspaceGetFx, workspaceUploadImageFx],
 });
 
 sample({
@@ -80,4 +90,10 @@ sample({
 sample({
   clock: formSubmitted,
   target: workspaceUpdateFx,
+});
+
+sample({
+  clock: imageChanged,
+  fn: (file) => ({ file }),
+  target: workspaceUploadImageFx,
 });

@@ -113,7 +113,7 @@ export const AvatarGroup = memo<AvatarGroupProps>(
               key={idx}
               size={size}
               user={item}
-              className={cx("border-1.5px border-white", itemClassName)}
+              className={`border-white border-1.5px ${itemClassName}`}
             />
           ))}
           {counter && <AvatarCounter size={size} count={counter} />}

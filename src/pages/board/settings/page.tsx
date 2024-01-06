@@ -20,6 +20,7 @@ import {
   $pending,
   $title,
   addEmailButtonClicked,
+  backButtonClicked,
   backgroundColorChanged,
   bgImageChanged,
   deleteEmailButtonClicked,
@@ -45,17 +46,16 @@ export const BoardSettingsPage = () => {
 };
 
 const PageForm = () => {
-  const submit = useUnit(sumbitButtonClicked);
+  const [submit, reset] = useUnit([sumbitButtonClicked, backButtonClicked]);
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
-    console.log("submit");
 
     submit();
   };
 
   return (
-    <form id="form" className="flex flex-col gap-5" onSubmit={handleSubmit}>
+    <form id="form" className="flex flex-col gap-5" onSubmit={handleSubmit} onReset={reset}>
       <BoardName />
       <BoardColors />
       <InvitedList />

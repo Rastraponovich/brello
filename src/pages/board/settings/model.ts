@@ -1,10 +1,10 @@
 import type { RouteQuery } from "atomic-router";
 import { attach, combine, createEvent, createStore, sample } from "effector";
-import { debug, pending, reset } from "patronum";
+import { pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
 import { Board } from "~/shared/api/rest/board";
-import { routes } from "~/shared/routing";
+import { controls, routes } from "~/shared/routing";
 import { chainAuthenticated } from "~/shared/viewer";
 
 export const currentRoute = routes.board.settings;
@@ -32,6 +32,7 @@ const boardUpdateFx = attach({
   }),
 });
 
+export const backButtonClicked = createEvent();
 export const nameChanged = createEvent<string>();
 export const sumbitButtonClicked = createEvent();
 export const emailChanged = createEvent<string>();
@@ -52,17 +53,12 @@ export const $query = createStore<RouteQuery | null>(null);
 
 $title.on(nameChanged, (_, name) => name);
 $email.on(emailChanged, (_, email) => email);
-$bgImage.on(bgImageChanged, (current, image) => {
-  if (current === image) {
-    return "";
-  }
-  return image;
-});
 $query.on(authenticatedRoute.$query, (_, query) => query);
 $background.on(backgroundColorChanged, (_, color) => color);
 $params.on(authenticatedRoute.$params, (_, params) => params);
 $title.on(boardGetFx.doneData, (_, board) => board?.title ?? "");
 $pageOpenned.on(routes.board.settings.$isOpened, (_, isOpened) => isOpened);
+$bgImage.on(bgImageChanged, (current, image) => (current === image ? "" : image));
 $background.on(boardGetFx.doneData, (_, board) => board?.background_color ?? "bg-white");
 
 export const $pending = pending({
@@ -129,4 +125,7 @@ sample({
   target: boardUpdateFx,
 });
 
-debug(boardUpdateFx);
+sample({
+  clock: backButtonClicked,
+  target: controls.back,
+});
