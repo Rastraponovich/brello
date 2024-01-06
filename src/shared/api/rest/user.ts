@@ -3,9 +3,7 @@ import { createEffect } from "effector";
 
 import { type Tables, checkAuthError, checkCrudError, client } from "../client";
 
-export interface Profile extends Tables<"profiles"> {
-  id: string;
-}
+export type Profile = Tables<"profiles">;
 
 export const profileGetFx = createEffect<{ user_id: string }, Profile>(async ({ user_id }) => {
   const { data, error } = await client
@@ -50,7 +48,7 @@ export const profileUpdateFx = createEffect<
   return data;
 });
 
-export const profileExistsFx = createEffect<{ userId: string }, Tables<"profiles"> | null>(
+export const profileExistsFx = createEffect<{ userId: string }, Profile | null>(
   async ({ userId }) => {
     const { error, data } = await client.from("profiles").select().eq("user_id", userId).single();
 
@@ -64,7 +62,7 @@ export const profileExistsFx = createEffect<{ userId: string }, Tables<"profiles
 
 export const profileCreateFx = createEffect<
   { id: string; firstName: string; lastName: string },
-  Tables<"profiles"> | null
+  Profile | null
 >(async ({ id, firstName, lastName }) => {
   const { error, data } = await client
     .from("profiles")

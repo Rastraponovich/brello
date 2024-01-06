@@ -1,8 +1,8 @@
-import { attach, createEvent, createStore, sample } from "effector";
-import { and, not, reset } from "patronum";
+import { attach, combine, createEvent, createStore, sample } from "effector";
+import { and, not, pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
-import type { TTask } from "~/shared/api/rest/task";
+import type { Task } from "~/shared/api/rest/task";
 
 const taskGetFx = attach({
   effect: api.task.taskGetFx,
@@ -16,15 +16,34 @@ export const taskDeleteFx = attach({
   effect: api.task.taskDeleteFx,
 });
 
+export const taskClosed = createEvent();
+export const taskDeleted = createEvent();
+export const taskSubmitted = createEvent();
 export const taskNameChanged = createEvent<string>();
 export const taskOpened = createEvent<{ id: string }>();
-export const taskClosed = createEvent();
-export const taskSubmitted = createEvent();
-export const taskDeleted = createEvent();
+export const taskDescriptionChanged = createEvent<string>();
 
-export const $task = createStore<TTask | null>(null);
 export const $taskName = createStore("");
 export const $opened = createStore(false);
+export const $taskDescription = createStore("");
+export const $task = createStore<Task | null>(null);
+
+const $editableTask = combine(
+  {
+    task: $task,
+    title: $taskName,
+    description: $taskDescription,
+  },
+  ({ title, description, task }) => ({
+    ...task,
+    title,
+    description,
+  }),
+);
+
+export const $pending = pending({
+  effects: [taskGetFx, taskUpdateFx, taskDeleteFx],
+});
 
 $task.on(taskGetFx.doneData, (_, task) => task);
 $opened.on(taskClosed, () => false);
@@ -36,7 +55,15 @@ $taskName.on($task, (prev, task) => {
   return prev;
 });
 
+$taskDescription.on($task, (prev, task) => {
+  if (task) {
+    return task.description || "";
+  }
+  return prev;
+});
+
 $taskName.on(taskNameChanged, (_, taskName) => taskName);
+$taskDescription.on(taskDescriptionChanged, (_, taskDescription) => taskDescription);
 
 sample({
   clock: taskOpened,
@@ -52,9 +79,8 @@ sample({
 
 sample({
   clock: taskSubmitted,
-  source: { title: $taskName, task: $task },
+  source: $editableTask,
   filter: and($taskName, $task),
-  fn: ({ task, title }) => ({ title, user_id: task?.user_id, id: task?.id }),
   target: taskUpdateFx,
 });
 

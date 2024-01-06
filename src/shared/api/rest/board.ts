@@ -3,7 +3,6 @@ import { createEffect } from "effector";
 import { type Tables, checkCrudError, client } from "../client";
 
 export interface Board extends Tables<"boards"> {
-  image?: string;
   stacks?: Tables<"stacks">[];
 }
 

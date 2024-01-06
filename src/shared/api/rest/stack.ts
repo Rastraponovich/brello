@@ -3,7 +3,6 @@ import { createEffect } from "effector";
 import { type Tables, checkCrudError, client } from "../client";
 
 export interface Stack extends Tables<"stacks"> {
-  id: string;
   tasks?: Tables<"tasks">[];
 }
 

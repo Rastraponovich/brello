@@ -2,11 +2,9 @@ import { createEffect } from "effector";
 
 import { type Tables, checkCrudError, client } from "../client";
 
-export interface TTask extends Tables<"tasks"> {
-  id: string;
-}
+export type Task = Tables<"tasks">;
 
-export const taskGetFx = createEffect<{ id: string }, TTask>(async ({ id }) => {
+export const taskGetFx = createEffect<{ id: string }, Task>(async ({ id }) => {
   const { data, error } = await client.from("tasks").select("*").eq("id", id).single();
 
   checkCrudError(error);
@@ -14,14 +12,14 @@ export const taskGetFx = createEffect<{ id: string }, TTask>(async ({ id }) => {
   return data;
 });
 
-export const taskCreateFx = createEffect<Partial<TTask>, TTask>(async (task) => {
+export const taskCreateFx = createEffect<Partial<Task>, Task>(async (task) => {
   const { data, error } = await client.from("tasks").insert(task).select().single();
 
   checkCrudError(error);
   return data;
 });
 
-export const taskUpdateFx = createEffect<Partial<TTask>, TTask>(async (task) => {
+export const taskUpdateFx = createEffect<Partial<Task>, Task>(async (task) => {
   const { data, error } = await client
     .from("tasks")
     .update(task)

@@ -6,7 +6,7 @@ import { TaskAdd } from "~/features/task/add-task";
 // import { AvatarGroup } from "~/shared/ui/avatar";
 // import { Bage } from "~/shared/ui/bage";
 import type { Stack } from "~/shared/api/rest/stack";
-import type { TTask } from "~/shared/api/rest/task";
+import type { Task } from "~/shared/api/rest/task";
 import { cx } from "~/shared/lib";
 import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
@@ -42,7 +42,7 @@ const StackActions = memo(({ user_id, stack_id }: { user_id: string; stack_id: s
 
 interface StackColumnProps {
   stack: Stack;
-  onTaskClicked?: (task: TTask) => void;
+  onTaskClicked?: (task: Task) => void;
 }
 
 export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => {
@@ -100,7 +100,7 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
 
 StackColumn.displayName = "StackColumn";
 
-interface TaskCardProps extends TTask {
+interface TaskCardProps extends Task {
   onClick?(): void;
 }
 
@@ -109,7 +109,7 @@ const TaskCard = memo<TaskCardProps>(
     return (
       <div
         onClick={onClick}
-        className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 text-gray-600"
+        className="cursor-pointer flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 text-gray-600"
       >
         <div className="flex flex-col gap-1">
           <h3>{title}</h3>
@@ -121,6 +121,7 @@ const TaskCard = memo<TaskCardProps>(
             ))} */}
             </div>
           )}
+
           {description && <p>{description}</p>}
         </div>
 
@@ -130,11 +131,14 @@ const TaskCard = memo<TaskCardProps>(
           <div className="flex items-center justify-between font-medium">
             <div className="flex items-center gap-2">
               <Icon size="normal" name="common/clock" className="text-gray-400" />
+
               <span>{new Date(created_at).toDateString()}</span>
             </div>
+
             {attachments && (
               <div className="flex items-center gap-2">
                 <Icon size="normal" name="common/attachment" className="text-gray-400" />
+
                 <span>5</span>
               </div>
             )}
@@ -149,7 +153,7 @@ TaskCard.displayName = "TaskCard";
 
 interface CardListProps {
   cards: Stack["tasks"];
-  onTaskClicked?: (task: TTask) => void;
+  onTaskClicked?: (task: Task) => void;
 }
 
 const TaskCardList = memo<CardListProps>(({ cards, onTaskClicked }) => {

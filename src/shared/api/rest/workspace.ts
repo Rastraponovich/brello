@@ -1,15 +1,9 @@
 import { createEffect } from "effector";
 
-import {
-  type DbResultOk,
-  type InternalError,
-  type Tables,
-  checkCrudError,
-  client,
-} from "../client";
+import { type InternalError, type Tables, checkCrudError, client } from "../client";
 import type { Board } from "./board";
 
-export interface Workspace {
+export interface Workspace extends Tables<"workspaces"> {
   id: string;
   name: string;
   userId: UserId;
@@ -60,16 +54,15 @@ export const workspacesDeleteFx = createEffect<{ id: number }, object[]>(async (
   return data;
 });
 
-export const workspacesCreateFx = createEffect<
-  Tables<"workspaces">,
-  DbResultOk<Tables<"workspaces">> | unknown
->(async (workspace) => {
-  const { data, error } = await client.from("workspaces").insert(workspace).select().single();
+export const workspacesCreateFx = createEffect<Tables<"workspaces">, Workspace | null>(
+  async (workspace) => {
+    const { data, error } = await client.from("workspaces").insert(workspace).select().single();
 
-  checkCrudError(error);
+    checkCrudError(error);
 
-  return data;
-});
+    return (data as Workspace) ?? null;
+  },
+);
 
 // supabase not MOCK
 
@@ -81,6 +74,7 @@ export const workspaceExistsFx = createEffect<{ userId: UserId }, boolean, Inter
       .eq("user_id", userId);
 
     checkCrudError(error);
+
     return Boolean(count);
   },
 );
@@ -99,7 +93,7 @@ export const workspaceCreateFx = createEffect<
 
   checkCrudError(error);
 
-  return (data as unknown as Workspace) ?? null;
+  return (data as Workspace) ?? null;
 });
 
 export const workspaceGetFx = createEffect<{ userId: string }, Workspace | null, InternalError>(
@@ -122,7 +116,7 @@ export const workspaceGetFx = createEffect<{ userId: string }, Workspace | null,
       ...rest,
       userId: user_id,
       avatarUrl: avatar_url,
-    };
+    } as Workspace;
   },
 );
 
@@ -143,13 +137,13 @@ export const workspaceUpdateFx = createEffect<{ workspace: Workspace }, Workspac
 
     checkCrudError(error);
 
-    const { user_id, avatar_url, created_at, ...restResponse } = data as Tables<"workspaces">;
+    const { user_id, avatar_url, created_at, ...restResponse } = data;
 
     return {
       ...restResponse,
       userId: user_id,
       avatarUrl: avatar_url,
       createdAt: created_at,
-    };
+    } as Workspace;
   },
 );

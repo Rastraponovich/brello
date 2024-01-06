@@ -11,6 +11,7 @@ interface BaseUser extends User {
 export const signInWithGoogleFx = createEffect(async () => {
   const baseUrl = document.location.toString();
   const redirectTo = new URL("/boards", baseUrl).toString();
+
   const { error } = await client.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo },
@@ -23,6 +24,7 @@ export const signInWithEmailFx = createEffect<{ email: Email }, void, AuthError>
   async ({ email }) => {
     const baseUrl = document.location.toString();
     const emailRedirectTo = new URL("/auth/finish", baseUrl).toString();
+
     const { error } = await client.auth.signInWithOtp({
       email,
       options: { emailRedirectTo },
