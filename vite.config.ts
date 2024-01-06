@@ -1,6 +1,7 @@
 import svg from "@neodx/svg/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import svgr from "vite-plugin-svgr";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,6 +11,9 @@ export default defineConfig({
         babelrc: true,
       },
     }),
+
+    svgr({ include: "**/*.svg" }),
+
     svg({
       root: "src/shared/ui/icon/assets",
       group: true,
