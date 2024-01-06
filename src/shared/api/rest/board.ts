@@ -52,8 +52,16 @@ export const getBoardSettingsFx = createEffect<{ id: string }, Board | null>(asy
   return data ?? null;
 });
 
-export const updateBoardFx = createEffect(() => {
-  return true;
+export const updateBoardFx = createEffect<Partial<Board>, Board>(async (board) => {
+  const { data, error } = await client
+    .from("boards")
+    .update(board)
+    .eq("id", board.id)
+    .select()
+    .single();
+
+  checkCrudError(error);
+  return data;
 });
 
 export const deleteBoardFx = createEffect<{ id: string }, null>(async ({ id }) => {

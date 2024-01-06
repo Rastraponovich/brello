@@ -1,7 +1,7 @@
 import type { User } from "@supabase/supabase-js";
 import { createEffect } from "effector";
 
-import { Tables, checkAuthError, checkCrudError, client } from "../client";
+import { type Tables, checkAuthError, checkCrudError, client } from "../client";
 
 export interface Profile extends Tables<"profiles"> {
   id: string;

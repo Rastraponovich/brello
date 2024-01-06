@@ -1,10 +1,11 @@
 import { useUnit } from "effector-react";
-import { type ChangeEventHandler, memo } from "react";
+import { type ChangeEventHandler, FormEventHandler, memo } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
 import { PageHeader } from "~/widgets/page-header";
 
+import { cx } from "~/shared/lib";
 import { Button, IconButton } from "~/shared/ui/button";
 import { ColorPickerBase } from "~/shared/ui/color-picker";
 import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
@@ -12,15 +13,18 @@ import { Input, type InputProps } from "~/shared/ui/input";
 
 import {
   $background,
+  $bgImage,
   $email,
   $invites,
   $title,
   addEmailButtonClicked,
   backgroundColorChanged,
+  bgImageChanged,
   deleteEmailButtonClicked,
   deletedBoardButtonClicked,
   emailChanged,
   nameChanged,
+  sumbitButtonClicked,
 } from "./model";
 
 export const BoardSettingsPage = () => {
@@ -36,8 +40,17 @@ export const BoardSettingsPage = () => {
 };
 
 const PageForm = () => {
+  const submit = useUnit(sumbitButtonClicked);
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    console.log("submit");
+
+    submit();
+  };
+
   return (
-    <form id="form" className="flex flex-col gap-5">
+    <form id="form" className="flex flex-col gap-5" onSubmit={handleSubmit}>
       <BoardName />
       <BoardColors />
       <InvitedList />
@@ -173,9 +186,56 @@ const DeleteBoard = () => {
   );
 };
 
+interface ImageButtonProps {
+  image: string;
+  onClick(): void;
+  selected: boolean;
+}
+const ImageButton = ({ image, onClick, selected }: ImageButtonProps) => {
+  return (
+    <div
+      className={cx(
+        "p-1 rounded-3xl flex border-[3px] border-transparent box-content",
+        selected && "border-blue-600",
+      )}
+      onClick={onClick}
+    >
+      <img
+        width={168}
+        src={image}
+        height={168}
+        alt="background inage"
+        className="rounded-[18px] shrink-0"
+      />
+    </div>
+  );
+};
+
 const BoardColors = () => {
+  const [image, setImage] = useUnit([$bgImage, bgImageChanged]);
+
+  const imageStr = (id: number) => {
+    return `https://source.unsplash.com/random/168x168?${id}&background`;
+  };
+
   return (
     <FormBlock title="Choose background image or color">
+      <div className="grid grid-cols-4">
+        {Array.from({ length: 4 }).map((_, id) => {
+          const convertedImageToString = imageStr(id);
+          const selected = convertedImageToString === image;
+          const handleClick = () => setImage(convertedImageToString);
+
+          return (
+            <ImageButton
+              key={id}
+              selected={selected}
+              onClick={handleClick}
+              image={convertedImageToString}
+            />
+          );
+        })}
+      </div>
       <ColorPicker />
     </FormBlock>
   );
