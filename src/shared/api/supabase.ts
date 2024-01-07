@@ -48,10 +48,45 @@ export interface Database {
           },
         ];
       };
+      favorite_boards: {
+        Row: {
+          board_id: string | null;
+          created_at: string;
+          id: string;
+          profile_id: string | null;
+        };
+        Insert: {
+          board_id?: string | null;
+          created_at?: string;
+          id?: string;
+          profile_id?: string | null;
+        };
+        Update: {
+          board_id?: string | null;
+          created_at?: string;
+          id?: string;
+          profile_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "favorite_boards_board_id_fkey";
+            columns: ["board_id"];
+            isOneToOne: false;
+            referencedRelation: "boards";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "favorite_boards_profile_id_fkey";
+            columns: ["profile_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       profiles: {
         Row: {
           avatar_url: string | null;
-          favorite_boards: string | null;
           first_name: string;
           id: string;
           last_name: string | null;
@@ -61,7 +96,6 @@ export interface Database {
         };
         Insert: {
           avatar_url?: string | null;
-          favorite_boards?: string | null;
           first_name: string;
           id?: string;
           last_name?: string | null;
@@ -71,7 +105,6 @@ export interface Database {
         };
         Update: {
           avatar_url?: string | null;
-          favorite_boards?: string | null;
           first_name?: string;
           id?: string;
           last_name?: string | null;
@@ -80,13 +113,6 @@ export interface Database {
           user_id?: string | null;
         };
         Relationships: [
-          {
-            foreignKeyName: "profiles_favorite_boards_fkey";
-            columns: ["favorite_boards"];
-            isOneToOne: false;
-            referencedRelation: "boards";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "profiles_user_id_fkey";
             columns: ["user_id"];

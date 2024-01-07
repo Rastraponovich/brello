@@ -3,7 +3,9 @@ import { createEffect } from "effector";
 
 import { type Tables, checkAuthError, checkCrudError, client } from "../client";
 
-export type Profile = Tables<"profiles">;
+export type Profile = Tables<"profiles"> & {
+  favorite_boards?: { id: string; profile_id: string; board_id: string }[];
+};
 
 export const profileGetFx = createEffect<{ user_id: string }, Profile>(async ({ user_id }) => {
   const { data, error } = await client
@@ -14,7 +16,7 @@ export const profileGetFx = createEffect<{ user_id: string }, Profile>(async ({ 
 
   checkCrudError(error);
 
-  return data;
+  return data as Profile;
 });
 
 export const userUpdateFx = createEffect<{ email: string; password: string }, User>(

@@ -29,7 +29,7 @@ export const getBoardByIdFx = createEffect<
 >(async ({ id, workspace, user }) => {
   const { data, error } = await client
     .from("boards")
-    .select("*, stacks(*, tasks(*))")
+    .select("*, stacks(*, tasks(*)), favorite_boards(*)")
     .eq("id", id)
     .eq("user_id", user)
     .eq("workspace_id", workspace)

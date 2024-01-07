@@ -1,7 +1,7 @@
 import { attach, createEvent, createStore, sample } from "effector";
 
 import { api } from "~/shared/api";
-import { Tables } from "~/shared/api/client";
+import type { Profile } from "~/shared/api/rest/user";
 import { appStarted } from "~/shared/init";
 import { controls, routes } from "~/shared/routing";
 
@@ -39,7 +39,7 @@ export const cancelButtonClicked = createEvent();
 export const logOutButtonClicked = createEvent();
 export const viewProfileButtonClicked = createEvent();
 
-export const $profile = createStore<Tables<"profiles"> | null>(null);
+export const $profile = createStore<Profile | null>(null);
 
 $profile.on(getProfileFx.doneData, (_, profile) => profile);
 

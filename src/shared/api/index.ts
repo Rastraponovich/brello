@@ -1,5 +1,6 @@
 import * as auth from "./rest/auth";
 import * as board from "./rest/board";
+import * as favorites from "./rest/favorites";
 import * as stack from "./rest/stack";
 import * as task from "./rest/task";
 import * as upload from "./rest/upload";
@@ -14,4 +15,5 @@ export const api = {
   stack,
   upload,
   workspace,
+  favorites,
 };

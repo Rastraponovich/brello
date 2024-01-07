@@ -1,4 +1,5 @@
 import { attach, createEvent, createStore, sample } from "effector";
+import { reset } from "patronum";
 
 import { stackAddedFx } from "~/features/add-list";
 import { taskAddedFx } from "~/features/task/add-task";
@@ -35,6 +36,8 @@ $stacks.on($board, (_, board) => {
   }
   return [];
 });
+
+export const $pageLoading = boardGetFx.pending;
 
 $board.on(boardGetFx.doneData, (_, board) => board);
 
@@ -85,4 +88,9 @@ sample({
     id: board!.id,
   }),
   target: routes.board.settings.open,
+});
+
+reset({
+  clock: currentRoute.closed,
+  target: [$board, $stacks],
 });

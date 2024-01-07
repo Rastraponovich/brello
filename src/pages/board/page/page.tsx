@@ -13,18 +13,32 @@ import { cx } from "~/shared/lib";
 import { AvatarGroup } from "~/shared/ui/avatar";
 import { IconButton } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
+import { LoaderCircle } from "~/shared/ui/loader-circle";
 
 import { _AVATARS_ } from "./constants";
-import { $board, $stacks, settingsButtonClicked } from "./model";
+import { $board, $pageLoading, $stacks, settingsButtonClicked } from "./model";
 
 /**
  * Render the BoardPage component.
  */
 export const BoardPage = () => {
   return (
-    <MainLayout className="gap-0 pb-0 sm:pb-0">
+    <MainLayout className="relative gap-0 pb-0 sm:pb-0">
+      <Loading />
+
       <PageHeaderContent />
       <List />
+      <TaskModal />
+    </MainLayout>
+  );
+};
+
+export const PageLoader = () => {
+  return (
+    <MainLayout className="gap-0 pb-0 sm:pb-0">
+      <section className="relative h-screen">
+        <LoaderCircle pending={true} />
+      </section>
       <TaskModal />
     </MainLayout>
   );
@@ -45,9 +59,9 @@ const PageHeaderContent = () => {
       <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-start gap-4 sm:flex-row sm:items-center">
           <Heading as="h1">{board?.title}</Heading>
-          <AddToFavorite />
+          <AddToFavorite board_id={board?.id} />
         </div>
-        <div className="gap-5 flex items-center">
+        <div className="flex items-center gap-5">
           <AvatarGroup size="md" counter={5} canAddedUser items={_AVATARS_} />
           <IconButton
             size="sm"
@@ -75,7 +89,7 @@ const List = () => {
   return (
     <section
       className={cx(
-        "flex grow flex-col pt-8 pb-24 items-center bg-cover bg-no-repeat",
+        "flex grow flex-col items-center bg-cover bg-no-repeat pb-24 pt-8",
         board?.background_color,
       )}
       style={{
@@ -84,7 +98,7 @@ const List = () => {
           : "revert-layer",
       }}
     >
-      <section className="container flex grow flex-col h-full">
+      <section className="container flex h-full grow flex-col">
         <Grid>
           {useList($stacks, {
             getKey: (stack) => stack.id,
@@ -113,7 +127,7 @@ interface GridProps {
 
 const Grid = memo<GridProps>(({ children }) => {
   return (
-    <div className="h-full grid snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] sm:auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden px-8 py-4 sm:scroll-px-8 scroll-bar">
+    <div className="scroll-bar grid h-full snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden px-8 py-4 sm:scroll-px-8 sm:auto-cols-[360px]">
       {children}
     </div>
   );
@@ -132,3 +146,9 @@ const GridColumn = memo<GridColumnProps>(({ children }) => {
     </div>
   );
 });
+
+const Loading = () => {
+  const pending = useUnit($pageLoading);
+
+  return <LoaderCircle pending={pending} />;
+};
