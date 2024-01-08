@@ -13,7 +13,7 @@ import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
 import { Icon } from "~/shared/ui/icon";
 
-import { stackDeleted, stackUpdated } from "./model";
+import { type StackFactory2, stackDeleted, stackUpdated } from "./model";
 
 const StackActions = memo(({ user_id, stack_id }: { user_id: string; stack_id: string }) => {
   const [stackDeletedAction] = useUnit([stackDeleted]);
@@ -46,11 +46,67 @@ interface StackColumnProps {
   onTaskClicked?: (task: Task) => void;
 }
 
-export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => {
+interface StackColumnProps2 {
+  stack: StackFactory2;
+  onTaskClicked?: (task: Task) => void;
+}
+
+export const StackColumn2 = memo<StackColumnProps2>(({ stack, onTaskClicked }) => {
+  const { title, titleChanged, stackUpdated } = stack;
+
+  console.log(stack);
+
   const dragRef = useRef<HTMLDivElement>(null);
   const [editableTitle, setEditableTitle] = useReducer((state) => !state, false);
 
-  console.log(stack);
+  const onBlur = () => {
+    stackUpdated();
+    setEditableTitle();
+  };
+
+  if (!stack) return null;
+
+  return (
+    <div
+      ref={dragRef}
+      className={cx(
+        "flex w-full flex-col py-4",
+        "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
+        "overflow-hidden",
+      )}
+    >
+      <div className="flex items-center gap-2 px-4 py-1 text-lg font-bold text-gray-900">
+        {editableTitle ? (
+          <input
+            type="text"
+            onBlur={onBlur}
+            value={title || "enter new title"}
+            className="grow border-b px-4 pb-px outline-none"
+            onChange={(event) => titleChanged(event.target.value)}
+          />
+        ) : (
+          <Heading as="h3" className="grow px-4" onClick={setEditableTitle}>
+            {title}
+          </Heading>
+        )}
+
+        <StackActions stack_id={stack.id} user_id={stack.userId} />
+      </div>
+
+      <div className="overflow-hidden py-4 pr-2">
+        <div className="scroll-bar scroll-shadows h-full overflow-y-auto pl-4 pr-2">
+          <TaskCardList cards={stack.tasks ?? []} onTaskClicked={onTaskClicked} />
+        </div>
+      </div>
+
+      <TaskAdd user_id={stack.userId} stack_id={stack.id} />
+    </div>
+  );
+});
+
+export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => {
+  const dragRef = useRef<HTMLDivElement>(null);
+  const [editableTitle, setEditableTitle] = useReducer((state) => !state, false);
 
   const handleStackUpdate = useUnit(stackUpdated);
 

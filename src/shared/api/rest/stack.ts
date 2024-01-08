@@ -17,6 +17,21 @@ export type Stack = {
   tasks?: Tables<"tasks">[];
 };
 
+export const stackGetFx = createEffect<{ id: string }, Stack>(async ({ id }) => {
+  const { data, error } = await client.from("stacks").select("*").eq("id", id).single();
+
+  checkCrudError(error);
+
+  const { user_id, board_id, created_at, ...rest } = data;
+
+  return {
+    ...rest,
+    userId: user_id,
+    boardId: board_id,
+    createdAt: created_at,
+  };
+});
+
 export const stackCreateFx = createEffect<
   { title: string; userId: string; boardId: string },
   Stack

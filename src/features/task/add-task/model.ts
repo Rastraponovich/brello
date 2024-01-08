@@ -7,7 +7,11 @@ export const taskAddedFx = attach({
   effect: api.task.taskCreateFx,
 });
 
-export const taskSubmitted = createEvent<{ user_id: string; stack_id: string; title: string }>();
+export const taskSubmitted = createEvent<{
+  user_id: string;
+  stack_id: string;
+  title: string;
+}>();
 
 export const $pending = taskAddedFx.pending;
 

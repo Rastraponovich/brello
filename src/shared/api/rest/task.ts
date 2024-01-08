@@ -50,6 +50,7 @@ export const taskCreateFx = createEffect<
   const { data, error } = await client.from("tasks").insert(task).select().single();
 
   checkCrudError(error);
+
   return {
     id: data.id,
     title: data.title,

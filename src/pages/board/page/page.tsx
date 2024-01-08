@@ -7,7 +7,7 @@ import { AddList } from "~/features/add-list";
 import { AddToFavorite } from "~/features/board/add-to-favorite";
 import { TaskModal, taskOpened } from "~/features/task/task-edit";
 
-import { StackColumn } from "~/entities/stack";
+import { StackColumn2 } from "~/entities/stack";
 
 import { cx } from "~/shared/lib";
 import { AvatarGroup } from "~/shared/ui/avatar";
@@ -16,7 +16,7 @@ import { Heading } from "~/shared/ui/heading";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
 
 import { _AVATARS_ } from "./constants";
-import { $board, $pageLoading, $stacks, settingsButtonClicked } from "./model";
+import { $board, $factoryStacks, $pageLoading, settingsButtonClicked } from "./model";
 
 /**
  * Render the BoardPage component.
@@ -100,14 +100,23 @@ const List = () => {
     >
       <section className="container flex h-full grow flex-col">
         <Grid>
-          {useList($stacks, {
+          {useList($factoryStacks, {
             getKey: (stack) => stack.id,
 
-            fn: (stack) => (
-              <GridColumn key={stack.id}>
-                <StackColumn stack={stack} onTaskClicked={onTaskClicked} />
-              </GridColumn>
-            ),
+            fn: (stack) => {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const data = useUnit(stack);
+
+              return (
+                <GridColumn key={stack.id}>
+                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                  {/* @ts-ignore */}
+                  <StackColumn2 stack={data} onTaskClicked={onTaskClicked} />
+                </GridColumn>
+              );
+            },
           })}
 
           {board?.id && board?.user_id && (
@@ -127,7 +136,7 @@ interface GridProps {
 
 const Grid = memo<GridProps>(({ children }) => {
   return (
-    <div className="scroll-bar grid h-full snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden px-8 py-4 sm:scroll-px-8 sm:auto-cols-[360px]">
+    <div className="scroll-bar grid h-full snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] grid-flow-col gap-12 overflow-x-auto  px-8 py-4 sm:scroll-px-8 sm:auto-cols-[360px]">
       {children}
     </div>
   );

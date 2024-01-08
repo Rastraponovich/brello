@@ -1,11 +1,11 @@
 import { attach, createEvent, createStore, sample } from "effector";
-import { reset } from "patronum";
+import { debug, reset } from "patronum";
 
 import { stackAddedFx } from "~/features/add-list";
 import { taskAddedFx } from "~/features/task/add-task";
 import { taskDeleteFx, taskUpdateFx } from "~/features/task/task-edit";
 
-import { stackDeletedFx } from "~/entities/stack";
+import { StackFactory2, stackDeletedFx, stackFactory } from "~/entities/stack";
 
 import { api } from "~/shared/api";
 import type { Board } from "~/shared/api/rest/board";
@@ -30,11 +30,28 @@ export const $board = createStore<Board | null>(null);
 
 export const $stacks = createStore<RStack[]>([]);
 
+export const $factoryStacks = createStore<StackFactory2[]>([]);
+
 $stacks.on($board, (_, board) => {
   if (board) {
     return board.stacks;
   }
   return [];
+});
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
+$factoryStacks.on($board, (_, board) => {
+  if (board) {
+    return board.stacks?.map((stack) => ({
+      ...stackFactory(stack),
+    }));
+  }
+  return [];
+});
+
+debug({
+  $factoryStacks,
 });
 
 export const $pageLoading = boardGetFx.pending;
