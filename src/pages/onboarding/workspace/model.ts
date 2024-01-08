@@ -72,6 +72,11 @@ reset({
 const workspaceCreateFx = attach({
   source: { workspace: $workspace },
   effect: api.workspace.workspaceCreateFx,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  mapParams: (_, workspace) => {
+    return workspace;
+  },
 });
 
 export const $pending = pending({
