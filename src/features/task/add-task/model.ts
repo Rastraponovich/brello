@@ -21,8 +21,9 @@ sample({
   fn: ({ title, user_id, stack_id }) => {
     return {
       title,
-      user_id,
-      stack_id,
+      order: 9999,
+      userId: user_id,
+      stackId: stack_id,
     };
   },
   target: taskAddedFx,

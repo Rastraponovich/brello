@@ -9,7 +9,7 @@ import { stackDeletedFx } from "~/entities/stack";
 
 import { api } from "~/shared/api";
 import type { Board } from "~/shared/api/rest/board";
-import type { Stack } from "~/shared/api/rest/stack";
+import type { RStack } from "~/shared/api/rest/stack";
 import { routes } from "~/shared/routing";
 import { $viewer, chainAuthenticated } from "~/shared/viewer";
 
@@ -28,7 +28,7 @@ const boardGetFx = attach({
 
 export const $board = createStore<Board | null>(null);
 
-export const $stacks = createStore<Stack[]>([]);
+export const $stacks = createStore<RStack[]>([]);
 
 $stacks.on($board, (_, board) => {
   if (board) {

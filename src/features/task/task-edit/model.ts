@@ -81,6 +81,7 @@ sample({
   clock: taskSubmitted,
   source: $editableTask,
   filter: and($taskName, $task),
+  fn: (task) => task as Task,
   target: taskUpdateFx,
 });
 

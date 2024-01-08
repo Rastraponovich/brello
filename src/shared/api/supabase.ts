@@ -9,6 +9,7 @@ export interface Database {
           background_image: string | null;
           created_at: string;
           id: string;
+          order: number;
           title: string | null;
           user_id: string | null;
           workspace_id: string | null;
@@ -18,6 +19,7 @@ export interface Database {
           background_image?: string | null;
           created_at?: string;
           id?: string;
+          order: number;
           title?: string | null;
           user_id?: string | null;
           workspace_id?: string | null;
@@ -27,6 +29,7 @@ export interface Database {
           background_image?: string | null;
           created_at?: string;
           id?: string;
+          order?: number;
           title?: string | null;
           user_id?: string | null;
           workspace_id?: string | null;
@@ -50,22 +53,22 @@ export interface Database {
       };
       favorite_boards: {
         Row: {
-          board_id: string | null;
+          board_id: string;
           created_at: string;
           id: string;
-          profile_id: string | null;
+          profile_id: string;
         };
         Insert: {
-          board_id?: string | null;
+          board_id: string;
           created_at?: string;
           id?: string;
-          profile_id?: string | null;
+          profile_id: string;
         };
         Update: {
-          board_id?: string | null;
+          board_id?: string;
           created_at?: string;
           id?: string;
-          profile_id?: string | null;
+          profile_id?: string;
         };
         Relationships: [
           {
@@ -127,6 +130,7 @@ export interface Database {
           board_id: string;
           created_at: string;
           id: string;
+          order: number;
           title: string;
           user_id: string;
         };
@@ -134,6 +138,7 @@ export interface Database {
           board_id: string;
           created_at?: string;
           id?: string;
+          order: number;
           title: string;
           user_id: string;
         };
@@ -141,6 +146,7 @@ export interface Database {
           board_id?: string;
           created_at?: string;
           id?: string;
+          order?: number;
           title?: string;
           user_id?: string;
         };
@@ -168,10 +174,11 @@ export interface Database {
           created_at: string;
           description: string | null;
           id: string;
-          stack_id: string | null;
-          title: string | null;
+          order: number;
+          stack_id: string;
+          title: string;
           updated_at: string | null;
-          user_id: string | null;
+          user_id: string;
           users: number[] | null;
         };
         Insert: {
@@ -180,10 +187,11 @@ export interface Database {
           created_at?: string;
           description?: string | null;
           id?: string;
-          stack_id?: string | null;
-          title?: string | null;
+          order: number;
+          stack_id: string;
+          title: string;
           updated_at?: string | null;
-          user_id?: string | null;
+          user_id: string;
           users?: number[] | null;
         };
         Update: {
@@ -192,10 +200,11 @@ export interface Database {
           created_at?: string;
           description?: string | null;
           id?: string;
-          stack_id?: string | null;
-          title?: string | null;
+          order?: number;
+          stack_id?: string;
+          title?: string;
           updated_at?: string | null;
-          user_id?: string | null;
+          user_id?: string;
           users?: number[] | null;
         };
         Relationships: [

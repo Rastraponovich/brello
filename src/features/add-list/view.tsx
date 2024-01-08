@@ -35,7 +35,7 @@ export const AddList = memo<AddListProps>(({ buttonCaption, user_id, board_id })
         return setEditable();
       }
 
-      taskAdd({ user_id, board_id });
+      taskAdd({ userId: user_id, boardId: board_id });
     },
     [board_id, editable, setEditable, taskAdd, user_id],
   );

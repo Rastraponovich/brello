@@ -1,30 +1,70 @@
 import { createEffect } from "effector";
 
 import { type Tables, checkCrudError, client } from "../client";
+import { TablesInsert, TablesUpdate } from "../supabase";
 
-export interface Stack extends Tables<"stacks"> {
+export interface RStack extends Tables<"stacks"> {
   tasks?: Tables<"tasks">[];
 }
 
-export const stackCreateFx = createEffect<Stack, Stack>(async (stack) => {
+export type Stack = {
+  id: string;
+  title: string;
+  order: number;
+  userId: string;
+  boardId: string;
+  createdAt: string;
+  tasks?: Tables<"tasks">[];
+};
+
+export const stackCreateFx = createEffect<
+  { title: string; userId: string; boardId: string },
+  Stack
+>(async ({ userId, boardId, title }) => {
+  const stack: TablesInsert<"stacks"> = {
+    title,
+    order: 0,
+    user_id: userId,
+    board_id: boardId,
+  };
+
   const { data, error } = await client.from("stacks").insert(stack).select().single();
 
   checkCrudError(error);
 
-  return data;
+  const { user_id, board_id, created_at, ...rest } = data;
+
+  return {
+    ...rest,
+    userId: user_id,
+    boardId: board_id,
+    createdAt: created_at,
+  };
 });
 
-export const stackUpdateFx = createEffect<Partial<Stack>, Stack>(async (stack) => {
-  const { data, error } = await client
-    .from("stacks")
-    .update(stack)
-    .eq("id", stack.id)
-    .select()
-    .single();
+export const stackUpdateFx = createEffect<
+  { id: string; title: string; order?: number; userId?: string; boardId?: string },
+  Stack
+>(async ({ id, boardId, userId, title, order }) => {
+  const stack: TablesUpdate<"stacks"> = {
+    title,
+    order,
+    board_id: boardId,
+    user_id: userId,
+  };
+
+  const { data, error } = await client.from("stacks").update(stack).eq("id", id).select().single();
 
   checkCrudError(error);
 
-  return data;
+  const { user_id, board_id, created_at, ...rest } = data;
+
+  return {
+    ...rest,
+    userId: user_id,
+    boardId: board_id,
+    createdAt: created_at,
+  };
 });
 
 export const stackDeletedFx = createEffect<{ id: string; user_id: string }, null>(

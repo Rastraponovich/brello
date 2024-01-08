@@ -71,7 +71,11 @@ export const deleteBoardFx = createEffect<{ id: string }, null>(async ({ id }) =
 });
 
 export const createBoardFx = createEffect<Partial<Board>, Board | null>(async (board) => {
-  const { data, error } = await client.from("boards").insert(board).select().single();
+  const { data, error } = await client
+    .from("boards")
+    .insert({ ...board, order: 0 })
+    .select()
+    .single();
 
   checkCrudError(error);
 

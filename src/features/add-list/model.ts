@@ -3,13 +3,13 @@ import { reset } from "patronum";
 
 import { api } from "~/shared/api";
 
-export const stackAddedFx = attach({
+export const stackCreateFx = attach({
   effect: api.stack.stackCreateFx,
   mapParams: (params) => params,
 });
 
 export const editableToggled = createEvent();
-export const stackAdded = createEvent<{ board_id: string; user_id: string }>();
+export const stackAdded = createEvent<{ boardId: string; userId: string }>();
 export const stackNameChanged = createEvent<string>();
 
 export const $editable = createStore(false);
@@ -20,17 +20,17 @@ $stackName.on(stackNameChanged, (_, name) => name);
 $editable.on(editableToggled, (editable) => !editable);
 
 reset({
-  clock: stackAddedFx.doneData,
+  clock: stackCreateFx.doneData,
   target: [$stackName, $editable],
 });
 
 sample({
   clock: stackAdded,
   source: $stackName,
-  fn: (title, { board_id, user_id }) => ({
+  fn: (title, { boardId, userId }) => ({
     title,
-    user_id,
-    board_id,
+    userId,
+    boardId,
   }),
-  target: stackAddedFx,
+  target: stackCreateFx,
 });

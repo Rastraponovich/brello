@@ -1,2 +1,2 @@
 export * from "./view";
-export { stackAddedFx } from "./model";
+export { stackCreateFx as stackAddedFx } from "./model";

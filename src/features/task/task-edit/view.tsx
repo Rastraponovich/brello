@@ -61,8 +61,8 @@ export const TaskModal = () => {
               enterTo="opacity-100 scale-100"
               leaveFrom="opacity-100 scale-100"
             >
-              <Dialog.Panel className="flex flex-col w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
-                <div className="p-6 pb-0 flex flex-col gap-4">
+              <Dialog.Panel className="flex w-full max-w-3xl transform flex-col overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+                <div className="flex flex-col gap-4 p-6 pb-0">
                   <div className="flex flex-row-reverse">
                     <IconButton
                       size="lg"
@@ -75,7 +75,7 @@ export const TaskModal = () => {
                   <span className="text-lg font-semibold text-gray-900">Edit task</span>
                 </div>
 
-                <div className="flex flex-col p-6 gap-5">
+                <div className="flex flex-col gap-5 p-6">
                   <Input
                     size="md"
                     caption="Name"
@@ -94,16 +94,16 @@ export const TaskModal = () => {
                     onValueChange={onDescriptionChanged}
                   />
 
-                  {task?.updated_at && (
+                  {task?.updatedAt && (
                     <div>
                       <p className="text-sm text-gray-500">
-                        Last updated: {new Date(task.updated_at).toLocaleString()}
+                        Last updated: {new Date(task.updatedAt).toLocaleString()}
                       </p>
                     </div>
                   )}
                 </div>
 
-                <div className="flex items-center justify-between p-6 pt-8 gap-4">
+                <div className="flex items-center justify-between gap-4 p-6 pt-8">
                   <Button
                     size="md"
                     destructive

@@ -1,7 +1,6 @@
 import { attach, createEvent, sample } from "effector";
 
 import { api } from "~/shared/api";
-import { Stack } from "~/shared/api/rest/stack";
 
 export const stackDeletedFx = attach({
   effect: api.stack.stackDeletedFx,
@@ -13,7 +12,7 @@ export const stackUpdateFx = attach({
 });
 
 export const stackDeleted = createEvent<{ id: string; user_id: string }>();
-export const stackUpdated = createEvent<Partial<Stack>>();
+export const stackUpdated = createEvent<{ id: string; title: string }>();
 
 sample({
   clock: stackDeleted,
