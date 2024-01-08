@@ -91,7 +91,9 @@ sample({
   clock: taskDeleted,
   source: $task,
   filter: $task,
-  fn: ({ id, user_id }: { id: string; user_id: string }) => ({ id, user_id }),
+  fn: ({ id, userId }: Task) => {
+    return { id, userId };
+  },
   target: taskDeleteFx,
 });
 

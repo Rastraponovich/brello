@@ -5,11 +5,10 @@ import { stackAddedFx } from "~/features/add-list";
 import { taskAddedFx } from "~/features/task/add-task";
 import { taskDeleteFx, taskUpdateFx } from "~/features/task/task-edit";
 
-import { StackFactory2, stackDeletedFx, stackFactory } from "~/entities/stack";
+import { type StackFactory2, stackFactory } from "~/entities/stack";
 
 import { api } from "~/shared/api";
 import type { Board } from "~/shared/api/rest/board";
-import type { RStack } from "~/shared/api/rest/stack";
 import { routes } from "~/shared/routing";
 import { $viewer, chainAuthenticated } from "~/shared/viewer";
 
@@ -19,42 +18,42 @@ export const authenticatedRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.auth.signIn.open,
 });
 
-export const settingsButtonClicked = createEvent();
+const stackDeletedFx = attach({
+  effect: api.stack.stackDeletedFx,
+  mapParams: ({ id, user_id }) => ({ id, user_id }),
+});
 
 const boardGetFx = attach({
   effect: api.board.getBoardByIdFx,
   mapParams: (params) => params,
 });
 
+export const settingsButtonClicked = createEvent();
+
+const stackDeleted = createEvent<{ id: string; user_id: string }>();
+
 export const $board = createStore<Board | null>(null);
 
-export const $stacks = createStore<RStack[]>([]);
+export const $stacks = createStore<StackFactory2[]>([]);
 
-export const $factoryStacks = createStore<StackFactory2[]>([]);
-
-$stacks.on($board, (_, board) => {
-  if (board) {
-    return board.stacks;
-  }
-  return [];
-});
+export const $pageLoading = boardGetFx.pending;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
-$factoryStacks.on($board, (_, board) => {
+$stacks.on($board, (_, board) => {
   if (board) {
     return board.stacks?.map((stack) => ({
-      ...stackFactory(stack),
+      ...stackFactory(stack, stackDeleted),
     }));
   }
   return [];
 });
 
-debug({
-  $factoryStacks,
+$stacks.on(stackDeleted, (prev, { id }) => {
+  return prev.filter((stack) => stack.id !== id);
 });
 
-export const $pageLoading = boardGetFx.pending;
+debug($stacks, stackDeleted);
 
 $board.on(boardGetFx.doneData, (_, board) => board);
 
@@ -77,13 +76,7 @@ sample({
 });
 
 sample({
-  clock: [
-    stackAddedFx.done,
-    stackDeletedFx.done,
-    taskAddedFx.done,
-    taskDeleteFx.done,
-    taskUpdateFx.done,
-  ],
+  clock: [stackAddedFx.done, taskAddedFx.done, taskDeleteFx.done, taskUpdateFx.done],
   source: $board,
   filter: (board) => !!board,
   fn: (board) => ({
@@ -105,6 +98,11 @@ sample({
     id: board!.id,
   }),
   target: routes.board.settings.open,
+});
+
+sample({
+  clock: stackDeleted,
+  target: stackDeletedFx,
 });
 
 reset({

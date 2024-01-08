@@ -18,7 +18,7 @@ export type Stack = {
 };
 
 export const stackGetFx = createEffect<{ id: string }, Stack>(async ({ id }) => {
-  const { data, error } = await client.from("stacks").select("*").eq("id", id).single();
+  const { data, error } = await client.from("stacks").select("*, tasks(*)").eq("id", id).single();
 
   checkCrudError(error);
 

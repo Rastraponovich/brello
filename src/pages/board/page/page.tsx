@@ -7,7 +7,7 @@ import { AddList } from "~/features/add-list";
 import { AddToFavorite } from "~/features/board/add-to-favorite";
 import { TaskModal, taskOpened } from "~/features/task/task-edit";
 
-import { StackColumn2 } from "~/entities/stack";
+import { StackColumn } from "~/entities/stack";
 
 import { cx } from "~/shared/lib";
 import { AvatarGroup } from "~/shared/ui/avatar";
@@ -16,7 +16,7 @@ import { Heading } from "~/shared/ui/heading";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
 
 import { _AVATARS_ } from "./constants";
-import { $board, $factoryStacks, $pageLoading, settingsButtonClicked } from "./model";
+import { $board, $pageLoading, $stacks, settingsButtonClicked } from "./model";
 
 /**
  * Render the BoardPage component.
@@ -89,7 +89,7 @@ const List = () => {
   return (
     <section
       className={cx(
-        "flex grow flex-col items-center bg-cover bg-no-repeat pb-24 pt-8",
+        "flex grow flex-col items-center overflow-auto bg-cover bg-no-repeat pb-24 pt-8",
         board?.background_color,
       )}
       style={{
@@ -100,7 +100,7 @@ const List = () => {
     >
       <section className="container flex h-full grow flex-col">
         <Grid>
-          {useList($factoryStacks, {
+          {useList($stacks, {
             getKey: (stack) => stack.id,
 
             fn: (stack) => {
@@ -113,7 +113,7 @@ const List = () => {
                 <GridColumn key={stack.id}>
                   {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                   {/* @ts-ignore */}
-                  <StackColumn2 stack={data} onTaskClicked={onTaskClicked} />
+                  <StackColumn stack={data} onTaskClicked={onTaskClicked} />
                 </GridColumn>
               );
             },

@@ -1,31 +1,28 @@
-import { useUnit } from "effector-react";
-import { memo, useReducer, useRef, useState } from "react";
+import { memo, useReducer, useRef } from "react";
 
-import { TaskAdd } from "~/features/task/add-task";
+import { TaskAddBase } from "~/features/task/add-task";
 
 // import { AvatarGroup } from "~/shared/ui/avatar";
 // import { Bage } from "~/shared/ui/bage";
 import type { Tables } from "~/shared/api/client";
-import type { RStack } from "~/shared/api/rest/stack";
 import type { Task } from "~/shared/api/rest/task";
 import { cx } from "~/shared/lib";
 import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
 import { Icon } from "~/shared/ui/icon";
+import { LoaderCircle } from "~/shared/ui/loader-circle";
 
-import { type StackFactory2, stackDeleted, stackUpdated } from "./model";
+import { type StackFactory2 } from "./model";
 
-const StackActions = memo(({ user_id, stack_id }: { user_id: string; stack_id: string }) => {
-  const [stackDeletedAction] = useUnit([stackDeleted]);
-
+const StackActions = memo(({ onDelete }: { onDelete: () => void }) => {
   const actions: TMenuItem[] = [
     {
       id: 1,
       group: 1,
       hotkey: "⌘K->P",
+      onClick: onDelete,
       text: "delete stack",
       icon: "common/trash-01",
-      onClick: () => stackDeletedAction({ id: stack_id, user_id }),
     },
   ];
 
@@ -42,19 +39,12 @@ const StackActions = memo(({ user_id, stack_id }: { user_id: string; stack_id: s
 });
 
 interface StackColumnProps {
-  stack: RStack;
-  onTaskClicked?: (task: Task) => void;
-}
-
-interface StackColumnProps2 {
   stack: StackFactory2;
   onTaskClicked?: (task: Task) => void;
 }
 
-export const StackColumn2 = memo<StackColumnProps2>(({ stack, onTaskClicked }) => {
+export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => {
   const { title, titleChanged, stackUpdated } = stack;
-
-  console.log(stack);
 
   const dragRef = useRef<HTMLDivElement>(null);
   const [editableTitle, setEditableTitle] = useReducer((state) => !state, false);
@@ -72,9 +62,11 @@ export const StackColumn2 = memo<StackColumnProps2>(({ stack, onTaskClicked }) =
       className={cx(
         "flex w-full flex-col py-4",
         "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
-        "overflow-hidden",
+        "relative overflow-hidden",
       )}
     >
+      {stack.pending && <LoaderCircle pending={stack.pending} />}
+
       <div className="flex items-center gap-2 px-4 py-1 text-lg font-bold text-gray-900">
         {editableTitle ? (
           <input
@@ -90,7 +82,7 @@ export const StackColumn2 = memo<StackColumnProps2>(({ stack, onTaskClicked }) =
           </Heading>
         )}
 
-        <StackActions stack_id={stack.id} user_id={stack.userId} />
+        <StackActions onDelete={stack.deleteButtonClicked} />
       </div>
 
       <div className="overflow-hidden py-4 pr-2">
@@ -99,65 +91,16 @@ export const StackColumn2 = memo<StackColumnProps2>(({ stack, onTaskClicked }) =
         </div>
       </div>
 
-      <TaskAdd user_id={stack.userId} stack_id={stack.id} />
+      <TaskAddBase
+        title={stack.taskTitle}
+        opened={stack.editorOpened}
+        onSubmit={stack.submitTask}
+        onReset={stack.taskCreateReseted}
+        onTitleChange={stack.taskTitleChanged}
+      />
     </div>
   );
 });
-
-export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => {
-  const dragRef = useRef<HTMLDivElement>(null);
-  const [editableTitle, setEditableTitle] = useReducer((state) => !state, false);
-
-  const handleStackUpdate = useUnit(stackUpdated);
-
-  const [title, setTitle] = useState(stack.title || "enter new title");
-
-  const onBlur = () => {
-    handleStackUpdate({ id: stack.id, title });
-    setEditableTitle();
-  };
-
-  if (!stack) return null;
-
-  return (
-    <div
-      ref={dragRef}
-      className={cx(
-        "flex w-full flex-col py-4",
-        "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
-        "overflow-hidden",
-      )}
-    >
-      <div className="flex items-center gap-2 px-4 py-1 text-lg font-bold text-gray-900">
-        {editableTitle ? (
-          <input
-            type="text"
-            value={title}
-            onBlur={onBlur}
-            className="grow border-b px-4 pb-px outline-none"
-            onChange={(event) => setTitle(event.target.value)}
-          />
-        ) : (
-          <Heading as="h3" className="grow px-4" onClick={setEditableTitle}>
-            {title}
-          </Heading>
-        )}
-
-        <StackActions stack_id={stack.id} user_id={stack.user_id} />
-      </div>
-
-      <div className="overflow-hidden py-4 pr-2">
-        <div className="scroll-bar scroll-shadows h-full overflow-y-auto pl-4 pr-2">
-          <TaskCardList cards={stack.tasks ?? []} onTaskClicked={onTaskClicked} />
-        </div>
-      </div>
-
-      <TaskAdd user_id={stack.user_id} stack_id={stack.id} />
-    </div>
-  );
-});
-
-StackColumn.displayName = "StackColumn";
 
 interface TaskCardProps extends Task {
   onClick?(): void;
