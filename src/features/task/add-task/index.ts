@@ -1,2 +1,1 @@
-export * from "./view";
-export { taskAddedFx } from "./model";
+export { TaskAddBase } from "./view";

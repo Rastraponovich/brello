@@ -4,7 +4,7 @@ import { not, reset } from "patronum";
 export const toggleInputFactory = (
   submit: EventCallable<{ value: string }>,
   $pending: Store<boolean>,
-) => {
+): ToggleInput => {
   const reseted = createEvent();
   const submitClicked = createEvent();
   const valueChanged = createEvent<string>();
@@ -40,13 +40,39 @@ export const toggleInputFactory = (
     valueChanged,
     submitClicked,
 
-    "@@unitShape": {
+    "@@unitShape": () => ({
       reseted,
       valueChanged,
       submitClicked,
       value: $value,
       opened: $opened,
       pending: $pending,
-    },
+    }),
   };
+};
+
+export type ToggleInput = {
+  $value: Store<string>;
+  $opened: Store<boolean>;
+  reseted: EventCallable<void>;
+  valueChanged: EventCallable<string>;
+  submitClicked: EventCallable<void>;
+
+  "@@unitShape": () => {
+    value: Store<string>;
+    opened: Store<boolean>;
+    pending: Store<boolean>;
+    reseted: EventCallable<void>;
+    valueChanged: EventCallable<string>;
+    submitClicked: EventCallable<void>;
+  };
+};
+
+export type ToggleInput2 = {
+  value: string;
+  reseted(): void;
+  opened: boolean;
+  pending: boolean;
+  submitClicked(): void;
+  valueChanged(value: string): void;
 };

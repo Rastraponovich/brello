@@ -3,20 +3,21 @@ import { type ReactNode, memo, useCallback } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
-import { AddList } from "~/features/add-list";
 import { AddToFavorite } from "~/features/board/add-to-favorite";
+import { AddStackBase } from "~/features/stack/add-stack";
 import { TaskModal, taskOpened } from "~/features/task/task-edit";
 
-import { StackColumn } from "~/entities/stack";
+import { StackColumn, StackFactory2 } from "~/entities/stack";
 
 import { cx } from "~/shared/lib";
+import { ToggleInput2 } from "~/shared/lib/factories";
 import { AvatarGroup } from "~/shared/ui/avatar";
 import { IconButton } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
 
 import { _AVATARS_ } from "./constants";
-import { $board, $pageLoading, $stacks, settingsButtonClicked } from "./model";
+import { $board, $pageLoading, $stacks, listModel, settingsButtonClicked } from "./model";
 
 /**
  * Render the BoardPage component.
@@ -107,26 +108,38 @@ const List = () => {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               //@ts-ignore
               // eslint-disable-next-line react-hooks/rules-of-hooks
-              const data = useUnit(stack);
+              const data = useUnit<StackFactory2>(stack);
 
               return (
                 <GridColumn key={stack.id}>
-                  {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                  {/* @ts-ignore */}
                   <StackColumn stack={data} onTaskClicked={onTaskClicked} />
                 </GridColumn>
               );
             },
           })}
 
-          {board?.id && board?.user_id && (
-            <GridColumn>
-              <AddList board_id={board.id} user_id={board.user_id} buttonCaption="Add List" />
-            </GridColumn>
-          )}
+          <GridColumn>
+            <AddStack />
+          </GridColumn>
         </Grid>
       </section>
     </section>
+  );
+};
+
+const AddStack = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const { opened, reseted, value, valueChanged, submitClicked } = useUnit<ToggleInput2>(listModel);
+
+  return (
+    <AddStackBase
+      value={value}
+      opened={opened}
+      onReset={reseted}
+      onChange={valueChanged}
+      onSubmit={submitClicked}
+    />
   );
 };
 

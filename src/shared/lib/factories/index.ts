@@ -1,1 +1,1 @@
-export { toggleInputFactory } from "./toggle-input";
+export { toggleInputFactory, type ToggleInput, type ToggleInput2 } from "./toggle-input";

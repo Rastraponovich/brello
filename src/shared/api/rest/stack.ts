@@ -34,7 +34,7 @@ export const stackGetFx = createEffect<{ id: string }, Stack>(async ({ id }) => 
 
 export const stackCreateFx = createEffect<
   { title: string; userId: string; boardId: string },
-  Stack
+  Tables<"stacks">
 >(async ({ userId, boardId, title }) => {
   const stack: TablesInsert<"stacks"> = {
     title,
@@ -47,14 +47,16 @@ export const stackCreateFx = createEffect<
 
   checkCrudError(error);
 
-  const { user_id, board_id, created_at, ...rest } = data;
+  // const { user_id, board_id, created_at, ...rest } = data;
 
-  return {
-    ...rest,
-    userId: user_id,
-    boardId: board_id,
-    createdAt: created_at,
-  };
+  return data as RStack;
+
+  // return {
+  //   ...rest,
+  //   userId: user_id,
+  //   boardId: board_id,
+  //   createdAt: created_at,
+  // };
 });
 
 export const stackUpdateFx = createEffect<
