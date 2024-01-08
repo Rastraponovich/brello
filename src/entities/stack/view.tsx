@@ -1,7 +1,5 @@
 import { memo, useReducer, useRef } from "react";
 
-import { TaskAddBase } from "~/features/task/add-task";
-
 // import { AvatarGroup } from "~/shared/ui/avatar";
 // import { Bage } from "~/shared/ui/bage";
 import type { Tables } from "~/shared/api/client";
@@ -11,6 +9,7 @@ import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
 import { Icon } from "~/shared/ui/icon";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
+import { ToggledInput } from "~/shared/ui/toggled-input/view";
 
 import { type StackFactory2 } from "./model";
 
@@ -91,12 +90,14 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
         </div>
       </div>
 
-      <TaskAddBase
-        title={stack.taskTitle}
+      <ToggledInput
+        className="px-4 py-1"
+        value={stack.taskTitle}
+        buttonCaption="Add Task"
         opened={stack.editorOpened}
         onSubmit={stack.submitTask}
         onReset={stack.taskCreateReseted}
-        onTitleChange={stack.taskTitleChanged}
+        onChange={stack.taskTitleChanged}
       />
     </div>
   );

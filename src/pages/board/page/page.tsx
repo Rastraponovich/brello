@@ -4,7 +4,6 @@ import { type ReactNode, memo, useCallback } from "react";
 import { MainLayout } from "~/layouts/main-layout";
 
 import { AddToFavorite } from "~/features/board/add-to-favorite";
-import { AddStackBase } from "~/features/stack/add-stack";
 import { TaskModal, taskOpened } from "~/features/task/task-edit";
 
 import { StackColumn, StackFactory2 } from "~/entities/stack";
@@ -15,6 +14,7 @@ import { AvatarGroup } from "~/shared/ui/avatar";
 import { IconButton } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
+import { ToggledInput } from "~/shared/ui/toggled-input/view";
 
 import { _AVATARS_ } from "./constants";
 import { $board, $pageLoading, $stacks, listModel, settingsButtonClicked } from "./model";
@@ -130,16 +130,27 @@ const List = () => {
 const AddStack = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
-  const { opened, reseted, value, valueChanged, submitClicked } = useUnit<ToggleInput2>(listModel);
+  const model = useUnit<ToggleInput2>(listModel);
+
+  const { opened, reseted, value, valueChanged, submitClicked, pending } = model;
 
   return (
-    <AddStackBase
-      value={value}
-      opened={opened}
-      onReset={reseted}
-      onChange={valueChanged}
-      onSubmit={submitClicked}
-    />
+    <div
+      className={cx(
+        "w-full justify-start rounded-2xl border border-gray-200 bg-[#FCFCFD]",
+        opened && "px-4 py-5 shadow-sm",
+      )}
+    >
+      <ToggledInput
+        value={value}
+        opened={opened}
+        pending={pending}
+        onReset={reseted}
+        onChange={valueChanged}
+        onSubmit={submitClicked}
+        buttonCaption="Add List"
+      />
+    </div>
   );
 };
 

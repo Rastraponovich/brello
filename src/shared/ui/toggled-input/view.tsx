@@ -4,16 +4,22 @@ import { type FormEvent, forwardRef, useCallback } from "react";
 import { Button, CloseXButton } from "~/shared/ui/button";
 import { InputArea } from "~/shared/ui/input";
 
-interface AddStackBaseProps {
+interface ToggledInputProps {
   value: string;
   opened: boolean;
+  pending?: boolean;
+  className?: string;
   onReset: () => void;
   onSubmit: () => void;
+  buttonCaption?: string;
   onChange: (value: string) => void;
 }
 
-export const AddStackBase = forwardRef<HTMLTextAreaElement, AddStackBaseProps>(
-  ({ onSubmit, onReset, opened, value, onChange }, ref) => {
+export const ToggledInput = forwardRef<HTMLTextAreaElement, ToggledInputProps>(
+  (
+    { buttonCaption = "Add List", pending, onSubmit, onReset, opened, value, onChange, className },
+    ref,
+  ) => {
     const handleSubmit = useCallback(
       (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -26,23 +32,29 @@ export const AddStackBase = forwardRef<HTMLTextAreaElement, AddStackBaseProps>(
       <form
         onReset={onReset}
         onSubmit={handleSubmit}
-        className={cx(
-          "flex w-full  flex-col justify-start gap-4 rounded-2xl border border-gray-200 bg-[#FCFCFD]",
-          opened && "px-4 py-5 shadow-sm",
-        )}
+        className={cx("flex flex-col gap-4", className)}
       >
         {opened && (
-          <InputArea rows={3} value={value} onValueChange={onChange} autoFocus={opened} ref={ref} />
+          <InputArea
+            rows={3}
+            ref={ref}
+            value={value}
+            autoFocus={opened}
+            disabled={pending}
+            onValueChange={onChange}
+          />
         )}
         <div className="flex items-center gap-2">
           <Button
             size="lg"
             type="submit"
+            pending={pending}
+            disabled={!value && opened}
             leftIcon="common/plus-square"
             className=" grow justify-center"
             variant={opened ? "primary" : "tertiary"}
           >
-            Add List
+            {buttonCaption}
           </Button>
 
           {opened && <CloseXButton size="lg" variant="primary" type="reset" />}
