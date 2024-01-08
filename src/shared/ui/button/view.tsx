@@ -24,8 +24,8 @@ const _Button = forwardRef<HTMLButtonElement, TButtonProps>((props, ref) => {
   return (
     <button
       ref={ref}
-      disabled={pending ?? disabled}
-      aria-disabled={pending ?? disabled}
+      disabled={pending || disabled}
+      aria-disabled={pending || disabled}
       data-qa={`Button__${variant}`}
       className={button({ variant, size, className, destructive })}
       {...buttonProps}
