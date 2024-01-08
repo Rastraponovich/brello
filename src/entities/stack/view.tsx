@@ -9,7 +9,7 @@ import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
 import { Icon } from "~/shared/ui/icon";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
-import { ToggledInput } from "~/shared/ui/toggled-input/view";
+import { ToggledInput } from "~/shared/ui/toggled-input";
 
 import { type StackFactory2 } from "./model";
 
@@ -43,7 +43,7 @@ interface StackColumnProps {
 }
 
 export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => {
-  const { title, titleChanged, stackUpdated } = stack;
+  const { title, titleChanged, stackUpdated, taskClicked } = stack;
 
   const dragRef = useRef<HTMLDivElement>(null);
   const [editableTitle, setEditableTitle] = useReducer((state) => !state, false);
@@ -54,6 +54,14 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
   };
 
   if (!stack) return null;
+
+  const handleClick = (task: Task) => {
+    if (onTaskClicked) {
+      onTaskClicked(task);
+    }
+
+    taskClicked({ id: task.id });
+  };
 
   return (
     <div
@@ -86,7 +94,7 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
 
       <div className="overflow-hidden py-4 pr-2">
         <div className="scroll-bar scroll-shadows h-full overflow-y-auto pl-4 pr-2">
-          <TaskCardList cards={stack.tasks ?? []} onTaskClicked={onTaskClicked} />
+          <TaskCardList cards={stack.tasks ?? []} onTaskClicked={handleClick} />
         </div>
       </div>
 

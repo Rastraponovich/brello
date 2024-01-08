@@ -38,6 +38,7 @@ const boardGetFx = attach({
 
 export const settingsButtonClicked = createEvent();
 
+const taskClicked = createEvent<{ id: string }>();
 const submitStack = createEvent<{ value: string }>();
 const stackDeleted = createEvent<{ id: string; user_id: string }>();
 
@@ -45,12 +46,21 @@ export const $board = createStore<Board | null>(null);
 
 export const $stacks = createStore<StackFactory2[]>([]);
 
+/**
+ * when page are loading
+ */
 export const $pageLoading = boardGetFx.pending;
 
+/**
+ * when effects are pending
+ */
 const $pending = pending({
   effects: [stackCreateFx, boardGetFx, stackDeletedFx],
 });
 
+/**
+ * helpers to create stack
+ */
 export const listModel = toggleInputFactory(submitStack, $pending);
 
 $board.on(boardGetFx.doneData, (_, board) => board);
@@ -60,7 +70,7 @@ $board.on(boardGetFx.doneData, (_, board) => board);
 $stacks.on($board, (_, board) => {
   if (board) {
     return board.stacks?.map((stack) => ({
-      ...stackFactory(stack, stackDeleted),
+      ...stackFactory(stack, stackDeleted, taskClicked),
     }));
   }
   return [];
@@ -71,11 +81,14 @@ $stacks.on(stackDeleted, (prev, { id }) => {
 });
 
 $stacks.on(stackCreateFx.doneData, (prev, stack) => {
-  const newStack = stackFactory(stack, stackDeleted) as unknown as StackFactory2;
+  const newStack = stackFactory(stack, stackDeleted, taskClicked) as unknown as StackFactory2;
 
   return [...prev, newStack];
 });
 
+/**
+ * when auth checked  --> get board
+ */
 sample({
   clock: authenticatedRoute.opened,
   source: { viewer: $viewer },
@@ -94,6 +107,9 @@ sample({
   target: boardGetFx,
 });
 
+/**
+ * when task added or deleted or updated --> get board
+ */
 sample({
   clock: [taskAddedFx.done, taskDeleteFx.done, taskUpdateFx.done],
   source: $board,
@@ -106,6 +122,9 @@ sample({
   target: boardGetFx,
 });
 
+/**
+ * when settings button clicked --> open settings page
+ */
 sample({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
@@ -124,6 +143,9 @@ sample({
   target: stackDeletedFx,
 });
 
+/**
+ * when submit stack button clicked --> create new stack
+ */
 sample({
   clock: submitStack,
   source: $board,
@@ -137,11 +159,17 @@ sample({
   target: stackCreateFx,
 });
 
+/**
+ * when page closed or stack created --> reset stack create form
+ */
 sample({
   clock: [currentRoute.closed, stackCreateFx.done],
   target: listModel.reseted,
 });
 
+/**
+ * when page closed --> reset board and stacks
+ */
 reset({
   clock: currentRoute.closed,
   target: [$board, $stacks],

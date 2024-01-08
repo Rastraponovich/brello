@@ -6,15 +6,14 @@ import { MainLayout } from "~/layouts/main-layout";
 import { AddToFavorite } from "~/features/board/add-to-favorite";
 import { TaskModal, taskOpened } from "~/features/task/task-edit";
 
-import { StackColumn, StackFactory2 } from "~/entities/stack";
+import { StackColumn, type StackFactory2 } from "~/entities/stack";
 
 import { cx } from "~/shared/lib";
-import { ToggleInput2 } from "~/shared/lib/factories";
 import { AvatarGroup } from "~/shared/ui/avatar";
 import { IconButton } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
-import { ToggledInput } from "~/shared/ui/toggled-input/view";
+import { type ToggleInput2, ToggledInput } from "~/shared/ui/toggled-input";
 
 import { _AVATARS_ } from "./constants";
 import { $board, $pageLoading, $stacks, listModel, settingsButtonClicked } from "./model";

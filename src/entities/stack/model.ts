@@ -3,11 +3,12 @@ import { pending } from "patronum";
 
 import { api } from "~/shared/api";
 import type { Tables } from "~/shared/api/supabase";
-import { toggleInputFactory } from "~/shared/lib/factories";
+import { toggleInputFactory } from "~/shared/ui/toggled-input";
 
 export const stackFactory = (
   stack: Tables<"stacks">,
   stackDeleted: EventCallable<{ id: string; user_id: string }>,
+  taskClicked: EventCallable<{ id: string }>,
 ): StackFactory => {
   const taskCreateFx = attach({
     effect: api.task.taskCreateFx,
@@ -117,6 +118,7 @@ export const stackFactory = (
     "@@unitShape": () => ({
       id: $id,
       stackGet,
+      taskClicked,
       titleChanged,
       stackUpdated,
       tasks: $tasks,
@@ -157,6 +159,7 @@ export type StackFactory = {
     deleteButtonClicked: () => void;
     titleChanged: (title: string) => void;
     taskTitleChanged: (title: string) => void;
+    taskClicked: ({ id }: { id: string }) => void;
   };
 };
 
@@ -179,4 +182,5 @@ export type StackFactory2 = {
   deleteButtonClicked: () => void;
   titleChanged: (title: string) => void;
   taskTitleChanged: (title: string) => void;
+  taskClicked: ({ id }: { id: string }) => void;
 };
