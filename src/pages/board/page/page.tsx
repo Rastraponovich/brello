@@ -1,38 +1,45 @@
-import {
-  type ChangeEventHandler,
-  type DragEvent,
-  type FormEventHandler,
-  type ReactNode,
-  memo,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useList, useUnit } from "effector-react";
+import { type ReactNode, memo, useCallback } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
-import { AddList } from "~/features/add-list";
 import { AddToFavorite } from "~/features/board/add-to-favorite";
+import { TaskModal, taskOpened } from "~/features/task/task-edit";
 
-import { Stack } from "~/entities/stack";
+import { StackColumn, type StackFactory2 } from "~/entities/stack";
 
-import { useDragAndDrop } from "~/shared/hooks/dnd";
+import { cx } from "~/shared/lib";
 import { AvatarGroup } from "~/shared/ui/avatar";
+import { IconButton } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
+import { LoaderCircle } from "~/shared/ui/loader-circle";
+import { type ToggleInput2, ToggledInput } from "~/shared/ui/toggled-input";
 
-import { _AVATARS_, _BOARDS_ } from "./constants";
-import { type TBoard } from "./model";
+import { _AVATARS_ } from "./constants";
+import { $board, $pageLoading, $stacks, listModel, settingsButtonClicked } from "./model";
 
 /**
  * Render the BoardPage component.
- *
- * @return {JSX.Element} The rendered BoardPage component.
  */
 export const BoardPage = () => {
   return (
-    <MainLayout>
+    <MainLayout className="relative gap-0 pb-0 sm:pb-0">
+      <Loading />
+
       <PageHeaderContent />
       <List />
+      <TaskModal />
+    </MainLayout>
+  );
+};
+
+export const PageLoader = () => {
+  return (
+    <MainLayout className="gap-0 pb-0 sm:pb-0">
+      <section className="relative h-screen">
+        <LoaderCircle pending={true} />
+      </section>
+      <TaskModal />
     </MainLayout>
   );
 };
@@ -40,17 +47,29 @@ export const BoardPage = () => {
 /**
  * Renders the content for the page header.
  *
- * @return {JSX.Element} The rendered JSX element.
  */
 const PageHeaderContent = () => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const board = useUnit($board)!;
+
+  const handleClick = useUnit(settingsButtonClicked);
+
   return (
     <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
       <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-start gap-4 sm:flex-row sm:items-center">
-          <Heading as="h1">Sprint #3 (03.04.2023 - 10.04.2023)</Heading>
-          <AddToFavorite />
+          <Heading as="h1">{board?.title}</Heading>
+          <AddToFavorite board_id={board?.id} />
         </div>
-        <AvatarGroup size="md" counter={5} canAddedUser items={_AVATARS_} />
+        <div className="flex items-center gap-5">
+          <AvatarGroup size="md" counter={5} canAddedUser items={_AVATARS_} />
+          <IconButton
+            size="sm"
+            onClick={handleClick}
+            icon="common/settings-01"
+            variant="tertiaryGray"
+          />
+        </div>
       </header>
     </section>
   );
@@ -59,150 +78,109 @@ const PageHeaderContent = () => {
 /**
  * Renders a list of boards and provides functionality to add new boards.
  *
- * @return {JSX.Element} The rendered list component.
  */
 const List = () => {
-  const [editable, setEditable] = useState(false);
-  const [stacks, setBoards] = useState<TBoard[]>(_BOARDS_);
-  const [value, setValue] = useState("");
+  const board = useUnit($board);
 
-  const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
-    (event) => setValue(event.target.value),
-    [],
-  );
+  const taskCardClicked = useUnit(taskOpened);
 
-  const handleReset = useCallback<FormEventHandler<HTMLFormElement>>((event) => {
-    event.preventDefault();
-    setEditable(false);
-  }, []);
-
-  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
-    (event) => {
-      event.preventDefault();
-      setEditable((prev) => !prev);
-
-      if (value.length > 0) {
-        const newState = [...stacks];
-
-        newState.push({
-          id: stacks.length + 1,
-          title: value,
-          cards: [],
-        });
-
-        setBoards(newState);
-      }
-    },
-    [stacks, value],
-  );
-
-  useEffect(() => {
-    if (!editable) {
-      setValue("");
-    }
-  }, [editable]);
-
-  const handleDragLeave = (event: DragEvent) => {
-    if (event.target instanceof HTMLElement) {
-      const container = event.target.closest(".GRID_COL");
-
-      if (container) {
-        container.classList.remove("border-2", "border-black");
-      }
-    }
-  };
-  const handleDragOver = (event: DragEvent) => {
-    event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
-    const img = new Image();
-
-    img.src = "/Brello.svg";
-    event.dataTransfer.setDragImage(img, 0, 0);
-
-    if (event.target instanceof HTMLElement) {
-      const container = event.target.closest(".GRID_COL");
-
-      if (container) {
-        container.classList.add("border-2", "border-black");
-      }
-    }
-  };
-  const handleDragDrop = (event: DragEvent, _: TBoard) => {
-    event.preventDefault();
-
-    if (event.target instanceof HTMLElement) {
-      const container = event.target.closest(".GRID_COL");
-
-      if (container) {
-        container.classList.remove("border-2", "border-black");
-      }
-    }
-  };
-
-  const { handleDragEnd, handleDragStart } = useDragAndDrop<TBoard>();
+  const onTaskClicked = useCallback(taskCardClicked, [taskCardClicked]);
 
   return (
-    <section className="container mx-auto my-0 flex grow flex-col overflow-hidden">
-      <Grid>
-        {stacks.map((stack) => (
-          <GridColumn key={stack.id}>
-            <Stack
-              stack={stack}
-              onDragDrop={(e) => handleDragDrop(e, stack)}
-              onDragEnd={handleDragEnd}
-              onDragLeave={handleDragLeave}
-              onDragOver={handleDragOver}
-              onDragStart={(e) => handleDragStart(e, stack)}
-            />
-          </GridColumn>
-        ))}
-        <GridColumn>
-          <AddList
-            value={value}
-            editable={editable}
-            onReset={handleReset}
-            onChange={handleChange}
-            onSubmit={handleSubmit}
-            buttonCaption="Add List"
-          />
-        </GridColumn>
+    <section
+      className={cx(
+        "flex grow flex-col items-center overflow-auto bg-cover bg-no-repeat pb-24 pt-8",
+        board?.background_color,
+      )}
+      style={{
+        backgroundImage: board?.background_image
+          ? `url(${board?.background_image?.replace("168x168", "")})`
+          : "revert-layer",
+      }}
+    >
+      <section className="container flex h-full grow flex-col">
+        <Grid>
+          {useList($stacks, {
+            getKey: (stack) => stack.id,
 
-        {editable && (
+            fn: (stack) => {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              //@ts-ignore
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              const data = useUnit<StackFactory2>(stack);
+
+              return (
+                <GridColumn key={stack.id}>
+                  <StackColumn stack={data} onTaskClicked={onTaskClicked} />
+                </GridColumn>
+              );
+            },
+          })}
+
           <GridColumn>
-            <AddList
-              value={value}
-              editable={false}
-              onReset={handleReset}
-              onChange={handleChange}
-              onSubmit={handleSubmit}
-              buttonCaption="Add List"
-            />
+            <AddStack />
           </GridColumn>
-        )}
-      </Grid>
+        </Grid>
+      </section>
     </section>
   );
 };
 
-interface IGrid {
+const AddStack = () => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const model = useUnit<ToggleInput2>(listModel);
+
+  const { opened, reseted, value, valueChanged, submitClicked, pending } = model;
+
+  return (
+    <div
+      className={cx(
+        "w-full justify-start rounded-2xl border border-gray-200 bg-[#FCFCFD]",
+        opened && "px-4 py-5 shadow-sm",
+      )}
+    >
+      <ToggledInput
+        value={value}
+        opened={opened}
+        pending={pending}
+        onReset={reseted}
+        onChange={valueChanged}
+        onSubmit={submitClicked}
+        buttonCaption="Add List"
+      />
+    </div>
+  );
+};
+
+interface GridProps {
   children?: ReactNode;
 }
 
-const Grid = memo<IGrid>(({ children }) => {
+const Grid = memo<GridProps>(({ children }) => {
   return (
-    <div className="grid snap-x snap-mandatory  scroll-px-4 auto-cols-[360px] grid-flow-col gap-12 overflow-x-auto overflow-y-hidden px-8 py-4 sm:scroll-px-8 ">
+    <div className="scroll-bar grid h-full snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] grid-flow-col gap-12 overflow-x-auto  px-8 py-4 sm:scroll-px-8 sm:auto-cols-[360px]">
       {children}
     </div>
   );
 });
 
-interface IGridColumn {
+Grid.displayName = "Grid";
+
+interface GridColumnProps {
   children: ReactNode;
 }
-const GridColumn = memo<IGridColumn>(({ children }) => {
+
+const GridColumn = memo<GridColumnProps>(({ children }) => {
   return (
-    <div className="GRID_COL flex  snap-start snap-normal flex-col justify-start overflow-hidden">
+    <div className="GRID_COL flex snap-start snap-normal flex-col justify-start overflow-hidden">
       {children}
     </div>
   );
 });
+
+const Loading = () => {
+  const pending = useUnit($pageLoading);
+
+  return <LoaderCircle pending={pending} />;
+};

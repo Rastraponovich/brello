@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { memo } from "react";
 
+import { cx } from "~/shared/lib";
 import { Avatar } from "~/shared/ui/avatar";
 import { Button } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
@@ -12,30 +12,44 @@ export const PageHeader = memo<PageHeaderProps>(
   ({
     title,
     avatar,
-    searchValue,
-    placeholder = "search",
-    onSearch,
     divider,
     actions,
-    headingAs = "h1",
-    description,
+    onSearch,
     className,
+    description,
+    searchValue,
+    avatarImage,
+    headingAs = "h1",
     heandingClassName,
+    placeholder = "search",
   }) => {
     return (
       <header
-        className={clsx(
+        className={cx(
           "flex w-full flex-col items-center  justify-between gap-4 sm:flex-row",
           divider ? "border-b border-gray-200 pb-5" : "border-transparent",
           className,
         )}
       >
         <div className="flex w-full shrink items-center gap-5 overflow-hidden">
-          {avatar && <Avatar size="2xl" user={avatar} />}
+          {avatar && !avatarImage && <Avatar size="2xl" user={avatar} />}
+          {avatarImage && (
+            <div>
+              <img
+                width={64}
+                height={64}
+                alt="avatar"
+                className="shink-0 object-cover rounded-full"
+                src={`https://ddjirrggtysituolvxws.supabase.co/storage/v1/object/public/avatars/${avatarImage}`}
+              />
+            </div>
+          )}
+
           <div className="flex w-full shrink flex-col  gap-1">
             <Heading as={headingAs} className={heandingClassName}>
               {title}
             </Heading>
+
             {description && (
               <span className="text-base font-normal text-gray-600">{description}</span>
             )}
@@ -51,6 +65,7 @@ export const PageHeader = memo<PageHeaderProps>(
             ))}
           </div>
         )}
+
         {onSearch && (
           <div className="w-full max-w-[320px] shrink-0 text-gray-500">
             <Input
@@ -70,7 +85,7 @@ export const PageHeader = memo<PageHeaderProps>(
 export const PageHeaderSkeleton = ({ divider, className, actions }: Partial<PageHeaderProps>) => {
   return (
     <header
-      className={clsx(
+      className={cx(
         "flex w-full flex-col items-center  justify-between gap-4 sm:flex-row",
         divider ? "border-b border-gray-200 pb-5" : "border-transparent",
         className,

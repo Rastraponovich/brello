@@ -4,7 +4,7 @@ import { memo, useMemo } from "react";
 import { Avatar } from "~/shared/ui/avatar";
 import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 
-import { type TUser, logOutButtonClicked, viewProfileButtonClicked } from "./model";
+import { $profile, type TUser, logOutButtonClicked, viewProfileButtonClicked } from "./model";
 
 type UserCardSmallProps = TUser;
 
@@ -26,12 +26,13 @@ UserCardSmall.displayName = "UserCardSmall";
 
 export const UserAvatarWithDropdown = () => {
   const [openUser, logout] = useUnit([viewProfileButtonClicked, logOutButtonClicked]);
+  const profile = useUnit($profile);
 
   const user: TUser = {
-    firstName: "Vitaliy",
-    lastName: "Wilde",
+    firstName: profile?.first_name || "Vitaliy",
+    lastName: profile?.last_name || "Wilde",
     email: "olivia@brello.io",
-    id: 123123,
+    id: profile?.id || "",
   };
   const menuItems = useMemo<TMenuItem[]>(
     () => [

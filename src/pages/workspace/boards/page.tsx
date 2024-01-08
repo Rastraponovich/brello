@@ -1,5 +1,5 @@
-import { useList, useUnit } from "effector-react";
-import { type ReactNode, memo } from "react";
+import { useList, useStoreMap, useUnit } from "effector-react";
+import { memo, useCallback } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -7,11 +7,9 @@ import { PageHeader, type PageHeaderAction } from "~/widgets/page-header";
 
 import { BoardsSearch } from "~/features/boards/search";
 
-import { TBoard } from "~/shared/api/rest/board";
-import { Button, type ButtonBaseProps, type ButtonBaseVariant } from "~/shared/ui/button";
-import { FeaturedIcon } from "~/shared/ui/featured-icon";
-import { Heading } from "~/shared/ui/heading";
-import { type IconName } from "~/shared/ui/icon";
+import { cx } from "~/shared/lib";
+import { Icon } from "~/shared/ui/icon";
+import { LoaderCircle } from "~/shared/ui/loader-circle";
 import { ScrollContainer } from "~/shared/ui/scroll-container";
 
 import {
@@ -21,26 +19,53 @@ import {
   $isNotFound,
   $search,
   $workspace,
-  addBoard,
+  boardAddButtonClicked,
   boardCardClicked,
   resetSearch,
   settingsButtonClicked,
 } from "./model";
+import { BaseEmpty } from "./ui/base";
+import { BoardAddModal } from "./ui/board-create";
 
+/**
+ * Renders a page loader component.
+ */
 export const PageLoader = () => {
   return (
     <MainLayout>
       <section className="container mx-auto my-0 px-6 sm:px-8">
-        <h1>Loading, please wait</h1>
+        <div className="flex w-full items-start justify-between">
+          <div className="flex items-start gap-5">
+            <div className="h-16 w-16 shrink-0 rounded-full bg-gray-200"></div>
+
+            <div className="flex w-full max-w-xs shrink-0 grow flex-col gap-1">
+              <div className="h-9 max-w-xs shrink-0 rounded-lg bg-gray-200"></div>
+
+              <div className="h-6 w-full max-w-xs shrink-0 rounded-lg bg-gray-200"></div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="h-[42px] w-[120px] rounded-lg bg-gray-200"></div>
+
+            <div className="h-[42px] w-[120px] rounded-lg bg-gray-200"></div>
+          </div>
+        </div>
+
+        {/* <LoaderCircle pending={true} /> */}
       </section>
     </MainLayout>
   );
 };
 
+/**
+ * Renders the Boards Page component.
+ */
 export const BoardsPage = () => {
   const handleOpenSettings = useUnit(settingsButtonClicked);
 
-  const workspace = useUnit($workspace);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const workspace = useUnit($workspace)!;
 
   const actions: PageHeaderAction[] = [
     {
@@ -68,16 +93,21 @@ export const BoardsPage = () => {
           description="Private"
           className="!items-start"
           title={workspace?.name || ""}
+          avatarImage={workspace?.avatarUrl ?? undefined}
           avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
         />
       </section>
       <BoardsFilter />
 
       <Boards />
+      <BoardAddModal />
     </MainLayout>
   );
 };
 
+/**
+ * Renders the BoardsFilter component.
+ */
 const BoardsFilter = () => {
   return (
     <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
@@ -86,89 +116,46 @@ const BoardsFilter = () => {
   );
 };
 
+/**
+ * Renders the Boards component.
+ */
 const Boards = () => {
-  const [isEmpty, isNotFound] = useUnit([$boardsEmpty, $isNotFound]);
-  const pending = useUnit($boardsListPending);
+  const [pending, isEmpty, isNotFound] = useUnit([$boardsListPending, $boardsEmpty, $isNotFound]);
 
   return (
-    <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
+    <section className="container relative mx-auto flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
       <div className="flex w-full flex-col overflow-hidden">
-        {isNotFound ? (
-          <NotFoundState />
-        ) : isEmpty ? (
-          <EmptyState />
-        ) : pending ? (
-          <div>loading...</div>
-        ) : (
-          <BoardsList />
-        )}
+        {isNotFound ? <NotFoundState /> : isEmpty ? <EmptyState /> : <BoardsList />}
       </div>
+      <LoaderCircle pending={pending} />
     </section>
   );
 };
 
+/**
+ * Renders the list of boards.
+ */
 const BoardsList = () => {
-  const handleCardClick = useUnit(boardCardClicked);
+  const search = useUnit($search);
 
   return (
     <ScrollContainer>
-      <div
-        draggable
-        className=" grid place-items-stretch content-stretch gap-6 overflow-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4"
-      >
-        <AddBoardCard />
+      <div className="grid place-items-stretch content-stretch gap-6 overflow-y-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+        {search.length === 0 && <AddBoardCard />}
+
         {useList($boards, {
-          fn: (board) => <BoardCard {...board} onClick={() => handleCardClick(board)} />,
+          fn: (board) => <BoardCard id={board.id} />,
         })}
       </div>
     </ScrollContainer>
   );
 };
 
-interface IAction extends ButtonBaseProps, ButtonBaseVariant {
-  caption: string;
-}
-
-interface BaseEmptyProps {
-  title: string;
-  icon?: IconName;
-  onClick?(): void;
-  subTitle?: string;
-  actions?: IAction[];
-  children?: ReactNode;
-}
-const BaseEmpty = memo<BaseEmptyProps>(({ icon, title, subTitle, actions, onClick }) => {
-  return (
-    <div className="flex flex-col items-center">
-      {icon && (
-        <FeaturedIcon size="lg" icon={icon} type="circle" color="primary" variant="outline" />
-      )}
-
-      <Heading as="h3" className="font-semibold text-gray-900">
-        {title}
-      </Heading>
-
-      {subTitle && <p className="text-center text-sm text-gray-600">{subTitle}</p>}
-
-      <div className="mt-6 flex gap-3">
-        {actions?.map(({ caption, ...action }, idx) => (
-          <Button key={idx} size="md" variant="secondaryGray" {...action}>
-            {caption}
-          </Button>
-        ))}
-
-        <Button size="md" variant="primary" onClick={onClick} leftIcon="common/plus">
-          New board
-        </Button>
-      </div>
-    </div>
-  );
-});
-
-BaseEmpty.displayName = "BaseEmpty";
-
+/**
+ * Renders an empty state component.
+ */
 const EmptyState = () => {
-  const handleAddBoard = useUnit(addBoard);
+  const handleAddBoard = useUnit(boardAddButtonClicked);
 
   return (
     <BaseEmpty
@@ -183,7 +170,7 @@ const EmptyState = () => {
 
 const NotFoundState = memo(() => {
   const [searchValue, onClear] = useUnit([$search, resetSearch]);
-  const handleAddBoard = useUnit(addBoard);
+  const handleAddBoard = useUnit(boardAddButtonClicked);
 
   const message = `Your search ${searchValue} did not match any boards. Please try again.`;
 
@@ -201,36 +188,55 @@ const NotFoundState = memo(() => {
 NotFoundState.displayName = "NotFoundState";
 
 const AddBoardCard = memo(() => {
-  const handleAddBoard = useUnit(addBoard);
+  const handleAddBoard = useUnit(boardAddButtonClicked);
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-gray-600">
-      <Button
-        size="md"
-        variant="tertiaryGray"
-        onClick={handleAddBoard}
-        leftIcon="common/plus-circle"
-      >
-        Create new board
-      </Button>
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-5 ">
+      <button onClick={handleAddBoard} className="flex h-14 items-center gap-2">
+        <Icon name="common/plus-circle" className="h-5 w-5" />
+        <span className="line-clamp-1 text-lg font-medium text-gray-600">Create new board</span>
+      </button>
     </div>
   );
 });
 
 AddBoardCard.displayName = "AddBoardCard";
 
-interface BoardCardProps extends TBoard {
-  onClick?(): void;
+interface BoardCardProps {
+  id: string;
 }
 
-const BoardCard = memo<BoardCardProps>(({ title, onClick }) => {
+const BoardCard = memo<BoardCardProps>(({ id }) => {
+  const board = useStoreMap({
+    keys: [id],
+    store: $boards,
+    fn(boards) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      return boards.find((board) => board.id === id)!;
+    },
+  });
+
+  const onCardClicked = useUnit(boardCardClicked);
+
+  const { background_color, background_image, title } = board;
+
+  const handleClick = useCallback(() => onCardClicked(board), [board, onCardClicked]);
+
+  const background = background_image
+    ? `url(${background_image?.replace("168x168", "280x120")}), lightgray 50%`
+    : "revert-layer";
+
   return (
     <figure
-      onClick={onClick}
-      className="flex flex-col justify-start self-stretch rounded-2xl border border-gray-200 px-5 py-6 pt-5 text-lg font-medium text-white"
+      onClick={handleClick}
+      style={{ background }}
+      className={cx(
+        background_color,
+        "flex cursor-pointer flex-col justify-start self-stretch rounded-2xl border border-gray-200 bg-cover bg-no-repeat px-5 py-6 pt-5 text-lg font-medium text-white",
+      )}
     >
       <figcaption>
-        <Heading as="h4">{title}</Heading>
+        <h4 className="line-clamp-2 h-14 text-gray-600 mix-blend-plus-lighter">{title}</h4>
       </figcaption>
     </figure>
   );

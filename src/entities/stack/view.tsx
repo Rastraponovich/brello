@@ -1,159 +1,156 @@
-import clsx from "clsx";
-import {
-  type ChangeEventHandler,
-  type DragEvent,
-  type FormEventHandler,
-  memo,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { memo, useReducer, useRef } from "react";
 
-import { AddEntity } from "~/features/add-entity";
-
-import { AvatarGroup } from "~/shared/ui/avatar";
-import { Bage } from "~/shared/ui/bage";
-import { Dropdown } from "~/shared/ui/dropdown";
+// import { AvatarGroup } from "~/shared/ui/avatar";
+// import { Bage } from "~/shared/ui/bage";
+import type { Tables } from "~/shared/api/client";
+import type { Task } from "~/shared/api/rest/task";
+import { cx } from "~/shared/lib";
+import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
 import { Icon } from "~/shared/ui/icon";
-import { ScrollContainer } from "~/shared/ui/scroll-container";
+import { LoaderCircle } from "~/shared/ui/loader-circle";
+import { ToggledInput } from "~/shared/ui/toggled-input";
 
-import type { TCard, TStack } from "./model";
+import { type StackFactory2 } from "./model";
 
-const StackActions = memo(() => {
+const StackActions = memo(({ onDelete }: { onDelete: () => void }) => {
+  const actions: TMenuItem[] = [
+    {
+      id: 1,
+      group: 1,
+      hotkey: "⌘K->P",
+      onClick: onDelete,
+      text: "delete stack",
+      icon: "common/trash-01",
+    },
+  ];
+
   return (
     <div className="flex gap-3 text-gray-400">
       <Dropdown
-        buttonContent={<Icon name="common/dots-vertical" size="large" />}
+        items={actions}
         groupProperty="group"
+        buttonContent={<Icon name="common/dots-vertical" size="large" />}
       />
       <Icon name="common/plus-circle" size="large" />
     </div>
   );
 });
 
-interface StackProps {
-  stack: TStack;
-  onDragStart?(event: DragEvent): void;
-  onDragEnd?(event: DragEvent): void;
-  onDragLeave?(event: DragEvent): void;
-  onDragOver?(event: DragEvent): void;
-  onDragDrop?(event: DragEvent): void;
+interface StackColumnProps {
+  stack: StackFactory2;
+  onTaskClicked?: (task: Task) => void;
 }
 
-export const Stack = memo<StackProps>(
-  ({ stack, onDragDrop, onDragEnd, onDragLeave, onDragOver, onDragStart }) => {
-    const [cards, setCards] = useState<TCard[]>(stack.cards);
-    const [isEditable, setIsEditable] = useState(false);
-    const [value, setValue] = useState("");
+export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => {
+  const { title, titleChanged, stackUpdated, taskClicked } = stack;
 
-    const handleChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
-      (event) => setValue(event.target.value),
-      [],
-    );
+  const dragRef = useRef<HTMLDivElement>(null);
+  const [editableTitle, setEditableTitle] = useReducer((state) => !state, false);
 
-    const handleReset = useCallback<FormEventHandler<HTMLFormElement>>((event) => {
-      event.preventDefault();
-      setIsEditable(false);
-    }, []);
+  const onBlur = () => {
+    stackUpdated();
+    setEditableTitle();
+  };
 
-    const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
-      (event) => {
-        event.preventDefault();
-        setIsEditable((prev) => !prev);
+  if (!stack) return null;
 
-        if (value.length > 0) {
-          const newState = [...cards];
+  const handleClick = (task: Task) => {
+    if (onTaskClicked) {
+      onTaskClicked(task);
+    }
 
-          newState.unshift({
-            id: stack.cards.length + 1,
-            title: value,
-            subTitle: "",
-            users: [],
-          });
-          setCards(newState);
-        }
-      },
-      [stack.cards.length, cards, value],
-    );
+    taskClicked({ id: task.id });
+  };
 
-    useEffect(() => {
-      if (!isEditable) {
-        setValue("");
-      }
-    }, [isEditable]);
+  return (
+    <div
+      ref={dragRef}
+      className={cx(
+        "flex w-full flex-col py-4",
+        "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
+        "relative overflow-hidden",
+      )}
+    >
+      {stack.pending && <LoaderCircle pending={stack.pending} />}
 
-    const dragRef = useRef<HTMLDivElement>(null);
-
-    return (
-      <div
-        draggable
-        ref={dragRef}
-        onDragStart={onDragStart}
-        onDragLeave={onDragLeave}
-        onDragOver={onDragOver}
-        onDrop={onDragDrop}
-        onDragEnd={onDragEnd}
-        className={clsx(
-          "flex w-full flex-col gap-4 py-4",
-          "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
-          "overflow-hidden",
-        )}
-      >
-        <div className="flex items-center gap-2 py-1 pl-4 pr-4 text-lg font-bold text-gray-900">
-          <Heading as="h3" className="grow px-4">
-            {stack.title || "To Do"}
+      <div className="flex items-center gap-2 px-4 py-1 text-lg font-bold text-gray-900">
+        {editableTitle ? (
+          <input
+            type="text"
+            onBlur={onBlur}
+            value={title || "enter new title"}
+            className="grow border-b px-4 pb-px outline-none"
+            onChange={(event) => titleChanged(event.target.value)}
+          />
+        ) : (
+          <Heading as="h3" className="grow px-4" onClick={setEditableTitle}>
+            {title}
           </Heading>
-          <StackActions />
-        </div>
-        <ScrollContainer>
-          <CardList cards={cards} />
-        </ScrollContainer>
-        <AddEntity
-          value={value}
-          editable={isEditable}
-          onReset={handleReset}
-          onSubmit={handleSubmit}
-          onChange={handleChange}
-          buttonCaption="Add Card"
-        />
-      </div>
-    );
-  },
-);
-Stack.displayName = "Stack";
+        )}
 
-interface ICardProps extends TCard {
+        <StackActions onDelete={stack.deleteButtonClicked} />
+      </div>
+
+      <div className="overflow-hidden py-4 pr-2">
+        <div className="scroll-bar scroll-shadows h-full overflow-y-auto pl-4 pr-2">
+          <TaskCardList cards={stack.tasks ?? []} onTaskClicked={handleClick} />
+        </div>
+      </div>
+
+      <ToggledInput
+        className="px-4 py-1"
+        value={stack.taskTitle}
+        buttonCaption="Add Task"
+        opened={stack.editorOpened}
+        onSubmit={stack.submitTask}
+        onReset={stack.taskCreateReseted}
+        onChange={stack.taskTitleChanged}
+      />
+    </div>
+  );
+});
+
+interface TaskCardProps extends Task {
   onClick?(): void;
 }
-const Card = memo<ICardProps>(({ bages, subTitle, title, users, attachments, timeStamp }) => {
+
+const TaskCard = memo<TaskCardProps>(({ description, title, attachments, createdAt, onClick }) => {
+  const bages = null;
+
   return (
-    <div className="flex flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5">
+    <div
+      onClick={onClick}
+      className="flex cursor-pointer flex-col gap-5 rounded-2xl border border-gray-200 bg-white p-5 text-gray-600"
+    >
       <div className="flex flex-col gap-1">
-        <Heading as="h3">{title}</Heading>
+        <h3>{title}</h3>
 
         {bages && (
           <div className="flex justify-start gap-2">
-            {bages.map((bage) => (
+            {/* {bages.map((bage) => (
               <Bage key={bage.id} {...bage} />
-            ))}
+            ))} */}
           </div>
         )}
-        {subTitle.length > 0 && <p className="text-base font-normal text-gray-600">{subTitle}</p>}
+
+        {description && <p>{description}</p>}
       </div>
 
-      {users.length > 0 && <AvatarGroup items={users} size="sm" counter={5} canAddedUser />}
+      {/* {users.length > 0 && <AvatarGroup items={users} size="sm" counter={5} canAddedUser />} */}
 
-      {timeStamp && (
-        <div className="flex items-center justify-between text-base font-medium text-gray-400">
+      {createdAt && (
+        <div className="flex items-center justify-between font-medium">
           <div className="flex items-center gap-2">
-            <Icon size="normal" name="common/clock" />
-            <span className="text-gray-600">{timeStamp.toDateString()}</span>
+            <Icon size="normal" name="common/clock" className="text-gray-400" />
+
+            <span>{new Date(createdAt).toDateString()}</span>
           </div>
+
           {attachments && (
             <div className="flex items-center gap-2">
-              <Icon size="normal" name="common/attachment" />
+              <Icon size="normal" name="common/attachment" className="text-gray-400" />
+
               <span>5</span>
             </div>
           )}
@@ -163,17 +160,34 @@ const Card = memo<ICardProps>(({ bages, subTitle, title, users, attachments, tim
   );
 });
 
-Card.displayName = "Card";
+TaskCard.displayName = "TaskCard";
 
-interface CardListProps {
-  cards: TCard[];
+interface TaskCardListProps {
+  cards: Tables<"tasks">[];
+  onTaskClicked?: (task: Task) => void;
 }
-const CardList = memo<CardListProps>(({ cards }) => {
+
+const TaskCardList = memo<TaskCardListProps>(({ cards, onTaskClicked }) => {
+  if (!cards) return null;
+
+  const items = cards.map(({ updated_at, user_id, created_at, stack_id, attachments, ...card }) => {
+    return {
+      ...card,
+      attachments,
+      userId: user_id,
+      stackId: stack_id,
+      createdAt: created_at,
+      updatedAt: updated_at,
+    };
+  });
+
   return (
-    <div className=" flex flex-col gap-4 overflow-hidden font-bold text-gray-900">
-      {cards.map((card) => (
-        <Card {...card} key={card.id} />
+    <div className="flex flex-col gap-4 overflow-hidden">
+      {items.map((card) => (
+        <TaskCard {...card} key={card.id} onClick={() => onTaskClicked?.(card)} />
       ))}
     </div>
   );
 });
+
+TaskCardList.displayName = "TaskCardList";

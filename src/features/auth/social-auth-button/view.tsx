@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { memo } from "react";
 
+import { cx } from "~/shared/lib";
 import { utils } from "~/shared/lib";
 import { Icon } from "~/shared/ui/icon";
 
@@ -14,7 +14,7 @@ export const SocialAuthButton = memo<SocialButtonProps>(
         {...props}
         disabled={pending ?? disabled}
         aria-disabled={pending ?? disabled}
-        className={clsx(
+        className={cx(
           "flex items-center justify-center gap-3 rounded-lg border shadow-sm focus-within:ring-4 focus-within:ring-gray-100 focus:ring-4 focus:ring-gray-100 focus-visible:ring-4 focus-visible:ring-gray-100",
           "text-base font-semibold",
           theme === "brand" ? BUTTON_COLORS_DICT[social] : Colors.Default,

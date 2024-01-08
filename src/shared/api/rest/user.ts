@@ -1,47 +1,47 @@
-import { AuthError, PostgrestError } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 import { createEffect } from "effector";
-import { debug } from "patronum";
 
-import { Tables, client } from "../client";
+import { type Tables, checkAuthError, checkCrudError, client } from "../client";
 
-const checkError = (error: PostgrestError | null | AuthError) => {
-  if (error !== null) throw error;
+export type Profile = Tables<"profiles"> & {
+  favorite_boards?: { id: string; profile_id: string; board_id: string }[];
 };
 
-export const profileGetFx = createEffect<{ userId: string }, Tables<"profiles">>(
-  async ({ userId }) => {
-    const { data, error } = await client.from("profiles").select().eq("user_id", userId).single();
+export const profileGetFx = createEffect<{ user_id: string }, Profile>(async ({ user_id }) => {
+  const { data, error } = await client
+    .from("profiles")
+    .select("*, favorite_boards(*)")
+    .eq("user_id", user_id)
+    .single();
 
-    checkError(error);
+  checkCrudError(error);
 
-    return data;
-  },
-);
+  return data as Profile;
+});
 
-debug(profileGetFx);
-
-export const userUpdateFx = createEffect<{ email: string; password: string }, object>(
+export const userUpdateFx = createEffect<{ email: string; password: string }, User>(
   async ({ email, password }) => {
     const { data, error } = await client.auth.updateUser({
       email,
       password,
     });
 
-    checkError(error);
+    checkAuthError(error);
 
     return data.user;
   },
 );
 
-export const updateProfileFx = createEffect<
-  { firstName: string; lastName?: string; id: string },
-  unknown
->(async ({ firstName, lastName = "", id }) => {
+export const profileUpdateFx = createEffect<
+  { firstName: string; lastName?: string; id: string } & Partial<Profile>,
+  Profile
+>(async ({ firstName, lastName = "", id, ...profile }) => {
   const { error, data } = await client
     .from("profiles")
-    .update({ first_name: firstName, last_name: lastName })
+    .update({ first_name: firstName, last_name: lastName, ...profile })
     .eq("id", id)
-    .select();
+    .select()
+    .single();
 
   if (error) {
     throw error;
@@ -50,7 +50,7 @@ export const updateProfileFx = createEffect<
   return data;
 });
 
-export const profileExistsFx = createEffect<{ userId: string }, Tables<"profiles">>(
+export const profileExistsFx = createEffect<{ userId: string }, Profile | null>(
   async ({ userId }) => {
     const { error, data } = await client.from("profiles").select().eq("user_id", userId).single();
 
@@ -64,7 +64,7 @@ export const profileExistsFx = createEffect<{ userId: string }, Tables<"profiles
 
 export const profileCreateFx = createEffect<
   { id: string; firstName: string; lastName: string },
-  Tables<"profiles">
+  Profile | null
 >(async ({ id, firstName, lastName }) => {
   const { error, data } = await client
     .from("profiles")

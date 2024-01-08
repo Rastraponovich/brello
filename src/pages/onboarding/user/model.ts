@@ -1,38 +1,34 @@
 import { attach, createEvent, createStore, sample } from "effector";
 import { not } from "patronum";
-import type { ChangeEvent, FormEvent } from "react";
 
 import { api } from "~/shared/api";
 import { Tables } from "~/shared/api/client";
 import { routes } from "~/shared/routing";
-import { $viewer, chainAuthenticated } from "~/shared/viewer/model";
+import { $viewer, chainAuthenticated } from "~/shared/viewer";
 
-import { inputReducer, validateName } from "./utils";
+import { validateName } from "./utils";
 
 export const currentRoute = routes.onboarding.user;
 
 const profileUpdateFx = attach({
-  effect: api.user.updateProfileFx,
-  mapParams({ firstName, lastName, id }) {
-    return { firstName: firstName ?? "", lastName: lastName ?? "", id };
-  },
+  effect: api.user.profileUpdateFx,
 });
 
 const profileCreateFx = attach({
   effect: api.user.profileCreateFx,
   source: $viewer,
-  mapParams({ firstName, lastName }, user) {
+  mapParams({ firstName, lastName }, viewer) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return { id: user!.id, firstName: firstName ?? "", lastName: lastName ?? "" };
+    return { id: viewer!.id, firstName, lastName };
   },
 });
 
 const profileExistsFx = attach({
   effect: api.user.profileExistsFx,
   source: $viewer,
-  mapParams(_, user) {
+  mapParams(_, viewer) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return { userId: user!.id };
+    return { userId: viewer!.id };
   },
 });
 
@@ -40,29 +36,24 @@ export const authenticatedRoute = chainAuthenticated(currentRoute, {
   otherwise: routes.auth.signIn.open,
 });
 
+export const formSubmitted = createEvent();
 export const skipButtonClicked = createEvent();
-export const formSubmitted = createEvent<FormEvent<HTMLFormElement>>();
 
-export const firstNameChanged = createEvent<ChangeEvent<HTMLInputElement>>();
-export const lastNameChanged = createEvent<ChangeEvent<HTMLInputElement>>();
+export const lastNameChanged = createEvent<string>();
+export const firstNameChanged = createEvent<string>();
 
-export const $firstName = createStore<string | null>(null);
-export const $lastName = createStore<string | null>(null);
+export const $lastName = createStore("");
+export const $firstName = createStore("");
 
 const $profileExists = createStore(false);
 
 const $profile = createStore<Tables<"profiles"> | null>(null);
 
-export const $isEmptyFirstName = $firstName.map(validateName);
 export const $isEmptyLastName = $lastName.map(validateName);
+export const $isEmptyFirstName = $firstName.map(validateName);
 
-/**
- * @todo Fix dirty
- */
-formSubmitted.watch((event) => event.preventDefault());
-
-$firstName.on(firstNameChanged, inputReducer);
-$lastName.on(lastNameChanged, inputReducer);
+$lastName.on(lastNameChanged, (_, lastName) => lastName);
+$firstName.on(firstNameChanged, (_, firstName) => firstName);
 
 // write profile to store when data is available
 $profile.on(profileExistsFx.doneData, (_, profile) => profile);
@@ -80,12 +71,18 @@ sample({
 
 // profile exists set inputs fields
 $firstName.on(profileExistsFx.doneData, (firstName, profile) => {
-  return profile ? profile.first_name : firstName;
+  if (profile) {
+    return profile.first_name ?? firstName;
+  }
+  return firstName;
 });
 
 // profile exists set inputs fields
 $lastName.on(profileExistsFx.doneData, (lastName, profile) => {
-  return profile ? profile.last_name : lastName;
+  if (profile) {
+    return profile.last_name ?? lastName;
+  }
+  return lastName;
 });
 
 // submit form if profile exist
@@ -93,7 +90,8 @@ sample({
   clock: formSubmitted,
   source: { firstName: $firstName, lastName: $lastName, profile: $profile },
   filter: $profileExists,
-  fn: ({ firstName, lastName, profile }) => ({ firstName, lastName, id: profile?.id }),
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  fn: ({ firstName, lastName, profile }) => ({ firstName, lastName, id: profile!.id }),
   target: profileUpdateFx,
 });
 
@@ -109,6 +107,3 @@ sample({
   clock: [skipButtonClicked, profileUpdateFx.doneData],
   target: routes.onboarding.workspace.open,
 });
-
-//unhappy path
-profileUpdateFx.fail.watch(console.log);

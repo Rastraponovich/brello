@@ -1,5 +1,6 @@
-import clsx from "clsx";
 import { memo } from "react";
+
+import { cx } from "~/shared/lib";
 
 import { ORIENTATION_DICT } from "./constants";
 import { type ScrollContainerProps } from "./model";
@@ -9,8 +10,8 @@ export const ScrollContainer = memo<ScrollContainerProps>(
     return (
       <div className="flex grow flex-col overflow-hidden">
         <div
-          className={clsx(
-            "scroll-bar scroll-shadows hover:scroll-bar-visible scroll-bar-invisible overflow-y-auto",
+          className={cx(
+            "scroll-bar scroll-shadows  overflow-y-auto",
             ORIENTATION_DICT[scrollOrientation],
           )}
         >

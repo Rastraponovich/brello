@@ -1,0 +1,1 @@
+export { stackDeleted } from "./model";

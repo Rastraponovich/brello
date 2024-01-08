@@ -1,38 +1,36 @@
 import { AuthError, User } from "@supabase/supabase-js";
 import { createEffect } from "effector";
 
-import { client } from "../client";
+import { checkAuthError, client } from "../client";
 
 interface BaseUser extends User {
   email: Email;
   id: UserId;
 }
 
-export function checkError(error: AuthError | null): asserts error is null {
-  if (error !== null) throw error;
-}
-
 export const signInWithGoogleFx = createEffect(async () => {
   const baseUrl = document.location.toString();
   const redirectTo = new URL("/boards", baseUrl).toString();
+
   const { error } = await client.auth.signInWithOAuth({
     provider: "google",
     options: { redirectTo },
   });
 
-  checkError(error);
+  checkAuthError(error);
 });
 
 export const signInWithEmailFx = createEffect<{ email: Email }, void, AuthError>(
   async ({ email }) => {
     const baseUrl = document.location.toString();
     const emailRedirectTo = new URL("/auth/finish", baseUrl).toString();
+
     const { error } = await client.auth.signInWithOtp({
       email,
       options: { emailRedirectTo },
     });
 
-    checkError(error);
+    checkAuthError(error);
   },
 );
 
@@ -42,7 +40,7 @@ export const getMeFx = createEffect<void, BaseUser | null, AuthError>(async () =
     data: { user },
   } = await client.auth.getUser();
 
-  checkError(error);
+  checkAuthError(error);
 
   if (user) {
     return {
@@ -58,5 +56,5 @@ export const getMeFx = createEffect<void, BaseUser | null, AuthError>(async () =
 export const signOutFx = createEffect<void, void, AuthError>(async () => {
   const { error } = await client.auth.signOut();
 
-  checkError(error);
+  checkAuthError(error);
 });

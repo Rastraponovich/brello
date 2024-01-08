@@ -1,82 +1,93 @@
-import { RouteQuery } from "atomic-router";
-import { createEffect, createEvent, createStore, sample } from "effector";
-import { ChangeEvent } from "react";
+import type { RouteQuery } from "atomic-router";
+import { attach, combine, createEvent, createStore, sample } from "effector";
+import { pending, reset } from "patronum";
 
-import { routes } from "~/shared/routing";
+import { api } from "~/shared/api";
+import { Board } from "~/shared/api/rest/board";
+import { controls, routes } from "~/shared/routing";
+import { chainAuthenticated } from "~/shared/viewer";
 
 export const currentRoute = routes.board.settings;
 
-const getBoardByIdFx = createEffect<void, { name: string; users: string[] }>(() => {
-  return {
-    name: "board",
-    users: ["privet@medved.ru", "eto_to@koko.ru", "foo@bar.mz", "raz@dva.tri"],
-  };
+export const authenticatedRoute = chainAuthenticated(currentRoute, {
+  otherwise: routes.auth.signIn.open,
 });
 
-const deleteBoardByIdFx = createEffect<void, boolean>(() => true);
-
-export const $pageOpenned = createStore<boolean>(false).on(
-  routes.board.settings.$isOpened,
-  (_, isOpened) => isOpened,
-);
-
-sample({
-  clock: $pageOpenned,
-  target: getBoardByIdFx,
+const boardGetFx = attach({
+  effect: api.board.getBoardSettingsFx,
 });
 
-export const $params = createStore<object | null>(null).on(
-  routes.board.settings.$params,
-  (_, params) => params,
-);
+const boardDeleteFx = attach({
+  effect: api.board.deleteBoardFx,
+  source: authenticatedRoute.$params,
+  mapParams: (_, params) => params,
+});
 
-export const $query = createStore<RouteQuery | null>(null).on(
-  routes.board.settings.$query,
-  (_, query) => query,
-);
+const boardUpdateFx = attach({
+  effect: api.board.updateBoardFx,
+  source: authenticatedRoute.$params,
+  mapParams: (board: Partial<Board>, params) => ({
+    ...board,
+    id: params.id,
+  }),
+});
 
-export const $boardInvites = createStore<string[]>([]).on(
-  getBoardByIdFx.doneData,
-  (_, response) => response.users,
-);
-
+export const backButtonClicked = createEvent();
+export const nameChanged = createEvent<string>();
+export const sumbitButtonClicked = createEvent();
+export const emailChanged = createEvent<string>();
+export const addEmailButtonClicked = createEvent();
+export const bgImageChanged = createEvent<string>();
 export const deletedBoardButtonClicked = createEvent();
+export const backgroundColorChanged = createEvent<string>();
+export const deleteEmailButtonClicked = createEvent<string>();
+
+export const $email = createStore("");
+export const $title = createStore("");
+export const $bgImage = createStore("");
+export const $pageOpenned = createStore(false);
+export const $invites = createStore<string[]>([]);
+export const $background = createStore("bg-white");
+export const $params = createStore<object | null>(null);
+export const $query = createStore<RouteQuery | null>(null);
+
+$title.on(nameChanged, (_, name) => name);
+$email.on(emailChanged, (_, email) => email);
+$query.on(authenticatedRoute.$query, (_, query) => query);
+$background.on(backgroundColorChanged, (_, color) => color);
+$params.on(authenticatedRoute.$params, (_, params) => params);
+$title.on(boardGetFx.doneData, (_, board) => board?.title ?? "");
+$pageOpenned.on(routes.board.settings.$isOpened, (_, isOpened) => isOpened);
+$bgImage.on(bgImageChanged, (current, image) => (current === image ? "" : image));
+$background.on(boardGetFx.doneData, (_, board) => board?.background_color ?? "bg-white");
+
+export const $pending = pending({
+  effects: [boardDeleteFx, boardUpdateFx, boardGetFx],
+});
+
+const $board = combine({
+  title: $title,
+  background_image: $bgImage,
+  background_color: $background,
+});
 
 sample({
   clock: deletedBoardButtonClicked,
-  target: deleteBoardByIdFx,
+  target: boardDeleteFx,
 });
-
-export const changedNewEmail = createEvent<ChangeEvent<HTMLInputElement>>();
-const setNewEmail = createEvent<string>();
-
-export const $newEmail = createStore<string>("").on(setNewEmail, (_, email) => email);
-
-sample({
-  clock: changedNewEmail,
-  fn: (event) => event.target.value,
-  target: setNewEmail,
-});
-
-export const addEmailButtonClicked = createEvent();
 
 sample({
   clock: addEmailButtonClicked,
-  source: { emails: $boardInvites, newEmail: $newEmail },
-  filter: ({ emails, newEmail }, _) =>
-    newEmail.length > 0 && emails.every((item) => item !== newEmail),
-  fn: ({ emails, newEmail }, _) => [...emails, newEmail],
+  source: { emails: $invites, email: $email },
+  filter: ({ emails, email }, _) => email.length > 0 && emails.every((item) => item !== email),
+  fn: ({ emails, email }, _) => [...emails, email],
 
-  target: $boardInvites,
+  target: $invites,
 });
-
-$newEmail.reset($boardInvites);
-
-export const deleteEmailButtonClicked = createEvent<string>();
 
 sample({
   clock: deleteEmailButtonClicked,
-  source: $boardInvites,
+  source: $invites,
   filter: (emails, email) => emails.some((item) => item === email),
   fn: (emails, email) => {
     const condition = emails.find((item) => item === email);
@@ -87,19 +98,34 @@ sample({
 
     return emails;
   },
-  target: $boardInvites,
+  target: $invites,
 });
-
-export const boardNameChanged = createEvent<ChangeEvent<HTMLInputElement>>();
-
-const setBoardName = createEvent<string>();
 
 sample({
-  clock: boardNameChanged,
-  fn: (event) => event.target.value,
-  target: setBoardName,
+  clock: authenticatedRoute.opened,
+  fn: ({ params }) => params,
+  target: boardGetFx,
 });
 
-export const $boardName = createStore<string>("")
-  .on(getBoardByIdFx.doneData, (_, response) => response.name)
-  .on(setBoardName, (_, name) => name);
+reset({
+  clock: boardGetFx.done,
+  target: [$email, $title, $invites],
+});
+
+sample({
+  clock: [boardDeleteFx.done, boardUpdateFx.done],
+  target: routes.workspace.boards.open,
+});
+
+$email.reset($invites);
+
+sample({
+  clock: sumbitButtonClicked,
+  source: $board,
+  target: boardUpdateFx,
+});
+
+sample({
+  clock: backButtonClicked,
+  target: controls.back,
+});

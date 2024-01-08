@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import type { ReactNode } from "react";
 
+import { cx } from "~/shared/lib";
 import { FeaturedIcon } from "~/shared/ui/featured-icon";
 import type { IconName } from "~/shared/ui/icon";
 
@@ -20,7 +20,7 @@ export const OnboardingLayout = ({
 }: OnboardingLayoutProps): JSX.Element => {
   return (
     <main
-      className={clsx(
+      className={cx(
         "flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-[center_-390px] bg-no-repeat  sm:bg-[center_-240px] ",
         className,
         backgroundImage,

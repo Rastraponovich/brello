@@ -1,41 +1,63 @@
 import { useUnit } from "effector-react";
-import { type ChangeEventHandler, memo } from "react";
+import { type ChangeEventHandler, FormEventHandler, memo } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
 import { PageHeader } from "~/widgets/page-header";
 
 import { Button, IconButton } from "~/shared/ui/button";
-import { FormBlock, FormFooterActions } from "~/shared/ui/form-layouts";
+import { ColorPickerBase } from "~/shared/ui/color-picker";
+import { FormBlock, FormFooterActions as FormFooterActionsBase } from "~/shared/ui/form-layouts";
+import { ImagePickerBase } from "~/shared/ui/image-selector";
 import { Input, type InputProps } from "~/shared/ui/input";
+import { LoaderCircle } from "~/shared/ui/loader-circle";
 
 import {
-  $boardInvites,
-  $boardName,
-  $newEmail,
+  $background,
+  $bgImage,
+  $email,
+  $invites,
+  $pending,
+  $title,
   addEmailButtonClicked,
-  boardNameChanged,
-  changedNewEmail,
+  backButtonClicked,
+  backgroundColorChanged,
+  bgImageChanged,
   deleteEmailButtonClicked,
   deletedBoardButtonClicked,
+  emailChanged,
+  nameChanged,
+  sumbitButtonClicked,
 } from "./model";
 
 export const BoardSettingsPage = () => {
   return (
     <MainLayout scrollable>
-      <section className="container mx-auto my-0 flex flex-col gap-5 px-8 ">
+      <section className="container mx-auto flex flex-col gap-5 px-8 ">
         <PageHeader divider title="Board settings" />
-        <PageForm />
-        <FormFooterActions />
+        <section className="relative flex flex-col gap-5">
+          <Loader />
+          <PageForm />
+          <FormFooterActions />
+        </section>
       </section>
     </MainLayout>
   );
 };
 
 const PageForm = () => {
+  const [submit, reset] = useUnit([sumbitButtonClicked, backButtonClicked]);
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+
+    submit();
+  };
+
   return (
-    <form id="form" className="flex flex-col gap-5">
+    <form id="form" className="flex flex-col gap-5" onSubmit={handleSubmit} onReset={reset}>
       <BoardName />
+      <BoardColors />
       <InvitedList />
       <DeleteBoard />
     </form>
@@ -43,7 +65,7 @@ const PageForm = () => {
 };
 
 const InvitedList = () => {
-  const emails = useUnit($boardInvites);
+  const emails = useUnit($invites);
 
   const handleDeleteInviteButtonClicked = useUnit(deleteEmailButtonClicked);
 
@@ -75,11 +97,11 @@ const InvitedList = () => {
 };
 
 const BoardName = () => {
-  const [boardName, setBoardName] = useUnit([$boardName, boardNameChanged]);
+  const [name, onChange] = useUnit([$title, nameChanged]);
 
   return (
     <FormBlock title="Name" description="This will be displayed in board header.">
-      <Input value={boardName} onChange={setBoardName} placeholder="enter board name" />
+      <Input value={name} onValueChange={onChange} placeholder="enter board name" />
     </FormBlock>
   );
 };
@@ -95,19 +117,20 @@ const DeleteBoardButton = () => {
 };
 
 const AddEmail = () => {
-  const [newEmail, emailChanged] = useUnit([$newEmail, changedNewEmail]);
+  const [email, onChange] = useUnit([$email, emailChanged]);
 
   const handleAddEmailButtonClicked = useUnit(addEmailButtonClicked);
 
   return (
     <div className="flex flex-col gap-2.5">
       <Input
-        className="w-full"
-        placeholder="you@yourcompany.io"
         type="email"
-        value={newEmail}
-        onChange={emailChanged}
+        value={email}
+        className="w-full"
+        onValueChange={onChange}
+        placeholder="you@yourcompany.io"
       />
+
       <Button
         type="button"
         variant="link"
@@ -165,5 +188,53 @@ const DeleteBoard = () => {
     >
       <DeleteBoardButton />
     </FormBlock>
+  );
+};
+
+const BoardColors = () => {
+  return (
+    <FormBlock title="Choose background image or color" bodyClassName="max-w-full overflow-hidden">
+      <div className="flex flex-col gap-4">
+        <ImagePicker />
+        <ColorPicker />
+      </div>
+    </FormBlock>
+  );
+};
+
+const ImagePicker = () => {
+  const [image, setImage] = useUnit([$bgImage, bgImageChanged]);
+
+  return <ImagePickerBase selectedImage={image} onImageChange={setImage} />;
+};
+
+const ColorPicker = () => {
+  const [selected, onColorChange] = useUnit([$background, backgroundColorChanged]);
+
+  return <ColorPickerBase selected={selected} onColorChange={onColorChange} />;
+};
+
+const FormFooterActions = () => {
+  const pending = useUnit($pending);
+
+  return <FormFooterActionsBase pending={pending} />;
+};
+
+const Loader = () => {
+  const pending = useUnit($pending);
+
+  return <LoaderCircle pending={pending} />;
+};
+
+export const PageLoader = () => {
+  return (
+    <MainLayout scrollable>
+      <section className="container mx-auto flex flex-col gap-5 px-8 ">
+        <PageHeader divider title="Board settings" />
+        <section className="relative flex flex-col gap-5">
+          <Loader />
+        </section>
+      </section>
+    </MainLayout>
   );
 };

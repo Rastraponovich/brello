@@ -1,63 +1,83 @@
-import { PostgrestError } from "@supabase/supabase-js";
 import { createEffect } from "effector";
 
-import { client } from "../client";
+import { type Tables, checkCrudError, client } from "../client";
 
-export type TBoard = {
-  id: string;
-  title: string;
-  image?: string;
-  workspace_id: string;
-};
-
-type ErrorCode = keyof typeof ErrorDict;
-type ErrorMessage = (typeof ErrorDict)[ErrorCode];
-export type InternalError = {
-  error: PostgrestError;
-  code: ErrorMessage;
-};
-
-const ErrorDict = {
-  "23505": "unique constraint",
-};
-
-export function checkError(error: PostgrestError | null): asserts error is null {
-  if (error !== null) {
-    const code = ErrorDict[error.code as ErrorCode] ?? "unknown";
-
-    throw { error, code };
-  }
+export interface Board extends Tables<"boards"> {
+  stacks?: Tables<"stacks">[];
 }
 
 export const getBoardsFx = createEffect<
-  { workspace_id: string | null; user_id: string | null },
-  TBoard[]
->(async ({ workspace_id, user_id }) => {
+  { workspace_id: string; user_id: string; params?: { search?: string } },
+  Board[]
+>(async ({ workspace_id, user_id, params }) => {
   const { data, error } = await client
     .from("boards")
     .select("*")
     .eq("workspace_id", workspace_id)
     .eq("user_id", user_id)
+    .ilike("title", `%${params?.search ?? ""}%`)
     .select();
 
-  checkError(error);
+  checkCrudError(error);
+
+  return data ?? [];
+});
+
+export const getBoardByIdFx = createEffect<
+  { id: string; workspace?: string; user: string },
+  Board | null
+>(async ({ id, workspace, user }) => {
+  const { data, error } = await client
+    .from("boards")
+    .select("*, stacks(*, tasks(*)), favorite_boards(*)")
+    .eq("id", id)
+    .eq("user_id", user)
+    .eq("workspace_id", workspace)
+    .single();
+
+  checkCrudError(error);
+
+  return data ?? null;
+});
+
+/**
+ * get board for settings page without relations
+ */
+export const getBoardSettingsFx = createEffect<{ id: string }, Board | null>(async ({ id }) => {
+  const { data, error } = await client.from("boards").select().eq("id", id).single();
+
+  checkCrudError(error);
+
+  return data ?? null;
+});
+
+export const updateBoardFx = createEffect<Partial<Board>, Board>(async (board) => {
+  const { data, error } = await client
+    .from("boards")
+    .update(board)
+    .eq("id", board.id)
+    .select()
+    .single();
+
+  checkCrudError(error);
   return data;
 });
 
-export const getBoardByIdFx = createEffect(() => {
-  return true;
-});
+export const deleteBoardFx = createEffect<{ id: string }, null>(async ({ id }) => {
+  const { data, error } = await client.from("boards").delete().eq("id", id);
 
-export const updateBoardFx = createEffect(() => {
-  return true;
-});
-
-export const deleteBoardFx = createEffect(() => {
-  return true;
-});
-
-export const createBoardFx = createEffect<Partial<TBoard>, unknown>(async (board) => {
-  const { data } = await client.from("boards").insert(board).select();
-
+  checkCrudError(error);
   return data;
+});
+
+export const createBoardFx = createEffect<Partial<Board>, Board | null>(async (board) => {
+  const { data, error } = await client
+    .from("boards")
+    .insert({ ...board, order: 0 })
+    .select()
+    .single();
+
+  checkCrudError(error);
+
+  return data ?? null;
 });

@@ -3,9 +3,9 @@
     [
       "effector/babel-plugin",
       {
-        "debugSids": true,
         "addLoc": true,
-        "factories": ["patronum"]
+        "debugSids": true,
+        "factories": ["patronum", "src/features/add-entity", "./src/features/add-entity/model"]
       }
     ]
   ]

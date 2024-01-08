@@ -14,8 +14,6 @@ const root = document.getElementById("root") as HTMLElement;
 
 const scope = fork();
 
-console.log(import.meta.env);
-
 allSettled(appStarted, { scope }).catch(() => console.warn("совсем все плохо"));
 
 createRoot(root).render(

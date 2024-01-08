@@ -1,6 +1,6 @@
-import clsx from "clsx";
 import { forwardRef, memo } from "react";
 
+import { cx } from "~/shared/lib";
 import { Icon } from "~/shared/ui/icon";
 
 import {
@@ -26,7 +26,7 @@ const _Avatar = forwardRef<HTMLDivElement, AvatarProps>(({ className, size = "md
           ? "unautorizied user"
           : `${user?.firstName} ${user?.lastName}`
       }
-      className={clsx(
+      className={cx(
         "flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 font-medium text-gray-600",
         className,
         AVATAR_SIZE_DICT[size],
@@ -67,7 +67,7 @@ export const AvatarCounter = forwardRef<HTMLDivElement, AvatarCounterProps>(
         ref={ref}
         title={`more ${count}`}
         data-qa="Avatar-button__counter"
-        className={clsx(
+        className={cx(
           "flex shrink-0 items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
           AVATAR_SIZE_DICT[size],
           size === "md" ? "text-base" : "text-sm",
@@ -88,7 +88,7 @@ export const AddAvatarButton = forwardRef<HTMLButtonElement, AvatarAddButtonProp
         type="button"
         title="add user"
         data-qa="Avatar-add-button"
-        className={clsx(
+        className={cx(
           "flex items-center justify-center rounded-full border border-dashed border-gray-300",
           size === "md" ? "p-1.5" : "p-1",
           AVATAR_SIZE_DICT[size],
@@ -107,13 +107,13 @@ export const AvatarGroup = memo<AvatarGroupProps>(
   ({ items, size = "sm", itemClassName, counter, canAddedUser }) => {
     return (
       <div className="flex items-center gap-2" data-qa="Avatar-group">
-        <div data-qa="Avatar-group__container" className={clsx(AVATAR_GROUP_SPACING[size], "flex")}>
+        <div data-qa="Avatar-group__container" className={cx(AVATAR_GROUP_SPACING[size], "flex")}>
           {items.map((item, idx) => (
             <Avatar
               key={idx}
               size={size}
               user={item}
-              className={clsx("border-1.5px border-white", itemClassName)}
+              className={`border-white border-1.5px ${itemClassName}`}
             />
           ))}
           {counter && <AvatarCounter size={size} count={counter} />}

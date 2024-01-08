@@ -1,9 +1,8 @@
-import { NavigateParams } from "atomic-router";
 import { attach, combine, createEvent, createStore, sample } from "effector";
-import { and, debug, not, pending, reset } from "patronum";
+import { and, not, pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
-import { InternalError } from "~/shared/api/rest/workspace";
+import { InternalError } from "~/shared/api/client";
 import { routes } from "~/shared/routing";
 import { $viewer, chainAuthenticated } from "~/shared/viewer/model";
 
@@ -77,7 +76,6 @@ const workspaceCreateFx = attach({
 
 export const $pending = pending({
   effects: [workspaceExistFx, workspaceCreateFx],
-  of: "some",
 });
 
 export const $nameValid = $name.map((name) => name.trim().length > 0);
@@ -94,9 +92,6 @@ sample({
 sample({
   clock: workspaceExistFx.doneData,
   filter: (workspaceExist) => !!workspaceExist,
-  fn: () => {
-    return { id: 123 } as unknown as NavigateParams<{ id: string }>;
-  },
   target: routes.workspace.boards.open,
 });
 
@@ -127,8 +122,6 @@ sample({
   },
   target: $error,
 });
-
-debug(workspaceCreateFx);
 
 //errors handlers
 
