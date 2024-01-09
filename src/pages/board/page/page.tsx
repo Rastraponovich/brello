@@ -1,10 +1,10 @@
 import { useList, useUnit } from "effector-react";
-import { type ReactNode, memo, useCallback } from "react";
+import { type ReactNode, memo, useReducer } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
 import { AddToFavorite } from "~/features/board/add-to-favorite";
-import { TaskModal, taskOpened } from "~/features/task/task-edit";
+import { TaskModal } from "~/features/task/task-edit";
 
 import { StackColumn, type StackFactory2 } from "~/entities/stack";
 
@@ -16,7 +16,16 @@ import { LoaderCircle } from "~/shared/ui/loader-circle";
 import { type ToggleInput2, ToggledInput } from "~/shared/ui/toggled-input";
 
 import { _AVATARS_ } from "./constants";
-import { $board, $pageLoading, $stacks, listModel, settingsButtonClicked } from "./model";
+import {
+  $board,
+  $pageLoading,
+  $stacks,
+  $title,
+  boardUpdated,
+  listModel,
+  settingsButtonClicked,
+  titileChanged,
+} from "./model";
 
 /**
  * Render the BoardPage component.
@@ -25,7 +34,6 @@ export const BoardPage = () => {
   return (
     <MainLayout className="relative gap-0 pb-0 sm:pb-0">
       <Loading />
-
       <PageHeaderContent />
       <List />
       <TaskModal />
@@ -39,7 +47,6 @@ export const PageLoader = () => {
       <section className="relative h-screen">
         <LoaderCircle pending={true} />
       </section>
-      <TaskModal />
     </MainLayout>
   );
 };
@@ -49,8 +56,7 @@ export const PageLoader = () => {
  *
  */
 const PageHeaderContent = () => {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const board = useUnit($board)!;
+  const [board] = useUnit([$board]);
 
   const handleClick = useUnit(settingsButtonClicked);
 
@@ -58,7 +64,7 @@ const PageHeaderContent = () => {
     <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
       <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-start gap-4 sm:flex-row sm:items-center">
-          <Heading as="h1">{board?.title}</Heading>
+          <Title />
           <AddToFavorite board_id={board?.id} />
         </div>
         <div className="flex items-center gap-5">
@@ -66,8 +72,8 @@ const PageHeaderContent = () => {
           <IconButton
             size="sm"
             onClick={handleClick}
-            icon="common/settings-01"
             variant="tertiaryGray"
+            icon="common/settings-01"
           />
         </div>
       </header>
@@ -81,10 +87,6 @@ const PageHeaderContent = () => {
  */
 const List = () => {
   const board = useUnit($board);
-
-  const taskCardClicked = useUnit(taskOpened);
-
-  const onTaskClicked = useCallback(taskCardClicked, [taskCardClicked]);
 
   return (
     <section
@@ -102,19 +104,7 @@ const List = () => {
         <Grid>
           {useList($stacks, {
             getKey: (stack) => stack.id,
-
-            fn: (stack) => {
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              const data = useUnit<StackFactory2>(stack);
-
-              return (
-                <GridColumn key={stack.id}>
-                  <StackColumn stack={data} onTaskClicked={onTaskClicked} />
-                </GridColumn>
-              );
-            },
+            fn: (stack) => <StackItem stack={stack} />,
           })}
 
           <GridColumn>
@@ -123,6 +113,50 @@ const List = () => {
         </Grid>
       </section>
     </section>
+  );
+};
+
+const Title = () => {
+  const title = useUnit($title);
+  const [editable, setEditable] = useReducer((state) => !state, false);
+
+  const [onTitleChane, onSubmit] = useUnit([titileChanged, boardUpdated]);
+
+  const onBlur = () => {
+    setEditable();
+    onSubmit();
+  };
+
+  if (editable) {
+    return (
+      <input
+        value={title}
+        onBlur={onBlur}
+        autoFocus={true}
+        onChange={(e) => onTitleChane(e.target.value)}
+        className="border-b border-b-gray-200 py-0.5 text-2xl font-semibold text-gray-900 outline-none"
+      />
+    );
+
+    // return <Input value={title} onValueChange={onTitleChane} onBlur={onBlur} autoFocus={true} />;
+  }
+
+  return (
+    <Heading as="h1" onClick={setEditable}>
+      {title}
+    </Heading>
+  );
+};
+
+const StackItem = ({ stack }: { stack: StackFactory2 }) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //@ts-ignore
+  const data = useUnit<StackFactory2>(stack);
+
+  return (
+    <GridColumn key={stack.id}>
+      <StackColumn stack={data} />
+    </GridColumn>
   );
 };
 

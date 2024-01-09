@@ -1,19 +1,29 @@
 import { useUnit } from "effector-react";
-import { useLayoutEffect } from "react";
+import { useCallback, useLayoutEffect } from "react";
 
 import { cx } from "~/shared/lib";
 import { IconButton } from "~/shared/ui/button";
 
 import { $isFavorite, addFavoriteButtonClicked, favoriteChecked } from "./model";
 
-export const AddToFavorite = ({ board_id }: { board_id: string }) => {
-  const [handleClick, checkFavorite] = useUnit([addFavoriteButtonClicked, favoriteChecked]);
-
+export const AddToFavorite = ({ board_id }: { board_id?: string }) => {
   const isFavorite = useUnit($isFavorite);
 
-  useLayoutEffect(() => {
-    checkFavorite({ board_id });
+  const [handleClick, checkFavorite] = useUnit([addFavoriteButtonClicked, favoriteChecked]);
+
+  const handleCheckFavorite = useCallback(() => {
+    if (board_id) {
+      checkFavorite({ board_id });
+    }
   }, [board_id, checkFavorite]);
+
+  useLayoutEffect(() => {
+    handleCheckFavorite();
+  }, [handleCheckFavorite]);
+
+  if (!board_id) {
+    return null;
+  }
 
   return (
     <IconButton
