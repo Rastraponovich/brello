@@ -1,5 +1,5 @@
 import { useList, useUnit } from "effector-react";
-import { type ReactNode, memo, useReducer } from "react";
+import { ChangeEvent, type ReactNode, memo, useCallback, useReducer } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -127,18 +127,23 @@ const Title = () => {
     onSubmit();
   };
 
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      onTitleChane(event.target.value);
+    },
+    [onTitleChane],
+  );
+
   if (editable) {
     return (
       <input
         value={title}
         onBlur={onBlur}
         autoFocus={true}
-        onChange={(e) => onTitleChane(e.target.value)}
+        onChange={handleChange}
         className="border-b border-b-gray-200 py-0.5 text-2xl font-semibold text-gray-900 outline-none"
       />
     );
-
-    // return <Input value={title} onValueChange={onTitleChane} onBlur={onBlur} autoFocus={true} />;
   }
 
   return (
