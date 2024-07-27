@@ -1,7 +1,7 @@
 import { attach, createEvent, createStore, sample } from "effector";
 import { pending, reset } from "patronum";
 
-import { taskDeleteFx, taskUpdateFx } from "~/features/task/task-edit";
+import { taskDeleteFx, taskOpened, taskUpdateFx } from "~/features/task/task-edit";
 
 import { type StackFactory2, stackFactory } from "~/entities/stack";
 
@@ -36,14 +36,22 @@ const boardGetFx = attach({
   mapParams: (params) => params,
 });
 
+const boardUpdateFx = attach({
+  effect: api.board.updateBoardFx,
+  mapParams: (params) => params,
+});
+
 export const settingsButtonClicked = createEvent();
 
 const taskClicked = createEvent<{ id: string }>();
 const submitStack = createEvent<{ value: string }>();
 const stackDeleted = createEvent<{ id: string; user_id: string }>();
 
-export const $board = createStore<Board | null>(null);
+export const boardUpdated = createEvent();
+export const titileChanged = createEvent<string>();
 
+export const $title = createStore("");
+export const $board = createStore<Board | null>(null);
 export const $stacks = createStore<StackFactory2[]>([]);
 
 /**
@@ -64,15 +72,17 @@ const $pending = pending({
 export const listModel = toggleInputFactory(submitStack, $pending);
 
 $board.on(boardGetFx.doneData, (_, board) => board);
+$board.on(boardUpdateFx.doneData, (_, board) => board);
+$title.on(boardGetFx.doneData, (_, board) => board?.title || "");
+$title.on(titileChanged, (_, title) => title);
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 $stacks.on($board, (_, board) => {
   if (board) {
-    return board.stacks?.map((stack) => ({
-      ...stackFactory(stack, stackDeleted, taskClicked),
-    }));
+    return board.stacks?.map((stack) => stackFactory(stack, stackDeleted, taskClicked));
   }
+
   return [];
 });
 
@@ -157,6 +167,25 @@ sample({
     };
   },
   target: stackCreateFx,
+});
+
+sample({
+  clock: taskClicked,
+  target: taskOpened,
+});
+
+/**
+ * when board updated --> call board updated fx
+ */
+sample({
+  clock: boardUpdated,
+  source: { title: $title, board: $board },
+  filter: ({ title, board }) => title !== board?.title,
+  fn: ({ title, board }) => {
+    return { id: board?.id, title };
+  },
+
+  target: boardUpdateFx,
 });
 
 /**

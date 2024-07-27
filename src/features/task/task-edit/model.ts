@@ -1,5 +1,5 @@
 import { attach, combine, createEvent, createStore, sample } from "effector";
-import { and, not, pending, reset } from "patronum";
+import { not, pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
 import type { Task } from "~/shared/api/rest/task";
@@ -41,6 +41,13 @@ const $editableTask = combine(
   }),
 );
 
+export const $canSubmit = combine(
+  { task: $task, title: $taskName, description: $taskDescription },
+  ({ task, title, description }) => {
+    return task?.title !== title || task?.description !== description;
+  },
+);
+
 export const $pending = pending({
   effects: [taskGetFx, taskUpdateFx, taskDeleteFx],
 });
@@ -80,7 +87,7 @@ sample({
 sample({
   clock: taskSubmitted,
   source: $editableTask,
-  filter: and($taskName, $task),
+  filter: $canSubmit,
   fn: (task) => task as Task,
   target: taskUpdateFx,
 });

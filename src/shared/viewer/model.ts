@@ -77,6 +77,8 @@ export function chainAuthenticated<Params extends RouteParams>(
   /* side effect */
   if (otherwise) {
     sample({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       clock: userAnonymous,
       filter: route.$isOpened,
       target: otherwise as Event<void>,
@@ -126,6 +128,8 @@ export function chainAnonymous<Params extends RouteParams>(
   /* side effect */
   if (otherwise) {
     sample({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       clock: userAutenticated,
       filter: route.$isOpened,
       target: otherwise as Event<void>,
