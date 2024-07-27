@@ -1,4 +1,4 @@
-import { attach, combine, createEvent, createStore, sample } from "effector";
+import { attach, combine, createEvent, createStore, restore, sample } from "effector";
 import { pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
@@ -31,22 +31,27 @@ export const slugChanged = createEvent<string>();
 export const nameChanged = createEvent<string>();
 export const descriptionChanged = createEvent<string>();
 
-const $id = createStore("");
+const $id = createStore("").on(workspaceGetFx.doneData, (_, workspace) => workspace?.id);
 
-export const $name = createStore("");
-export const $slug = createStore("");
-export const $description = createStore("");
-export const $imageUrl = createStore("");
+export const $name = restore(nameChanged, "").on(
+  workspaceGetFx.doneData,
+  (_, workspace) => workspace?.name,
+);
 
-$name.on(nameChanged, (_, name) => name);
-$slug.on(slugChanged, (_, slug) => slug);
-$id.on(workspaceGetFx.doneData, (_, workspace) => workspace?.id);
-$name.on(workspaceGetFx.doneData, (_, workspace) => workspace?.name);
-$description.on(descriptionChanged, (_, description) => description);
-$imageUrl.on(workspaceUploadImageFx.doneData, (_, url) => url ?? "");
-$slug.on(workspaceGetFx.doneData, (_, workspace) => workspace?.slug ?? "");
-$imageUrl.on(workspaceGetFx.doneData, (_, workspace) => workspace?.avatarUrl ?? "");
-$description.on(workspaceGetFx.doneData, (_, workspace) => workspace?.description ?? "");
+export const $slug = restore(slugChanged, "").on(
+  workspaceGetFx.doneData,
+  (_, workspace) => workspace?.slug ?? "",
+);
+
+export const $description = restore(descriptionChanged, "").on(
+  workspaceGetFx.doneData,
+  (_, workspace) => workspace?.description ?? "",
+);
+
+export const $imageUrl = restore(workspaceUploadImageFx.doneData, "").on(
+  workspaceGetFx.doneData,
+  (_, workspace) => workspace?.avatarUrl ?? "",
+);
 
 //reset stores
 reset({

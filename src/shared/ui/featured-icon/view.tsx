@@ -21,32 +21,32 @@ import type {
   FeaturedIconSquareVariant,
 } from "./model";
 
-export const FeaturedIcon = memo<FeaturedIconProps>(
-  ({
+export const FeaturedIcon = memo<FeaturedIconProps>((props) => {
+  const {
     icon,
     className,
     size = Sizes.XS,
     color = EFeaturedIconColor.PRIMARY,
     type = EFeaturedIconType.CIRCLE,
     variant = EFeaturedIconVariant.LIGHT_CIRCLE,
-  }) => {
-    return (
-      <div
-        className={cx(
-          "block",
-          className,
-          FEATURED_ICON_CONTAINER_SIZE_DICT[size],
-          FEATURED_ICON_VARIANT_DICT[variant],
-          type === "circle" && variant !== "lightCircle" && BORDER_SIZE[size],
-          type === "circle"
-            ? CIRCLE_COLORS[variant as FeaturedIconCircleVariant][color]
-            : SQUARE_COLORS[variant as FeaturedIconSquareVariant],
-        )}
-      >
-        <Icon name={icon} className={cx(FEATURED_ICON_SIZE_DICT[size])} />
-      </div>
-    );
-  },
-);
+  } = props;
+
+  return (
+    <div
+      className={cx(
+        "block",
+        className,
+        FEATURED_ICON_CONTAINER_SIZE_DICT[size],
+        FEATURED_ICON_VARIANT_DICT[variant],
+        type === "circle" && variant !== "lightCircle" && BORDER_SIZE[size],
+        type === "circle"
+          ? CIRCLE_COLORS[variant as FeaturedIconCircleVariant][color]
+          : SQUARE_COLORS[variant as FeaturedIconSquareVariant],
+      )}
+    >
+      <Icon name={icon} aria-hidden="true" className={cx(FEATURED_ICON_SIZE_DICT[size])} />
+    </div>
+  );
+});
 
 FeaturedIcon.displayName = "FeaturedIcon";

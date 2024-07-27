@@ -19,45 +19,53 @@ const iconNames: Partial<Record<HTMLInputTypeAttribute, IconName>> = {
   search: "common/search-sm",
 };
 
-const _Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    { caption, className, error, type = "text", disableIcon, onChange, onValueChange, ...props },
-    ref,
-  ) => {
-    const handleChange = useCallback(
-      (event: ChangeEvent<HTMLInputElement>) => {
-        if (onValueChange) {
-          return onValueChange(event.target.value);
-        }
+const _Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  const {
+    caption,
+    className,
+    error,
+    type = "text",
+    disableIcon,
+    onChange,
+    onValueChange,
+    ...restProps
+  } = props;
 
-        if (onChange) {
-          onChange(event);
-        }
-      },
-      [onChange, onValueChange],
-    );
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      if (onValueChange) {
+        return onValueChange(event.target.value);
+      }
 
-    return (
-      <InputWrapper caption={caption} error={error}>
-        <BaseInput
-          ref={ref}
-          type={type}
-          className={className}
-          onChange={handleChange}
-          disableIcon={disableIcon}
-          {...props}
+      if (onChange) {
+        onChange(event);
+      }
+    },
+    [onChange, onValueChange],
+  );
+
+  return (
+    <InputWrapper caption={caption} error={error}>
+      <BaseInput
+        ref={ref}
+        type={type}
+        className={className}
+        onChange={handleChange}
+        disableIcon={disableIcon}
+        {...restProps}
+      />
+
+      {!disableIcon && type && type !== "text" && (
+        <Icon
+          size="normal"
+          aria-hidden="true"
+          name={iconNames[type] as IconName}
+          className="absolute left-3.5 top-1/2 aspect-square size-5 shrink-0 -translate-y-1/2"
         />
-        {!disableIcon && type && type !== "text" && (
-          <Icon
-            size="normal"
-            name={iconNames[type] as IconName}
-            className="absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2"
-          />
-        )}
-      </InputWrapper>
-    );
-  },
-);
+      )}
+    </InputWrapper>
+  );
+});
 
 export const Input = memo(_Input);
 Input.displayName = "Input";
@@ -89,21 +97,34 @@ const BaseInput = memo(_BaseInput);
 
 BaseInput.displayName = "BaseInput";
 
-const _InputSearch = forwardRef<HTMLInputElement, InputProps>(
-  ({ caption, hint, ...props }, ref) => {
-    return (
-      <InputWrapper hint={hint} caption={caption} className="relative justify-center">
-        <Icon size="normal" name="common/search-sm" className="absolute left-3.5 h-5 w-5 " />
-        <BaseInput ref={ref} size="sm" className={cx(props.className, "pl-10 pr-3.5")} {...props} />
-      </InputWrapper>
-    );
-  },
-);
+const _InputSearch = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  const { caption, hint, ...restProps } = props;
+
+  return (
+    <InputWrapper hint={hint} caption={caption} className="relative justify-center">
+      <Icon
+        size="normal"
+        aria-hidden="true"
+        name="common/search-sm"
+        className="absolute left-3.5 aspect-square size-5 shrink-0"
+      />
+
+      <BaseInput
+        ref={ref}
+        size="sm"
+        className={cx(restProps.className, "pl-10 pr-3.5")}
+        {...restProps}
+      />
+    </InputWrapper>
+  );
+});
 
 export const InputSearch = memo(_InputSearch);
 InputSearch.displayName = "InputSearch";
 
-const InputWrapper = memo<InputWrapperProps>(({ children, caption, className, error }) => {
+const InputWrapper = memo<InputWrapperProps>((props) => {
+  const { children, caption, className, error } = props;
+
   const hasError = Boolean(error);
 
   return (
@@ -119,7 +140,9 @@ const InputWrapper = memo<InputWrapperProps>(({ children, caption, className, er
           {caption}
         </span>
       )}
+
       <div className="relative w-full">{children}</div>
+
       {hasError && (
         <div className="flex flex-col gap-1">
           <span data-qa="Input__hint" className="text-rose-500">
@@ -131,105 +154,106 @@ const InputWrapper = memo<InputWrapperProps>(({ children, caption, className, er
   );
 });
 
-const _InputArea = forwardRef<HTMLTextAreaElement, IInputAreaProps>(
-  ({ caption, className, hint, onChange, onValueChange, ...props }, ref) => {
-    const handleChange = useCallback(
-      (event: ChangeEvent<HTMLTextAreaElement>) => {
-        if (onValueChange) {
-          return onValueChange(event.target.value);
-        }
+const _InputArea = forwardRef<HTMLTextAreaElement, IInputAreaProps>((props, ref) => {
+  const { caption, className, hint, onChange, onValueChange, ...restProps } = props;
 
-        if (onChange) {
-          return onChange(event);
-        }
-      },
-      [onChange, onValueChange],
-    );
+  const handleChange = useCallback(
+    (event: ChangeEvent<HTMLTextAreaElement>) => {
+      if (onValueChange) {
+        return onValueChange(event.target.value);
+      }
 
-    return (
-      <InputWrapper caption={caption} hint={hint}>
-        <BaseInputArea {...props} onChange={handleChange} className={cx(className)} ref={ref} />
-      </InputWrapper>
-    );
-  },
-);
+      if (onChange) {
+        return onChange(event);
+      }
+    },
+    [onChange, onValueChange],
+  );
+
+  return (
+    <InputWrapper caption={caption} hint={hint}>
+      <BaseInputArea {...restProps} onChange={handleChange} className={cx(className)} ref={ref} />
+    </InputWrapper>
+  );
+});
 
 export const InputArea = memo(_InputArea);
 InputArea.displayName = "InputArea";
 
-const _BaseInutArea = forwardRef<HTMLTextAreaElement, BaseInputAreaProps>(
-  ({ rows = 5, className, ...props }, ref) => {
-    return (
-      <textarea
-        ref={ref}
-        {...props}
-        data-qa="Textarea__value"
-        rows={rows}
-        className={cx(
-          "px-3 py-2 sm:px-3.5 sm:py-2.5",
-          "rounded-lg border border-gray-300",
-          "w-full resize-none gap-2 bg-white shadow-sm",
-          "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
-          "text-base font-normal text-gray-900 placeholder:text-gray-500",
-          "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
-          "focus:text-gray-900 focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
-          "disabled:bg-gray-50",
+const _BaseInutArea = forwardRef<HTMLTextAreaElement, BaseInputAreaProps>((props, ref) => {
+  const { rows = 5, className, ...restProps } = props;
 
-          className,
-        )}
-      />
-    );
-  },
-);
+  return (
+    <textarea
+      ref={ref}
+      {...restProps}
+      data-qa="Textarea__value"
+      rows={rows}
+      className={cx(
+        "px-3 py-2 sm:px-3.5 sm:py-2.5",
+        "rounded-lg border border-gray-300",
+        "w-full resize-none gap-2 bg-white shadow-sm",
+        "invalid:focus:outline-red-300 invalid:focus:ring-red-100",
+        "text-base font-normal text-gray-900 placeholder:text-gray-500",
+        "read-only:pointer-events-none read-only:focus:outline-none read-only:focus:ring-transparent",
+        "focus:text-gray-900 focus:shadow-none focus:outline-blue-300 focus:ring-4 focus:ring-blue-100",
+        "disabled:bg-gray-50",
+
+        className,
+      )}
+    />
+  );
+});
 
 const BaseInputArea = memo(_BaseInutArea);
 
 BaseInputArea.displayName = "BaseInputArea";
 
-const _BaseInputWeb = forwardRef<HTMLInputElement, BaseInputWebProps>(
-  ({ onChange, leftValue, rightValue, leftPlaceholder, rightPlaceholder }, ref) => {
-    return (
-      <div className="flex" data-qa="InputWeb__block">
-        <BaseInput
-          readOnly
-          type="text"
-          tabIndex={-1}
-          value={leftValue}
-          onChange={onChange}
-          placeholder={leftPlaceholder}
-          className="w-min max-w-[110px] rounded-l-md rounded-r-none border-r-transparent placeholder:truncate"
-        />
-        <BaseInput
-          ref={ref}
-          type="text"
-          value={rightValue}
-          onChange={onChange}
-          placeholder={rightPlaceholder}
-          className="w-full border-collapse rounded-l-none rounded-r-md"
-        />
-      </div>
-    );
-  },
-);
+const _BaseInputWeb = forwardRef<HTMLInputElement, BaseInputWebProps>((props, ref) => {
+  const { onChange, leftValue, rightValue, leftPlaceholder, rightPlaceholder } = props;
+
+  return (
+    <div className="flex" data-qa="InputWeb__block">
+      <BaseInput
+        readOnly
+        type="text"
+        tabIndex={-1}
+        value={leftValue}
+        onChange={onChange}
+        placeholder={leftPlaceholder}
+        className="w-min max-w-[110px] rounded-l-md rounded-r-none border-r-transparent placeholder:truncate"
+      />
+
+      <BaseInput
+        ref={ref}
+        type="text"
+        value={rightValue}
+        onChange={onChange}
+        placeholder={rightPlaceholder}
+        className="w-full border-collapse rounded-l-none rounded-r-md"
+      />
+    </div>
+  );
+});
 const BaseInputWeb = memo(_BaseInputWeb);
 
 BaseInputWeb.displayName = "BaseInputWeb";
 
-const _InputWeb = forwardRef<HTMLInputElement, InputWebProps>(
-  ({ caption, hint, leftPlaceholder, rightPlaceholder, leftValue, rightValue }, ref) => {
-    return (
-      <InputWrapper caption={caption} hint={hint}>
-        <BaseInputWeb
-          ref={ref}
-          leftValue={leftValue}
-          rightValue={rightValue}
-          leftPlaceholder={leftPlaceholder}
-          rightPlaceholder={rightPlaceholder}
-        />
-      </InputWrapper>
-    );
-  },
-);
+const _InputWeb = forwardRef<HTMLInputElement, InputWebProps>((props, ref) => {
+  const { caption, hint, leftPlaceholder, rightPlaceholder, leftValue, rightValue } = props;
+
+  return (
+    <InputWrapper caption={caption} hint={hint}>
+      <BaseInputWeb
+        ref={ref}
+        leftValue={leftValue}
+        rightValue={rightValue}
+        leftPlaceholder={leftPlaceholder}
+        rightPlaceholder={rightPlaceholder}
+      />
+    </InputWrapper>
+  );
+});
 
 export const InputWeb = memo(_InputWeb);
 InputWeb.displayName = "InputWeb";

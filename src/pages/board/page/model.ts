@@ -1,4 +1,4 @@
-import { attach, createEvent, createStore, sample } from "effector";
+import { attach, createEvent, createStore, restore, sample } from "effector";
 import { pending, reset } from "patronum";
 
 import { taskDeleteFx, taskOpened, taskUpdateFx } from "~/features/task/task-edit";
@@ -38,7 +38,6 @@ const boardGetFx = attach({
 
 const boardUpdateFx = attach({
   effect: api.board.updateBoardFx,
-  mapParams: (params) => params,
 });
 
 export const settingsButtonClicked = createEvent();
@@ -50,8 +49,16 @@ const stackDeleted = createEvent<{ id: string; user_id: string }>();
 export const boardUpdated = createEvent();
 export const titileChanged = createEvent<string>();
 
-export const $title = createStore("");
-export const $board = createStore<Board | null>(null);
+export const $title = restore(titileChanged, "").on(
+  boardGetFx.doneData,
+  (_, board) => board?.title || "",
+);
+
+export const $board = restore(boardGetFx.doneData, null).on(
+  boardUpdateFx.doneData,
+  (_, board) => board,
+);
+
 export const $stacks = createStore<StackFactory2[]>([]);
 
 /**
@@ -70,11 +77,6 @@ const $pending = pending({
  * helpers to create stack
  */
 export const listModel = toggleInputFactory(submitStack, $pending);
-
-$board.on(boardGetFx.doneData, (_, board) => board);
-$board.on(boardUpdateFx.doneData, (_, board) => board);
-$title.on(boardGetFx.doneData, (_, board) => board?.title || "");
-$title.on(titileChanged, (_, title) => title);
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
@@ -123,7 +125,7 @@ sample({
 sample({
   clock: [taskAddedFx.done, taskDeleteFx.done, taskUpdateFx.done],
   source: $board,
-  filter: (board) => !!board,
+  filter: Boolean,
   fn: (board) => ({
     id: board?.id,
     user: board?.user_id,
@@ -136,11 +138,9 @@ sample({
  * when settings button clicked --> open settings page
  */
 sample({
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //@ts-ignore
   clock: settingsButtonClicked,
   source: $board,
-  filter: $board,
+  filter: Boolean,
   fn: (board: Board): { id: string } => ({
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     id: board!.id,
@@ -159,13 +159,11 @@ sample({
 sample({
   clock: submitStack,
   source: $board,
-  fn: (board, { value }) => {
-    return {
-      boardId: board?.id,
-      title: value,
-      userId: board?.user_id,
-    };
-  },
+  fn: (board, { value }) => ({
+    title: value,
+    boardId: board?.id,
+    userId: board?.user_id,
+  }),
   target: stackCreateFx,
 });
 
@@ -181,10 +179,7 @@ sample({
   clock: boardUpdated,
   source: { title: $title, board: $board },
   filter: ({ title, board }) => title !== board?.title,
-  fn: ({ title, board }) => {
-    return { id: board?.id, title };
-  },
-
+  fn: ({ title, board }) => ({ id: board?.id, title }),
   target: boardUpdateFx,
 });
 

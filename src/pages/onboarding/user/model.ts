@@ -1,8 +1,7 @@
-import { attach, createEvent, createStore, sample } from "effector";
+import { attach, combine, createEvent, restore, sample } from "effector";
 import { not } from "patronum";
 
 import { api } from "~/shared/api";
-import { Tables } from "~/shared/api/client";
 import { routes } from "~/shared/routing";
 import { $viewer, chainAuthenticated } from "~/shared/viewer";
 
@@ -42,24 +41,14 @@ export const skipButtonClicked = createEvent();
 export const lastNameChanged = createEvent<string>();
 export const firstNameChanged = createEvent<string>();
 
-export const $lastName = createStore("");
-export const $firstName = createStore("");
+export const $lastName = restore(lastNameChanged, "");
+export const $firstName = restore(firstNameChanged, "");
 
-const $profileExists = createStore(false);
+const $profile = restore(profileExistsFx.doneData, null);
+const $profileExists = combine($profile, Boolean);
 
-const $profile = createStore<Tables<"profiles"> | null>(null);
-
-export const $isEmptyLastName = $lastName.map(validateName);
-export const $isEmptyFirstName = $firstName.map(validateName);
-
-$lastName.on(lastNameChanged, (_, lastName) => lastName);
-$firstName.on(firstNameChanged, (_, firstName) => firstName);
-
-// write profile to store when data is available
-$profile.on(profileExistsFx.doneData, (_, profile) => profile);
-
-// set existing profile flag
-$profileExists.on(profileExistsFx.doneData, (_, profile) => !!profile);
+export const $isEmptyLastName = combine($lastName, validateName);
+export const $isEmptyFirstName = combine($firstName, validateName);
 
 // route opened -> profile exists -> profileFx
 sample({

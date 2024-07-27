@@ -1,5 +1,5 @@
 import { useList, useUnit } from "effector-react";
-import { ChangeEvent, type ReactNode, memo, useCallback, useReducer } from "react";
+import { useCallback, useReducer } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -30,32 +30,35 @@ import {
 /**
  * Render the BoardPage component.
  */
-export const BoardPage = () => {
+export function BoardPage() {
   return (
     <MainLayout className="relative gap-0 pb-0 sm:pb-0">
       <Loading />
+
       <PageHeaderContent />
+
       <List />
+
       <TaskModal />
     </MainLayout>
   );
-};
+}
 
-export const PageLoader = () => {
+export function PageLoader() {
   return (
     <MainLayout className="gap-0 pb-0 sm:pb-0">
-      <section className="relative h-screen">
+      <section className="relative h-dvh">
         <LoaderCircle pending={true} />
       </section>
     </MainLayout>
   );
-};
+}
 
 /**
  * Renders the content for the page header.
  *
  */
-const PageHeaderContent = () => {
+function PageHeaderContent() {
   const [board] = useUnit([$board]);
 
   const handleClick = useUnit(settingsButtonClicked);
@@ -65,10 +68,13 @@ const PageHeaderContent = () => {
       <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
         <div className="flex flex-col justify-start gap-4 sm:flex-row sm:items-center">
           <Title />
+
           <AddToFavorite board_id={board?.id} />
         </div>
+
         <div className="flex items-center gap-5">
           <AvatarGroup size="md" counter={5} canAddedUser items={_AVATARS_} />
+
           <IconButton
             size="sm"
             onClick={handleClick}
@@ -79,13 +85,13 @@ const PageHeaderContent = () => {
       </header>
     </section>
   );
-};
+}
 
 /**
  * Renders a list of boards and provides functionality to add new boards.
  *
  */
-const List = () => {
+function List() {
   const board = useUnit($board);
 
   return (
@@ -114,9 +120,9 @@ const List = () => {
       </section>
     </section>
   );
-};
+}
 
-const Title = () => {
+function Title() {
   const title = useUnit($title);
   const [editable, setEditable] = useReducer((state) => !state, false);
 
@@ -128,7 +134,7 @@ const Title = () => {
   };
 
   const handleChange = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
+    (event: React.ChangeEvent<HTMLInputElement>) => {
       onTitleChane(event.target.value);
     },
     [onTitleChane],
@@ -151,9 +157,9 @@ const Title = () => {
       {title}
     </Heading>
   );
-};
+}
 
-const StackItem = ({ stack }: { stack: StackFactory2 }) => {
+function StackItem({ stack }: { stack: StackFactory2 }) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   const data = useUnit<StackFactory2>(stack);
@@ -163,9 +169,9 @@ const StackItem = ({ stack }: { stack: StackFactory2 }) => {
       <StackColumn stack={data} />
     </GridColumn>
   );
-};
+}
 
-const AddStack = () => {
+function AddStack() {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   const model = useUnit<ToggleInput2>(listModel);
@@ -190,36 +196,34 @@ const AddStack = () => {
       />
     </div>
   );
-};
-
-interface GridProps {
-  children?: ReactNode;
 }
 
-const Grid = memo<GridProps>(({ children }) => {
+interface GridProps {
+  children?: React.ReactNode;
+}
+
+function Grid({ children }: GridProps) {
   return (
-    <div className="scroll-bar grid h-full snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] grid-flow-col gap-12 overflow-x-auto  px-8 py-4 sm:scroll-px-8 sm:auto-cols-[360px]">
+    <div className="scroll-bar grid h-full snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] grid-flow-col gap-12 overflow-x-auto px-8 py-4 sm:scroll-px-8 sm:auto-cols-[360px]">
       {children}
     </div>
   );
-});
-
-Grid.displayName = "Grid";
-
-interface GridColumnProps {
-  children: ReactNode;
 }
 
-const GridColumn = memo<GridColumnProps>(({ children }) => {
+interface GridColumnProps {
+  children: React.ReactNode;
+}
+
+function GridColumn({ children }: GridColumnProps) {
   return (
     <div className="GRID_COL flex snap-start snap-normal flex-col justify-start overflow-hidden">
       {children}
     </div>
   );
-});
+}
 
-const Loading = () => {
+function Loading() {
   const pending = useUnit($pageLoading);
 
   return <LoaderCircle pending={pending} />;
-};
+}

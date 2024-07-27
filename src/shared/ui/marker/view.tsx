@@ -21,7 +21,9 @@ interface IMarker extends TMarkerStyles {
   className?: string;
 }
 
-export const Marker = forwardRef<HTMLElement, IMarker>(({ variant = "active", className }, ref) => {
+export const Marker = forwardRef<HTMLElement, IMarker>((props, ref) => {
+  const { variant = "active", className } = props;
+
   return <i ref={ref} className={markerStyles({ variant, className })} />;
 });
 

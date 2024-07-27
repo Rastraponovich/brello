@@ -6,7 +6,7 @@
   "type": "module",
   "packageManager": "yarn@1.22.19",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --open",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "prepare": "husky",
@@ -59,6 +59,7 @@
     "tailwindcss": "^3.4.7",
     "typescript": "^5.5.4",
     "vite": "^5.0.7",
-    "vite-plugin-svgr": "^4.2.0"
+    "vite-plugin-svgr": "^4.2.0",
+    "vitest": "^2.0.4"
   }
 }

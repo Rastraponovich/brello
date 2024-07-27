@@ -1,4 +1,4 @@
-import { attach, combine, createEvent, createStore, sample } from "effector";
+import { attach, combine, createEvent, restore, sample } from "effector";
 
 import { api } from "~/shared/api";
 import { Profile } from "~/shared/api/rest/user";
@@ -40,40 +40,28 @@ export const resetButtonClicked = createEvent();
 export const firstNameChanged = createEvent<string>();
 export const lastNameChanged = createEvent<string>();
 
-const $profileLoaded = createStore<Profile | null>(null);
+const $profileLoaded = restore(profileGetFx.doneData, null);
 
-export const $firstName = createStore("");
-export const $lastName = createStore("");
-
-const $profile = combine(
-  {
-    profile: $profileLoaded,
-    firstName: $firstName,
-    lastName: $lastName,
-  },
-  ({ profile, firstName, lastName }) => ({
-    ...profile,
-    first_name: firstName,
-    last_name: lastName,
-  }),
+export const $firstName = restore(firstNameChanged, "").on(
+  profileGetFx.doneData,
+  (_, { first_name }) => first_name ?? "",
 );
 
-$firstName.on(firstNameChanged, (_, firstName) => firstName);
-$lastName.on(lastNameChanged, (_, lastName) => lastName);
-
-$profileLoaded.on(profileGetFx.doneData, (_, profile) => profile);
-$firstName.on(profileGetFx.doneData, (_, { first_name }) => first_name ?? "");
-$lastName.on(profileGetFx.doneData, (_, { last_name }) => last_name ?? "");
-
-export const $avatarName = combine(
-  { firstName: $firstName, lastName: $lastName },
-  ({ firstName, lastName }) => {
-    return {
-      firstName: firstName.charAt(0),
-      lastName: lastName.charAt(0),
-    };
-  },
+export const $lastName = restore(lastNameChanged, "").on(
+  profileGetFx.doneData,
+  (_, { last_name }) => last_name ?? "",
 );
+
+const $profile = combine($profileLoaded, $firstName, $lastName, (profile, firstName, lastName) => ({
+  ...profile,
+  first_name: firstName,
+  last_name: lastName,
+}));
+
+export const $avatarName = combine($firstName, $lastName, (firstName, lastName) => ({
+  firstName: firstName.charAt(0),
+  lastName: lastName.charAt(0),
+}));
 
 sample({
   clock: authenticatedRoute.opened,

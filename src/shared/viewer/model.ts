@@ -1,6 +1,5 @@
-import { User } from "@supabase/supabase-js";
 import { RouteInstance, RouteParams, RouteParamsAndQuery, chainRoute } from "atomic-router";
-import { Effect, Event, attach, createEvent, createStore, sample } from "effector";
+import { Effect, Event, attach, createEvent, createStore, restore, sample } from "effector";
 
 import { api } from "../api";
 
@@ -20,13 +19,15 @@ export const viewerGetFx = attach({
   effect: api.auth.getMeFx,
 });
 
-export const $viewer = createStore<User | null>(null);
+export const $viewer = restore(viewerGetFx.doneData, null);
+
 const $viewerStatus = createStore<ViewerStatus>(ViewerStatus.Initial);
 
-$viewer.on(viewerGetFx.doneData, (_, user) => user);
-
 $viewerStatus.on(viewerGetFx.doneData, (_, user) => {
-  if (user) return ViewerStatus.Authenticated;
+  if (user) {
+    return ViewerStatus.Authenticated;
+  }
+
   return ViewerStatus.Anonymous;
 });
 

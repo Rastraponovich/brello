@@ -26,26 +26,27 @@ export const PageHeader = memo<PageHeaderProps>(
     return (
       <header
         className={cx(
-          "flex w-full flex-col items-center  justify-between gap-4 sm:flex-row",
+          "flex w-full flex-col items-center justify-between gap-4 sm:flex-row",
           divider ? "border-b border-gray-200 pb-5" : "border-transparent",
           className,
         )}
       >
         <div className="flex w-full shrink items-center gap-5 overflow-hidden">
           {avatar && !avatarImage && <Avatar size="2xl" user={avatar} />}
+
           {avatarImage && (
             <div>
               <img
                 width={64}
                 height={64}
                 alt="avatar"
-                className="shink-0 object-cover rounded-full"
+                className="shink-0 rounded-full object-cover"
                 src={`https://ddjirrggtysituolvxws.supabase.co/storage/v1/object/public/avatars/${avatarImage}`}
               />
             </div>
           )}
 
-          <div className="flex w-full shrink flex-col  gap-1">
+          <div className="flex w-full shrink flex-col gap-1">
             <Heading as={headingAs} className={heandingClassName}>
               {title}
             </Heading>
@@ -86,15 +87,17 @@ export const PageHeaderSkeleton = ({ divider, className, actions }: Partial<Page
   return (
     <header
       className={cx(
-        "flex w-full flex-col items-center  justify-between gap-4 sm:flex-row",
+        "flex w-full flex-col items-center justify-between gap-4 sm:flex-row",
         divider ? "border-b border-gray-200 pb-5" : "border-transparent",
         className,
       )}
     >
       <div className="flex w-full shrink items-center gap-5 overflow-hidden">
         <div className="h-16 w-16 animate-pulse rounded-full bg-gray-200" />
+
         <div className="flex w-full shrink flex-col gap-1">
           <div className="h-9 w-80 animate-pulse rounded-lg bg-gray-200" />
+
           <div className="h-6 w-40 animate-pulse rounded-lg bg-gray-200" />
         </div>
       </div>

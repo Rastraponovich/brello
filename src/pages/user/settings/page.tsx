@@ -1,5 +1,4 @@
 import { useUnit } from "effector-react";
-import type { FormEventHandler, ReactElement } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -22,12 +21,30 @@ import {
 
 /**
  * User Settings Page
- * @returns {ReactElement}
+ * @returns {React.ReactElement}
  */
-export const UserPage = (): ReactElement => {
+export function UserPage(): React.ReactElement {
+  return (
+    <MainLayout>
+      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-hidden px-4 sm:px-8">
+        <PageHeader title="Profile settings" divider />
+
+        <Form>
+          <ProfileSettingsName />
+
+          <ProfileSettingsUploadImage />
+        </Form>
+
+        <FormFooterActions />
+      </section>
+    </MainLayout>
+  );
+}
+
+function Form({ children }: { children: React.ReactNode }) {
   const submit = useUnit(profileUpdate);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     submit();
   };
@@ -35,55 +52,60 @@ export const UserPage = (): ReactElement => {
   const handleResetForm = useUnit(resetButtonClicked);
 
   return (
-    <MainLayout>
-      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-hidden px-4 sm:px-8">
-        <PageHeader title="Profile settings" divider />
-
-        <form
-          id="form"
-          onSubmit={handleSubmit}
-          onReset={handleResetForm}
-          className="scroll-shadows -mx-4 flex flex-col gap-5 overflow-auto px-4"
-        >
-          <ProfileSettingsName />
-
-          <ProfileSettingsUploadImage />
-        </form>
-
-        <FormFooterActions />
-      </section>
-    </MainLayout>
+    <form
+      id="form"
+      onSubmit={handleSubmit}
+      onReset={handleResetForm}
+      className="scroll-shadows -mx-4 flex flex-col gap-5 overflow-auto px-4"
+    >
+      {children}
+    </form>
   );
-};
+}
 
-const ProfileSettingsName = () => {
-  const [firstName, lastName] = useUnit([$firstName, $lastName]);
-  const [onNameChanged, onLastNameChanged] = useUnit([firstNameChanged, lastNameChanged]);
-
+function ProfileSettingsName() {
   return (
     <FormBlock title="Name">
       <div className="grid w-full gap-6 sm:grid-cols-2">
-        <Input
-          size="md"
-          value={firstName}
-          caption="First name"
-          placeholder="First name"
-          onValueChange={onNameChanged}
-        />
+        <NameField />
 
-        <Input
-          size="md"
-          value={lastName}
-          caption="Last name"
-          placeholder="Last name"
-          onValueChange={onLastNameChanged}
-        />
+        <LastNameField />
       </div>
     </FormBlock>
   );
-};
+}
 
-const ProfileSettingsUploadImage = () => {
+function NameField() {
+  const value = useUnit($firstName);
+  const onValueChange = useUnit(firstNameChanged);
+
+  return (
+    <Input
+      size="md"
+      value={value}
+      caption="First name"
+      placeholder="First name"
+      onValueChange={onValueChange}
+    />
+  );
+}
+
+function LastNameField() {
+  const value = useUnit($lastName);
+  const onValueChange = useUnit(lastNameChanged);
+
+  return (
+    <Input
+      size="md"
+      value={value}
+      caption="Last name"
+      placeholder="Last name"
+      onValueChange={onValueChange}
+    />
+  );
+}
+
+function ProfileSettingsUploadImage() {
   const { firstName, lastName } = useUnit($avatarName);
 
   return (
@@ -95,4 +117,4 @@ const ProfileSettingsUploadImage = () => {
       </div>
     </FormBlock>
   );
-};
+}

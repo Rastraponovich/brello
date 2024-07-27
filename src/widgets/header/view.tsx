@@ -1,5 +1,5 @@
 import { useList, useStoreMap } from "effector-react";
-import { memo, useReducer } from "react";
+import { useReducer } from "react";
 
 import { UserAvatarWithDropdown } from "~/entities/user";
 
@@ -11,16 +11,16 @@ import { NavItem as NavItemBase } from "~/shared/ui/nav-item";
 import { $menuItems } from "./model";
 
 export interface HeaderProps {
-  className?: string;
   useUser?: boolean;
+  className?: string;
 }
 
-export const Header = memo<HeaderProps>(() => {
+export function Header() {
   const [opened, toggle] = useReducer((opened) => !opened, false);
 
   return (
     <header className="flex items-center justify-center border-b border-gray-200 py-3 sm:py-4">
-      <div className="container mx-auto my-0 flex w-full items-center justify-between gap-4 pl-4 pr-2 sm:px-8 ">
+      <div className="container mx-auto my-0 flex w-full items-center justify-between gap-4 pl-4 pr-2 sm:px-8">
         <Logo />
 
         <div className="hidden grow items-center justify-between sm:flex">
@@ -37,11 +37,9 @@ export const Header = memo<HeaderProps>(() => {
       </div>
     </header>
   );
-});
+}
 
-Header.displayName = "Header";
-
-const NavItem = ({ id }: { id: number }) => {
+function NavItem({ id }: { id: number }) {
   const { path, title, icon } = useStoreMap({
     keys: [id],
     store: $menuItems,
@@ -50,20 +48,27 @@ const NavItem = ({ id }: { id: number }) => {
   });
 
   return <NavItemBase path={path} icon={icon} title={title} />;
-};
+}
 
-const NavButton = ({ opened, toggle }: { opened: boolean; toggle: () => void }) => {
+interface NavButtonProps {
+  opened: boolean;
+  toggle: () => void;
+}
+
+function NavButton(props: NavButtonProps) {
+  const { opened, toggle } = props;
+
   return (
     <button
       onClick={toggle}
       className={cx(
         "rounded-lg p-2 sm:hidden",
         opened
-          ? "hover:bg-white/15 text-white"
-          : "bg-white text-gray-500 hover:text-gray-700 focus:text-gray-500 ",
+          ? "text-white hover:bg-white/15"
+          : "bg-white text-gray-500 hover:text-gray-700 focus:text-gray-500",
       )}
     >
       <Icon size="normal" name={opened ? "common/x-close" : "common/menu"} />
     </button>
   );
-};
+}

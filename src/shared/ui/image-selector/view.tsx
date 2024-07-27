@@ -25,7 +25,7 @@ export const ImagePickerBase = forwardRef<HTMLDivElement, ImagePickerBaseProps>(
     <div
       ref={ref}
       className={cx(
-        "grid grid-flow-col auto-cols-max overflow-x-auto scroll-bar snap-x",
+        "scroll-bar grid snap-x auto-cols-max grid-flow-col overflow-x-auto",
         containerClassName,
       )}
     >
@@ -57,20 +57,22 @@ interface ImageProps {
   containerClassName?: string;
 }
 
-const Image = ({ image, onClick, selected, className }: ImageProps) => {
+function Image(props: ImageProps) {
+  const { image, onClick, selected, className } = props;
+
   return (
     <div
       onClick={onClick}
       className={cx(
-        "snap-start p-1 rounded-3xl flex border-[3px] border-transparent w-full select-none",
+        "flex w-full select-none snap-start rounded-3xl border-[3px] border-transparent p-1",
         selected && "border-blue-600",
         className,
       )}
     >
       <span
         style={{ background: `url(${image}), lightgray 50%` }}
-        className="h-[168px] w-[168px] rounded-[18px] shrink-0 pointer-events-none select-none bg-cover bg-no-repeat"
+        className="pointer-events-none aspect-square size-[168px] shrink-0 select-none rounded-[18px] bg-cover bg-no-repeat"
       />
     </div>
   );
-};
+}

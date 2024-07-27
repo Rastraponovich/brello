@@ -1,4 +1,4 @@
-import { attach, combine, createEvent, createStore, sample } from "effector";
+import { attach, combine, createEvent, createStore, restore, sample } from "effector";
 import { and, not, pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
@@ -38,9 +38,9 @@ export const nameChanged = createEvent<string>();
 export const slugChanged = createEvent<string>();
 export const descriptionChanged = createEvent<string>();
 
-export const $name = createStore<string>("");
-export const $slug = createStore<string>("");
-export const $description = createStore<string>("");
+export const $name = restore(nameChanged, "");
+export const $slug = restore(slugChanged, "");
+export const $description = restore(descriptionChanged, "");
 
 export const $error = createStore<ErrorDict | null>(null);
 export const $nameError = createStore<ErrorDict.NameInvalid | null>(null);
@@ -55,13 +55,12 @@ const $workspace = combine({
 });
 
 $slugError.on($error, (_, error) => {
-  if (error === ErrorDict.SlugTaken) return ErrorDict.SlugTaken;
+  if (error === ErrorDict.SlugTaken) {
+    return ErrorDict.SlugTaken;
+  }
+
   return null;
 });
-
-$name.on(nameChanged, (_, name) => name);
-$slug.on(slugChanged, (_, slug) => slug);
-$description.on(descriptionChanged, (_, description) => description);
 
 // reset error when data is changed
 reset({
@@ -83,8 +82,8 @@ export const $pending = pending({
   effects: [workspaceExistFx, workspaceCreateFx],
 });
 
-export const $nameValid = $name.map((name) => name.trim().length > 0);
-export const $slugValid = $slug.map((slug) => slug.trim().length > 0);
+export const $nameValid = combine($name, (name) => name.trim().length > 0);
+export const $slugValid = combine($slug, (slug) => slug.trim().length > 0);
 
 // happy path
 

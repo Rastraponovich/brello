@@ -1,4 +1,4 @@
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, DialogPanel, Transition, TransitionChild } from "@headlessui/react";
 import { useUnit } from "effector-react";
 import { Fragment } from "react";
 
@@ -18,7 +18,7 @@ import {
   boardNameChanged,
 } from "../model";
 
-export const BoardAddModal = () => {
+export function BoardAddModal() {
   const [opened, name, pending] = useUnit([$modalOpened, $boardName, $boardsListPending]);
   const [onTitleChange, onClose, onSubmit] = useUnit([
     boardNameChanged,
@@ -29,7 +29,7 @@ export const BoardAddModal = () => {
   return (
     <Transition appear show={opened} as={Fragment}>
       <Dialog onClose={onClose} className="relative z-10" as="aside">
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           leaveTo="opacity-0"
           enterFrom="opacity-0"
@@ -39,11 +39,11 @@ export const BoardAddModal = () => {
           enter="ease-out duration-300"
         >
           <div className="fixed inset-0 bg-black/25" />
-        </Transition.Child>
+        </TransitionChild>
 
         <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               leaveTo="opacity-0 scale-95"
               leave="ease-in duration-200"
@@ -52,8 +52,8 @@ export const BoardAddModal = () => {
               enterTo="opacity-100 scale-100"
               leaveFrom="opacity-100 scale-100"
             >
-              <Dialog.Panel className="flex flex-col w-full text-left max-w-3xl transform overflow-hidden rounded-2xl bg-white shadow-xl transition-all">
-                <div className="px-6 pt-6 flex flex-col gap-4">
+              <DialogPanel className="flex w-full max-w-3xl transform flex-col overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all">
+                <div className="flex flex-col gap-4 px-6 pt-6">
                   <div className="flex items-start justify-between">
                     <FeaturedIcon
                       size="lg"
@@ -72,7 +72,7 @@ export const BoardAddModal = () => {
                     />
                   </div>
 
-                  <h4 className="text-gray-900 text-lg font-semibold">Create a new board</h4>
+                  <h4 className="text-lg font-semibold text-gray-900">Create a new board</h4>
                 </div>
 
                 <div className="flex flex-col gap-5 p-6">
@@ -105,7 +105,7 @@ export const BoardAddModal = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 justify-end pt-8 border-t border-t-gray-200 px-6 pb-6">
+                <div className="flex items-center justify-end gap-3 border-t border-t-gray-200 px-6 pb-6 pt-8">
                   <Button
                     onClick={onClose}
                     variant="secondaryGray"
@@ -126,36 +126,39 @@ export const BoardAddModal = () => {
                     Save
                   </Button>
                 </div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>
     </Transition>
   );
-};
+}
 
-const ColorPicker = () => {
+function ColorPicker() {
   const [selected, onColorChange] = useUnit([$boardBackgroundColor, boardBackgroundColorChanged]);
 
   return <ColorPickerBase selected={selected} onColorChange={onColorChange} />;
-};
+}
 
-const ImagePicker = () => {
+function ImagePicker() {
   return (
     <div className="grid grid-cols-4">
       <ImagePickerItem />
-      <ImagePickerItem />
-      <ImagePickerItem />
-      <ImagePickerItem />
-    </div>
-  );
-};
 
-const ImagePickerItem = () => {
-  return (
-    <div className="p-1.5 rounded-3xl h-44 flex flex-col">
-      <div className="bg-gray-400 grow rounded-3xl"></div>
+      <ImagePickerItem />
+
+      <ImagePickerItem />
+
+      <ImagePickerItem />
     </div>
   );
-};
+}
+
+function ImagePickerItem() {
+  return (
+    <div className="flex h-44 flex-col rounded-3xl p-1.5">
+      <div className="grow rounded-3xl bg-gray-400"></div>
+    </div>
+  );
+}
