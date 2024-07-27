@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { memo, useMemo } from "react";
+import { memo } from "react";
 
 import { Avatar } from "~/shared/ui/avatar";
 import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
@@ -17,6 +17,7 @@ const UserCardSmall = memo<UserCardSmallProps>(({ firstName, lastName, email }) 
       <h3 className="font-semibold">
         {firstName} {lastName}
       </h3>
+
       <span className="font-normal text-gray-600">{email}</span>
     </div>
   );
@@ -24,46 +25,44 @@ const UserCardSmall = memo<UserCardSmallProps>(({ firstName, lastName, email }) 
 
 UserCardSmall.displayName = "UserCardSmall";
 
-export const UserAvatarWithDropdown = () => {
-  const [openUser, logout] = useUnit([viewProfileButtonClicked, logOutButtonClicked]);
+export function UserAvatarWithDropdown() {
   const profile = useUnit($profile);
 
+  const [openUser, logout] = useUnit([viewProfileButtonClicked, logOutButtonClicked]);
+
   const user: TUser = {
-    firstName: profile?.first_name || "Vitaliy",
-    lastName: profile?.last_name || "Wilde",
-    email: "olivia@brello.io",
     id: profile?.id || "",
+    email: "olivia@brello.io",
+    lastName: profile?.last_name || "Wilde",
+    firstName: profile?.first_name || "Vitaliy",
   };
-  const menuItems = useMemo<TMenuItem[]>(
-    () => [
-      {
-        group: 1,
-        hotkey: "⌘K->P",
-        id: "viewProfile",
-        onClick: openUser,
-        icon: "users/user",
-        text: "View profile",
-      },
-      {
-        group: null,
-        id: "logout",
-        hotkey: "⌥⇧Q",
-        text: "Logout",
-        onClick: logout,
-        icon: "common/log-out",
-      },
-    ],
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  );
+
+  const menuItems: TMenuItem[] = [
+    {
+      group: 1,
+      hotkey: "⌘K->P",
+      id: "viewProfile",
+      onClick: openUser,
+      icon: "users/user",
+      text: "View profile",
+    },
+    {
+      group: null,
+      id: "logout",
+      hotkey: "⌥⇧Q",
+      text: "Logout",
+      onClick: logout,
+      icon: "common/log-out",
+    },
+  ];
 
   return (
     <Dropdown
       items={menuItems}
       groupProperty="group"
       buttonContent={<Avatar />}
-      menuHead={<UserCardSmall {...user} />}
       menuClassName="hidden sm:block"
+      menuHead={<UserCardSmall {...user} />}
     />
   );
-};
+}

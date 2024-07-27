@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 type Item = "Item 1" | "Item 2" | "Item 3";
 
 /**
  * This function is a custom drag and drop component for React.
  *
- * @return {React.FC} The custom drag and drop component.
  */
-const CustomDragAndDrop: React.FC = () => {
+export function CustomDragAndDrop() {
   const [draggedItem, setDraggedItem] = useState<Item | null>(null);
 
   /**
@@ -24,21 +23,21 @@ const CustomDragAndDrop: React.FC = () => {
   /**
    * Handles the drag over event in the specified HTMLDivElement.
    *
-   * @param {React.DragEvent<HTMLDivElement>} e - The drag event object.
+   * @param {React.DragEvent<HTMLDivElement>} event - The drag event object.
    * @return {void} This function does not return anything.
    */
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>): void => {
-    e.preventDefault();
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>): void => {
+    event.preventDefault();
   };
 
   /**
    * Handles the drop event for the HTMLDivElement.
    *
-   * @param {React.DragEvent<HTMLDivElement>} e - The drag event object.
+   * @param {React.DragEvent<HTMLDivElement>} event - The drag event object.
    * @return {void} This function does not return anything.
    */
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>): void => {
-    e.preventDefault();
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>): void => {
+    event.preventDefault();
 
     // Do something with the dropped item
     console.log("Dropped item:", draggedItem);
@@ -49,30 +48,32 @@ const CustomDragAndDrop: React.FC = () => {
     <div>
       <div
         draggable
-        onDragStart={(e) => handleDragStart(e, "Item 1")}
-        onDragOver={handleDragOver}
         onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragStart={(e) => handleDragStart(e, "Item 1")}
       >
         Item 1
       </div>
+
       <div
         draggable
-        onDragStart={(e) => handleDragStart(e, "Item 2")}
-        onDragOver={handleDragOver}
         onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragStart={(e) => handleDragStart(e, "Item 2")}
       >
         Item 2
       </div>
+
       <div
         draggable
-        onDragStart={(e) => handleDragStart(e, "Item 3")}
-        onDragOver={handleDragOver}
         onDrop={handleDrop}
+        onDragOver={handleDragOver}
+        onDragStart={(e) => handleDragStart(e, "Item 3")}
       >
         Item 3
       </div>
     </div>
   );
-};
+}
 
 export default CustomDragAndDrop;

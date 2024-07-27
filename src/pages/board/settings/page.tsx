@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { type ChangeEventHandler, FormEventHandler, memo } from "react";
+import { memo } from "react";
 
 import { MainLayout } from "~/layouts/main-layout";
 
@@ -33,11 +33,14 @@ import {
 export const BoardSettingsPage = () => {
   return (
     <MainLayout scrollable>
-      <section className="container mx-auto flex flex-col gap-5 px-8 ">
+      <section className="container mx-auto flex flex-col gap-5 px-8">
         <PageHeader divider title="Board settings" />
+
         <section className="relative flex flex-col gap-5">
           <Loader />
+
           <PageForm />
+
           <FormFooterActions />
         </section>
       </section>
@@ -45,10 +48,24 @@ export const BoardSettingsPage = () => {
   );
 };
 
-const PageForm = () => {
+function PageForm() {
+  return (
+    <Form>
+      <BoardName />
+
+      <BoardColors />
+
+      <InvitedList />
+
+      <DeleteBoard />
+    </Form>
+  );
+}
+
+function Form({ children }: { children: React.ReactNode }) {
   const [submit, reset] = useUnit([sumbitButtonClicked, backButtonClicked]);
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
     submit();
@@ -56,20 +73,17 @@ const PageForm = () => {
 
   return (
     <form id="form" className="flex flex-col gap-5" onSubmit={handleSubmit} onReset={reset}>
-      <BoardName />
-      <BoardColors />
-      <InvitedList />
-      <DeleteBoard />
+      {children}
     </form>
   );
-};
+}
 
-const InvitedList = () => {
+function InvitedList() {
   const emails = useUnit($invites);
 
   const handleDeleteInviteButtonClicked = useUnit(deleteEmailButtonClicked);
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     console.log(event.target);
   };
 
@@ -82,11 +96,11 @@ const InvitedList = () => {
       {emails.map((email, id) => (
         <EmailRow
           key={id}
-          caption="Email address"
-          placeholder="you@yourcompany.io"
           value={email}
           id={String(id)}
+          caption="Email address"
           onChange={handleChange}
+          placeholder="you@yourcompany.io"
           onDelete={() => handleDeleteInviteButtonClicked(email)}
         />
       ))}
@@ -94,9 +108,9 @@ const InvitedList = () => {
       <AddEmail />
     </FormBlock>
   );
-};
+}
 
-const BoardName = () => {
+function BoardName() {
   const [name, onChange] = useUnit([$title, nameChanged]);
 
   return (
@@ -104,9 +118,9 @@ const BoardName = () => {
       <Input value={name} onValueChange={onChange} placeholder="enter board name" />
     </FormBlock>
   );
-};
+}
 
-const DeleteBoardButton = () => {
+function DeleteBoardButton() {
   const deletedButtonClicked = useUnit(deletedBoardButtonClicked);
 
   return (
@@ -114,9 +128,9 @@ const DeleteBoardButton = () => {
       Delete this board
     </Button>
   );
-};
+}
 
-const AddEmail = () => {
+function AddEmail() {
   const [email, onChange] = useUnit([$email, emailChanged]);
 
   const handleAddEmailButtonClicked = useUnit(addEmailButtonClicked);
@@ -142,7 +156,7 @@ const AddEmail = () => {
       </Button>
     </div>
   );
-};
+}
 
 interface EmailRowProps
   extends Pick<InputProps, "caption" | "placeholder" | "value" | "onChange" | "id"> {
@@ -167,18 +181,19 @@ const EmailRow = memo<EmailRowProps>(({ caption, value, onChange, placeholder, i
         onChange={onChange}
         placeholder={placeholder}
       />
+
       <IconButton
-        icon="common/trash-01"
-        variant="secondaryGray"
-        onClick={handleClick}
         size="md"
         type="button"
+        onClick={handleClick}
+        icon="common/trash-01"
+        variant="secondaryGray"
       />
     </div>
   );
 });
 
-const DeleteBoard = () => {
+function DeleteBoard() {
   return (
     <FormBlock
       title="Delete this board"
@@ -189,52 +204,54 @@ const DeleteBoard = () => {
       <DeleteBoardButton />
     </FormBlock>
   );
-};
+}
 
-const BoardColors = () => {
+function BoardColors() {
   return (
     <FormBlock title="Choose background image or color" bodyClassName="max-w-full overflow-hidden">
       <div className="flex flex-col gap-4">
         <ImagePicker />
+
         <ColorPicker />
       </div>
     </FormBlock>
   );
-};
+}
 
-const ImagePicker = () => {
+function ImagePicker() {
   const [image, setImage] = useUnit([$bgImage, bgImageChanged]);
 
   return <ImagePickerBase selectedImage={image} onImageChange={setImage} />;
-};
+}
 
-const ColorPicker = () => {
+function ColorPicker() {
   const [selected, onColorChange] = useUnit([$background, backgroundColorChanged]);
 
   return <ColorPickerBase selected={selected} onColorChange={onColorChange} />;
-};
+}
 
-const FormFooterActions = () => {
+function FormFooterActions() {
   const pending = useUnit($pending);
 
   return <FormFooterActionsBase pending={pending} />;
-};
+}
 
-const Loader = () => {
+function Loader() {
   const pending = useUnit($pending);
 
   return <LoaderCircle pending={pending} />;
-};
+}
 
-export const PageLoader = () => {
+export function PageLoader() {
   return (
     <MainLayout scrollable>
-      <section className="container mx-auto flex flex-col gap-5 px-8 ">
+      <section className="container mx-auto flex flex-col gap-5 px-8">
         <PageHeader divider title="Board settings" />
+
         <section className="relative flex flex-col gap-5">
           <Loader />
         </section>
       </section>
     </MainLayout>
   );
-};
+}

@@ -18,22 +18,22 @@ const heading = cva("", {
 });
 
 export const Heading = memo(
-  forwardRef<HTMLHeadingElement, BaseHeadingProps>(
-    ({ as: Component = "h2", caption, children, className, ...props }, ref) => {
-      return (
-        <Component
-          data-qa="Heading"
-          ref={ref}
-          {...props}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore
-          className={heading({ as: Component, className })}
-        >
-          {children || caption}
-        </Component>
-      );
-    },
-  ),
+  forwardRef<HTMLHeadingElement, BaseHeadingProps>((props, ref) => {
+    const { as: Component = "h2", caption, children, className, ...restProps } = props;
+
+    return (
+      <Component
+        data-qa="Heading"
+        ref={ref}
+        {...restProps}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
+        className={heading({ as: Component, className })}
+      >
+        {children || caption}
+      </Component>
+    );
+  }),
 );
 
 Heading.displayName = "Heading";

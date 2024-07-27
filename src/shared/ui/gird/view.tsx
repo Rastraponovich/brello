@@ -5,13 +5,9 @@ import type { GridColumnProps, GridProps, IBaseGridItemTemplate } from "./model"
 
 const genericMemo: <T>(component: T) => T = memo;
 
-const _Grid = <T,>({
-  items,
-  keyProperty,
-  itemTemplate,
-  templateOptions,
-  displayProperty,
-}: GridProps<T>) => {
+function _Grid<T>(props: GridProps<T>) {
+  const { items, keyProperty, itemTemplate, templateOptions, displayProperty } = props;
+
   return (
     <div className={DEFAULT_CLASS}>
       {items.map((item: T) => (
@@ -26,15 +22,11 @@ const _Grid = <T,>({
       ))}
     </div>
   );
-};
+}
 
-const _GridColumn = <T,>({
-  item,
-  keyProperty,
-  templateOptions,
-  displayProperty,
-  itemTemplate: ItemTemplate,
-}: GridColumnProps<T>) => {
+function _GridColumn<T>(props: GridColumnProps<T>) {
+  const { item, keyProperty, templateOptions, displayProperty, itemTemplate: ItemTemplate } = props;
+
   return (
     <div className={DEFAULT_COL_CLASS}>
       {ItemTemplate ? (
@@ -49,11 +41,13 @@ const _GridColumn = <T,>({
       )}
     </div>
   );
-};
+}
 
-export const BaseGridItemTemplate = <T,>({ item, displayProperty }: IBaseGridItemTemplate<T>) => {
+export function BaseGridItemTemplate<T>(props: IBaseGridItemTemplate<T>) {
+  const { item, displayProperty } = props;
+
   return <div>{item[displayProperty] as string}</div>;
-};
+}
 
 export const Grid = genericMemo(_Grid);
 export const GridColumn = genericMemo(_GridColumn);

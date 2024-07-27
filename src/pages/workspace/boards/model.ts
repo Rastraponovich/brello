@@ -1,5 +1,5 @@
-import { attach, createEvent, createStore, sample } from "effector";
-import { debounce, pending, reset } from "patronum";
+import { attach, createEvent, createStore, restore, sample } from "effector";
+import { debounce, pending, reset, reshape } from "patronum";
 
 import { api } from "~/shared/api";
 import type { Board } from "~/shared/api/rest/board";
@@ -61,28 +61,31 @@ const boardCreateFx = attach({
   },
 });
 
-export const $search = createStore("");
-export const $boardName = createStore("");
+export const $search = restore(searched, "");
+export const $boardName = restore(boardNameChanged, "");
 export const $isNotFound = createStore(false);
-export const $modalOpened = createStore(false);
-export const $boards = createStore<Board[]>([]);
-export const $boardBackgroundColor = createStore("bg-white");
+
+export const $modalOpened = createStore(false)
+  .on(boardModalOpened, () => true)
+  .on(boardModalClosed, () => false);
+
+export const $boards = restore(boardsGetFx.doneData, []);
+
+export const $boardBackgroundColor = restore(boardBackgroundColorChanged, "bg-white");
 
 const debouncedSearch = debounce({ source: $search, timeout: 500 });
 
-export const $boardsLength = $boards.map((boards) => boards.length);
-export const $boardsEmpty = $boards.map((boards) => boards.length === 0);
+export const { $boardsEmpty, $boardsLength } = reshape({
+  source: $boards,
+  shape: {
+    $boardsLength: (boards) => boards.length,
+    $boardsEmpty: (boards) => boards.length === 0,
+  },
+});
 
 export const $boardsListPending = pending({
   effects: [workspaceGetFx, boardCreateFx, boardsGetFx],
 });
-
-$search.on(searched, (_, search) => search);
-$modalOpened.on(boardModalOpened, () => true);
-$modalOpened.on(boardModalClosed, () => false);
-$boardName.on(boardNameChanged, (_, name) => name);
-$boards.on(boardsGetFx.doneData, (_, boards) => boards);
-$boardBackgroundColor.on(boardBackgroundColorChanged, (_, color) => color);
 
 $boards.on(workspaceGetFx.doneData, (_, response) => {
   if (response?.boards) {

@@ -1,6 +1,6 @@
 import { RoutesView } from "../pages";
 import "./styles/index.css";
 
-export const Application = () => {
+export function Application() {
   return <RoutesView />;
-};
+}

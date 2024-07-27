@@ -16,7 +16,9 @@ import type {
   AvatarProps,
 } from "./model";
 
-const _Avatar = forwardRef<HTMLDivElement, AvatarProps>(({ className, size = "md", user }, ref) => {
+const _Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
+  const { className, size = "md", user } = props;
+
   return (
     <div
       ref={ref}
@@ -103,24 +105,26 @@ export const AddAvatarButton = forwardRef<HTMLButtonElement, AvatarAddButtonProp
 );
 AddAvatarButton.displayName = "AddAvatarButton";
 
-export const AvatarGroup = memo<AvatarGroupProps>(
-  ({ items, size = "sm", itemClassName, counter, canAddedUser }) => {
-    return (
-      <div className="flex items-center gap-2" data-qa="Avatar-group">
-        <div data-qa="Avatar-group__container" className={cx(AVATAR_GROUP_SPACING[size], "flex")}>
-          {items.map((item, idx) => (
-            <Avatar
-              key={idx}
-              size={size}
-              user={item}
-              className={`border-white border-1.5px ${itemClassName}`}
-            />
-          ))}
-          {counter && <AvatarCounter size={size} count={counter} />}
-        </div>
-        {canAddedUser && <AddAvatarButton size={size} />}
+export const AvatarGroup = memo<AvatarGroupProps>((props) => {
+  const { items, size = "sm", itemClassName, counter, canAddedUser } = props;
+
+  return (
+    <div className="flex items-center gap-2" data-qa="Avatar-group">
+      <div data-qa="Avatar-group__container" className={cx(AVATAR_GROUP_SPACING[size], "flex")}>
+        {items.map((item, idx) => (
+          <Avatar
+            key={idx}
+            size={size}
+            user={item}
+            className={`border-1.5px border-white ${itemClassName}`}
+          />
+        ))}
+
+        {counter && <AvatarCounter size={size} count={counter} />}
       </div>
-    );
-  },
-);
+
+      {canAddedUser && <AddAvatarButton size={size} />}
+    </div>
+  );
+});
 AvatarGroup.displayName = "AvatarGroup";

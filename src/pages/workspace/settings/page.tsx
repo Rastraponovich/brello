@@ -24,42 +24,59 @@ import {
   slugChanged,
 } from "./model";
 
-export const PageLoader = () => {
+export function PageLoader() {
   return (
     <MainLayout>
-      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
+      <section className="container mx-auto my-0 flex flex-col gap-8 overflow-auto px-4 sm:px-8">
         <PageHeader divider title="Workspace settings" />
-        <section className="flex flex-col gap-8 relative">
+
+        <section className="relative flex flex-col gap-8">
           <Loader />
         </section>
       </section>
     </MainLayout>
   );
-};
+}
 
-export const WorkSpaceSettingsPage = () => {
+export function WorkSpaceSettingsPage() {
   return (
     <MainLayout>
-      <section className="container mx-auto flex flex-col gap-8 overflow-auto px-4 sm:px-8 ">
+      <section className="container mx-auto flex flex-col gap-8 overflow-auto px-4 sm:px-8">
         <PageHeader divider title="Workspace settings" />
-        <section className="flex flex-col gap-8 relative">
+
+        <section className="relative flex flex-col gap-8">
           <Loader />
+
           <WorkSpaceSettingsForm />
+
           <FormFooterActions />
         </section>
       </section>
     </MainLayout>
   );
-};
+}
 
-const WorkSpaceSettingsForm = () => {
+function WorkSpaceSettingsForm() {
+  return (
+    <Form>
+      <WorkspaceUplad />
+
+      <WorkspaceName />
+
+      <WorkspaceDescription />
+    </Form>
+  );
+}
+
+function Form({ children }: { children: React.ReactNode }) {
   const handleSubmit = useUnit(formSubmitted);
+
+  const handleCancel = useUnit(cancelButtonClicked);
+
   const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
     handleSubmit();
   };
-
-  const handleCancel = useUnit(cancelButtonClicked);
 
   return (
     <form
@@ -68,12 +85,10 @@ const WorkSpaceSettingsForm = () => {
       onReset={handleCancel}
       className="scroll-shadows -mx-4 flex flex-col gap-5 overflow-auto px-4"
     >
-      <WorkspaceUplad />
-      <WorkspaceName />
-      <WorkspaceDescription />
+      {children}
     </form>
   );
-};
+}
 
 function genTitle(title: string): string {
   const arr = title.split(" ");
@@ -89,10 +104,12 @@ function genTitle(title: string): string {
   return title.charAt(0).toUpperCase();
 }
 
-const WorkspaceUplad = () => {
-  const uploadRef = useRef<HTMLInputElement>(null);
+function WorkspaceUplad() {
   const upload = useUnit(imageChanged);
+
   const [title, image] = useUnit([$name, $imageUrl]);
+
+  const uploadRef = useRef<HTMLInputElement>(null);
 
   const handleUpload: FormEventHandler<HTMLInputElement> = (event) => {
     const target = event.target as HTMLInputElement;
@@ -108,8 +125,8 @@ const WorkspaceUplad = () => {
 
   return (
     <FormBlock title="Logo" description="Update your logo.">
-      <div className="flex sm:items-center gap-5 sm:gap-8">
-        <div className="rounded-full bg-gray-100 text-gray-600 h-16 w-16 shrink-0 flex items-center justify-center">
+      <div className="flex gap-5 sm:items-center sm:gap-8">
+        <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gray-100 text-gray-600">
           {!image ? (
             <span className="text-2xl font-medium">{genTitle(title)}</span>
           ) : (
@@ -123,10 +140,11 @@ const WorkspaceUplad = () => {
           )}
         </div>
 
-        <div className="relative flex items-start sm:items-center flex-col sm:flex-row gap-3">
-          <div className="flex flex-col text-sm font-normal gap-1">
-            <span className="text-gray-600 font-medium">Upload image</span>
-            <span className="text-gray-700">SVG, PNG, JPG or GIF (max. 500×500px)</span>
+        <div className="relative flex flex-col items-start gap-3 sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-1 text-sm font-normal">
+            <span className="font-medium text-gray-600">Upload image</span>
+
+            <span className="text-gray-700">SVG, PNG, JPG or GIF (max. 500x500px)</span>
           </div>
 
           <input
@@ -136,6 +154,7 @@ const WorkspaceUplad = () => {
             className="hidden"
             onChange={handleUpload}
           />
+
           <Button size="sm" variant="secondaryGray" onClick={handleUploadClick} type="button">
             Upload
           </Button>
@@ -143,35 +162,50 @@ const WorkspaceUplad = () => {
       </div>
     </FormBlock>
   );
-};
+}
 
-const WorkspaceName = () => {
+function WorkspaceName() {
+  return (
+    <FormBlock title="Name" description="This will be displayed on your profile.">
+      <NameField />
+
+      <SlugField />
+    </FormBlock>
+  );
+}
+function NameField() {
   const pending = useUnit($pending);
   const [name, handleChangeName] = useUnit([$name, nameChanged]);
+
+  return (
+    <Input
+      value={name}
+      disabled={pending}
+      placeholder="Coding in action"
+      onValueChange={handleChangeName}
+    />
+  );
+}
+
+function SlugField() {
+  const pending = useUnit($pending);
+
   const [slug, handleChangeSlug] = useUnit([$slug, slugChanged]);
 
   return (
-    <FormBlock title="Name" description="This will be displayed on your profile.">
-      <Input
-        value={name}
-        disabled={pending}
-        placeholder="Coding in action"
-        onValueChange={handleChangeName}
-      />
-
-      <Input
-        value={slug}
-        disabled={pending}
-        onValueChange={handleChangeSlug}
-        caption={`brello.io/workspaces/${slug}`}
-        placeholder="https://brello.io/workspaces/"
-      />
-    </FormBlock>
+    <Input
+      value={slug}
+      disabled={pending}
+      onValueChange={handleChangeSlug}
+      caption={`brello.io/workspaces/${slug}`}
+      placeholder="https://brello.io/workspaces/"
+    />
   );
-};
+}
 
-const WorkspaceDescription = () => {
+function WorkspaceDescription() {
   const pending = useUnit($pending);
+
   const [description, setDescribtion] = useUnit([$description, descriptionChanged]);
 
   return (
@@ -184,16 +218,16 @@ const WorkspaceDescription = () => {
       />
     </FormBlock>
   );
-};
+}
 
-const Loader = () => {
+function Loader() {
   const pending = useUnit($pending);
 
   return <LoaderCircle pending={pending} />;
-};
+}
 
-const FormFooterActions = () => {
+function FormFooterActions() {
   const pending = useUnit($pending);
 
   return <FormFooterActionsBase pending={pending} />;
-};
+}

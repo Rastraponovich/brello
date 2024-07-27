@@ -30,7 +30,7 @@ import { BoardAddModal } from "./ui/board-create";
 /**
  * Renders a page loader component.
  */
-export const PageLoader = () => {
+export function PageLoader() {
   return (
     <MainLayout>
       <section className="container mx-auto my-0 px-6 sm:px-8">
@@ -56,12 +56,26 @@ export const PageLoader = () => {
       </section>
     </MainLayout>
   );
-};
+}
 
 /**
  * Renders the Boards Page component.
  */
-export const BoardsPage = () => {
+export function BoardsPage() {
+  return (
+    <MainLayout>
+      <Header />
+
+      <BoardsFilter />
+
+      <Boards />
+
+      <BoardAddModal />
+    </MainLayout>
+  );
+}
+
+function Header() {
   const handleOpenSettings = useUnit(settingsButtonClicked);
 
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -75,6 +89,7 @@ export const BoardsPage = () => {
       leftIcon: "common/settings",
       onClick: handleOpenSettings,
     },
+
     {
       id: "invite",
       variant: "primary",
@@ -84,42 +99,36 @@ export const BoardsPage = () => {
   ];
 
   return (
-    <MainLayout>
-      <section className="container mx-auto my-0 px-6 sm:px-8">
-        <PageHeader
-          divider
-          headingAs="h1"
-          actions={actions}
-          description="Private"
-          className="!items-start"
-          title={workspace?.name || ""}
-          avatarImage={workspace?.avatarUrl ?? undefined}
-          avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
-        />
-      </section>
-      <BoardsFilter />
-
-      <Boards />
-      <BoardAddModal />
-    </MainLayout>
+    <section className="container mx-auto my-0 px-6 sm:px-8">
+      <PageHeader
+        divider
+        headingAs="h1"
+        actions={actions}
+        description="Private"
+        className="!items-start"
+        title={workspace?.name || ""}
+        avatarImage={workspace?.avatarUrl ?? undefined}
+        avatar={{ firstName: "Clara", lastName: "Carala", id: 123 }}
+      />
+    </section>
   );
-};
+}
 
 /**
  * Renders the BoardsFilter component.
  */
-const BoardsFilter = () => {
+function BoardsFilter() {
   return (
     <section className="container mx-auto my-0 flex w-full flex-col items-center gap-8 px-6 sm:px-8">
       <BoardsSearch />
     </section>
   );
-};
+}
 
 /**
  * Renders the Boards component.
  */
-const Boards = () => {
+function Boards() {
   const [pending, isEmpty, isNotFound] = useUnit([$boardsListPending, $boardsEmpty, $isNotFound]);
 
   return (
@@ -127,15 +136,16 @@ const Boards = () => {
       <div className="flex w-full flex-col overflow-hidden">
         {isNotFound ? <NotFoundState /> : isEmpty ? <EmptyState /> : <BoardsList />}
       </div>
+
       <LoaderCircle pending={pending} />
     </section>
   );
-};
+}
 
 /**
  * Renders the list of boards.
  */
-const BoardsList = () => {
+function BoardsList() {
   const search = useUnit($search);
 
   return (
@@ -144,17 +154,18 @@ const BoardsList = () => {
         {search.length === 0 && <AddBoardCard />}
 
         {useList($boards, {
+          getKey: (board) => board.id,
           fn: (board) => <BoardCard id={board.id} />,
         })}
       </div>
     </ScrollContainer>
   );
-};
+}
 
 /**
  * Renders an empty state component.
  */
-const EmptyState = () => {
+function EmptyState() {
   const handleAddBoard = useUnit(boardAddButtonClicked);
 
   return (
@@ -166,11 +177,11 @@ const EmptyState = () => {
       subTitle="Your boards will live here. Start creating by clicking on «New board»"
     />
   );
-};
+}
 
-const NotFoundState = memo(() => {
-  const [searchValue, onClear] = useUnit([$search, resetSearch]);
+function NotFoundState() {
   const handleAddBoard = useUnit(boardAddButtonClicked);
+  const [searchValue, onClear] = useUnit([$search, resetSearch]);
 
   const message = `Your search ${searchValue} did not match any boards. Please try again.`;
 
@@ -183,24 +194,25 @@ const NotFoundState = memo(() => {
       actions={[{ caption: "Clear search", onClick: onClear }]}
     />
   );
-});
+}
 
-NotFoundState.displayName = "NotFoundState";
-
-const AddBoardCard = memo(() => {
+function AddBoardCard() {
   const handleAddBoard = useUnit(boardAddButtonClicked);
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-5 ">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-5">
       <button onClick={handleAddBoard} className="flex h-14 items-center gap-2">
-        <Icon name="common/plus-circle" className="h-5 w-5" />
+        <Icon
+          aria-hidden="true"
+          name="common/plus-circle"
+          className="aspect-square h-5 w-5 shrink-0"
+        />
+
         <span className="line-clamp-1 text-lg font-medium text-gray-600">Create new board</span>
       </button>
     </div>
   );
-});
-
-AddBoardCard.displayName = "AddBoardCard";
+}
 
 interface BoardCardProps {
   id: string;

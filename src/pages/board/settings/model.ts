@@ -1,5 +1,4 @@
-import type { RouteQuery } from "atomic-router";
-import { attach, combine, createEvent, createStore, sample } from "effector";
+import { attach, combine, createEvent, createStore, restore, sample } from "effector";
 import { pending, reset } from "patronum";
 
 import { api } from "~/shared/api";
@@ -42,24 +41,28 @@ export const deletedBoardButtonClicked = createEvent();
 export const backgroundColorChanged = createEvent<string>();
 export const deleteEmailButtonClicked = createEvent<string>();
 
-export const $email = createStore("");
-export const $title = createStore("");
-export const $bgImage = createStore("");
-export const $pageOpenned = createStore(false);
-export const $invites = createStore<string[]>([]);
-export const $background = createStore("bg-white");
-export const $params = createStore<object | null>(null);
-export const $query = createStore<RouteQuery | null>(null);
+export const $bgImage = createStore("").on(bgImageChanged, (current, image) =>
+  current === image ? "" : image,
+);
 
-$title.on(nameChanged, (_, name) => name);
-$email.on(emailChanged, (_, email) => email);
-$query.on(authenticatedRoute.$query, (_, query) => query);
-$background.on(backgroundColorChanged, (_, color) => color);
-$params.on(authenticatedRoute.$params, (_, params) => params);
-$title.on(boardGetFx.doneData, (_, board) => board?.title ?? "");
-$pageOpenned.on(routes.board.settings.$isOpened, (_, isOpened) => isOpened);
-$bgImage.on(bgImageChanged, (current, image) => (current === image ? "" : image));
-$background.on(boardGetFx.doneData, (_, board) => board?.background_color ?? "bg-white");
+export const $title = restore(nameChanged, "").on(
+  boardGetFx.doneData,
+  (_, board) => board?.title ?? "",
+);
+
+export const $invites = createStore<string[]>([]);
+
+export const $email = restore(emailChanged, "").reset($invites);
+
+export const $params = combine(authenticatedRoute.$params);
+export const $pageOpenned = combine(routes.board.settings.$isOpened);
+
+export const $query = combine(authenticatedRoute.$query);
+
+export const $background = restore(backgroundColorChanged, "bg-white").on(
+  boardGetFx.doneData,
+  (_, board) => board?.background_color ?? "bg-white",
+);
 
 export const $pending = pending({
   effects: [boardDeleteFx, boardUpdateFx, boardGetFx],
@@ -79,8 +82,8 @@ sample({
 sample({
   clock: addEmailButtonClicked,
   source: { emails: $invites, email: $email },
-  filter: ({ emails, email }, _) => email.length > 0 && emails.every((item) => item !== email),
-  fn: ({ emails, email }, _) => [...emails, email],
+  filter: ({ emails, email }) => email.length > 0 && emails.every((item) => item !== email),
+  fn: ({ emails, email }) => [...emails, email],
 
   target: $invites,
 });
@@ -116,8 +119,6 @@ sample({
   clock: [boardDeleteFx.done, boardUpdateFx.done],
   target: routes.workspace.boards.open,
 });
-
-$email.reset($invites);
 
 sample({
   clock: sumbitButtonClicked,

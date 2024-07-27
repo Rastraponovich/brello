@@ -46,13 +46,16 @@ const _BaseGroupButton = forwardRef<HTMLButtonElement, IBaseGroupButton>(
         className={baseGroupButton({ variant })}
       >
         {variant === "dot" && <Marker variant={disabled ? "disabled" : "active"} />}
+
         {(variant === "iconWithText" || variant === "icon") && icon && (
           <Icon
             name={icon}
             size="normal"
+            aria-hidden="true"
             className="text-gray-500 group-hover:text-gray-700 group-disabled:text-gray-300"
           />
         )}
+
         {variant !== "icon" && text && <span>{text}</span>}
       </button>
     );

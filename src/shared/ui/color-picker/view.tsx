@@ -8,22 +8,23 @@ interface ColorPickerBaseProps {
   selected: string;
   onColorChange: (value: string) => void;
 }
-export const ColorPickerBase = forwardRef<HTMLDivElement, ColorPickerBaseProps>(
-  ({ selected, onColorChange }, ref) => {
-    return (
-      <div ref={ref} className="flex items-center">
-        {COLORS.map((item) => (
-          <ColorPickerItem
-            key={item.id}
-            className={`${item.className} ${item.value}`}
-            selected={item.value === selected}
-            onClick={() => onColorChange(item.value)}
-          />
-        ))}
-      </div>
-    );
-  },
-);
+
+export const ColorPickerBase = forwardRef<HTMLDivElement, ColorPickerBaseProps>((props, ref) => {
+  const { selected, onColorChange } = props;
+
+  return (
+    <div ref={ref} className="flex items-center">
+      {COLORS.map((item) => (
+        <ColorPickerItem
+          key={item.id}
+          selected={item.value === selected}
+          onClick={() => onColorChange(item.value)}
+          className={`${item.className} ${item.value}`}
+        />
+      ))}
+    </div>
+  );
+});
 
 interface ColorPickerItemProps {
   selected: boolean;
@@ -31,16 +32,18 @@ interface ColorPickerItemProps {
   onClick: () => void;
 }
 
-const ColorPickerItem = ({ className, onClick, selected }: ColorPickerItemProps) => {
+function ColorPickerItem(props: ColorPickerItemProps) {
+  const { className, onClick, selected } = props;
+
   return (
-    <div className="h-10 w-10 p-1.5" onClick={onClick}>
+    <div className="aspect-square size-10 shrink-0 p-1.5" onClick={onClick}>
       <div
         className={cx(
-          "rounded-full h-full w-full hover:outline outline-offset-2 bg-current",
+          "h-full w-full rounded-full bg-current outline-offset-2 hover:outline",
           selected && "outline outline-2 outline-current",
           className,
         )}
       ></div>
     </div>
   );
-};
+}
