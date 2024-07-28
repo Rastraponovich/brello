@@ -1,20 +1,36 @@
+import { cva } from "class-variance-authority";
 import { forwardRef, memo } from "react";
 
 import { cx } from "~/shared/lib";
 import { Icon } from "~/shared/ui/icon";
 
-import {
-  AVATAR_GROUP_SPACING,
-  AVATAR_IMAGE_SIZE_DICT,
-  AVATAR_SIZE_DICT,
-  getShortName,
-} from "./constants";
+import { AVATAR_GROUP_SPACING, AVATAR_IMAGE_SIZE_DICT, getShortName } from "./constants";
 import type {
   AvatarAddButtonProps,
   AvatarCounterProps,
   AvatarGroupProps,
   AvatarProps,
 } from "./model";
+
+
+const avatarStyles = cva(
+  "flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 font-medium text-gray-600",
+);
+const avatarSizesStyles = cva("aspect-square shrink-0", {
+  variants: {
+    size: {
+      xs: "size-4 text-xs",
+      sm: "size-8 text-sm",
+      md: "size-10 text-base",
+      lg: "size-12 text-lg",
+      xl: "size-14 text-xl",
+      "2xl": "size-16 text-2xl",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+  },
+});
 
 const _Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
   const { className, size = "md", user } = props;
@@ -28,11 +44,7 @@ const _Avatar = forwardRef<HTMLDivElement, AvatarProps>((props, ref) => {
           ? "unautorizied user"
           : `${user?.firstName} ${user?.lastName}`
       }
-      className={cx(
-        "flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 font-medium text-gray-600",
-        className,
-        AVATAR_SIZE_DICT[size],
-      )}
+      className={cx(avatarStyles({ className }), avatarSizesStyles({ size }))}
     >
       {user ? (
         !user.photo ? (
@@ -69,11 +81,7 @@ export const AvatarCounter = forwardRef<HTMLDivElement, AvatarCounterProps>(
         ref={ref}
         title={`more ${count}`}
         data-qa="Avatar-button__counter"
-        className={cx(
-          "flex shrink-0 items-center justify-center rounded-full border-[1.5px] border-white bg-gray-100 text-center font-medium text-gray-600",
-          AVATAR_SIZE_DICT[size],
-          size === "md" ? "text-base" : "text-sm",
-        )}
+        className={cx(avatarStyles(), avatarSizesStyles({ size }))}
       >
         +{count}
       </div>
@@ -93,7 +101,7 @@ export const AddAvatarButton = forwardRef<HTMLButtonElement, AvatarAddButtonProp
         className={cx(
           "flex items-center justify-center rounded-full border border-dashed border-gray-300",
           size === "md" ? "p-1.5" : "p-1",
-          AVATAR_SIZE_DICT[size],
+          avatarSizesStyles({ size }),
         )}
       >
         <div className="rounded text-gray-400">
@@ -116,7 +124,7 @@ export const AvatarGroup = memo<AvatarGroupProps>((props) => {
             key={idx}
             size={size}
             user={item}
-            className={`border-1.5px border-white ${itemClassName}`}
+            className={cx("test-b border-[1.5px] border-white", itemClassName)}
           />
         ))}
 

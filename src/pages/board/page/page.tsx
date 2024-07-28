@@ -13,6 +13,7 @@ import { AvatarGroup } from "~/shared/ui/avatar";
 import { IconButton } from "~/shared/ui/button";
 import { Heading } from "~/shared/ui/heading";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
+import { ScrollContainer } from "~/shared/ui/scroll-area";
 import { type ToggleInput2, ToggledInput } from "~/shared/ui/toggled-input";
 
 import { _AVATARS_ } from "./constants";
@@ -32,7 +33,7 @@ import {
  */
 export function BoardPage() {
   return (
-    <MainLayout className="relative gap-0 pb-0 sm:pb-0">
+    <MainLayout className="relative gap-0 pb-0 max-sm:!overflow-auto sm:pb-0">
       <Loading />
 
       <PageHeaderContent />
@@ -65,8 +66,8 @@ function PageHeaderContent() {
 
   return (
     <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
-      <header className="flex flex-col items-center border-b border-gray-200 pb-5 sm:flex-row sm:justify-between">
-        <div className="flex flex-col justify-start gap-4 sm:flex-row sm:items-center">
+      <header className="flex items-center gap-y-5 border-b border-gray-200 pb-5 max-sm:flex-col sm:justify-between">
+        <div className="flex w-full justify-start gap-4 max-sm:flex-col sm:items-center">
           <Title />
 
           <AddToFavorite board_id={board?.id} />
@@ -97,7 +98,7 @@ function List() {
   return (
     <section
       className={cx(
-        "flex grow flex-col items-center overflow-auto bg-cover bg-no-repeat pb-24 pt-8",
+        "flex grow flex-col items-center overflow-visible bg-cover bg-no-repeat sm:overflow-auto md:pb-[92px] md:pt-8",
         board?.background_color,
       )}
       style={{
@@ -106,7 +107,7 @@ function List() {
           : "revert-layer",
       }}
     >
-      <section className="container flex h-full grow flex-col">
+      <section className="grid h-full py-4 xl:container">
         <Grid>
           {useList($stacks, {
             getKey: (stack) => stack.id,
@@ -204,9 +205,17 @@ interface GridProps {
 
 function Grid({ children }: GridProps) {
   return (
-    <div className="scroll-bar grid h-full snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] grid-flow-col gap-12 overflow-x-auto px-8 py-4 sm:scroll-px-8 sm:auto-cols-[360px]">
-      {children}
-    </div>
+    <ScrollContainer
+      type="auto"
+      className="md:pb-6"
+      orientation="horizontal"
+      viewPortClassName="snap-x snap-mandatory [&>div]:sm:!flex [&>div]:sm:h-full"
+    >
+      <div className="grid auto-cols-[calc(100vw-2rem)] grid-flow-col gap-8 px-4 sm:auto-cols-[360px] sm:!pr-[calc(100%_-_360px)] md:px-8 xl:gap-12">
+        {children}
+      </div>
+    </ScrollContainer>
+
   );
 }
 
@@ -216,7 +225,7 @@ interface GridColumnProps {
 
 function GridColumn({ children }: GridColumnProps) {
   return (
-    <div className="GRID_COL flex snap-start snap-normal flex-col justify-start overflow-hidden">
+    <div className="GRID_COL flex shrink-0 snap-start snap-normal scroll-ml-4 flex-col justify-start overflow-hidden md:scroll-mx-8">
       {children}
     </div>
   );
