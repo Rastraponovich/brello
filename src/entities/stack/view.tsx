@@ -4,11 +4,11 @@ import { memo, useReducer, useRef } from "react";
 // import { Bage } from "~/shared/ui/bage";
 import type { Tables } from "~/shared/api/client";
 import type { Task } from "~/shared/api/rest/task";
-import { cx } from "~/shared/lib";
 import { Dropdown, type TMenuItem } from "~/shared/ui/dropdown";
 import { Heading } from "~/shared/ui/heading";
 import { Icon } from "~/shared/ui/icon";
 import { LoaderCircle } from "~/shared/ui/loader-circle";
+import { ScrollContainer } from "~/shared/ui/scroll-area";
 import { ToggledInput } from "~/shared/ui/toggled-input";
 
 import { type StackFactory2 } from "./model";
@@ -66,11 +66,7 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
   return (
     <div
       ref={dragRef}
-      className={cx(
-        "flex w-full flex-col py-4",
-        "rounded-2xl border border-gray-200 bg-[#FCFCFD] shadow-sm",
-        "relative overflow-hidden",
-      )}
+      className="relative flex w-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-[#FCFCFD] py-4 shadow-sm"
     >
       {stack.pending && <LoaderCircle pending={stack.pending} />}
 
@@ -92,11 +88,9 @@ export const StackColumn = memo<StackColumnProps>(({ stack, onTaskClicked }) => 
         <StackActions onDelete={stack.deleteButtonClicked} />
       </div>
 
-      <div className="overflow-hidden py-4 pr-2">
-        <div className="scroll-bar scroll-shadows h-full overflow-y-auto pl-4 pr-2">
-          <TaskCardList cards={stack.tasks ?? []} onTaskClicked={handleClick} />
-        </div>
-      </div>
+      <ScrollContainer viewPortClassName="px-4" orientation="vertical" className="my-4">
+        <TaskCardList cards={stack.tasks ?? []} onTaskClicked={handleClick} />
+      </ScrollContainer>
 
       <ToggledInput
         className="px-4 py-1"
@@ -115,7 +109,9 @@ interface TaskCardProps extends Task {
   onClick?(): void;
 }
 
-const TaskCard = memo<TaskCardProps>(({ description, title, attachments, createdAt, onClick }) => {
+const TaskCard = memo<TaskCardProps>((props) => {
+  const { description, title, attachments, createdAt, onClick } = props;
+
   const bages = null;
 
   return (
