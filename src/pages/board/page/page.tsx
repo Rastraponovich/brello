@@ -66,8 +66,8 @@ function PageHeaderContent() {
 
   return (
     <section className="container mx-auto my-0 flex flex-col gap-5 px-8">
-      <header className="flex items-center border-b border-gray-200 pb-5 max-sm:flex-col sm:justify-between">
-        <div className="flex justify-start gap-4 max-sm:flex-col sm:items-center">
+      <header className="flex items-center gap-y-5 border-b border-gray-200 pb-5 max-sm:flex-col sm:justify-between">
+        <div className="flex w-full justify-start gap-4 max-sm:flex-col sm:items-center">
           <Title />
 
           <AddToFavorite board_id={board?.id} />
@@ -107,7 +107,7 @@ function List() {
           : "revert-layer",
       }}
     >
-      <section className="grid py-4 xl:container">
+      <section className="grid h-full py-4 xl:container">
         <Grid>
           {useList($stacks, {
             getKey: (stack) => stack.id,
@@ -214,9 +214,6 @@ function Grid({ children }: GridProps) {
       <div className="grid auto-cols-[calc(100vw-2rem)] grid-flow-col gap-8 px-4 sm:auto-cols-[360px] sm:!pr-[calc(100%_-_360px)] md:px-8 xl:gap-12">
         {children}
       </div>
-      {/* <div className="scroll-bar grid h-full snap-x snap-mandatory scroll-px-4 auto-cols-[calc(100vw-32px)] grid-flow-col gap-12 overflow-x-auto px-8 py-4 sm:scroll-px-8 sm:auto-cols-[360px]"> */}
-      {/* {children} */}
-      {/* </div> */}
     </ScrollContainer>
   );
 }
