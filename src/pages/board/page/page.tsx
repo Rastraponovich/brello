@@ -215,6 +215,7 @@ function Grid({ children }: GridProps) {
         {children}
       </div>
     </ScrollContainer>
+
   );
 }
 

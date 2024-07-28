@@ -12,6 +12,7 @@ import type {
   AvatarProps,
 } from "./model";
 
+
 const avatarStyles = cva(
   "flex aspect-square shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-100 font-medium text-gray-600",
 );

@@ -30,7 +30,7 @@ export const ImagePickerBase = forwardRef<HTMLDivElement, ImagePickerBaseProps>(
           const convertedImageToString = `https://source.unsplash.com/random/168x168?${id}&background`;
           const selected = convertedImageToString === selectedImage;
           const handleClick = () => onImageChange(convertedImageToString);
-
+          
           return (
             <Image
               key={id}
