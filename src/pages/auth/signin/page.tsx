@@ -1,5 +1,5 @@
 import { useUnit } from "effector-react";
-import { FormEvent, ReactNode, memo } from "react";
+import { memo } from "react";
 
 import { LayoutAuthn } from "~/layouts/authn/view";
 
@@ -19,7 +19,6 @@ import {
   $isFinished,
   $isPendning,
   $isValidEmail,
-  type SignInError,
   backButtonClicked,
   changedEmail,
   signInWithGoogle,
@@ -45,127 +44,154 @@ const sendStatusConfig: Record<"finished" | "error", StatusConfig> = {
   },
 };
 
-const errorText: {
-  [K in SignInError]: ReactNode | null;
-} = {
-  InvalidEmail: "Must be a valid email.",
-  RateLimit: "Too much requests. Please, try again later.",
-  UnknownError: "Something happened. Please, try again later.",
-};
+const LayoutMap = new Map([
+  ["login", <LoginForm key="login" />],
+  ["error", <ErrorSendStatus key="error" />],
+  ["finished", <FinishedSendStatus key="finished" />],
+]);
 
-export const SignInPage = () => {
+export function SignInPage() {
   const [error, isFinished] = useUnit([$error, $isFinished]);
 
+  const Component = LayoutMap.get(error ? "error" : isFinished ? "finished" : "login");
+
+  return <LayoutAuthn>{Component}</LayoutAuthn>;
+}
+
+function LoginForm() {
   return (
-    <LayoutAuthn>
-      {!isFinished && !error && <LoginForm />}
-      {isFinished && !error && <FinishedSendStatus />}
-      {error && <ErrorSendStatus />}
-    </LayoutAuthn>
+    <>
+      <header className="flex flex-col gap-3">
+        <Heading as="h1">Sign in</Heading>
+
+        <span className="text-base font-normal text-gray-600">Start your 30-day free trial.</span>
+      </header>
+
+      <Form>
+        <EmailField />
+
+        <div className="flex flex-col gap-4">
+          <SubmitButton />
+
+          <SocialAuthnButton />
+        </div>
+      </Form>
+    </>
   );
-};
+}
+function Form({ children }: { children: React.ReactNode }) {
+  const onSubmit = useUnit(submitted);
 
-const LoginForm = () => {
-  const [email, pending, error] = useUnit([$email, $isPendning, $invalidEmailText, $isValidEmail]);
-  const [onSubmit, handleChangeEmail, handleSignInWithGoogle] = useUnit([
-    submitted,
-    changedEmail,
-    signInWithGoogle,
-  ]);
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit();
   };
 
   return (
-    <>
-      <header className="flex flex-col gap-3">
-        <Heading as="h1">Sign in</Heading>
-        <span className="text-base font-normal text-gray-600">Start your 30-day free trial.</span>
-      </header>
-      <form noValidate onSubmit={handleSubmit} className="flex flex-col gap-6">
-        <Input
-          placeholder="Enter your email"
-          onValueChange={handleChangeEmail}
-          value={email}
-          disabled={pending}
-          caption="Email"
-          error={error ? errorText[error] : null}
-          type="email"
-          disableIcon
-          required
-        />
-
-        <div className="flex flex-col gap-4">
-          <Button pending={pending} variant="primary" type="submit" size="md">
-            Get started
-          </Button>
-
-          <SocialAuthButton
-            pending={pending}
-            onClick={handleSignInWithGoogle}
-            social="google"
-            theme="brand"
-            type="button"
-          />
-        </div>
-      </form>
-    </>
+    <form noValidate onSubmit={handleSubmit} className="flex flex-col gap-6" id="form">
+      {children}
+    </form>
   );
-};
+}
+
+function SubmitButton() {
+  const [pending, error] = useUnit([$isPendning, $isValidEmail]);
+
+  return (
+    <Button
+      size="md"
+      form="form"
+      type="submit"
+      pending={pending}
+      variant="primary"
+      disabled={!error}
+    >
+      Get started
+    </Button>
+  );
+}
+
+function SocialAuthnButton() {
+  const pending = useUnit($isPendning);
+
+  const handleSignInWithGoogle = useUnit(signInWithGoogle);
+
+  return (
+    <SocialAuthButton
+      form="form"
+      type="button"
+      theme="brand"
+      social="google"
+      pending={pending}
+      onClick={handleSignInWithGoogle}
+    />
+  );
+}
+
+function EmailField() {
+  const handleChangeEmail = useUnit(changedEmail);
+  const [email, pending, error] = useUnit([$email, $isPendning, $invalidEmailText]);
+
+  return (
+    <Input
+      required
+      disableIcon
+      type="email"
+      value={email}
+      error={error}
+      caption="Email"
+      disabled={pending}
+      placeholder="Enter your email"
+      onValueChange={handleChangeEmail}
+    />
+  );
+}
 
 interface SendStatusProps extends StatusConfig {
-  description: ReactNode | null;
   iconColor?: TColors;
+  description: React.ReactNode | null;
 }
-const SendStatus = memo<SendStatusProps>(
-  ({ text, description, buttonText, icon, iconColor = "primary" }) => {
-    const handleBackButtonClicked = useUnit(backButtonClicked);
+const SendStatus = memo<SendStatusProps>((props) => {
+  const { text, description, buttonText, icon, iconColor = "primary" } = props;
 
-    return (
-      <>
-        <header className="flex flex-col items-start gap-6">
-          <FeaturedIcon icon={icon} variant="outline" color={iconColor} type="circle" size="xl" />
-          <div className="flex flex-col gap-3">
-            <Heading as="h1">{text}</Heading>
-            <p className="text-base text-gray-600">{description}</p>
-          </div>
-        </header>
-        <Button
-          size="sm"
-          type="button"
-          variant="linkGray"
-          className="self-start"
-          leftIcon="arrows/arrow-left"
-          onClick={handleBackButtonClicked}
-        >
-          {buttonText}
-        </Button>
-      </>
-    );
-  },
-);
+  const handleBackButtonClicked = useUnit(backButtonClicked);
 
-const ErrorSendStatus = () => {
+  return (
+    <>
+      <header className="flex flex-col items-start gap-6">
+        <FeaturedIcon icon={icon} variant="outline" color={iconColor} type="circle" size="xl" />
+
+        <div className="flex flex-col gap-3">
+          <Heading as="h1">{text}</Heading>
+
+          <p className="text-base text-gray-600">{description}</p>
+        </div>
+      </header>
+
+      <Button
+        size="sm"
+        type="button"
+        variant="linkGray"
+        className="self-start"
+        leftIcon="arrows/arrow-left"
+        onClick={handleBackButtonClicked}
+      >
+        {buttonText}
+      </Button>
+    </>
+  );
+});
+
+function ErrorSendStatus() {
   const error = useUnit($error);
 
-  return (
-    <SendStatus
-      iconColor="error"
-      description={errorText[error ?? "UnknownError"]}
-      {...sendStatusConfig["error"]}
-    />
-  );
-};
+  return <SendStatus iconColor="error" description={error} {...sendStatusConfig["error"]} />;
+}
 
-const FinishedSendStatus = () => {
+function FinishedSendStatus() {
   const email = useUnit($email);
 
-  return (
-    <SendStatus
-      {...sendStatusConfig["finished"]}
-      description={`We sent a login link to ${email}`}
-    />
-  );
-};
+  const description = `We sent a login link to ${email}`;
+
+  return <SendStatus {...sendStatusConfig["finished"]} description={description} />;
+}
