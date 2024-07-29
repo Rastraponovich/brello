@@ -25,7 +25,7 @@ import {
   settingsButtonClicked,
 } from "./model";
 import { BaseEmpty } from "./ui/base";
-import { BoardAddModal } from "./ui/board-create";
+import { BoardCreateDialog } from "./ui/board-create";
 
 /**
  * Renders a page loader component.
@@ -46,9 +46,9 @@ export function PageLoader() {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="h-[42px] w-[120px] rounded-lg bg-gray-200"></div>
+            <div className="h-[42px] w-30 rounded-lg bg-gray-200"></div>
 
-            <div className="h-[42px] w-[120px] rounded-lg bg-gray-200"></div>
+            <div className="h-[42px] w-30 rounded-lg bg-gray-200"></div>
           </div>
         </div>
 
@@ -70,7 +70,7 @@ export function BoardsPage() {
 
       <Boards />
 
-      <BoardAddModal />
+      <BoardCreateDialog />
     </MainLayout>
   );
 }
@@ -125,17 +125,23 @@ function BoardsFilter() {
   );
 }
 
+const BoardContentMap = new Map([
+  ["list", <BoardsList key="list" />],
+  ["empty", <EmptyState key="empty" />],
+  ["notFound", <NotFoundState key="notFound" />],
+]);
+
 /**
  * Renders the Boards component.
  */
 function Boards() {
   const [pending, isEmpty, isNotFound] = useUnit([$boardsListPending, $boardsEmpty, $isNotFound]);
 
+  const Component = BoardContentMap.get(isNotFound ? "notFound" : isEmpty ? "empty" : "list");
+
   return (
     <section className="container relative mx-auto flex w-full flex-col items-center gap-8 overflow-hidden px-6 sm:px-8">
-      <div className="flex w-full flex-col overflow-hidden">
-        {isNotFound ? <NotFoundState /> : isEmpty ? <EmptyState /> : <BoardsList />}
-      </div>
+      <div className="flex w-full flex-col overflow-hidden">{Component}</div>
 
       <LoaderCircle pending={pending} />
     </section>
@@ -150,7 +156,7 @@ function BoardsList() {
 
   return (
     <ScrollContainer>
-      <div className="grid place-items-stretch content-stretch gap-6 overflow-y-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid place-items-stretch content-stretch gap-6 overflow-y-auto md:grid-cols-3 xl:grid-cols-4">
         {search.length === 0 && <AddBoardCard />}
 
         {useList($boards, {
@@ -200,12 +206,12 @@ function AddBoardCard() {
   const handleAddBoard = useUnit(boardAddButtonClicked);
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 px-5 py-5">
+    <div className="flex flex-col items-center justify-center rounded-2xl border border-gray-200 p-5">
       <button onClick={handleAddBoard} className="flex h-14 items-center gap-2">
         <Icon
           aria-hidden="true"
           name="common/plus-circle"
-          className="aspect-square h-5 w-5 shrink-0"
+          className="aspect-square size-5 shrink-0"
         />
 
         <span className="line-clamp-1 text-lg font-medium text-gray-600">Create new board</span>

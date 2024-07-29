@@ -15,6 +15,7 @@ export default {
       },
       spacing: {
         4.5: "1.125rem",
+        30: "7.5rem",
       },
       borderWidth: {
         "1.5px": "1.5px",
@@ -22,6 +23,14 @@ export default {
         10: "10px",
       },
       colors: {
+        gray: {
+          600: "#475467",
+          700: "#344054",
+          900: "#101828",
+        },
+        primary: {
+          600: "#155EEF",
+        },
         facebook: {
           600: "#1877F2",
           700: "#0C63D4",

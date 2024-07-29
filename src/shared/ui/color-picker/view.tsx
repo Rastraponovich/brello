@@ -19,7 +19,7 @@ export const ColorPickerBase = forwardRef<HTMLDivElement, ColorPickerBaseProps>(
           key={item.id}
           selected={item.value === selected}
           onClick={() => onColorChange(item.value)}
-          className={`${item.className} ${item.value}`}
+          className={cx(item.className, item.value)}
         />
       ))}
     </div>
@@ -39,8 +39,8 @@ function ColorPickerItem(props: ColorPickerItemProps) {
     <div className="aspect-square size-10 shrink-0 p-1.5" onClick={onClick}>
       <div
         className={cx(
-          "h-full w-full rounded-full bg-current outline-offset-2 hover:outline",
-          selected && "outline outline-2 outline-current",
+          "h-full w-full rounded-full bg-current outline-offset-[3px] hover:outline",
+          selected && "outline outline-[3px] outline-current",
           className,
         )}
       ></div>
