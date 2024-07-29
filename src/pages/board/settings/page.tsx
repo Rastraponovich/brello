@@ -84,7 +84,7 @@ function InvitedList() {
   const handleDeleteInviteButtonClicked = useUnit(deleteEmailButtonClicked);
 
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-    console.log(event.target);
+    console.info(event.target);
   };
 
   return (

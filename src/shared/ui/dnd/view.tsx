@@ -40,7 +40,7 @@ export function CustomDragAndDrop() {
     event.preventDefault();
 
     // Do something with the dropped item
-    console.log("Dropped item:", draggedItem);
+    console.info("Dropped item:", draggedItem);
     setDraggedItem(null);
   };
 

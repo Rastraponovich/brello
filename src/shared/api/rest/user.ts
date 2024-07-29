@@ -55,7 +55,7 @@ export const profileExistsFx = createEffect<{ userId: string }, Profile | null>(
     const { error, data } = await client.from("profiles").select().eq("user_id", userId).single();
 
     if (error) {
-      console.log(error, "profile checks");
+      console.error(error, "profile checks");
     }
 
     return data;
@@ -73,7 +73,7 @@ export const profileCreateFx = createEffect<
     .single();
 
   if (error) {
-    console.log(error);
+    console.error(error);
   }
 
   return data;

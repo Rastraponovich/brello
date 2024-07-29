@@ -194,15 +194,15 @@ export const iconButton = ({
  * @description style generate function for Button component
  */
 export const button = ({
-  variant,
   size,
+  variant,
   className,
   destructive = false,
 }: {
-  variant: ButtonVariant;
   size: ButtonSize;
-  className: string | undefined;
   destructive: boolean;
+  variant: ButtonVariant;
+  className: string | undefined;
 }) =>
   cx(
     "flex shrink items-center rounded-lg border font-semibold justify-center",
