@@ -1,11 +1,11 @@
-// eslint-disable-next-line no-undef
-module.exports = {
+export default {
   env: { browser: true, es2020: true },
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react-hooks/recommended",
     "plugin:effector/recommended",
+    "plugin:effector/patronum",
     "plugin:effector/react",
   ],
   parser: "@typescript-eslint/parser",
@@ -13,12 +13,15 @@ module.exports = {
   plugins: ["react-refresh", "jsx-a11y", "prettier", "react", "effector"],
   rules: {
     "effector/no-watch": "error",
+
+    "effector/no-patronum-debug": "error",
     "react-refresh/only-export-components": "warn",
     "@typescript-eslint/no-empty-interface": "warn",
     "no-alert": "error",
     "max-params": ["error", { max: 4 }],
     "no-underscore-dangle": "off",
     "line-comment-position": "error",
+    "no-console": ["error", { allow: ["warn", "error", "info"] }],
 
     // "no-magic-numbers": ["warn", {}],
     "lines-around-comment": ["error", { beforeBlockComment: true, beforeLineComment: true }],
