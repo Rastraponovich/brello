@@ -87,13 +87,13 @@ export const PageHeaderSkeleton = ({ divider, className, actions }: Partial<Page
   return (
     <header
       className={cx(
-        "flex w-full flex-col items-center justify-between gap-4 sm:flex-row",
+        "flex w-full items-center justify-between gap-4 max-sm:flex-col",
         divider ? "border-b border-gray-200 pb-5" : "border-transparent",
         className,
       )}
     >
       <div className="flex w-full shrink items-center gap-5 overflow-hidden">
-        <div className="h-16 w-16 animate-pulse rounded-full bg-gray-200" />
+        <div className="aspect-square size-16 shrink-0 animate-pulse rounded-full bg-gray-200" />
 
         <div className="flex w-full shrink flex-col gap-1">
           <div className="h-9 w-80 animate-pulse rounded-lg bg-gray-200" />
